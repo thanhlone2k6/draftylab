@@ -1,0 +1,73 @@
+---
+import { content, type Lang } from '../data/content';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = content[lang];
+const steps = t.approach.steps;
+---
+<section class="section approach" id="approach">
+  <div class="shell">
+    <header class="sec-head reveal">
+      <p class="eyebrow">{t.approach.eyebrow}</p>
+      <h2 class="display-xl">{t.approach.title}</h2>
+    </header>
+
+    <ol class="steps" data-steps>
+      {steps.map((s) => (
+        <li class="step">
+          <span class="step-n">{s.n}</span>
+          <div class="step-body">
+            <h3 class="step-title">{s.title}</h3>
+            <p class="step-desc">{s.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .approach { background: var(--color-ink-soft); }
+  .sec-head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .sec-head h2 { margin-top: 0.8rem; }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-line);
+  }
+  @media (min-width: 800px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+
+  .step {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--color-line);
+    position: relative;
+  }
+  @media (min-width: 800px) {
+    .step { padding: 2.5rem 1.6rem 2.5rem 0; border-bottom: none; border-right: 1px solid var(--color-line); }
+    .step:last-child { border-right: none; }
+  }
+
+  .step-n { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-gold); letter-spacing: 0.1em; }
+  .step-title { font-family: var(--font-display); font-size: clamp(1.3rem, 2.2vw, 1.7rem); margin: 1rem 0 0.6rem; }
+  .step-desc { color: var(--color-mist); font-size: 0.94rem; line-height: 1.55; text-wrap: pretty; }
+
+  /* progress line draws in with GSAP when available */
+  .steps { --draw: 0; }
+  .step::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: calc(var(--draw) * 100%);
+    background: var(--color-gold);
+  }
+  @media (min-width: 800px) {
+    .step::after { display: none; }
+  }
+</style>

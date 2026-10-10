@@ -1,0 +1,206 @@
+// Central bilingual copy. Edit here — the whole site follows.
+export const content = {
+  vi: {
+    nav: {
+      work: 'Tác phẩm',
+      capabilities: 'Năng lực',
+      approach: 'Cách làm',
+      about: 'Về Drafty',
+      cta: 'Bắt đầu',
+      menu: 'Menu',
+      close: 'Đóng',
+    },
+    hero: {
+      eyebrow: 'AI & Creative Production Studio',
+      titleA: 'Ý tưởng táo bạo.',
+      titleB: 'Hình ảnh khó quên.',
+      sub: 'Studio sản xuất sáng tạo ứng dụng AI cho thương hiệu.',
+      ctaPrimary: 'Xem tác phẩm',
+      ctaSecondary: 'Bắt đầu dự án',
+      reelCaption: 'Showreel 2026',
+    },
+    work: {
+      eyebrow: 'Selected Work',
+      title: 'Tác phẩm chọn lọc',
+      sub: 'Một vài dự án gần đây trên nhiều định dạng và ngành hàng.',
+      viewLabel: 'Xem dự án',
+      tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
+    },
+    capabilities: {
+      eyebrow: 'Capabilities',
+      title: 'Chúng tôi làm gì',
+      items: [
+        {
+          n: '01',
+          title: 'AI Creative & Hybrid Film',
+          desc: 'Từ ý tưởng đến khung hình không tưởng. Kết hợp quay thật với thế giới AI để tạo hình ảnh vượt giới hạn sản xuất.',
+        },
+        {
+          n: '02',
+          title: 'Video Editing & Post-production',
+          desc: 'Nhịp cắt, âm thanh, màu sắc. Dựng đúng nhịp thương hiệu, không chỉ đẹp mà còn hiệu quả.',
+        },
+        {
+          n: '03',
+          title: 'Social Production & Partnership',
+          desc: 'Sản xuất tinh gọn, đồng hành dài hạn. Từ nội dung social đến chiến dịch, giữ chất lượng ổn định.',
+        },
+      ],
+    },
+    raw: {
+      eyebrow: 'Raw to Remarkable',
+      title: 'Từ thô đến khó quên',
+      sub: 'Kéo để xem sự khác biệt giữa bản gốc và bản hoàn thiện.',
+      before: 'Bản gốc',
+      after: 'Hoàn thiện',
+    },
+    approach: {
+      eyebrow: 'Our Approach',
+      title: 'Cách chúng tôi làm việc',
+      steps: [
+        { n: '01', title: 'Khám phá', desc: 'Hiểu mục tiêu, khán giả và thông điệp trước khi bấm máy.' },
+        { n: '02', title: 'Sáng tạo', desc: 'Concept, keyframe và định hướng hình ảnh được duyệt trước khi sản xuất.' },
+        { n: '03', title: 'Hoàn thiện', desc: 'Quay, dựng, AI và hậu kỳ — tất cả theo một nhịp thống nhất.' },
+        { n: '04', title: 'Bàn giao', desc: 'Đúng hạn, đúng định dạng, sẵn sàng lên kênh.' },
+      ],
+    },
+    about: {
+      eyebrow: 'About Drafty',
+      title: 'Studio nhỏ, dấu ấn lớn',
+      p1: 'Drafty Lab là studio sáng tạo của Thành Xuân, Hà Nội — hơn 3 năm kinh nghiệm trong lĩnh vực Design & Edit Video, hiện là Founder Drafty Lab chuyên ứng dụng AI để tối ưu sản xuất nội dung chất lượng cao.',
+      p2: 'Định vị: studio cá nhân chuyên hậu kỳ video kết hợp Thiết kế và AI, dành cho Creator, KOL và các thương hiệu cá nhân muốn xây dựng hình ảnh "Gọn – Mượt – Uy tín".',
+      p3: 'Triết lý: "From Draft to Direct" — biến bản nháp thô thành video hoàn chỉnh, đúng nhịp thương hiệu. Cam kết đúng deadline là danh dự.',
+      stats: [
+        { k: '+3', v: 'năm kinh nghiệm' },
+        { k: '70%', v: 'hậu kỳ video' },
+        { k: 'AI', v: 'trong quy trình' },
+      ],
+    },
+    contact: {
+      eyebrow: 'Contact',
+      title: 'Bắt đầu một điều táo bạo',
+      sub: 'Gửi vài dòng về dự án của bạn. Chúng tôi sẽ phản hồi trong vòng 24 giờ.',
+      name: 'Tên',
+      email: 'Email',
+      brand: 'Thương hiệu',
+      message: 'Bạn cần gì?',
+      submit: 'Gửi tin nhắn',
+      sending: 'Đang gửi…',
+      success: 'Đã gửi. Cảm ơn bạn!',
+      error: 'Có lỗi xảy ra. Vui lòng thử lại.',
+      orEmail: 'Hoặc gửi email trực tiếp',
+    },
+    footer: {
+      tagline: 'From Draft to Direct.',
+      rights: 'Bảo lưu mọi quyền.',
+      nav: 'Điều hướng',
+      social: 'Kết nối',
+      contact: 'Liên hệ',
+    },
+  },
+  en: {
+    nav: {
+      work: 'Work',
+      capabilities: 'Capabilities',
+      approach: 'Approach',
+      about: 'About',
+      cta: 'Start',
+      menu: 'Menu',
+      close: 'Close',
+    },
+    hero: {
+      eyebrow: 'AI & Creative Production Studio',
+      titleA: 'Bold ideas.',
+      titleB: 'Unforgettable visuals.',
+      sub: 'An AI-native creative production studio for brands.',
+      ctaPrimary: 'View work',
+      ctaSecondary: 'Start a project',
+      reelCaption: 'Showreel 2026',
+    },
+    work: {
+      eyebrow: 'Selected Work',
+      title: 'Selected Work',
+      sub: 'Recent projects across formats and industries.',
+      viewLabel: 'View project',
+      tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
+    },
+    capabilities: {
+      eyebrow: 'Capabilities',
+      title: 'What we do',
+      items: [
+        {
+          n: '01',
+          title: 'AI Creative & Hybrid Film',
+          desc: 'From concept to impossible frames. Real footage fused with AI worlds to create imagery beyond production limits.',
+        },
+        {
+          n: '02',
+          title: 'Video Editing & Post-production',
+          desc: 'Pacing, sound, color. Cut to the rhythm of the brand — not just pretty, but effective.',
+        },
+        {
+          n: '03',
+          title: 'Social Production & Partnership',
+          desc: 'Lean production, long-term partnership. From social content to campaigns, at a consistent quality.',
+        },
+      ],
+    },
+    raw: {
+      eyebrow: 'Raw to Remarkable',
+      title: 'Raw to Remarkable',
+      sub: 'Drag to see the difference between the original and the final cut.',
+      before: 'Original',
+      after: 'Final',
+    },
+    approach: {
+      eyebrow: 'Our Approach',
+      title: 'How we work',
+      steps: [
+        { n: '01', title: 'Discover', desc: 'Understand the goal, the audience and the message before rolling.' },
+        { n: '02', title: 'Create', desc: 'Concept, keyframe and visual direction approved before production.' },
+        { n: '03', title: 'Polish', desc: 'Shoot, edit, AI and post — all on one consistent rhythm.' },
+        { n: '04', title: 'Deliver', desc: 'On time, on format, ready to publish.' },
+      ],
+    },
+    about: {
+      eyebrow: 'About Drafty',
+      title: 'A small studio with a big mark',
+      p1: 'Drafty Lab is the creative studio of Thanh Xuan, Hanoi — 3+ years in Design & Video Editing, now Founder of Drafty Lab, focused on using AI to optimise high-quality content production.',
+      p2: 'Positioning: a personal studio specialising in video post-production combined with Design and AI, for Creators, KOLs and personal brands building a "Clean – Smooth – Trusted" image.',
+      p3: 'Philosophy: "From Draft to Direct" — turning a rough draft into a finished video, on the brand\'s rhythm. Meeting the deadline is a matter of honour.',
+      stats: [
+        { k: '+3', v: 'years of experience' },
+        { k: '70%', v: 'video post' },
+        { k: 'AI', v: 'in the workflow' },
+      ],
+    },
+    contact: {
+      eyebrow: 'Contact',
+      title: 'Start something bold',
+      sub: 'Send a few lines about your project. We reply within 24 hours.',
+      name: 'Name',
+      email: 'Email',
+      brand: 'Brand',
+      message: 'What do you need?',
+      submit: 'Send message',
+      sending: 'Sending…',
+      success: 'Sent. Thank you!',
+      error: 'Something went wrong. Please try again.',
+      orEmail: 'Or email us directly',
+    },
+    footer: {
+      tagline: 'From Draft to Direct.',
+      rights: 'All rights reserved.',
+      nav: 'Navigate',
+      social: 'Connect',
+      contact: 'Contact',
+    },
+  },
+} as const;
+
+export type Lang = keyof typeof content;
+export const CONTACT_EMAIL = 'thanhnguyenphotowork@gmail.com';
+export const SOCIAL = {
+  instagram: 'https://instagram.com/drafty.lab',
+  facebook: 'https://fb.com/realthanhng',
+};

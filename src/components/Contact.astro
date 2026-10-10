@@ -1,0 +1,103 @@
+---
+import { content, CONTACT_EMAIL, SOCIAL, type Lang } from '../data/content';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = content[lang];
+---
+<section class="section contact" id="contact">
+  <div class="shell contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow reveal">{t.contact.eyebrow}</p>
+      <h2 class="display-xl contact-title reveal">{t.contact.title}</h2>
+      <p class="lead contact-sub reveal">{t.contact.sub}</p>
+
+      <div class="contact-direct reveal">
+        <p class="contact-or">{t.contact.orEmail}</p>
+        <a href={`mailto:${CONTACT_EMAIL}`} class="contact-mail link-underline">{CONTACT_EMAIL}</a>
+        <div class="contact-social">
+          <a href={SOCIAL.instagram} target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+          <a href={SOCIAL.facebook} target="_blank" rel="noopener" class="btn btn-ghost">Facebook</a>
+        </div>
+      </div>
+    </div>
+
+    <form
+      class="contact-form reveal"
+      id="contact-form"
+      action={`https://formsubmit.co/${CONTACT_EMAIL}`}
+      method="POST"
+    >
+      <input type="hidden" name="_subject" value="Drafty Lab — New enquiry" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <div class="field">
+        <label for="name">{t.contact.name}</label>
+        <input id="name" name="name" type="text" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">{t.contact.email}</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="brand">{t.contact.brand}</label>
+        <input id="brand" name="brand" type="text" autocomplete="organization" />
+      </div>
+      <div class="field">
+        <label for="message">{t.contact.message}</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary form-submit">{t.contact.submit}</button>
+      <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contact { background: var(--color-ink-soft); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  }
+
+  .contact-title { margin: 0.8rem 0 1rem; }
+  .contact-sub { max-width: 36ch; }
+  .contact-direct { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .contact-or { font-size: 0.85rem; color: var(--color-mist); }
+  .contact-mail { font-size: 1.05rem; color: var(--color-gold); }
+  .contact-social { display: flex; gap: 0.7rem; margin-top: 0.4rem; }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: color-mix(in srgb, var(--color-ink-raised) 60%, transparent);
+  }
+  .field { display: flex; flex-direction: column; gap: 0.5rem; }
+  .field label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; color: var(--color-mist); }
+  .field input,
+  .field textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--color-bone);
+    background: var(--color-ink);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 0.8rem 0.95rem;
+    transition: border-color var(--dur-fast) var(--ease-out-soft);
+    resize: vertical;
+  }
+  .field input:focus,
+  .field textarea:focus { outline: none; border-color: var(--color-gold); }
+  .form-submit { align-self: flex-start; margin-top: 0.4rem; }
+  .form-status { font-size: 0.88rem; color: var(--color-gold); min-height: 1.2em; }
+</style>

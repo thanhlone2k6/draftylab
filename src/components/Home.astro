@@ -1,0 +1,20 @@
+---
+import Hero from '../components/Hero.astro';
+import Work from '../components/Work.astro';
+import Capabilities from '../components/Capabilities.astro';
+import RawToRemarkable from '../components/RawToRemarkable.astro';
+import Approach from '../components/Approach.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import { type Lang } from '../data/content';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<Hero lang={lang} />
+<Work lang={lang} />
+<Capabilities lang={lang} />
+<RawToRemarkable lang={lang} />
+<Approach lang={lang} />
+<About lang={lang} />
+<Contact lang={lang} />

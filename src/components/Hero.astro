@@ -1,0 +1,99 @@
+---
+import { content, type Lang } from '../data/content';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = content[lang];
+---
+<section class="hero" id="top">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow reveal">{t.hero.eyebrow}</p>
+      <h1 class="display-hero hero-title reveal">
+        <span class="hero-line">{t.hero.titleA}</span>
+        <span class="hero-line hero-line-2">{t.hero.titleB}</span>
+      </h1>
+      <p class="lead hero-sub reveal">{t.hero.sub}</p>
+      <div class="hero-cta reveal">
+        <a href="#work" class="btn btn-primary">{t.hero.ctaPrimary}</a>
+        <a href="#contact" class="btn btn-ghost">{t.hero.ctaSecondary}</a>
+      </div>
+    </div>
+
+    <div class="hero-media reveal" data-hero-media>
+      <div class="media-frame hero-frame">
+        <video
+          class="hero-video"
+          poster="/media/hero/showreel-poster.jpg"
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-label={t.hero.reelCaption}
+        >
+          <source src="/media/hero/showreel.mp4" type="video/mp4" />
+        </video>
+        <span class="hero-badge">{t.hero.reelCaption}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  @media (min-width: 980px) {
+    .hero-grid { grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 5rem); }
+  }
+
+  .hero-eyebrow { margin-bottom: 1.4rem; }
+  .hero-title { margin-bottom: 1.6rem; }
+  .hero-line { display: block; }
+  .hero-line-2 { color: var(--color-gold); }
+  .hero-sub { max-width: 30ch; margin-bottom: 2.2rem; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+  .hero-media { order: -1; }
+  @media (min-width: 980px) { .hero-media { order: 0; } }
+
+  .hero-frame { aspect-ratio: 16 / 10; }
+  @media (min-width: 980px) { .hero-frame { aspect-ratio: 4 / 3; } }
+  .hero-video { width: 100%; height: 100%; object-fit: cover; }
+  .hero-badge {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-bone);
+    background: color-mix(in srgb, var(--color-ink) 62%, transparent);
+    backdrop-filter: blur(6px);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-line);
+  }
+</style>
+
+<script>
+  // Autoplay the hero reel only while it is on screen and motion is allowed.
+  const media = document.querySelector<HTMLElement>('[data-hero-media]');
+  const vid = media?.querySelector<HTMLVideoElement>('video');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (vid && !reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) vid.play().catch(() => {});
+        else vid.pause();
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(vid);
+  }
+</script>

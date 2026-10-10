@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { content, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+}
+const { lang, title, description } = Astro.props;
+const t = content[lang];
+const base = Astro.site?.toString().replace(/\/$/, '') ?? 'https://draftylab.pages.dev';
+const path = Astro.url.pathname;
+const altPath = lang === 'vi' ? (path === '/' ? '/en/' : '/en' + path) : (path.replace(/^\/en/, '') || '/');
+
+const pageTitle = title ?? (lang === 'vi'
+  ? 'Drafty Lab — Studio sản xuất sáng tạo AI'
+  : 'Drafty Lab — AI Creative Production Studio');
+const pageDesc = description ?? t.hero.sub;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/media/logo-mark.png" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={new URL(path, base).toString()} />
+    <link rel="alternate" hreflang={lang === 'vi' ? 'vi' : 'en'} href={new URL(path, base).toString()} />
+    <link rel="alternate" hreflang={lang === 'vi' ? 'en' : 'vi'} href={new URL(altPath, base).toString()} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:image" content={new URL('/media/hero/showreel-poster.jpg', base).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#10100E" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div id="scroll-sentinel" aria-hidden="true" style="position:absolute;top:0;height:1px;width:1px;"></div>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header lang={lang} altPath={altPath} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script>
+      // Reveal-on-scroll + nav behaviour + reduced-motion aware
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+      if (reduce) {
+        revealEls.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
+      // Mobile menu
+      const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+      if (toggle && panel) {
+        const setOpen = (open: boolean) => {
+          panel.toggleAttribute('data-open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+          document.body.style.overflow = open ? 'hidden' : '';
+        };
+        toggle.addEventListener('click', () => setOpen(!panel.hasAttribute('data-open')));
+        panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+        window.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+      }
+
+      // Work hover preview
+      document.querySelectorAll<HTMLElement>('[data-preview]').forEach((card) => {
+        const vid = card.querySelector<HTMLVideoElement>('video');
+        if (!vid) return;
+        const play = () => { vid.play().catch(() => {}); };
+        const stop = () => { vid.pause(); vid.currentTime = 0; };
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', stop);
+        card.addEventListener('focusin', play);
+        card.addEventListener('focusout', stop);
+      });
+
+      // Before/after slider
+      document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
+        const range = root.querySelector<HTMLInputElement>('input[type=range]');
+        const after = root.querySelector<HTMLElement>('[data-after]');
+        if (!range || !after) return;
+        const apply = () => after.style.setProperty('--reveal', `${range.value}%`);
+        range.addEventListener('input', apply);
+        apply();
+      });
+
+      // Language-aware current year (footer)
+      const yr = document.querySelector('[data-year]');
+      if (yr) yr.textContent = String(new Date().getFullYear());
+    </script>
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        z-index: 100;
+        background: var(--color-gold);
+        color: var(--color-ink);
+        padding: 0.6rem 1rem;
+        border-radius: 0 0 8px 0;
+        font-weight: 600;
+      }
+      .skip-link:focus { left: 0; }
+    </style>
+  </body>
+</html>

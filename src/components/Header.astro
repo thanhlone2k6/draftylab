@@ -1,0 +1,150 @@
+---
+import { content, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+  altPath: string;
+}
+const { lang, altPath } = Astro.props;
+const t = content[lang];
+const nav = [
+  { href: '#work', label: t.nav.work },
+  { href: '#capabilities', label: t.nav.capabilities },
+  { href: '#approach', label: t.nav.approach },
+  { href: '#about', label: t.nav.about },
+];
+---
+<header class="site-header" data-header>
+  <div class="shell header-inner">
+    <a href={lang === 'vi' ? '/' : '/en/'} class="brand" aria-label="Drafty Lab">
+      <img src="/media/logo.png" alt="Drafty Lab" width="140" height="35" />
+    </a>
+
+    <nav class="nav-desktop" aria-label="Primary">
+      {nav.map((item) => (
+        <a href={item.href} class="nav-link link-underline">{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href={lang === 'vi' ? '/' : altPath} aria-current={lang === 'vi' ? 'true' : 'false'} class={lang === 'vi' ? 'is-active' : ''}>VI</a>
+        <span aria-hidden="true">/</span>
+        <a href={lang === 'en' ? '/en/' : altPath} aria-current={lang === 'en' ? 'true' : 'false'} class={lang === 'en' ? 'is-active' : ''}>EN</a>
+      </div>
+      <a href="#contact" class="btn btn-primary header-cta">{t.nav.cta}</a>
+      <button class="menu-btn" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label={t.nav.menu}>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="mobile-menu" data-menu-panel>
+    <nav aria-label="Mobile">
+      {nav.map((item) => (
+        <a href={item.href} class="menu-link">{item.label}</a>
+      ))}
+      <a href="#contact" class="menu-link menu-link-cta">{t.nav.cta}</a>
+    </nav>
+    <div class="menu-lang">
+      <a href={lang === 'vi' ? '/' : altPath} class={lang === 'vi' ? 'is-active' : ''}>VI</a>
+      <a href={lang === 'en' ? '/en/' : altPath} class={lang === 'en' ? 'is-active' : ''}>EN</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-ink) 82%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-out-soft),
+      background-color var(--dur-fast) var(--ease-out-soft);
+  }
+  .site-header[data-scrolled] { border-bottom-color: var(--color-line-soft); }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 72px;
+  }
+  .brand img { height: 26px; width: auto; }
+  @media (min-width: 900px) { .brand img { height: 30px; } }
+
+  .nav-desktop { display: none; gap: 2.1rem; }
+  @media (min-width: 900px) { .nav-desktop { display: flex; } }
+  .nav-link { font-size: 0.92rem; color: var(--color-mist); transition: color var(--dur-fast) var(--ease-out-soft); }
+  .nav-link:hover { color: var(--color-bone); }
+
+  .header-actions { display: flex; align-items: center; gap: 1.1rem; }
+
+  .lang-switch { display: none; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--color-mist); letter-spacing: 0.04em; }
+  @media (min-width: 900px) { .lang-switch { display: flex; } }
+  .lang-switch a { transition: color var(--dur-fast) var(--ease-out-soft); }
+  .lang-switch a:hover { color: var(--color-bone); }
+  .lang-switch a.is-active { color: var(--color-gold); }
+
+  .header-cta { display: none; padding: 0.7rem 1.3rem; font-size: 0.88rem; }
+  @media (min-width: 900px) { .header-cta { display: inline-flex; } }
+
+  .menu-btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+  }
+  @media (min-width: 900px) { .menu-btn { display: none; } }
+  .menu-btn span { display: block; width: 22px; height: 1.5px; background: var(--color-bone); transition: transform var(--dur-fast) var(--ease-out-soft), opacity var(--dur-fast); }
+  .menu-btn[aria-expanded='true'] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .menu-btn[aria-expanded='true'] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+
+  .menu-panel {
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: var(--color-ink);
+    padding: 2rem clamp(1.25rem, 5vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease-out-soft), transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .menu-panel[data-open] { opacity: 1; transform: none; pointer-events: auto; }
+  @media (min-width: 900px) { .menu-panel { display: none; } }
+
+  .menu-panel nav { display: flex; flex-direction: column; gap: 0.4rem; }
+  .menu-link {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1.1;
+    color: var(--color-bone);
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+  .menu-link-cta { color: var(--color-gold); }
+  .menu-lang { display: flex; gap: 1rem; font-weight: 600; color: var(--color-mist); padding-top: 2rem; }
+  .menu-lang a.is-active { color: var(--color-gold); }
+</style>
+
+<script>
+  // Border appears once the page has scrolled past a top sentinel.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const sentinel = document.getElementById('scroll-sentinel');
+  if (header && sentinel && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      ([entry]) => header.toggleAttribute('data-scrolled', !entry.isIntersecting),
+      { threshold: 0 }
+    );
+    io.observe(sentinel);
+  }
+</script>
