@@ -71,12 +71,14 @@ const stats = content[lang].about.stats;
     const counters = stats.querySelectorAll<HTMLElement>('[data-count]');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const run = () => counters.forEach((counter) => {
+      // Non-numeric stats (e.g. "AI") have no data-count — leave them static.
+      if (counter.dataset.count === undefined) return;
       const target = Number(counter.dataset.count ?? 0);
       const prefix = counter.dataset.prefix ?? '';
       const suffix = counter.dataset.suffix ?? '';
       if (reduce) { counter.textContent = `${prefix}${target}${suffix}`; return; }
       const start = performance.now();
-      const duration = 1100;
+      const duration = 2000;
       const tick = (now: number) => {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
