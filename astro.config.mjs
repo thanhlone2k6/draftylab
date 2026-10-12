@@ -2,6 +2,8 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
+import { glideSourceStamping } from '@srivarsank/glide/vite-plugin';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,9 +15,9 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-  integrations: [sitemap()],
+  integrations: [sitemap(), react()],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), glideSourceStamping()],
   },
   build: {
     inlineStylesheets: 'auto',

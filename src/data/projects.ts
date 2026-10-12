@@ -1,6 +1,8 @@
 // Portfolio manifest — replace media files in /public/media/work to update the site.
-// `poster` is always shown; `preview` (optional) plays on hover.
-// `aspect` drives the masonry layout. `tag` maps to content.*.work.tags.
+// `poster` is always shown; `preview` (optional) plays on hover / on tap.
+// `aspect` drives the layout. `tag` maps to content.*.work.tags.
+// `featured: true` pins a project to the top "best of" row; the rest scroll
+// in the horizontal carousel below.
 
 export type TagKey = 'commercial' | 'ai' | 'fnb' | 'film' | 'personal';
 
@@ -24,8 +26,8 @@ export const projects: Project[] = [
     year: '2026',
     tag: 'commercial',
     aspect: '9 / 16',
-    poster: '/media/work/mb.jpg',
-    preview: '/media/work/mb.mp4',
+    poster: '/media/work/kz2-poster.jpg',
+    preview: '/media/work/kz2.mp4',
     featured: true,
   },
   {
@@ -35,8 +37,9 @@ export const projects: Project[] = [
     year: '2026',
     tag: 'ai',
     aspect: '9 / 16',
-    poster: '/media/work/ai.jpg',
-    preview: '/media/work/ai.mp4',
+    poster: '/media/work/nox-joy2-poster.jpg',
+    preview: '/media/work/nox-joy2.mp4',
+    featured: true,
   },
   {
     id: 'leechloe',
@@ -44,8 +47,10 @@ export const projects: Project[] = [
     meta: { vi: 'F&B production', en: 'F&B production' },
     year: '2026',
     tag: 'fnb',
-    aspect: '4 / 5',
-    poster: '/media/work/leechloe.jpg',
+    aspect: '9 / 16',
+    poster: '/media/work/meitu2-poster.jpg',
+    preview: '/media/work/meitu2.mp4',
+    featured: true,
   },
   {
     id: 'pomalo',
@@ -68,6 +73,16 @@ export const projects: Project[] = [
     preview: '/media/work/winnie.mp4',
   },
   {
+    id: 'kazaki',
+    title: { vi: 'Kazaki Ramen', en: 'Kazaki Ramen' },
+    meta: { vi: 'Brand & social', en: 'Brand & social' },
+    year: '2026',
+    tag: 'fnb',
+    aspect: '16 / 9',
+    poster: '/media/work/kazaki.jpg',
+    preview: '/media/work/kazaki.mp4',
+  },
+  {
     id: 'doc',
     title: { vi: 'Documentary — Vùng cao', en: 'Documentary — Highlands' },
     meta: { vi: 'Phim tài liệu ngắn', en: 'Short documentary' },
@@ -78,3 +93,6 @@ export const projects: Project[] = [
     preview: '/media/work/doc.mp4',
   },
 ];
+
+export const featuredProjects = projects.filter((p) => p.featured);
+export const carouselProjects = projects.filter((p) => !p.featured);

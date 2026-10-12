@@ -24,7 +24,13 @@ export const content = {
       title: 'Tác phẩm chọn lọc',
       sub: 'Một vài dự án gần đây trên nhiều định dạng và ngành hàng.',
       viewLabel: 'Xem dự án',
+      featuredLabel: 'Nổi bật',
+      moreLabel: 'Nhiều dự án khác',
+      playHint: 'Nhấn để phát',
       tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
+    },
+    partners: {
+      title: 'Đối tác tin cậy của chủ doanh nghiệp, Content Creator và Brands',
     },
     capabilities: {
       eyebrow: 'Capabilities',
@@ -47,12 +53,12 @@ export const content = {
         },
       ],
     },
-    raw: {
-      eyebrow: 'Raw to Remarkable',
-      title: 'Từ thô đến khó quên',
-      sub: 'Kéo để xem sự khác biệt giữa bản gốc và bản hoàn thiện.',
-      before: 'Bản gốc',
-      after: 'Hoàn thiện',
+    process: {
+      eyebrow: 'From Brief to Poster',
+      title: 'Từ brief đến poster',
+      sub: 'Xem cách một yêu cầu ngắn gọn trên Zalo hóa thành ba phương án poster hoàn chỉnh — chỉ từ bốn tấm ảnh.',
+      caption: 'Case study · Motion ad',
+      play: 'Phát video quy trình',
     },
     approach: {
       eyebrow: 'Our Approach',
@@ -122,7 +128,13 @@ export const content = {
       title: 'Selected Work',
       sub: 'Recent projects across formats and industries.',
       viewLabel: 'View project',
+      featuredLabel: 'Featured',
+      moreLabel: 'More work',
+      playHint: 'Tap to play',
       tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
+    },
+    partners: {
+      title: 'Trusted by business owners, Content Creators and Brands',
     },
     capabilities: {
       eyebrow: 'Capabilities',
@@ -145,12 +157,12 @@ export const content = {
         },
       ],
     },
-    raw: {
-      eyebrow: 'Raw to Remarkable',
-      title: 'Raw to Remarkable',
-      sub: 'Drag to see the difference between the original and the final cut.',
-      before: 'Original',
-      after: 'Final',
+    process: {
+      eyebrow: 'From Brief to Poster',
+      title: 'From brief to poster',
+      sub: 'Watch a short message on Zalo become three finished poster options — from just four photos.',
+      caption: 'Case study · Motion ad',
+      play: 'Play the process video',
     },
     approach: {
       eyebrow: 'Our Approach',

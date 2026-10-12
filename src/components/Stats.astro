@@ -1,0 +1,93 @@
+---
+import { content, type Lang } from '../data/content';
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const stats = content[lang].about.stats;
+---
+
+<section class="stats-strip" aria-label={lang === 'vi' ? 'Thành tựu nổi bật' : 'Key achievements'}>
+  <div class="shell stats-grid" data-count-stats>
+    {stats.map((stat) => {
+      const match = stat.k.match(/^(\D*)(\d+)(.*)$/);
+      return (
+        <div class="stat reveal">
+          <span
+            class="stat-k"
+            data-count={match?.[2]}
+            data-prefix={match?.[1] ?? ''}
+            data-suffix={match?.[3] ?? ''}
+          >{stat.k}</span>
+          <span class="stat-v">{stat.v}</span>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .stats-strip {
+    padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+    background: var(--color-ink-soft);
+    border-block: 1px solid var(--color-line);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .stat {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding-inline: clamp(0.75rem, 4vw, 4rem);
+    text-align: center;
+  }
+  .stat + .stat { border-left: 1px solid var(--color-line); }
+  .stat-k {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 9vw, 8.5rem);
+    line-height: 0.82;
+    letter-spacing: -0.035em;
+    color: var(--color-gold);
+  }
+  .stat-v {
+    color: var(--color-bone);
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; gap: 2.75rem; }
+    .stat + .stat { border-left: 0; }
+    .stat-k { font-size: clamp(4.5rem, 24vw, 7rem); }
+  }
+</style>
+
+<script>
+  const stats = document.querySelector<HTMLElement>('[data-count-stats]');
+  if (stats) {
+    const counters = stats.querySelectorAll<HTMLElement>('[data-count]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const run = () => counters.forEach((counter) => {
+      const target = Number(counter.dataset.count ?? 0);
+      const prefix = counter.dataset.prefix ?? '';
+      const suffix = counter.dataset.suffix ?? '';
+      if (reduce) { counter.textContent = `${prefix}${target}${suffix}`; return; }
+      const start = performance.now();
+      const duration = 1100;
+      const tick = (now: number) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { run(); observer.disconnect(); }
+    }, { threshold: 0.35 });
+    observer.observe(stats);
+  }
+</script>

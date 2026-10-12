@@ -23,3 +23,11 @@ pnpm-debug.log*
 
 # local media working files (raw sources are never committed)
 public/media/_raw/
+
+# glide visual editor cache
+glide-components.json
+glide-positions.json
+
+# local editor backups
+*.bak
+

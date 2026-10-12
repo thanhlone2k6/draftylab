@@ -84,6 +84,19 @@ body {
   font-synthesis: none;
 }
 
+/* Subtle accent gradient wash behind the whole page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 82% -5%, color-mix(in srgb, var(--color-gold) 11%, transparent), transparent 70%),
+    radial-gradient(50% 38% at 5% 12%, color-mix(in srgb, var(--color-gold) 6%, transparent), transparent 72%),
+    radial-gradient(70% 55% at 50% 108%, color-mix(in srgb, var(--color-gold) 7%, transparent), transparent 70%);
+}
+
 ::selection {
   background: var(--color-gold);
   color: var(--color-ink);

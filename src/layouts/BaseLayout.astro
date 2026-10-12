@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import DevAgentation from '../components/DevAgentation';
 import { content, type Lang } from '../data/content';
 
 interface Props {
@@ -48,6 +49,7 @@ const pageDesc = description ?? t.hero.sub;
       <slot />
     </main>
     <Footer lang={lang} />
+    {import.meta.env.DEV && <DevAgentation client:only="react" />}
     <script>
       // Reveal-on-scroll + nav behaviour + reduced-motion aware
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -82,28 +84,6 @@ const pageDesc = description ?? t.hero.sub;
         panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
         window.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
       }
-
-      // Work hover preview
-      document.querySelectorAll<HTMLElement>('[data-preview]').forEach((card) => {
-        const vid = card.querySelector<HTMLVideoElement>('video');
-        if (!vid) return;
-        const play = () => { vid.play().catch(() => {}); };
-        const stop = () => { vid.pause(); vid.currentTime = 0; };
-        card.addEventListener('mouseenter', play);
-        card.addEventListener('mouseleave', stop);
-        card.addEventListener('focusin', play);
-        card.addEventListener('focusout', stop);
-      });
-
-      // Before/after slider
-      document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
-        const range = root.querySelector<HTMLInputElement>('input[type=range]');
-        const after = root.querySelector<HTMLElement>('[data-after]');
-        if (!range || !after) return;
-        const apply = () => after.style.setProperty('--reveal', `${range.value}%`);
-        range.addEventListener('input', apply);
-        apply();
-      });
 
       // Language-aware current year (footer)
       const yr = document.querySelector('[data-year]');

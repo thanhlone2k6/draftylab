@@ -11,10 +11,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.6.1",
     "@astrojs/sitemap": "^3.4.0",
     "@tailwindcss/vite": "^4.1.11",
-    "tailwindcss": "^4.1.11",
-    "gsap": "^3.13.0"
+    "astro": "^5.6.1",
+    "gsap": "^3.13.0",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@srivarsank/glide": "^1.1.1",
+    "agentation": "^3.1.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   }
 }

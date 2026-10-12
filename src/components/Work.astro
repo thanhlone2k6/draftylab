@@ -1,9 +1,13 @@
 ---
 import { content, type Lang } from '../data/content';
-import { projects } from '../data/projects';
+import { featuredProjects, carouselProjects } from '../data/projects';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = content[lang];
+const loop = [...carouselProjects, ...carouselProjects];
+const mediaLabels = lang === 'vi'
+  ? { sound: 'Bật hoặc tắt âm thanh', volume: 'Âm lượng video' }
+  : { sound: 'Turn sound on or off', volume: 'Video volume' };
 ---
 <section class="section" id="work">
   <div class="shell">
@@ -13,15 +17,24 @@ const t = content[lang];
       <p class="lead sec-sub">{t.work.sub}</p>
     </header>
 
-    <div class="work-grid">
-      {projects.map((p) => (
-        <article class="work-card reveal" data-preview>
+    <div class="featured-grid">
+      {featuredProjects.map((p) => (
+        <article class="work-card work-card--featured reveal" data-preview>
           <div class="media-frame work-frame" style={`aspect-ratio:${p.aspect}`}>
             <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" width="900" height="1200" />
             {p.preview && (
-              <video class="work-preview" muted loop playsinline preload="none" poster={p.poster} aria-hidden="true">
+              <video class="work-preview" muted loop playsinline preload="none" poster={p.poster}>
                 <source src={p.preview} type="video/mp4" />
               </video>
+            )}
+            {p.preview && (
+              <div class="video-controls">
+                <button class="video-control" type="button" data-video-sound aria-label={mediaLabels.sound} aria-pressed="false">
+                  <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.5.2 3.3 3.3m0-3.3-3.3 3.3" /></svg>
+                  <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12 0c1.4 1.7 1.4 4.3 0 6m2.5-8.5c3 3 3 8 0 11" /></svg>
+                </button>
+                <input class="video-volume" type="range" min="0" max="1" step="0.05" value="0.6" data-video-volume aria-label={mediaLabels.volume} />
+              </div>
             )}
             <span class="work-tag">{t.work.tags[p.tag]}</span>
           </div>
@@ -33,6 +46,43 @@ const t = content[lang];
       ))}
     </div>
   </div>
+
+  {carouselProjects.length > 0 && (
+    <div class="work-rail" data-rail aria-label={t.work.moreLabel}>
+      <div class="work-rail-track" data-rail-track>
+        {loop.map((p, i) => (
+          <article
+            class="rail-card"
+            data-preview
+            aria-hidden={i >= carouselProjects.length ? 'true' : undefined}
+          >
+            <div class="media-frame rail-frame" style={`aspect-ratio:${p.aspect}`}>
+              <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" />
+              {p.preview && (
+                <video class="rail-preview" muted loop playsinline preload="none" poster={p.poster}>
+                  <source src={p.preview} type="video/mp4" />
+                </video>
+              )}
+              {p.preview && (
+                <div class="video-controls">
+                  <button class="video-control" type="button" data-video-sound aria-label={mediaLabels.sound} aria-pressed="false" tabindex={i >= carouselProjects.length ? '-1' : undefined}>
+                    <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.5.2 3.3 3.3m0-3.3-3.3 3.3" /></svg>
+                    <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12 0c1.4 1.7 1.4 4.3 0 6m2.5-8.5c3 3 3 8 0 11" /></svg>
+                  </button>
+                  <input class="video-volume" type="range" min="0" max="1" step="0.05" value="0.6" data-video-volume aria-label={mediaLabels.volume} tabindex={i >= carouselProjects.length ? '-1' : undefined} />
+                </div>
+              )}
+              <span class="rail-tag">{t.work.tags[p.tag]}</span>
+            </div>
+            <div class="rail-info">
+              <h3 class="rail-title">{p.title[lang]}</h3>
+              <p class="rail-meta">{p.meta[lang]} · {p.year}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )}
 </section>
 
 <style>
@@ -40,18 +90,14 @@ const t = content[lang];
   .sec-head h2 { margin: 0.8rem 0 1rem; }
   .sec-sub { max-width: 44ch; }
 
-  .work-grid {
-    columns: 1;
-    column-gap: 1.1rem;
+  /* ---- Featured row ---- */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
   }
-  @media (min-width: 620px) { .work-grid { columns: 2; } }
-  @media (min-width: 1040px) { .work-grid { columns: 3; } }
+  @media (min-width: 720px) { .featured-grid { grid-template-columns: repeat(3, 1fr); } }
 
-  .work-card {
-    break-inside: avoid;
-    margin-bottom: 1.1rem;
-    display: block;
-  }
   .work-frame { width: 100%; }
   .work-frame img { width: 100%; height: 100%; }
 
@@ -68,7 +114,8 @@ const t = content[lang];
   .work-card:focus-within .work-preview { opacity: 1; }
   .work-card:hover .media-frame img { transform: scale(1.04); }
 
-  .work-tag {
+  .work-tag,
+  .rail-tag {
     position: absolute;
     top: 0.85rem;
     left: 0.85rem;
@@ -88,4 +135,143 @@ const t = content[lang];
   .work-info { padding: 0.9rem 0.15rem 0; }
   .work-title { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; }
   .work-meta { font-size: 0.86rem; color: var(--color-mist); margin-top: 0.3rem; }
+
+  /* ---- Horizontal rail ---- */
+  .work-rail {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  }
+  .work-rail-track {
+    display: flex;
+    gap: 1.1rem;
+    width: max-content;
+    padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+    animation: rail-scroll 48s linear infinite;
+    will-change: transform;
+  }
+  .work-rail:hover .work-rail-track,
+  .work-rail:focus-within .work-rail-track { animation-play-state: paused; }
+
+  .rail-card {
+    flex: none;
+    width: clamp(210px, 24vw, 300px);
+  }
+  .rail-frame { width: 100%; }
+  .rail-frame img { width: 100%; height: 100%; }
+
+  .rail-preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--dur-medium) var(--ease-out-soft);
+  }
+  .rail-card:hover .rail-preview { opacity: 1; }
+  .rail-card:hover .rail-frame img { transform: scale(1.04); }
+
+  /* clicking the card pins the clip playing in place */
+  .rail-card[data-playing] .rail-preview { opacity: 1; }
+  .rail-card[data-playing] .rail-frame img { transform: scale(1.04); }
+
+  .video-controls {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    opacity: 0.92;
+    transition: opacity var(--dur-fast) var(--ease-out-soft), transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .video-control {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: white;
+    background: rgb(13 13 13 / 0.32);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.28), 0 1px 3px rgb(0 0 0 / 0.22);
+    backdrop-filter: blur(8px);
+    transition: background var(--dur-fast) var(--ease-out-soft), transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .video-control:hover,
+  .video-control:focus-visible { background: rgb(13 13 13 / 0.62); transform: scale(1.06); }
+  .video-control svg { width: 17px; height: 17px; fill: currentColor; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-sound { display: none; }
+  [data-sound-on] .icon-muted { display: none; }
+  [data-sound-on] .icon-sound { display: block; }
+  .video-volume {
+    width: 0;
+    opacity: 0;
+    accent-color: white;
+    transition: width var(--dur-fast) var(--ease-out-soft), opacity var(--dur-fast) var(--ease-out-soft);
+  }
+  .video-controls:hover .video-volume,
+  .video-volume:focus-visible { width: 76px; opacity: 1; }
+
+  .rail-info { padding: 0.8rem 0.1rem 0; }
+  .rail-title { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.15; }
+  .rail-meta { font-size: 0.82rem; color: var(--color-mist); margin-top: 0.25rem; }
+
+  @keyframes rail-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-rail-track { animation: none; }
+  }
 </style>
+
+<script>
+  // Every project preview supports hover playback, explicit play/pause and sound.
+  document.querySelectorAll<HTMLElement>('[data-preview]').forEach((card) => {
+    const vid = card.querySelector<HTMLVideoElement>('video');
+    if (!vid) return;
+    const soundBtn = card.querySelector<HTMLButtonElement>('[data-video-sound]');
+    const volume = card.querySelector<HTMLInputElement>('[data-video-volume]');
+    vid.volume = 0.6;
+
+    const play = (withSound = false) => {
+      if (withSound) { vid.muted = false; card.setAttribute('data-sound-on', ''); soundBtn?.setAttribute('aria-pressed', 'true'); }
+      // Start on the same frame used by the poster so the card does not visibly jump.
+      if (vid.currentTime < 0.05) vid.currentTime = 0.5;
+      vid.play().then(() => card.setAttribute('data-playing', '')).catch(() => {
+        vid.muted = true;
+        card.removeAttribute('data-sound-on');
+        soundBtn?.setAttribute('aria-pressed', 'false');
+        vid.play().catch(() => {});
+      });
+    };
+    const pause = () => { vid.pause(); card.removeAttribute('data-playing'); };
+
+    card.addEventListener('mouseenter', () => play(true));
+    card.addEventListener('mouseleave', () => { if (!card.hasAttribute('data-pinned')) pause(); });
+    card.addEventListener('focusin', () => play(false));
+    card.addEventListener('focusout', (event) => {
+      if (!card.contains(event.relatedTarget as Node) && !card.hasAttribute('data-pinned')) pause();
+    });
+
+    soundBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      vid.muted = !vid.muted;
+      card.toggleAttribute('data-sound-on', !vid.muted);
+      soundBtn.setAttribute('aria-pressed', String(!vid.muted));
+      if (vid.paused) play(!vid.muted);
+    });
+    volume?.addEventListener('input', () => {
+      vid.volume = Number(volume.value);
+      vid.muted = vid.volume === 0;
+      card.toggleAttribute('data-sound-on', !vid.muted);
+      soundBtn?.setAttribute('aria-pressed', String(!vid.muted));
+    });
+  });
+</script>

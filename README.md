@@ -26,7 +26,8 @@ src/
   components/     one file per section + Header/Footer
   data/
     content.ts    all bilingual copy (edit here — the site follows)
-    projects.ts   portfolio manifest (poster, preview, aspect, tag)
+    projects.ts   portfolio manifest (featured row + horizontal rail)
+    partners.ts   trusted-by partners (logo, link)
   layouts/BaseLayout.astro   head, meta, i18n links, global scripts
   pages/
     index.astro   Vietnamese  → /
@@ -34,7 +35,10 @@ src/
   scripts/motion.ts   GSAP enhancement layer
   styles/global.css   design tokens + base + components
 public/
-  media/          logo, hero reel, portfolio posters + hover clips
+  media/
+    hero/         showreel + poster
+    work/         featured + rail posters & preview clips
+    partners/     trusted-by logos (tinted line-art + photo tiles)
   fonts/          SVN-Gratelos Display (prototype; see note below)
   _headers        Cloudflare caching/security headers
 ```
@@ -43,8 +47,11 @@ public/
 
 - **Copy:** `src/data/content.ts` — every string is keyed by language.
 - **Portfolio:** `src/data/projects.ts` — drop a poster in `public/media/work/`,
-  then point `poster` (and optional `preview` hover clip) at it. `aspect` drives
-  the masonry layout; `tag` maps to `content.*.work.tags`.
+  then point `poster` (and optional `preview` clip) at it. `featured: true` pins a
+  project to the top row; the rest scroll in the horizontal rail. `aspect` drives
+  the layout; `tag` maps to `content.*.work.tags`.
+- **Partners:** `src/data/partners.ts` — `logo` points to `public/media/partners/`
+  (line-art PNGs are pre-tinted to ink for the gold band; square photos are `.webp`).
 
 ## Fonts
 

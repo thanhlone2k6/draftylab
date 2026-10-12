@@ -26,12 +26,23 @@ const t = content[lang];
           poster="/media/hero/showreel-poster.jpg"
           muted
           loop
+          autoplay
           playsinline
-          preload="none"
+          preload="auto"
           aria-label={t.hero.reelCaption}
         >
           <source src="/media/hero/showreel.mp4" type="video/mp4" />
         </video>
+        <div class="hero-video-controls" aria-label="Video controls">
+          <button class="video-control" type="button" data-hero-play aria-label="Play or pause video">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" /></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z" /></svg>
+          </button>
+          <button class="video-control" type="button" data-hero-sound aria-label="Turn sound on or off" aria-pressed="false">
+            <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.5.2 3.3 3.3m0-3.3-3.3 3.3" /></svg>
+            <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12 0c1.4 1.7 1.4 4.3 0 6m2.5-8.5c3 3 3 8 0 11" /></svg>
+          </button>
+        </div>
         <span class="hero-badge">{t.hero.reelCaption}</span>
       </div>
     </div>
@@ -60,9 +71,32 @@ const t = content[lang];
   .hero-media { order: -1; }
   @media (min-width: 980px) { .hero-media { order: 0; } }
 
-  .hero-frame { aspect-ratio: 16 / 10; }
-  @media (min-width: 980px) { .hero-frame { aspect-ratio: 4 / 3; } }
+  .hero-frame { aspect-ratio: 16 / 9; }
   .hero-video { width: 100%; height: 100%; object-fit: cover; }
+  .hero-video-controls {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    display: flex;
+    gap: 0.45rem;
+  }
+  .video-control {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: white;
+    background: rgb(13 13 13 / 0.32);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.28), 0 1px 3px rgb(0 0 0 / 0.22);
+    backdrop-filter: blur(8px);
+  }
+  .video-control svg { width: 17px; height: 17px; fill: currentColor; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-pause, .icon-sound { display: none; }
+  [data-playing] .icon-play, [data-sound-on] .icon-muted { display: none; }
+  [data-playing] .icon-pause, [data-sound-on] .icon-sound { display: block; }
   .hero-badge {
     position: absolute;
     left: 1rem;
@@ -82,18 +116,63 @@ const t = content[lang];
 </style>
 
 <script>
-  // Autoplay the hero reel only while it is on screen and motion is allowed.
+  // Keep the hero reel playing whenever it is on screen and motion is allowed.
   const media = document.querySelector<HTMLElement>('[data-hero-media]');
   const vid = media?.querySelector<HTMLVideoElement>('video');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (vid && !reduce && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) vid.play().catch(() => {});
-        else vid.pause();
-      },
-      { threshold: 0.25 }
-    );
-    io.observe(vid);
+
+  if (vid && !reduce) {
+    vid.volume = 0.6;
+    const tryPlay = () => vid.play().catch(() => {});
+    // Play as soon as enough data is ready, then keep it looping.
+    vid.addEventListener('canplay', tryPlay, { once: true });
+    if (vid.readyState >= 3) tryPlay();
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        ([entry]) => (entry.isIntersecting ? tryPlay() : vid.pause()),
+        { threshold: 0.1 }
+      );
+      io.observe(vid);
+    }
+    // Resume on first user interaction if the browser blocked autoplay.
+    const resume = () => { if (vid.paused) tryPlay(); };
+    window.addEventListener('pointerdown', resume, { once: true });
+    window.addEventListener('scroll', resume, { once: true, passive: true });
+  }
+
+  if (vid) {
+    const media = document.querySelector<HTMLElement>('[data-hero-media]');
+    const playButton = media?.querySelector<HTMLButtonElement>('[data-hero-play]');
+    const soundButton = media?.querySelector<HTMLButtonElement>('[data-hero-sound]');
+    const syncState = () => media?.toggleAttribute('data-playing', !vid.paused);
+    playButton?.addEventListener('click', () => {
+      if (vid.paused) vid.play().catch(() => {}); else vid.pause();
+      syncState();
+    });
+    soundButton?.addEventListener('click', () => {
+      vid.muted = !vid.muted;
+      media?.toggleAttribute('data-sound-on', !vid.muted);
+      soundButton.setAttribute('aria-pressed', String(!vid.muted));
+      if (vid.paused) vid.play().catch(() => {});
+    });
+    vid.addEventListener('play', syncState);
+    vid.addEventListener('pause', syncState);
+    media?.addEventListener('mouseenter', () => {
+      vid.volume = 0.6;
+      vid.muted = false;
+      media.setAttribute('data-sound-on', '');
+      soundButton?.setAttribute('aria-pressed', 'true');
+      vid.play().catch(() => {
+        vid.muted = true;
+        media.removeAttribute('data-sound-on');
+        soundButton?.setAttribute('aria-pressed', 'false');
+      });
+    });
+    media?.addEventListener('mouseleave', () => {
+      vid.muted = true;
+      media.removeAttribute('data-sound-on');
+      soundButton?.setAttribute('aria-pressed', 'false');
+    });
   }
 </script>
