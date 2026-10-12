@@ -15,6 +15,18 @@
 4. **Kiểm tra tự động trước khi merge**: Playwright desktop & mobile + `npm run build` thành công.
 5. **Merge & Resolve**: Primary Orchestrator thực hiện review `git diff` và merge vào nhánh chính.
 
+## Quy tắc Sửa Scoped (MẶC ĐỊNH — ưu tiên tốc độ)
+Khi yêu cầu đã xác định được section/file đích (theo tên section, annotation, hay index Mục 6 của `PROJECT_MAP.md`):
+- **Chốt scope trước khi sửa**: liệt kê 1–2 file sẽ đụng, báo ngắn cho user, rồi chỉ đọc/sửa đúng các file đó. Cấm khảo sát toàn repo, không spawn explore subagent khi bản đồ đã trả lời sẵn.
+- **Text/data chỉ sửa `src/data/`**: đổi câu chữ, dự án, logo, media URL → sửa file data tương ứng, KHÔNG đụng component `.astro`.
+- **QA bậc thang theo mức độ thay đổi** (mặc định bỏ bước thừa):
+  - Đổi text/data → không Playwright, không build (xem trực tiếp qua HMR).
+  - Đổi CSS/layout 1 component → Playwright 1 viewport liên quan, không build.
+  - Đổi JS/logic/media URL/form submit, hoặc trước khi merge → `npm run build` 1 lần + Playwright 2 viewport.
+- **Worktree chỉ cho thay đổi lớn** (refactor, nhiều section, > ~30 dòng). Sửa scoped nhỏ: sửa trực tiếp + commit gọn, vẫn show `git diff` cho user duyệt.
+- **Ngoài scope phải xin phép**: phát hiện cần sửa file ngoài scope → dừng và đề xuất mở scope, không tự ý sửa lan man.
+- Full suite (build + Playwright 2 viewport) chỉ bắt buộc ở bước cuối trước merge, không chạy sau mỗi lần chỉnh nhỏ.
+
 ## Quy tắc Media & Deploy (R2 cho video — BẮT BUỘC)
 - **Mọi file `.mp4` đều host trên Cloudflare R2, TUYỆT ĐỐI KHÔNG commit `.mp4` vào git.** Cloudflare Pages (Free) giới hạn 25MB/file — commit video lớn (vd. `kz2.mp4` 80MB) làm build production **failed** ngay lập tức (sự cố ngày 12/10/2026).
 - Base URL video tập trung tại `src/data/media.ts` (`R2_MEDIA_BASE` + helper `r2(path)`). Component/data chỉ gọi `r2('work/xxx.mp4')`, không hard-code domain.

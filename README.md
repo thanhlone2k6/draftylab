@@ -75,3 +75,18 @@ approve it once to activate delivery.
 - Node version: 20 or 22
 
 Target URL: `https://draftylab.pages.dev`
+
+## Media serving — R2 fallback (standby)
+
+All `.mp4` videos are hosted on Cloudflare R2 (`draftylab-media` bucket) and served
+through the **r2.dev public URL** (primary mode). A **Pages Function fallback** is
+pre-built and ready on standby — it will proxy videos through an R2 binding if the
+r2.dev URL ever fails. See [`docs/r2-fallback.md`](docs/r2-fallback.md) for the full
+runbook, activation steps, and Cloudflare Dashboard configuration.
+
+**Current status: PRIMARY (r2.dev) — fallback NOT deployed/activated.**
+
+```bash
+# Health check (requires internet to r2.dev)
+bash scripts/check-media.sh
+```
