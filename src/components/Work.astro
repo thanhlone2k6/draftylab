@@ -344,9 +344,11 @@ const loop = [...carouselProjects, ...carouselProjects];
         if (!card.contains(event.relatedTarget as Node)) setSound(card, vid, false);
       });
     } else if ('IntersectionObserver' in window && !reduceMotion) {
+      // Never pause: the 3 featured clips loop forever. Leaving the viewport
+      // only mutes (no background audio); re-entering unmutes that card.
       new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) playWithSound(card, vid);
-        else { vid.pause(); setSound(card, vid, false); }
+        else setSound(card, vid, false);
       }, { threshold: 0.5 }).observe(card);
     }
 
@@ -543,5 +545,19 @@ const loop = [...carouselProjects, ...carouselProjects];
   });
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && lb && !lb.hidden) closeLightbox();
+  });
+
+  // Safety net: if the tab was hidden/suspended, resume all featured loops
+  // (muted) on return — they must never stay stopped by themselves.
+  // Lightbox playback is independent and left untouched.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden || reduceMotion) return;
+    featured.forEach((card) => {
+      const v = card.querySelector<HTMLVideoElement>('video');
+      if (v && v.paused) {
+        v.muted = true;
+        v.play().catch(() => {});
+      }
+    });
   });
 </script>
