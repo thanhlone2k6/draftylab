@@ -23,7 +23,7 @@ const mediaLabels = lang === 'vi'
           <div class="media-frame work-frame" style={`aspect-ratio:${p.aspect}`}>
             <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" width="900" height="1200" />
             {p.preview && (
-              <video class="work-preview" muted loop playsinline preload="none" poster={p.poster}>
+              <video class="work-preview" muted loop playsinline autoplay preload="auto" poster={p.poster}>
                 <source src={p.preview} type="video/mp4" />
               </video>
             )}
@@ -231,8 +231,99 @@ const mediaLabels = lang === 'vi'
 </style>
 
 <script>
-  // Every project preview supports hover playback, explicit play/pause and sound.
-  document.querySelectorAll<HTMLElement>('[data-preview]').forEach((card) => {
+  // Featured cards: always previewing (muted autoplay on load).
+  // Desktop (hover): entering a card unmutes THAT card, leaving re-mutes.
+  // Touch (mobile): scrolling a card into view auto-plays it WITH sound;
+  // scrolling away pauses + mutes. Unmuting an already-playing video needs
+  // no user gesture — only starting playback with sound does — so hover /
+  // scroll unmute works without a prior click.
+  // Rail cards keep the old hover-to-preview behaviour (too many clips to autoplay).
+  const hoverOK = window.matchMedia('(hover: hover)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function wireSoundControls(
+    card: HTMLElement,
+    vid: HTMLVideoElement,
+    onPlay: (withSound: boolean) => void,
+    onPause: () => void,
+  ) {
+    const soundBtn = card.querySelector<HTMLButtonElement>('[data-video-sound]');
+    const volume = card.querySelector<HTMLInputElement>('[data-video-volume]');
+    vid.volume = 0.6;
+    soundBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      vid.muted = !vid.muted;
+      card.toggleAttribute('data-sound-on', !vid.muted);
+      soundBtn.setAttribute('aria-pressed', String(!vid.muted));
+      if (vid.paused) onPlay(!vid.muted); else if (vid.muted) onPause();
+    });
+    volume?.addEventListener('input', () => {
+      vid.volume = Number(volume.value);
+      vid.muted = vid.volume === 0;
+      card.toggleAttribute('data-sound-on', !vid.muted);
+      soundBtn?.setAttribute('aria-pressed', String(!vid.muted));
+    });
+  }
+
+  const featured = [...document.querySelectorAll<HTMLElement>('.featured-grid [data-preview]')];
+  const setSound = (card: HTMLElement, vid: HTMLVideoElement, on: boolean) => {
+    vid.muted = !on;
+    card.toggleAttribute('data-sound-on', on);
+    card.querySelector('[data-video-sound]')?.setAttribute('aria-pressed', String(on));
+  };
+  const muteOthers = (except: HTMLElement) => featured.forEach((c) => {
+    if (c === except) return;
+    const v = c.querySelector<HTMLVideoElement>('video');
+    if (v && !v.muted) setSound(c, v, false);
+  });
+  const playWithSound = (card: HTMLElement, vid: HTMLVideoElement) => {
+    muteOthers(card);
+    if (vid.paused) {
+      vid.muted = true;
+      vid.play().then(() => setSound(card, vid, true)).catch(() => {});
+    } else {
+      setSound(card, vid, true);
+    }
+  };
+
+  featured.forEach((card) => {
+    const vid = card.querySelector<HTMLVideoElement>('video');
+    if (!vid) return;
+    vid.addEventListener('play', () => card.setAttribute('data-playing', ''));
+    vid.addEventListener('pause', () => card.removeAttribute('data-playing'));
+
+    if (!reduceMotion && vid.paused) {
+      vid.muted = true;
+      vid.play().catch(() => {});
+    }
+
+    if (hoverOK) {
+      card.addEventListener('mouseenter', () => { if (!reduceMotion) playWithSound(card, vid); });
+      card.addEventListener('mouseleave', () => setSound(card, vid, false));
+      card.addEventListener('focusin', () => { if (!reduceMotion) playWithSound(card, vid); });
+      card.addEventListener('focusout', (event) => {
+        if (!card.contains(event.relatedTarget as Node)) setSound(card, vid, false);
+      });
+    } else if ('IntersectionObserver' in window && !reduceMotion) {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) playWithSound(card, vid);
+        else { vid.pause(); setSound(card, vid, false); }
+      }, { threshold: 0.5 }).observe(card);
+    }
+
+    wireSoundControls(
+      card, vid,
+      (withSound) => {
+        if (withSound) playWithSound(card, vid);
+        else { vid.muted = true; vid.play().catch(() => {}); }
+      },
+      () => {},
+    );
+  });
+
+  // Rail cards: hover to preview, click pins the clip in place.
+  document.querySelectorAll<HTMLElement>('[data-rail] [data-preview]').forEach((card) => {
     const vid = card.querySelector<HTMLVideoElement>('video');
     if (!vid) return;
     const soundBtn = card.querySelector<HTMLButtonElement>('[data-video-sound]');
