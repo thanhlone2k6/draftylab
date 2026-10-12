@@ -1,5 +1,6 @@
 ---
 import { content, type Lang } from '../data/content';
+import { r2 } from '../data/media';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = content[lang];
@@ -16,7 +17,7 @@ const t = content[lang];
       <div class="media-frame process-frame">
         <video
           class="process-video"
-          src="/media/process/brief-to-poster.mp4"
+          src={r2('process/brief-to-poster.mp4')}
           poster="/media/process/brief-to-poster-poster.jpg"
           muted
           loop

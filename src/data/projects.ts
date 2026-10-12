@@ -1,8 +1,12 @@
-// Portfolio manifest — replace media files in /public/media/work to update the site.
+// Portfolio manifest — posters live in /public/media/work, previews (.mp4)
+// live on Cloudflare R2 (see src/data/media.ts). NEVER commit .mp4 to git:
+// Cloudflare Pages fails builds with files > 25MB.
 // `poster` is always shown; `preview` (optional) plays on hover / on tap.
 // `aspect` drives the layout. `tag` maps to content.*.work.tags.
 // `featured: true` pins a project to the top "best of" row; the rest scroll
 // in the horizontal carousel below.
+
+import { r2 } from './media';
 
 export type TagKey = 'commercial' | 'ai' | 'fnb' | 'film' | 'personal';
 
@@ -27,7 +31,7 @@ export const projects: Project[] = [
     tag: 'commercial',
     aspect: '9 / 16',
     poster: '/media/work/kz2-poster.jpg',
-    preview: '/media/work/kz2.mp4',
+    preview: r2('work/kz2.mp4'),
     featured: true,
   },
   {
@@ -38,7 +42,7 @@ export const projects: Project[] = [
     tag: 'ai',
     aspect: '9 / 16',
     poster: '/media/work/nox-joy2-poster.jpg',
-    preview: '/media/work/nox-joy2.mp4',
+    preview: r2('work/nox-joy2.mp4'),
     featured: true,
   },
   {
@@ -49,7 +53,7 @@ export const projects: Project[] = [
     tag: 'fnb',
     aspect: '9 / 16',
     poster: '/media/work/meitu2-poster.jpg',
-    preview: '/media/work/meitu2.mp4',
+    preview: r2('work/meitu2.mp4'),
     featured: true,
   },
   {
@@ -60,7 +64,7 @@ export const projects: Project[] = [
     tag: 'fnb',
     aspect: '9 / 16',
     poster: '/media/work/pomalo.jpg',
-    preview: '/media/work/pomalo.mp4',
+    preview: r2('work/pomalo.mp4'),
   },
   {
     id: 'winnie',
@@ -70,7 +74,7 @@ export const projects: Project[] = [
     tag: 'commercial',
     aspect: '9 / 16',
     poster: '/media/work/winnie.jpg',
-    preview: '/media/work/winnie.mp4',
+    preview: r2('work/winnie.mp4'),
   },
   {
     id: 'kazaki',
@@ -80,7 +84,7 @@ export const projects: Project[] = [
     tag: 'fnb',
     aspect: '16 / 9',
     poster: '/media/work/kazaki.jpg',
-    preview: '/media/work/kazaki.mp4',
+    preview: r2('work/kazaki.mp4'),
   },
   {
     id: 'doc',
@@ -90,7 +94,7 @@ export const projects: Project[] = [
     tag: 'personal',
     aspect: '16 / 9',
     poster: '/media/work/doc.jpg',
-    preview: '/media/work/doc.mp4',
+    preview: r2('work/doc.mp4'),
   },
 ];
 

@@ -24,6 +24,9 @@ pnpm-debug.log*
 # local media working files (raw sources are never committed)
 public/media/_raw/
 
+# videos are hosted on Cloudflare R2 — never commit .mp4 (Pages 25MB/file limit)
+public/media/**/*.mp4
+
 # glide visual editor cache
 glide-components.json
 glide-positions.json
