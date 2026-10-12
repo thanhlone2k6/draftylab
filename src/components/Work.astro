@@ -54,6 +54,9 @@ const mediaLabels = lang === 'vi'
           <article
             class="rail-card"
             data-preview
+            data-project={p.id}
+            tabindex="0"
+            aria-label={`${p.title[lang]} — ${t.work.expandLabel}`}
             aria-hidden={i >= carouselProjects.length ? 'true' : undefined}
           >
             <div class="media-frame rail-frame" style={`aspect-ratio:${p.aspect}`}>
@@ -83,6 +86,33 @@ const mediaLabels = lang === 'vi'
       </div>
     </div>
   )}
+  <script type="application/json" data-projects-json set:html={JSON.stringify(carouselProjects)} />
+
+  <div class="lightbox" data-lightbox hidden>
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label={t.nav.close}>×</button>
+      <div class="media-frame lightbox-frame">
+        <video class="lightbox-video" data-lightbox-video playsinline preload="metadata"></video>
+      </div>
+      <div class="lightbox-bar">
+        <button class="lightbox-btn" type="button" data-lightbox-play aria-label={t.work.playHint}>
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" /></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z" /></svg>
+        </button>
+        <input class="lightbox-seek" type="range" min="0" max="1000" value="0" step="1" data-lightbox-seek aria-label={t.work.seekLabel} />
+        <span class="lightbox-time" data-lightbox-time>0:00 / 0:00</span>
+        <button class="lightbox-btn" type="button" data-lightbox-sound aria-label={t.work.playHint}>
+          <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12.5.2 3.3 3.3m0-3.3-3.3 3.3" /></svg>
+          <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zm12 0c1.4 1.7 1.4 4.3 0 6m2.5-8.5c3 3 3 8 0 11" /></svg>
+        </button>
+      </div>
+      <div class="lightbox-meta">
+        <h3 class="lightbox-title" id="lightbox-title" data-lightbox-title></h3>
+        <p class="lightbox-sub" data-lightbox-sub></p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
@@ -136,23 +166,24 @@ const mediaLabels = lang === 'vi'
   .work-title { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; }
   .work-meta { font-size: 0.86rem; color: var(--color-mist); margin-top: 0.3rem; }
 
-  /* ---- Horizontal rail ---- */
+  /* ---- Horizontal rail (JS marquee + free drag, see script) ---- */
   .work-rail {
     margin-top: clamp(2.5rem, 5vw, 4rem);
     overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
   }
+  .work-rail.is-dragging { cursor: grabbing; }
   .work-rail-track {
     display: flex;
     gap: 1.1rem;
     width: max-content;
     padding-inline: clamp(1.25rem, 4vw, 3.5rem);
-    animation: rail-scroll 48s linear infinite;
     will-change: transform;
   }
-  .work-rail:hover .work-rail-track,
-  .work-rail:focus-within .work-rail-track { animation-play-state: paused; }
+  .rail-card { cursor: pointer; }
 
   .rail-card {
     flex: none;
@@ -224,6 +255,90 @@ const mediaLabels = lang === 'vi'
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+
+  /* ---- Lightbox (rail card expanded view) ---- */
+  .lightbox[hidden] { display: none; }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+  }
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(8 8 8 / 0.82);
+    backdrop-filter: blur(10px);
+  }
+  .lightbox-panel {
+    position: relative;
+    width: min(960px, 100%);
+    background: var(--color-charcoal, #171715);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgb(0 0 0 / 0.6);
+  }
+  .lightbox-frame { aspect-ratio: 16 / 9; width: 100%; background: #000; }
+  .lightbox-video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .lightbox-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.3rem;
+    line-height: 1;
+    background: rgb(13 13 13 / 0.55);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    cursor: pointer;
+  }
+  .lightbox-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 0.9rem;
+  }
+  .lightbox-btn {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: white;
+    background: transparent;
+    border: 1px solid var(--color-line);
+    cursor: pointer;
+  }
+  .lightbox-btn svg { width: 16px; height: 16px; fill: currentColor; }
+  .lightbox-btn .icon-pause { display: none; }
+  [data-lb-playing] .lightbox-btn .icon-play { display: none; }
+  [data-lb-playing] .lightbox-btn .icon-pause { display: block; }
+  .lightbox-btn .icon-sound { display: none; }
+  [data-lb-sound] .lightbox-btn .icon-muted { display: none; }
+  [data-lb-sound] .lightbox-btn .icon-sound { display: block; }
+  .lightbox-seek {
+    flex: 1;
+    accent-color: var(--color-gold);
+    cursor: pointer;
+  }
+  .lightbox-time {
+    flex: none;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-mist);
+  }
+  .lightbox-meta { padding: 0 1rem 1rem; }
+  .lightbox-title { font-family: var(--font-display); font-size: 1.25rem; }
+  .lightbox-sub { font-size: 0.85rem; color: var(--color-mist); margin-top: 0.2rem; }
 
   @media (prefers-reduced-motion: reduce) {
     .work-rail-track { animation: none; }
@@ -364,5 +479,167 @@ const mediaLabels = lang === 'vi'
       card.toggleAttribute('data-sound-on', !vid.muted);
       soundBtn?.setAttribute('aria-pressed', String(!vid.muted));
     });
+
+    // Click (not drag) opens the expanded lightbox view.
+    card.addEventListener('click', (event) => {
+      if (suppressClick) return;
+      if ((event.target as HTMLElement).closest('button, input, a')) return;
+      openLightbox(card.getAttribute('data-project') || '');
+    });
+    card.addEventListener('keydown', (event) => {
+      if ((event.key === 'Enter' || event.key === ' ') && !(event.target as HTMLElement).closest('button, input, a')) {
+        event.preventDefault();
+        openLightbox(card.getAttribute('data-project') || '');
+      }
+    });
+  });
+
+  // ---- Rail free-scroll marquee (auto-drift + pointer drag) ----
+  const rail = document.querySelector<HTMLElement>('[data-rail]');
+  const railTrack = rail?.querySelector<HTMLElement>('[data-rail-track]');
+  let suppressClick = false;
+  if (rail && railTrack && !reduceMotion) {
+    let offset = 0;
+    let half = 1;
+    let dragging = false;
+    let resumeAt = 0;
+    const measure = () => {
+      const style = getComputedStyle(railTrack);
+      const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      half = Math.max(1, (railTrack.scrollWidth - pad) / 2);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    const SPEED = 40; // px per second
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(0.1, (now - last) / 1000);
+      last = now;
+      const idle = !dragging && now >= resumeAt
+        && !rail.matches(':hover, :focus-within')
+        && document.visibilityState === 'visible';
+      if (idle) {
+        offset -= SPEED * dt;
+        if (offset <= -half) offset += half;
+        railTrack.style.transform = `translateX(${offset}px)`;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    let startX = 0;
+    let startOffset = 0;
+    let moved = 0;
+    rail.addEventListener('pointerdown', (event) => {
+      if ((event.target as HTMLElement).closest('button, input, a')) return;
+      dragging = true;
+      moved = 0;
+      suppressClick = false;
+      startX = event.clientX;
+      startOffset = offset;
+      rail.classList.add('is-dragging');
+      rail.setPointerCapture?.(event.pointerId);
+    });
+    rail.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      const dx = event.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      offset = startOffset + dx;
+      offset = ((offset % half) + half) % half;
+      if (offset > 0) offset -= half;
+      railTrack.style.transform = `translateX(${offset}px)`;
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      suppressClick = moved > 8;
+      resumeAt = performance.now() + 2500;
+      rail.classList.remove('is-dragging');
+    };
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+  }
+
+  // ---- Lightbox: expanded rail video with seek ----
+  const lb = document.querySelector<HTMLElement>('[data-lightbox]');
+  const lbVideo = lb?.querySelector<HTMLVideoElement>('[data-lightbox-video]');
+  const lbPlay = lb?.querySelector<HTMLButtonElement>('[data-lightbox-play]');
+  const lbSeek = lb?.querySelector<HTMLInputElement>('[data-lightbox-seek]');
+  const lbTime = lb?.querySelector<HTMLElement>('[data-lightbox-time]');
+  const lbSound = lb?.querySelector<HTMLButtonElement>('[data-lightbox-sound]');
+  const lbTitle = lb?.querySelector<HTMLElement>('[data-lightbox-title]');
+  const lbSub = lb?.querySelector<HTMLElement>('[data-lightbox-sub]');
+  let lbData: Array<{ id: string; title: Record<string, string>; meta: Record<string, string>; year: string; poster: string; preview?: string }> = [];
+  try {
+    lbData = JSON.parse(document.querySelector('[data-projects-json]')?.textContent || '[]');
+  } catch { lbData = []; }
+  const pageLang = (document.documentElement.lang || 'vi').slice(0, 2);
+  const fmtTime = (s: number) => {
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${String(sec).padStart(2, '0')}`;
+  };
+  const syncLbTime = () => {
+    if (!lbVideo || !lbSeek || !lbTime) return;
+    const d = lbVideo.duration || 0;
+    lbSeek.value = d > 0 ? String(Math.round((lbVideo.currentTime / d) * 1000)) : '0';
+    lbTime.textContent = `${fmtTime(lbVideo.currentTime)} / ${fmtTime(d)}`;
+  };
+  let lastFocus: HTMLElement | null = null;
+
+  function openLightbox(id: string) {
+    const p = lbData.find((x) => x.id === id);
+    if (!p || !p.preview || !lb || !lbVideo) return;
+    featured.forEach((c) => {
+      const v = c.querySelector<HTMLVideoElement>('video');
+      if (v && !v.muted && lbVideo) setSound(c, v, false);
+    });
+    lastFocus = document.activeElement as HTMLElement | null;
+    if (lbTitle) lbTitle.textContent = p.title[pageLang] || p.title.vi;
+    if (lbSub) lbSub.textContent = `${p.meta[pageLang] || p.meta.vi} · ${p.year}`;
+    lbVideo.poster = p.poster;
+    lbVideo.src = p.preview;
+    lbVideo.muted = false;
+    lbVideo.volume = 0.8;
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lbVideo.play().then(() => lb?.setAttribute('data-lb-playing', '')).catch(() => {});
+    lb?.setAttribute('data-lb-sound', '');
+    lb.querySelector<HTMLButtonElement>('.lightbox-close')?.focus();
+  }
+  function closeLightbox() {
+    if (!lb || !lbVideo) return;
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lb.hidden = true;
+    lb.removeAttribute('data-lb-playing');
+    document.body.style.overflow = '';
+    lastFocus?.focus?.();
+  }
+
+  lbVideo?.addEventListener('play', () => lb?.setAttribute('data-lb-playing', ''));
+  lbVideo?.addEventListener('pause', () => lb?.removeAttribute('data-lb-playing'));
+  lbVideo?.addEventListener('timeupdate', syncLbTime);
+  lbVideo?.addEventListener('loadedmetadata', syncLbTime);
+  lbPlay?.addEventListener('click', () => {
+    if (!lbVideo) return;
+    if (lbVideo.paused) lbVideo.play().catch(() => {}); else lbVideo.pause();
+  });
+  lbSeek?.addEventListener('input', () => {
+    if (!lbVideo || !lbVideo.duration) return;
+    lbVideo.currentTime = (Number(lbSeek.value) / 1000) * lbVideo.duration;
+  });
+  lbSound?.addEventListener('click', () => {
+    if (!lbVideo) return;
+    lbVideo.muted = !lbVideo.muted;
+    if (lbVideo.muted) lb?.removeAttribute('data-lb-sound'); else lb?.setAttribute('data-lb-sound', '');
+  });
+  lb?.querySelectorAll('[data-lightbox-close]').forEach((el) => {
+    el.addEventListener('click', closeLightbox);
+  });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lb && !lb.hidden) closeLightbox();
   });
 </script>

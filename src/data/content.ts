@@ -27,6 +27,8 @@ export const content = {
       featuredLabel: 'Nổi bật',
       moreLabel: 'Nhiều dự án khác',
       playHint: 'Nhấn để phát',
+      expandLabel: 'Xem kỹ',
+      seekLabel: 'Tua video',
       tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
     },
     partners: {
@@ -131,6 +133,8 @@ export const content = {
       featuredLabel: 'Featured',
       moreLabel: 'More work',
       playHint: 'Tap to play',
+      expandLabel: 'View details',
+      seekLabel: 'Seek video',
       tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
     },
     partners: {
