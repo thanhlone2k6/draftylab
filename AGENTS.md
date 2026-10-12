@@ -33,4 +33,8 @@ Khi yêu cầu đã xác định được section/file đích (theo tên section
   - Bucket hiện tại: `draftylab-media` (APAC), public base `https://pub-e389a414549e4830882a9b251f7b95ec.r2.dev` (r2.dev public URL — rate-limited, khi lên production thật nên gắn custom domain vào bucket rồi đổi 1 dòng `R2_MEDIA_BASE`).
 - Poster/ảnh (`.jpg`/`.webp`, tất cả < 25MB) vẫn để trong `public/media/` và commit bình thường.
 - Thêm video mới: upload lên R2 (giữ cấu trúc thư mục `hero/`, `work/`, `process/`), rồi trỏ code qua `r2()`. `.gitignore` đã chặn `public/media/**/*.mp4` để không vô tình commit.
+
+## Quy tắc Version/Tag (điểm restore trước thay đổi)
+- Sau mỗi deploy production đã verify OK, hoặc trước thay đổi lớn/rủi ro: tạo annotated tag `stable-YYYY-MM-DD` trỏ đúng commit production + push tag (+ GitHub Release nếu cần snapshot tải về).
+- Rollback: `git checkout stable-YYYY-MM-DD` để xem/khôi phục, hoặc push commit đó lên `main` để Cloudflare deploy lại bản cũ. Không bao giờ force-push `main`.
 <!-- visual-editing-draftylab END -->
