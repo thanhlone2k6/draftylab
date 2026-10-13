@@ -56,7 +56,7 @@ const loop = [...carouselProjects, ...carouselProjects];
             <div class="media-frame rail-frame" style={`aspect-ratio:${p.aspect}`}>
               <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" />
               {p.preview && (
-                <video class="rail-preview" muted loop playsinline preload="none" poster={p.poster}>
+                <video class="rail-preview" muted loop playsinline autoplay preload="auto" poster={p.poster}>
                   <source src={p.preview} type="video/mp4" />
                 </video>
               )}
@@ -181,10 +181,8 @@ const loop = [...carouselProjects, ...carouselProjects];
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    transition: opacity var(--dur-medium) var(--ease-out-soft);
+    opacity: 1;
   }
-  .rail-card:hover .rail-preview { opacity: 1; }
   .rail-card:hover .rail-frame img { transform: scale(1.04); }
 
   /* clicking the card pins the clip playing in place */
@@ -361,7 +359,7 @@ const loop = [...carouselProjects, ...carouselProjects];
     });
   });
 
-  // Rail cards: muted hover preview; click opens the expanded lightbox view.
+  // Rail cards: all clips autoplay muted; hover/focus enables sound for that clip.
   document.querySelectorAll<HTMLElement>('[data-rail] [data-preview]').forEach((card) => {
     const vid = card.querySelector<HTMLVideoElement>('video');
     if (!vid) return;
@@ -373,13 +371,22 @@ const loop = [...carouselProjects, ...carouselProjects];
       vid.muted = true;
       vid.play().then(() => card.setAttribute('data-playing', '')).catch(() => {});
     };
-    const pause = () => { vid.pause(); card.removeAttribute('data-playing'); };
+    const soundOn = () => {
+      vid.muted = false;
+      card.setAttribute('data-sound-on', '');
+    };
+    const soundOff = () => {
+      vid.muted = true;
+      card.removeAttribute('data-sound-on');
+    };
 
-    card.addEventListener('mouseenter', () => play());
-    card.addEventListener('mouseleave', () => { if (!card.hasAttribute('data-pinned')) pause(); });
-    card.addEventListener('focusin', () => play());
+    if (!reduceMotion) play();
+
+    card.addEventListener('mouseenter', () => soundOn());
+    card.addEventListener('mouseleave', () => soundOff());
+    card.addEventListener('focusin', () => soundOn());
     card.addEventListener('focusout', (event) => {
-      if (!card.contains(event.relatedTarget as Node) && !card.hasAttribute('data-pinned')) pause();
+      if (!card.contains(event.relatedTarget as Node)) soundOff();
     });
 
     // Click (not drag) opens the expanded lightbox view.
