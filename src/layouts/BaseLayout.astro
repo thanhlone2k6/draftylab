@@ -40,7 +40,13 @@ const pageDesc = description ?? t.hero.sub;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#10100E" />
   </head>
-  <body>
+  <body data-site-loading>
+    <div class="site-loader" data-site-loader role="status" aria-live="polite" aria-label="Loading Drafty Lab">
+      <div class="site-loader__mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <p class="site-loader__label">Drafty Lab</p>
+    </div>
     <div class="grain" aria-hidden="true"></div>
     <div id="scroll-sentinel" aria-hidden="true" style="position:absolute;top:0;height:1px;width:1px;"></div>
     <a href="#main" class="skip-link">Skip to content</a>
@@ -51,6 +57,13 @@ const pageDesc = description ?? t.hero.sub;
     <Footer lang={lang} />
     {import.meta.env.DEV && <DevAgentation client:only="react" />}
     <script>
+      // Give the first mobile video requests a short head start behind a branded loader.
+      const finishSiteLoad = () => {
+        document.body.removeAttribute('data-site-loading');
+        document.dispatchEvent(new CustomEvent('drafty:ready'));
+      };
+      window.setTimeout(finishSiteLoad, 3000);
+
       // Reveal-on-scroll + nav behaviour + reduced-motion aware
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
