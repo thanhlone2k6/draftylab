@@ -77,18 +77,31 @@ const stats = content[lang].about.stats;
       const prefix = counter.dataset.prefix ?? '';
       const suffix = counter.dataset.suffix ?? '';
       if (reduce) { counter.textContent = `${prefix}${target}${suffix}`; return; }
-      const start = performance.now();
-      const duration = 2000;
-      const tick = (now: number) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        counter.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
-        if (progress < 1) requestAnimationFrame(tick);
+      // Restart the count-up from zero on every entry, so scrolling away and
+      // back re-triggers the animation. One rAF chain per counter at a time.
+      if (counter.dataset.running === '1') { counter.dataset.rerun = '1'; return; }
+      counter.dataset.running = '1';
+      const startCount = () => {
+        const start = performance.now();
+        const duration = 2000;
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+          if (progress < 1) { requestAnimationFrame(tick); return; }
+          counter.dataset.running = '';
+          if (counter.dataset.rerun === '1') {
+            delete counter.dataset.rerun;
+            startCount();
+          }
+        };
+        requestAnimationFrame(tick);
       };
-      requestAnimationFrame(tick);
+      startCount();
     });
+    // No disconnect(): keep observing so the strip replays when re-entered.
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { run(); observer.disconnect(); }
+      if (entry.isIntersecting) run();
     }, { threshold: 0.35 });
     observer.observe(stats);
   }

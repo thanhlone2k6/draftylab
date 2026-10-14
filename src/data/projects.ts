@@ -19,6 +19,8 @@ export interface Project {
   aspect: string; // CSS aspect-ratio
   poster: string;
   preview?: string;
+  /** Optional lower-res clip for mobile cards (lightbox always uses `preview`). */
+  previewMobile?: string;
   featured?: boolean;
 }
 
@@ -37,7 +39,7 @@ export const projects: Project[] = [
   {
     id: 'ai',
     title: { vi: 'AI Creative — Hybrid Visual', en: 'AI Creative — Hybrid Visual' },
-    meta: { vi: 'AI & thế giới hình ảnh', en: 'AI & world-building' },
+    meta: { vi: 'AI Creative', en: 'AI Creative' },
     year: '2026',
     tag: 'ai',
     aspect: '9 / 16',
@@ -135,6 +137,18 @@ export const projects: Project[] = [
     aspect: '9 / 16',
     poster: '/media/work/rail-mate-made.jpg',
     preview: r2('work/rail-mate-made.mp4'),
+  },
+  {
+    id: 'testai',
+    title: { vi: 'TEST AI — Visual Concept', en: 'TEST AI — Visual Concept' },
+    meta: { vi: 'AI Creative', en: 'AI Creative' },
+    year: '2026',
+    tag: 'ai',
+    aspect: '9 / 16',
+    poster: '/media/work/testai-poster.jpg',
+    preview: r2('work/testai.mp4'), // 720p30 desktop + lightbox
+    previewMobile: r2('work/testai-480.mp4'), // 480p30 mobile card
+    featured: true,
   },
   {
     id: 'doc',
