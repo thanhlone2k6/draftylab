@@ -29,6 +29,8 @@ const t = content[lang];
           loop
           autoplay
           playsinline
+          webkit-playsinline
+          disablepictureinpicture
           preload="auto"
           aria-label={t.hero.reelCaption}
         >
@@ -124,7 +126,13 @@ const t = content[lang];
 
   if (vid && !reduce) {
     vid.volume = 0.6;
-    const tryPlay = () => vid.play().catch(() => {});
+    // While the work lightbox is open, Work.astro unloads this video's src;
+    // never (re)start fetching behind it.
+    let lbOpen = false;
+    document.addEventListener('drafty:lightbox', (e) => {
+      lbOpen = Boolean((e as CustomEvent<{ open: boolean }>).detail.open);
+    });
+    const tryPlay = () => { if (!lbOpen) vid.play().catch(() => {}); };
     // Play as soon as enough data is ready, then keep it looping.
     vid.addEventListener('canplay', tryPlay, { once: true });
     if (vid.readyState >= 3) tryPlay();
@@ -143,6 +151,10 @@ const t = content[lang];
   }
 
   if (vid) {
+    vid.playsInline = true;
+    vid.setAttribute('playsinline', '');
+    vid.setAttribute('webkit-playsinline', '');
+    vid.disablePictureInPicture = true;
     const media = document.querySelector<HTMLElement>('[data-hero-media]');
     const playButton = media?.querySelector<HTMLButtonElement>('[data-hero-play]');
     const soundButton = media?.querySelector<HTMLButtonElement>('[data-hero-sound]');

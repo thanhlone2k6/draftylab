@@ -26,8 +26,8 @@ const loop = [...carouselProjects, ...carouselProjects];
           <div class="media-frame work-frame" style={`aspect-ratio:${p.aspect}`}>
             <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" width="900" height="1200" />
             {p.preview && (
-              <video class="work-preview" muted loop playsinline webkit-playsinline disablepictureinpicture autoplay preload="auto" poster={p.poster}>
-                <source src={p.preview} type="video/mp4" />
+              <video class="work-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" poster={p.poster} data-full={p.preview} data-small={p.preview480 || p.previewMobile || p.preview}>
+                <source src={p.preview480 || p.previewMobile || p.preview} type="video/mp4" />
               </video>
             )}
             <span class="work-tag">{t.work.tags[p.tag]}</span>
@@ -56,9 +56,8 @@ const loop = [...carouselProjects, ...carouselProjects];
             <div class="media-frame rail-frame" style={`aspect-ratio:${p.aspect}`}>
               <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" />
               {p.preview && (
-                <video class="rail-preview" muted loop playsinline webkit-playsinline disablepictureinpicture autoplay preload="auto" poster={p.poster}>
-                  {p.previewMobile && <source src={p.previewMobile} type="video/mp4" media="(max-width: 820px)" />}
-                  <source src={p.preview} type="video/mp4" />
+                <video class="rail-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" poster={p.poster} data-small={p.preview480 || p.previewMobile || p.preview}>
+                  <source src={p.preview480 || p.previewMobile || p.preview} type="video/mp4" />
                 </video>
               )}
               <span class="rail-tag">{t.work.tags[p.tag]}</span>
@@ -107,6 +106,9 @@ const loop = [...carouselProjects, ...carouselProjects];
   .sec-head { margin-bottom: clamp(2.5rem, 5vw, 4rem); max-width: 46rem; }
   .sec-head h2 { margin: 0.8rem 0 1rem; }
   .sec-sub { max-width: 44ch; }
+  /* Trim the global section padding at the bottom so the gap to Capabilities
+     lands ~64-96px desktop / ~40-64px mobile instead of 2x 11rem. */
+  #work { padding-bottom: clamp(0.75rem, 1.5vw, 1.25rem); }
 
   /* ---- Featured row ---- */
   .featured-grid {
@@ -364,6 +366,111 @@ const loop = [...carouselProjects, ...carouselProjects];
   const hoverOK = window.matchMedia('(hover: hover)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Lightbox refs hoisted to the top so every media handler can guard on it.
+  const lb = document.querySelector<HTMLElement>('[data-lightbox]');
+  const lbVideo = lb?.querySelector<HTMLVideoElement>('[data-lightbox-video]');
+  const lbOpen = () => !!lb && !lb.hidden;
+
+  // ---- Exclusive media loading ------------------------------------------
+  // While the lightbox is open every other video on the page must stop
+  // fetching: pause alone is not enough, the src has to be detached and
+  // load() called AFTER the sources are removed (calling load() while a src
+  // is attached would simply start a fresh request).
+  interface MediaState {
+    directSrc: string;
+    childSrcs: string[];
+    preload: string;
+    wasPlaying: boolean;
+  }
+  // First-detach snapshot per video; surviving quick re-opens means a video
+  // whose restore is still pending can never be re-saved as "empty".
+  const mediaState = new WeakMap<HTMLVideoElement, MediaState>();
+  const detachedMedia = new Set<HTMLVideoElement>();
+
+  const detachVideo = (v: HTMLVideoElement) => {
+    [...v.querySelectorAll('source')].forEach((s) => s.removeAttribute('src'));
+    if (v.getAttribute('src')) v.removeAttribute('src');
+    v.muted = true;
+    v.pause();
+    v.preload = 'none';
+    v.load(); // detach resource selection — nothing left to fetch
+  };
+
+  const unloadBackgroundMedia = () => {
+    document.querySelectorAll<HTMLVideoElement>('video').forEach((v) => {
+      if (v === lbVideo || detachedMedia.has(v)) return; // already unloaded
+      if (!mediaState.has(v)) {
+        mediaState.set(v, {
+          directSrc: v.getAttribute('src') || '',
+          childSrcs: [...v.querySelectorAll('source')].map((s) => s.getAttribute('src') || ''),
+          preload: v.getAttribute('preload') || '',
+          wasPlaying: !v.paused,
+        });
+      }
+      detachVideo(v);
+      detachedMedia.add(v);
+    });
+  };
+
+  // One shared observer revives videos that were outside the viewport when
+  // the lightbox closed (their component has no IO of their own).
+  const resumeIO = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          if (lbOpen()) return; // keep watching — never fetch behind an open lightbox
+          resumeIO.unobserve(e.target);
+          restoreVideo(e.target as HTMLVideoElement, true);
+        });
+      }, { threshold: 0.25 })
+    : null;
+
+  const restoreVideo = (v: HTMLVideoElement, autoplay: boolean) => {
+    detachedMedia.delete(v);
+    const st = mediaState.get(v);
+    if (st) {
+      if (st.directSrc) v.setAttribute('src', st.directSrc);
+      const kids = [...v.querySelectorAll('source')];
+      st.childSrcs.forEach((src, i) => { if (src && kids[i]) kids[i].setAttribute('src', src); });
+      v.preload = st.preload || 'metadata';
+    }
+    v.load(); // re-select from the restored sources
+    if (autoplay && st?.wasPlaying && !reduceMotion) {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+  };
+
+  const restoreBackgroundMedia = () => {
+    [...detachedMedia].forEach((v) => {
+      const r = v.getBoundingClientRect();
+      // Both axes: the marquee's duplicated half sits off-screen horizontally
+      // and must not refetch just because its row is vertically visible.
+      const inView = r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
+      if (inView || !resumeIO) restoreVideo(v, true);
+      else resumeIO.observe(v); // zero network until the card actually scrolls back
+    });
+  };
+
+  // ---- Featured desktop quality policy ----------------------------------
+  // Cards ship 480p30. Only with hard evidence of a fast connection
+  // (Network Information API reporting 4g, decent downlink, no Save-Data)
+  // do the featured cards upgrade to their 720p source — once, before the
+  // first play, so there is no mid-session reload. No API => stay 480p.
+  const conn = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string; downlink?: number } }).connection;
+  // Desktop pointer devices only — mobile policy is "always 480p".
+  const goodNet = hoverOK && !!conn && conn.saveData !== true && conn.effectiveType === '4g' && (conn.downlink ?? 0) >= 4;
+  const upgradeFeaturedSource = (vid: HTMLVideoElement) => {
+    if (!goodNet) return;
+    const full = vid.dataset.full;
+    if (!full) return;
+    const src = vid.querySelector('source');
+    if (src && src.getAttribute('src') !== full) {
+      src.setAttribute('src', full);
+      vid.load();
+    }
+  };
+
   const featured = [...document.querySelectorAll<HTMLElement>('.featured-grid [data-preview]')];
   const setSound = (card: HTMLElement, vid: HTMLVideoElement, on: boolean) => {
     vid.muted = !on;
@@ -393,21 +500,23 @@ const loop = [...carouselProjects, ...carouselProjects];
     vid.addEventListener('pause', () => card.removeAttribute('data-playing'));
 
     if (!reduceMotion && vid.paused) {
+      upgradeFeaturedSource(vid);
       vid.muted = true;
       vid.play().catch(() => {});
     }
 
     if (hoverOK) {
-      card.addEventListener('mouseenter', () => { if (!reduceMotion) playWithSound(card, vid); });
+      card.addEventListener('mouseenter', () => { if (!reduceMotion && !lbOpen()) playWithSound(card, vid); });
       card.addEventListener('mouseleave', () => setSound(card, vid, false));
-      card.addEventListener('focusin', () => { if (!reduceMotion) playWithSound(card, vid); });
+      card.addEventListener('focusin', () => { if (!reduceMotion && !lbOpen()) playWithSound(card, vid); });
       card.addEventListener('focusout', (event) => {
         if (!card.contains(event.relatedTarget as Node)) setSound(card, vid, false);
       });
     } else if ('IntersectionObserver' in window && !reduceMotion) {
-      // Never pause: the 3 featured clips loop forever. Leaving the viewport
+      // Never pause: the featured clips loop forever. Leaving the viewport
       // only mutes (no background audio); re-entering unmutes that card.
       new IntersectionObserver(([entry]) => {
+        if (lbOpen()) return; // never touch media behind the lightbox
         if (entry.isIntersecting) playWithSound(card, vid);
         else setSound(card, vid, false);
       }, { threshold: 0.5 }).observe(card);
@@ -432,12 +541,14 @@ const loop = [...carouselProjects, ...carouselProjects];
     vid.volume = 0.6;
 
     const play = () => {
+      if (lbOpen()) return; // never fetch behind the lightbox
       // Start on the same frame used by the poster so the card does not visibly jump.
       if (vid.currentTime < 0.05) vid.currentTime = 0.5;
       vid.muted = true;
       vid.play().then(() => card.setAttribute('data-playing', '')).catch(() => {});
     };
     const soundOn = () => {
+      if (lbOpen()) return;
       vid.muted = false;
       card.setAttribute('data-sound-on', '');
     };
@@ -493,8 +604,8 @@ const loop = [...carouselProjects, ...carouselProjects];
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
       const idle = !dragging && now >= resumeAt
-        && !rail.matches(':hover, :focus-within')
-        && document.visibilityState === 'visible';
+        && document.visibilityState === 'visible'
+        && !lbOpen(); // marquee rests while the lightbox is open
       if (idle) {
         offset -= SPEED * dt;
         if (offset <= -half) offset += half;
@@ -507,6 +618,10 @@ const loop = [...carouselProjects, ...carouselProjects];
     let startX = 0;
     let startOffset = 0;
     let moved = 0;
+    // NOTE: no setPointerCapture on the rail — with capture active the
+    // browser retargets the click event to the capture element, so card
+    // click listeners never fire (this was the "lightbox won't open on
+    // desktop rail" bug). Drag tracking uses window listeners instead.
     rail.addEventListener('pointerdown', (event) => {
       if ((event.target as HTMLElement).closest('button, input, a')) return;
       dragging = true;
@@ -515,9 +630,13 @@ const loop = [...carouselProjects, ...carouselProjects];
       startX = event.clientX;
       startOffset = offset;
       rail.classList.add('is-dragging');
-      rail.setPointerCapture?.(event.pointerId);
+      // Pin the track for the whole press: if the marquee kept drifting
+      // between mousedown and mouseup, the browser would see different
+      // targets and retarget the click to <html> — the card's click
+      // listener would never run (this was the desktop rail bug).
+      railTrack.style.transform = `translateX(${offset}px)`;
     });
-    rail.addEventListener('pointermove', (event) => {
+    const onDragMove = (event: PointerEvent) => {
       if (!dragging) return;
       const dx = event.clientX - startX;
       moved = Math.max(moved, Math.abs(dx));
@@ -525,7 +644,7 @@ const loop = [...carouselProjects, ...carouselProjects];
       offset = ((offset % half) + half) % half;
       if (offset > 0) offset -= half;
       railTrack.style.transform = `translateX(${offset}px)`;
-    });
+    };
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
@@ -533,20 +652,19 @@ const loop = [...carouselProjects, ...carouselProjects];
       resumeAt = performance.now() + 2500;
       rail.classList.remove('is-dragging');
     };
-    rail.addEventListener('pointerup', endDrag);
-    rail.addEventListener('pointercancel', endDrag);
+    window.addEventListener('pointermove', onDragMove);
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
   }
 
   // ---- Lightbox: expanded rail video with seek ----
-  const lb = document.querySelector<HTMLElement>('[data-lightbox]');
-  const lbVideo = lb?.querySelector<HTMLVideoElement>('[data-lightbox-video]');
   const lbPlay = lb?.querySelector<HTMLButtonElement>('[data-lightbox-play]');
   const lbSeek = lb?.querySelector<HTMLInputElement>('[data-lightbox-seek]');
   const lbTime = lb?.querySelector<HTMLElement>('[data-lightbox-time]');
   const lbSound = lb?.querySelector<HTMLButtonElement>('[data-lightbox-sound]');
   const lbTitle = lb?.querySelector<HTMLElement>('[data-lightbox-title]');
   const lbSub = lb?.querySelector<HTMLElement>('[data-lightbox-sub]');
-  let lbData: Array<{ id: string; title: Record<string, string>; meta: Record<string, string>; year: string; poster: string; aspect: string; preview?: string; previewMobile?: string }> = [];
+  let lbData: Array<{ id: string; title: Record<string, string>; meta: Record<string, string>; year: string; poster: string; aspect: string; preview?: string; preview480?: string; previewMobile?: string }> = [];
   try {
     lbData = JSON.parse(document.querySelector('[data-projects-json]')?.textContent || '[]');
   } catch { lbData = []; }
@@ -568,11 +686,10 @@ const loop = [...carouselProjects, ...carouselProjects];
   function openLightbox(id: string) {
     const p = lbData.find((x) => x.id === id);
     if (!p || !p.preview || !lb || !lbVideo) return;
-    featured.forEach((c) => {
-      const v = c.querySelector<HTMLVideoElement>('video');
-      if (v && !v.muted && lbVideo) setSound(c, v, false);
-    });
     lastFocus = document.activeElement as HTMLElement | null;
+    // Exclusive loading: every other video stops fetching right now.
+    unloadBackgroundMedia();
+    document.dispatchEvent(new CustomEvent('drafty:lightbox', { detail: { open: true } }));
     if (lbTitle) lbTitle.textContent = p.title[pageLang] || p.title.vi;
     if (lbSub) lbSub.textContent = `${p.meta[pageLang] || p.meta.vi} · ${p.year}`;
     lbVideo.poster = p.poster;
@@ -598,8 +715,14 @@ const loop = [...carouselProjects, ...carouselProjects];
       if (!lb.hidden && lbVideo.videoWidth > 0) applyAr(lbVideo.videoWidth / lbVideo.videoHeight);
     }, { once: true });
     document.body.style.overflow = 'hidden';
-    lbVideo.play().then(() => lb?.setAttribute('data-lb-playing', '')).catch(() => {});
     lb?.setAttribute('data-lb-sound', '');
+    lbVideo.play().then(() => lb?.setAttribute('data-lb-playing', '')).catch(() => {
+      // Safari may reject unmuted autoplay: one muted retry, play button stays
+      // visible if even that fails so the user can start it directly.
+      lbVideo.muted = true;
+      lb?.removeAttribute('data-lb-sound');
+      lbVideo.play().then(() => lb?.setAttribute('data-lb-playing', '')).catch(() => {});
+    });
     lb.querySelector<HTMLButtonElement>('.lightbox-close')?.focus();
   }
   function closeLightbox() {
@@ -611,6 +734,9 @@ const loop = [...carouselProjects, ...carouselProjects];
     lb.removeAttribute('data-lb-portrait');
     lb.removeAttribute('data-lb-playing');
     document.body.style.overflow = '';
+    // Background media comes back first, lazily and viewport-aware.
+    restoreBackgroundMedia();
+    document.dispatchEvent(new CustomEvent('drafty:lightbox', { detail: { open: false } }));
     lastFocus?.focus?.();
   }
 
@@ -640,9 +766,9 @@ const loop = [...carouselProjects, ...carouselProjects];
 
   // Safety net: if the tab was hidden/suspended, resume all featured loops
   // (muted) on return — they must never stay stopped by themselves.
-  // Lightbox playback is independent and left untouched.
+  // While the lightbox is open, background media stays unloaded by design.
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden || reduceMotion) return;
+    if (document.hidden || reduceMotion || lbOpen()) return;
     featured.forEach((card) => {
       const v = card.querySelector<HTMLVideoElement>('video');
       if (v && v.paused) {

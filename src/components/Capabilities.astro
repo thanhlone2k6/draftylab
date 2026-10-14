@@ -26,6 +26,8 @@ const items = t.capabilities.items;
 
 <style>
   .caps { background: linear-gradient(180deg, var(--color-ink), var(--color-ink-soft)); }
+  /* Pairs with #work's trimmed bottom padding: combined gap ~64-96px desktop. */
+  .caps { padding-top: clamp(1.25rem, 2.5vw, 2rem); }
   .sec-head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .sec-head h2 { margin-top: 0.8rem; }
 

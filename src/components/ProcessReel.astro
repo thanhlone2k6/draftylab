@@ -22,6 +22,8 @@ const t = content[lang];
           muted
           loop
           playsinline
+          webkit-playsinline
+          disablepictureinpicture
           preload="metadata"
           aria-label={t.process.caption}
         ></video>
@@ -93,8 +95,21 @@ const t = content[lang];
   const btn = root?.querySelector<HTMLButtonElement>('[data-process-play]');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  if (vid) {
+    vid.playsInline = true;
+    vid.setAttribute('playsinline', '');
+    vid.setAttribute('webkit-playsinline', '');
+    vid.disablePictureInPicture = true;
+  }
+
   if (vid && root && !reduce) {
-    const tryPlay = () => vid.play().then(() => root.setAttribute('data-playing', '')).catch(() => {});
+    // Work.astro unloads every non-lightbox video while the lightbox is open;
+    // don't refetch behind it.
+    let lbOpen = false;
+    document.addEventListener('drafty:lightbox', (e) => {
+      lbOpen = Boolean((e as CustomEvent<{ open: boolean }>).detail.open);
+    });
+    const tryPlay = () => { if (!lbOpen) vid.play().then(() => root.setAttribute('data-playing', '')).catch(() => {}); };
     const pause = () => { vid.pause(); root.removeAttribute('data-playing'); };
 
     if ('IntersectionObserver' in window) {
