@@ -1,11 +1,13 @@
 ---
 import { content, type Lang } from '../data/content';
 import { r2 } from '../data/media';
+import GlyphSonar from './GlyphSonar.jsx';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = content[lang];
 ---
 <section class="hero" id="top">
+  <GlyphSonar className="hero-sonar" interactive={false} client:media="(min-width: 768px)" />
   <div class="shell hero-grid">
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow reveal">{t.hero.eyebrow}</p>
@@ -53,8 +55,25 @@ const t = content[lang];
 </section>
 
 <style>
-  .hero { padding-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding-top: clamp(2.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+  :global(.hero-sonar) {
+    z-index: 0;
+    opacity: 0.44;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 86%, transparent 100%);
+  }
+  @media (max-width: 767px) {
+    :global(.hero-sonar) { display: none; }
+  }
   .hero-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.5rem;
