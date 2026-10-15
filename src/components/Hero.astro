@@ -7,6 +7,9 @@ const t = content[lang];
 ---
 <section class="hero" id="top">
   <div class="glyph-sonar hero-sonar" data-glyph-sonar aria-hidden="true"><canvas class="glyph-sonar__canvas"></canvas></div>
+  <div class="swarm-cursor hero-swarm" data-swarm>
+  <canvas class="swarm-cursor-canvas" aria-hidden="true"></canvas>
+  <div class="swarm-cursor-content">
   <div class="shell hero-grid">
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow reveal">{t.hero.eyebrow}</p>
@@ -51,6 +54,8 @@ const t = content[lang];
       </div>
     </div>
   </div>
+  </div>
+  </div>
 </section>
 
 <style>
@@ -69,6 +74,16 @@ const t = content[lang];
   }
   @media (max-width: 767px) {
     :global(.hero-sonar) { display: none; }
+  }
+  .hero-swarm {
+    z-index: 1;
+    height: auto;
+    overflow: visible;
+  }
+  .hero-swarm :global(.swarm-cursor-content) { height: auto; }
+  /* The swarm canvas is desktop-only; phones keep a plain wrapper. */
+  @media (max-width: 767px), (hover: none) {
+    .hero-swarm :global(.swarm-cursor-canvas) { display: none; }
   }
   .hero-grid {
     position: relative;
@@ -135,6 +150,30 @@ const t = content[lang];
     border: 1px solid var(--color-line);
   }
 </style>
+
+<script>
+  // Interactive particle swarm behind the hero copy: desktop pointer devices with WebGL2 only.
+  const swarm = document.querySelector<HTMLElement>('[data-swarm]');
+  if (
+    swarm &&
+    window.matchMedia('(min-width: 768px) and (hover: hover)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    import('../scripts/swarmCursor.js').then((m) =>
+      m.initSwarmCursor(swarm, {
+        count: 650,
+        size: 2.2,
+        spread: 100,
+        swirl: 0.6,
+        color: '#f5f2eb',
+        accentColor: '#e8b83d',
+        targets: 'a, button',
+        clickEffect: 'burst',
+        idle: 'roam',
+      })
+    );
+  }
+</script>
 
 <script>
   // Desktop-only decoration: nothing is downloaded on phones.
