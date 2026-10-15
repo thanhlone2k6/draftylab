@@ -22,6 +22,14 @@ const pageTitle = title ?? (lang === 'vi'
   ? 'Drafty Lab — Studio sản xuất sáng tạo AI'
   : 'Drafty Lab — AI Creative Production Studio');
 const pageDesc = description ?? t.hero.sub;
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Drafty Lab',
+  url: base,
+  logo: new URL('/media/logo.png', base).toString(),
+  description: pageDesc,
+});
 ---
 <!doctype html>
 <html lang={lang}>
@@ -47,14 +55,7 @@ const pageDesc = description ?? t.hero.sub;
     <meta property="og:locale:alternate" content={lang === 'vi' ? 'en_US' : 'vi_VN'} />
     <meta property="og:image:alt" content={pageTitle} />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Drafty Lab',
-      url: base,
-      logo: new URL('/media/logo.png', base).toString(),
-      description: pageDesc,
-    })} />
+    <Fragment set:html={`<script type="application/ld+json">${jsonLd}</script>`} />
     <meta name="theme-color" content="#10100E" />
   </head>
   <body data-site-loading>
