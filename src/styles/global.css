@@ -48,7 +48,7 @@
    ============================================================ */
 @font-face {
   font-family: "SVN-Gratelos Display";
-  src: url("/fonts/SVN-Gratelos-Display.otf") format("opentype");
+  src: url("/fonts/SVN-Gratelos-Display.woff2") format("woff2"), url("/fonts/SVN-Gratelos-Display.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -291,8 +291,9 @@ button {
   transition: transform var(--dur-slow) var(--ease-out-soft);
 }
 
-/* grain overlay — fixed, never on scroll containers */
+/* grain overlay — desktop pointer devices only (blend-mode overlay is GPU-heavy on mobile) */
 .grain {
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -300,6 +301,10 @@ button {
   opacity: 0.05;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 768px) and (hover: hover) {
+  .grain { display: block; }
 }
 
 /* reveal-on-scroll base (JS adds .is-in) */

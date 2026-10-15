@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import DevAgentation from '../components/DevAgentation';
 import { content, type Lang } from '../data/content';
+import { r2 } from '../data/media';
 
 interface Props {
   lang: Lang;
@@ -16,6 +17,7 @@ const base = Astro.site?.toString().replace(/\/$/, '') ?? 'https://draftylab.pag
 const path = Astro.url.pathname;
 const altPath = lang === 'vi' ? (path === '/' ? '/en/' : '/en' + path) : (path.replace(/^\/en/, '') || '/');
 
+const mediaOrigin = new URL(r2('x'), base).origin;
 const pageTitle = title ?? (lang === 'vi'
   ? 'Drafty Lab — Studio sản xuất sáng tạo AI'
   : 'Drafty Lab — AI Creative Production Studio');
@@ -27,6 +29,8 @@ const pageDesc = description ?? t.hero.sub;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/media/logo-mark.png" />
+    <link rel="preconnect" href={mediaOrigin} crossorigin />
+    <link rel="preload" href="/fonts/SVN-Gratelos-Display.woff2" as="font" type="font/woff2" crossorigin />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
     <link rel="canonical" href={new URL(path, base).toString()} />
@@ -37,7 +41,20 @@ const pageDesc = description ?? t.hero.sub;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:image" content={new URL('/media/hero/showreel-poster.jpg', base).toString()} />
+    <meta property="og:url" content={new URL(path, base).toString()} />
+    <meta property="og:site_name" content="Drafty Lab" />
+    <meta property="og:locale" content={lang === 'vi' ? 'vi_VN' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'vi' ? 'en_US' : 'vi_VN'} />
+    <meta property="og:image:alt" content={pageTitle} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Drafty Lab',
+      url: base,
+      logo: new URL('/media/logo.png', base).toString(),
+      description: pageDesc,
+    })} />
     <meta name="theme-color" content="#10100E" />
   </head>
   <body data-site-loading>
@@ -57,12 +74,22 @@ const pageDesc = description ?? t.hero.sub;
     <Footer lang={lang} />
     {import.meta.env.DEV && <DevAgentation client:only="react" />}
     <script>
-      // Give the first mobile video requests a short head start behind a branded loader.
+      // Branded loader: lifts as soon as the hero reel can play (or the page has loaded),
+      // never later than 1.5s so a slow video host cannot hold the page hostage.
+      let siteReady = false;
       const finishSiteLoad = () => {
+        if (siteReady) return;
+        siteReady = true;
         document.body.removeAttribute('data-site-loading');
         document.dispatchEvent(new CustomEvent('drafty:ready'));
       };
-      window.setTimeout(finishSiteLoad, 3000);
+      window.setTimeout(finishSiteLoad, 1500);
+      const heroVideo = document.querySelector<HTMLVideoElement>('.hero-video');
+      if (heroVideo && heroVideo.readyState < 3) {
+        heroVideo.addEventListener('canplay', () => window.setTimeout(finishSiteLoad, 150), { once: true });
+      } else {
+        window.addEventListener('load', finishSiteLoad, { once: true });
+      }
 
       // Reveal-on-scroll + nav behaviour + reduced-motion aware
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

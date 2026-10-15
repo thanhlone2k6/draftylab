@@ -26,7 +26,7 @@ const loop = [...carouselProjects, ...carouselProjects];
           <div class="media-frame work-frame" style={`aspect-ratio:${p.aspect}`}>
             <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" width="900" height="1200" />
             {p.preview && (
-              <video class="work-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" poster={p.poster} data-full={p.preview} data-small={p.preview480 || p.previewMobile || p.preview}>
+              <video class="work-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" poster={p.poster} data-full={p.preview} data-small={p.preview480 || p.previewMobile || p.preview}>
                 <source src={p.preview480 || p.previewMobile || p.preview} type="video/mp4" />
               </video>
             )}
@@ -56,7 +56,7 @@ const loop = [...carouselProjects, ...carouselProjects];
             <div class="media-frame rail-frame" style={`aspect-ratio:${p.aspect}`}>
               <img src={p.poster} alt={p.title[lang]} loading="lazy" decoding="async" />
               {p.preview && (
-                <video class="rail-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" poster={p.poster} data-small={p.preview480 || p.previewMobile || p.preview}>
+                <video class="rail-preview" muted loop playsinline webkit-playsinline disablepictureinpicture preload="none" poster={p.poster} data-small={p.preview480 || p.previewMobile || p.preview}>
                   <source src={p.preview480 || p.previewMobile || p.preview} type="video/mp4" />
                 </video>
               )}
@@ -386,6 +386,18 @@ const loop = [...carouselProjects, ...carouselProjects];
   // whose restore is still pending can never be re-saved as "empty".
   const mediaState = new WeakMap<HTMLVideoElement, MediaState>();
   const detachedMedia = new Set<HTMLVideoElement>();
+  // Card videos start fetching only once they approach the viewport.
+  // Tracked so a lightbox close can revive them without waiting for a new intersection.
+  const lazyPlay = new WeakSet<HTMLVideoElement>();
+  const autoplayWhenVisible = (vid: HTMLVideoElement, start: () => void) => {
+    if (reduceMotion) return;
+    if (!('IntersectionObserver' in window)) { start(); return; }
+    lazyPlay.add(vid);
+    new IntersectionObserver(([entry]) => {
+      if (lbOpen() || detachedMedia.has(vid)) return;
+      if (entry.isIntersecting) start(); else vid.pause();
+    }, { rootMargin: '200px 200px 200px 200px' }).observe(vid);
+  };
 
   const detachVideo = (v: HTMLVideoElement) => {
     [...v.querySelectorAll('source')].forEach((s) => s.removeAttribute('src'));
@@ -435,7 +447,7 @@ const loop = [...carouselProjects, ...carouselProjects];
       v.preload = st.preload || 'metadata';
     }
     v.load(); // re-select from the restored sources
-    if (autoplay && st?.wasPlaying && !reduceMotion) {
+    if (autoplay && (st?.wasPlaying || lazyPlay.has(v)) && !reduceMotion) {
       v.muted = true;
       v.play().catch(() => {});
     }
@@ -499,11 +511,15 @@ const loop = [...carouselProjects, ...carouselProjects];
     vid.addEventListener('play', () => card.setAttribute('data-playing', ''));
     vid.addEventListener('pause', () => card.removeAttribute('data-playing'));
 
-    if (!reduceMotion && vid.paused) {
-      upgradeFeaturedSource(vid);
-      vid.muted = true;
-      vid.play().catch(() => {});
-    }
+    let firstStart = true;
+    autoplayWhenVisible(vid, () => {
+      if (firstStart) {
+        firstStart = false;
+        upgradeFeaturedSource(vid);
+        vid.muted = true;
+      }
+      if (vid.paused) vid.play().catch(() => {});
+    });
 
     if (hoverOK) {
       card.addEventListener('mouseenter', () => { if (!reduceMotion && !lbOpen()) playWithSound(card, vid); });
@@ -557,10 +573,15 @@ const loop = [...carouselProjects, ...carouselProjects];
       card.removeAttribute('data-sound-on');
     };
 
-    if (!reduceMotion) play();
-    // On mobile, retry after the first-load cover is removed. This is a user-visible
-    // gesture-adjacent moment and avoids losing autoplay to an early network race.
-    document.addEventListener('drafty:ready', play, { once: true });
+    // Fetch + play only while the card is near the viewport (one clip per visible card).
+    autoplayWhenVisible(vid, play);
+    // Retry after the first-load cover is removed in case autoplay lost an early race.
+    document.addEventListener('drafty:ready', () => {
+      if (vid.paused && lazyPlay.has(vid)) {
+        const r = vid.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth) play();
+      }
+    }, { once: true });
 
     card.addEventListener('mouseenter', () => soundOn());
     card.addEventListener('mouseleave', () => soundOff());

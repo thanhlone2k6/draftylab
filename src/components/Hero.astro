@@ -1,13 +1,12 @@
 ---
 import { content, type Lang } from '../data/content';
 import { r2 } from '../data/media';
-import GlyphSonar from './GlyphSonar.jsx';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = content[lang];
 ---
 <section class="hero" id="top">
-  <GlyphSonar className="hero-sonar" interactive={false} client:media="(min-width: 768px)" />
+  <div class="glyph-sonar hero-sonar" data-glyph-sonar aria-hidden="true"><canvas class="glyph-sonar__canvas"></canvas></div>
   <div class="shell hero-grid">
     <div class="hero-copy">
       <p class="eyebrow hero-eyebrow reveal">{t.hero.eyebrow}</p>
@@ -136,6 +135,14 @@ const t = content[lang];
     border: 1px solid var(--color-line);
   }
 </style>
+
+<script>
+  // Desktop-only decoration: nothing is downloaded on phones.
+  const sonar = document.querySelector<HTMLElement>('[data-glyph-sonar]');
+  if (sonar && window.matchMedia('(min-width: 768px)').matches) {
+    import('../scripts/glyphSonar').then((m) => m.initGlyphSonar(sonar, { interactive: false }));
+  }
+</script>
 
 <script>
   // Keep the hero reel playing whenever it is on screen and motion is allowed.
