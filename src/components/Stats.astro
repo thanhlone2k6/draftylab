@@ -26,7 +26,7 @@ const stats = content[lang].about.stats;
 
 <style>
   .stats-strip {
-    padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+    padding: clamp(1.5rem, 3vw, 2.5rem) 0;
     background: color-mix(in srgb, var(--color-ink-soft) 45%, transparent);
     border-block: 1px solid var(--color-line);
   }
@@ -39,14 +39,14 @@ const stats = content[lang].about.stats;
     min-width: 0;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.6rem;
     padding-inline: clamp(0.75rem, 4vw, 4rem);
     text-align: center;
   }
   .stat + .stat { border-left: 1px solid var(--color-line); }
   .stat-k {
     font-family: var(--font-display);
-    font-size: clamp(4rem, 9vw, 8.5rem);
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
     line-height: 0.82;
     letter-spacing: -0.035em;
     color: var(--color-gold);
@@ -59,9 +59,9 @@ const stats = content[lang].about.stats;
     text-transform: uppercase;
   }
   @media (max-width: 640px) {
-    .stats-grid { grid-template-columns: 1fr; gap: 2.75rem; }
+    .stats-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .stat + .stat { border-left: 0; }
-    .stat-k { font-size: clamp(4.5rem, 24vw, 7rem); }
+    .stat-k { font-size: clamp(3rem, 16vw, 5rem); }
   }
 </style>
 
