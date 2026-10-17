@@ -1,0 +1,20 @@
+---
+import QuickCallButton from '../interactive/QuickCallButton';
+import { quickCall } from '../../data/content';
+---
+<section class="qcta" id="contact" aria-labelledby="qcta-title">
+  <div class="container-x qcta__inner">
+    <h2 id="qcta-title" class="section-title qcta__title">{quickCall.title}</h2>
+    <p class="section-lead qcta__lead">{quickCall.subtitle}</p>
+    <div class="qcta__action">
+      <QuickCallButton client:visible />
+    </div>
+  </div>
+</section>
+<style>
+  .qcta { padding-block: clamp(56px, 9vw, 120px); }
+  .qcta__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .qcta__title { font-size: clamp(2.4rem, 6vw, 4.4rem); }
+  .qcta__lead { font-size: clamp(1.02rem, 1.6vw, 1.25rem); max-width: 44ch; }
+  .qcta__action { margin-top: 30px; }
+</style>

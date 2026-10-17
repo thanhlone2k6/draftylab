@@ -1,0 +1,20 @@
+---
+import AnimatedContent from '../react-bits/AnimatedContent';
+import PartnerLoop from '../interactive/PartnerLoop';
+import { trusted } from '../../data/content';
+---
+<section class="tb" id={trusted.id} aria-labelledby="tb-title">
+  <div class="container-x">
+    <AnimatedContent client:load distance={16} duration={0.7} threshold={0.15} initialOpacity={0} blur={4}>
+      <p id="tb-title" class="tb__title">{trusted.title}</p>
+    </AnimatedContent>
+    <PartnerLoop client:visible={{ rootMargin: '200px' }} />
+  </div>
+</section>
+
+<style>
+  .tb { padding-block: clamp(24px, 3.4vw, 44px) clamp(10px, 1.8vw, 22px); }
+  .tb__title { margin: 0 auto 12px; max-width: 62ch; text-align: center; font-size: clamp(0.95rem, 1.5vw, 1.1rem); font-weight: 500; line-height: 1.45; letter-spacing: -0.005em; color: var(--c-fg-muted); }
+  /* pull the marquee up a little so the gap reads tighter without clipping the hover-magnified logos */
+  .tb :global(.logoloop) { margin-top: -16px; }
+</style>

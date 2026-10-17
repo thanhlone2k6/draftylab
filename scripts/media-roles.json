@@ -1,0 +1,21 @@
+{
+  "$comment": "Phase 2 media roles/labels, keyed by stable id. `expectFile` guards against id drift: scripts/build-media.test.mjs fails if a re-scan moves an id to a different source file. `crop` (pixels of the source) removes private/contact details from screenshots. Nothing here ships except title/alt/role.",
+  "behind-raw-final-v01": { "expectFile": "raw.MP4", "role": "raw", "title": "RAW", "alt": "Cảnh quay thô trước khi dựng" },
+  "behind-raw-final-v02": { "expectFile": "video final.mp4", "role": "final", "title": "FINAL", "alt": "Video hoàn thiện sau khi dựng" },
+  "behind-ai-workflow-i02": { "expectFile": "raw.png", "role": "before", "title": "BEFORE", "alt": "Ảnh gốc của ly đồ uống trước khi xử lý AI" },
+  "behind-ai-workflow-i01": { "expectFile": "final.png", "role": "after", "title": "AFTER", "alt": "Poster hoàn thiện sau khi xử lý AI" },
+  "case-studies-i01": { "expectFile": "f bản của bạn.png", "role": "case:leechloe", "title": "Lee Chloe Coffee", "alt": "Ảnh chụp trang Facebook của Lee Chloe Coffee" },
+  "case-studies-i02": { "expectFile": "Nội dung đoạn văn bản cgủa bạn.png", "role": "case:dinhhouse", "title": "DINH House", "alt": "Ảnh chụp trang Facebook của DINH House", "crop": { "left": 0, "top": 0, "width": 490, "height": 338 } },
+  "case-studies-i03": { "expectFile": "Nội dung đoạn văn bản của bạn.png", "role": "case:kazaki", "title": "Kazaki", "alt": "Ảnh chụp trang Instagram của Kazaki", "crop": { "left": 0, "top": 0, "width": 543, "height": 140 } },
+  "how-i-work-v01": { "expectFile": "0829(2).mp4", "title": "Video quy trình", "alt": "Cảnh làm việc với khách qua cuộc gọi video" },
+  "how-i-work-i01": { "expectFile": "DSC02507.JPG", "title": "Bàn làm việc 01", "alt": "Bữa ăn trưa bên bàn làm việc ngoài trời" },
+  "how-i-work-i02": { "expectFile": "IMG_4097.jpeg", "title": "Bàn làm việc 02", "alt": "Laptop và ly trà sữa ở quán cà phê" },
+  "how-i-work-i03": { "expectFile": "IMG_4350.jpeg", "title": "Bàn làm việc 03", "alt": "Làm việc trên laptop với tài liệu đang mở" },
+  "how-i-work-i04": { "expectFile": "IMG_4376.jpeg", "title": "Bàn làm việc 04", "alt": "Laptop dán sticker cạnh ly cà phê và bánh" },
+  "how-i-work-i05": { "expectFile": "IMG_4386.jpeg", "title": "Bàn làm việc 05", "alt": "Màn hình laptop đang soạn tài liệu ý tưởng" },
+  "how-i-work-i06": { "expectFile": "IMG_4409.jpeg", "title": "Bàn làm việc 06", "alt": "Cuộc gọi video với khách hàng trên màn hình laptop" },
+  "how-i-work-i07": { "expectFile": "IMG_4457.jpeg", "title": "Bàn làm việc 07", "alt": "Kiểm tra nội dung trên laptop tại quán cà phê" },
+  "how-i-work-i08": { "expectFile": "IMG_4496.jpeg", "title": "Bàn làm việc 08", "alt": "Tài liệu kế hoạch nội dung trên màn hình laptop" },
+  "how-i-work-i09": { "expectFile": "IMG_4502.jpeg", "title": "Bàn làm việc 09", "alt": "Thiết kế menu đang chỉnh sửa trong Photoshop" },
+  "how-i-work-i10": { "expectFile": "IMG_4531.jpeg", "title": "Bàn làm việc 10", "alt": "Phần mềm dựng video đang mở trên laptop" }
+}

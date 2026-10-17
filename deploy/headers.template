@@ -1,0 +1,21 @@
+# Cloudflare Pages response headers. `scripts/prepare-dist.mjs` fills the CSP placeholder below with the exact hashes of the inline
+# scripts in dist/ and writes the result to dist/_headers. CSP starts in REPORT-ONLY mode (see docs/deployment-checklist.md).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy-Report-Only: __CSP__
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/media/v2/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate

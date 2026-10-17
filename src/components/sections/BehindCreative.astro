@@ -1,0 +1,66 @@
+---
+import FadeContent from '../react-bits/FadeContent';
+import CompareSlider from '../interactive/CompareSlider';
+import VideoPosterCard from '../media/VideoPosterCard.astro';
+import { getMedia } from '../../lib/media';
+import { behind } from '../../data/content';
+
+const raw = getMedia('behind-raw-final-v01');
+const final = getMedia('behind-raw-final-v02');
+const before = getMedia('behind-ai-workflow-i02');
+const after = getMedia('behind-ai-workflow-i01');
+const hasRawFinal = !!(raw && final);
+const hasAi = !!(before && after);
+---
+{(hasRawFinal || hasAi) && (
+  <section class="bc" id={behind.id} aria-labelledby="bc-title">
+    <div class="container-x">
+      <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0}>
+        <p class="kicker">{behind.kicker}</p>
+        <h2 id="bc-title" class="section-title">{behind.title}</h2>
+      </FadeContent>
+
+      <div class="bc__stage">
+        {hasRawFinal && (
+          <FadeContent client:load blur={4} duration={0.6} threshold={0.12} initialOpacity={0} className="bc__group">
+            <h3 class="bc__h">{behind.rawFinal.title}</h3>
+            <div class="bc__pair">
+              <VideoPosterCard item={raw!} group="behind" mode="inline" aspect="9 / 16" title={behind.rawFinal.rawLabel} ariaLabel={`${behind.rawFinal.previewRaw}`} />
+              <VideoPosterCard item={final!} group="behind" mode="inline" aspect="9 / 16" title={behind.rawFinal.finalLabel} ariaLabel={`${behind.rawFinal.previewFinal}`} />
+            </div>
+          </FadeContent>
+        )}
+        {hasAi && (
+          <FadeContent client:load blur={4} duration={0.6} delay={0.1} threshold={0.12} initialOpacity={0} className="bc__group">
+            <h3 class="bc__h">{behind.ai.title}</h3>
+            <div class="bc__cmp">
+              <CompareSlider
+                client:visible
+                before={{ src: before!.fullImageSrc ?? before!.posterSrc, alt: before!.alt, label: 'BEFORE' }}
+                after={{ src: after!.fullImageSrc ?? after!.posterSrc, alt: after!.alt, label: 'AFTER' }}
+                width={after!.width}
+                height={after!.height}
+                ariaLabel={behind.ai.sliderLabel}
+              />
+            </div>
+          </FadeContent>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .bc { padding-block: var(--section-y); }
+  /* Everything is half the previous size, centred as one balanced composition with air around it. */
+  .bc__stage { --bh: clamp(250px, 27vw, 390px); margin-top: 28px; padding-inline: clamp(8px, 3vw, 40px); display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 48px clamp(40px, 7vw, 112px); }
+  .bc__stage :global(.bc__group) { display: flex; flex-direction: column; align-items: center; }
+  .bc__h { margin: 0 0 18px; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; text-align: center; }
+  .bc__pair { display: flex; align-items: flex-end; justify-content: center; gap: clamp(14px, 2vw, 24px); }
+  .bc__pair :global(.vcard) { width: auto; }
+  .bc__pair :global(.vcard__media) { height: var(--bh); width: auto; }
+  .bc__pair :global(.vcard__title) { text-align: center; }
+  .bc__cmp { display: flex; justify-content: center; }
+  .bc__cmp :global(.cmp) { width: auto; }
+  .bc__cmp :global(.cmp__frame) { height: var(--bh); width: auto; }
+</style>

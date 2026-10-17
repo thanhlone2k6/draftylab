@@ -1,0 +1,32 @@
+---
+import FadeContent from '../react-bits/FadeContent';
+import VideoPosterCard from '../media/VideoPosterCard.astro';
+import { sectionMedia } from '../../lib/media';
+import { gallery } from '../../data/content';
+const items = sectionMedia('gallery');
+---
+<section class="vg" id={gallery.id} aria-labelledby="vg-title">
+  <div class="container-x">
+    <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0}>
+      <p class="kicker">{gallery.kicker}</p>
+      <h2 id="vg-title" class="section-title">{gallery.title}</h2>
+      <p class="section-lead">{gallery.lead}</p>
+    </FadeContent>
+    <ul class="vg__grid">
+      {items.map((item, i) => (
+        <li>
+          <FadeContent client:load blur={4} duration={0.6} delay={0.08 * i} threshold={0.12} initialOpacity={0}>
+            <VideoPosterCard item={item} group="gallery" />
+          </FadeContent>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .vg { padding-block: var(--section-y); }
+  .vg__grid { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+  @media (max-width: 1023px) { .vg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 479px) { .vg__grid { gap: 12px; } }
+</style>

@@ -1,0 +1,13 @@
+# Copy to .dev.vars for `wrangler pages dev` (never commit .dev.vars). Production values go in the Cloudflare dashboard.
+RATE_SALT=change-me
+# Cloudflare's public Turnstile TEST secrets (always pass / always fail):
+# TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+# TURNSTILE_SECRET=2x0000000000000000000000000000000AA
+LEAD_NOTIFY=none
+# LEAD_NOTIFY=resend
+# RESEND_API_KEY=
+# LEAD_TO_EMAIL=
+# LEAD_FROM_EMAIL=
+# LEAD_NOTIFY=telegram
+# TELEGRAM_BOT_TOKEN=
+# TELEGRAM_CHAT_ID=

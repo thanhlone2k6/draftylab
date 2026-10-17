@@ -1,0 +1,282 @@
+---
+// Poster card with an in-place preview.
+//  • mode="lightbox" (gallery): hover/focus previews a short loop. On hover-capable devices a click opens the
+//    shared lightbox; on touch the card itself starts the preview in place and the small ⤢ button opens the lightbox.
+//  • mode="inline" (Raw/Final): preview only — no lightbox. Hover previews with a mouse; tap toggles on touch.
+//  • Touch: a second tap on a running preview opens the volume gauge (VolumeOverlay). Every preview takes its
+//    level from the session volume store (default 50%), so the level set in the gauge applies to the videos below
+//    (see docs/decisions-log.md, 17/10).
+// The card is static HTML (poster <img>); the <video> is created on first preview and its source is a short
+// clip (never the 720p lightbox file). No play button; the preview fades in over the poster.
+import { type MediaItem, isPlayable, fmtDuration, openAttrs } from '../../lib/media';
+import { gallery } from '../../data/content';
+interface Props { item: MediaItem; group: string; mode?: 'lightbox' | 'inline'; label?: string; ariaLabel?: string; /** override the media frame aspect (e.g. "9 / 16") */ aspect?: string; /** override the visible caption (defaults to item.title) */ title?: string }
+const { item, group, mode = 'lightbox', label, ariaLabel, aspect, title } = Astro.props;
+const playable = isPlayable(item);
+const inline = mode === 'inline';
+const attrs = inline ? {} : openAttrs(item, group);
+const preview = item.previewSrc ? { 'data-preview-src': item.previewSrc } : {};
+const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(item.durationSeconds)})`;
+---
+{playable || inline ? (
+  <div class="vcard-wrap">
+    <button type="button" class="vcard" {...attrs} {...preview} data-inline={inline ? '' : undefined} aria-pressed={inline ? 'false' : undefined}
+      aria-label={cardLabel}>
+      <span class="vcard__media" style={`aspect-ratio: ${aspect ?? `${item.width} / ${item.height}`}`}>
+        <img src={item.posterSrc} alt={item.alt} width={item.posterWidth} height={item.posterHeight} loading="lazy" decoding="async" />
+        {label && <span class="vcard__label" aria-hidden="true">{label}</span>}
+        <span class="vcard__dur" aria-hidden="true">{fmtDuration(item.durationSeconds)}</span>
+      </span>
+      <span class="vcard__title">{title ?? item.title}</span>
+    </button>
+    {!inline && (
+      <button type="button" class="vcard__expand" {...attrs} aria-label={`${gallery.expand}: ${item.title}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    )}
+  </div>
+) : (
+  <div class="vcard-wrap">
+    <div class="vcard vcard--pending" role="group" aria-label={`${item.title} — ${gallery.notReady}`}>
+      <span class="vcard__media">
+        <img src={item.posterSrc} alt={item.alt} width={item.posterWidth} height={item.posterHeight} loading="lazy" decoding="async" />
+        <span class="badge-pending vcard__pending">{gallery.notReady}</span>
+      </span>
+      <span class="vcard__title">{item.title}</span>
+    </div>
+  </div>
+)}
+
+<script>
+  // One shared controller for every [data-preview-src] card on the page.
+  //  • Hover devices: hover/focus previews; a mouse click on a gallery card opens the lightbox (unchanged).
+  //  • Touch / keyboard (Enter): the first tap starts the preview in place WITH sound; a second tap opens the
+  //    volume gauge over the video (VolumeOverlay); the ⤢ button (gallery cards) opens the lightbox.
+  //  • The level always comes from the session volume store, so the gauge level applies to the videos below.
+  const w = window as unknown as {
+    __dflPreview?: boolean;
+    __dflVolume?: { get(): number; subscribe(fn: (level: number) => void): () => void };
+  };
+  if (!w.__dflPreview) {
+    w.__dflPreview = true;
+    const mouse = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const level = () => w.__dflVolume?.get() ?? 0.5;
+    let active: HTMLElement | null = null;
+    // Whether the running preview is meant to be audible (hover on Raw/Final is silent by design).
+    let activeSound = false;
+    // The tap that closes the gauge also produces a click on the card underneath. Remember which card just
+    // closed so that click cannot immediately reopen it.
+    let lastClosed: HTMLElement | null = null;
+    let lastClosedAt = 0;
+
+    const previewVideo = (card: HTMLElement | null) => (card ? card.querySelector<HTMLVideoElement>('video.vcard__preview') : null);
+
+    const video = (card: HTMLElement): HTMLVideoElement => {
+      let v = previewVideo(card);
+      if (!v) {
+        v = document.createElement('video');
+        v.className = 'vcard__preview';
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.disablePictureInPicture = true;
+        v.preload = 'auto';
+        v.tabIndex = -1;
+        v.setAttribute('aria-hidden', 'true');
+        v.addEventListener('playing', () => card.setAttribute('data-previewing', ''));
+        card.querySelector('.vcard__media')?.appendChild(v);
+      }
+      return v;
+    };
+
+    // Close the gauge without telling the overlay (used when the overlay itself asked to close).
+    const closeVolume = (card: HTMLElement | null, silent?: boolean) => {
+      if (!card || !card.hasAttribute('data-volume-open')) return;
+      card.removeAttribute('data-volume-open');
+      previewVideo(card)?.classList.remove('is-volume');
+      if (!silent) window.dispatchEvent(new Event('dfl:volume-close'));
+    };
+
+    const stop = (card: HTMLElement | null) => {
+      if (!card) return;
+      closeVolume(card, true);
+      const v = previewVideo(card);
+      if (v) {
+        v.pause();
+        v.removeAttribute('src');
+        v.load(); // detach so the download and decoder really stop
+      }
+      card.removeAttribute('data-previewing');
+      if (card.hasAttribute('aria-pressed')) card.setAttribute('aria-pressed', 'false');
+      if (active === card) {
+        active = null;
+        activeSound = false;
+      }
+    };
+    // Browsers refuse unmuted autoplay until the visitor has interacted with the page. If that happens we keep
+    // the preview running muted and switch the sound on at the first gesture.
+    const armUnmute = (card: HTMLElement, v: HTMLVideoElement, vol: number) => {
+      const on = () => {
+        document.removeEventListener('pointerdown', on, true);
+        document.removeEventListener('keydown', on, true);
+        document.removeEventListener('touchstart', on, true);
+        if (active === card && v.getAttribute('src')) {
+          v.volume = vol;
+          v.muted = false;
+          v.play().catch(() => {});
+        }
+      };
+      document.addEventListener('pointerdown', on, true);
+      document.addEventListener('keydown', on, true);
+      document.addEventListener('touchstart', on, true);
+    };
+    // Starts the in-place preview. `sound` defaults to the card's own rule: gallery previews carry audio,
+    // Raw/Final stay silent on hover (they get sound when tapped on touch — a tap is a real gesture).
+    const start = (card: HTMLElement, sound?: boolean) => {
+      const src = card.dataset.previewSrc;
+      if (!src || active === card) return;
+      stop(active);
+      active = card;
+      const v = video(card);
+      const vol = level();
+      const wantSound = (sound ?? !card.hasAttribute('data-inline')) && vol > 0;
+      activeSound = wantSound;
+      v.src = src;
+      v.volume = vol;
+      v.muted = !wantSound;
+      v.play().catch(() => {
+        v.muted = true;
+        v.play().catch(() => {});
+        if (wantSound) armUnmute(card, v, vol);
+      });
+      if (card.hasAttribute('aria-pressed')) card.setAttribute('aria-pressed', 'true');
+    };
+    // Ask the overlay for the volume gauge over this card's media box. It mounts into the card wrapper
+    // (a sibling of the card <button>), so the gauge is never nested inside the button.
+    const openVolume = (card: HTMLElement) => {
+      const v = previewVideo(card);
+      const wrap = card.parentElement;
+      const media = card.querySelector('.vcard__media');
+      if (!v || !v.getAttribute('src') || !wrap || !media) return;
+      card.setAttribute('data-volume-open', '');
+      v.classList.add('is-volume');
+      window.dispatchEvent(new CustomEvent('dfl:volume', { detail: { wrap, media, video: v } }));
+    };
+    const cardOf = (t: EventTarget | null) => (t instanceof Element ? (t.closest('[data-preview-src]') as HTMLElement | null) : null);
+
+    // Mouse: hover previews (not under reduced motion).
+    document.addEventListener('pointerover', (e) => {
+      if (e.pointerType !== 'mouse' || !mouse.matches || reduced.matches) return;
+      const c = cardOf(e.target);
+      if (c) start(c);
+    });
+    document.addEventListener('pointerout', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const c = cardOf(e.target);
+      // While the gauge is open the pointer legitimately leaves the card (the gauge is its sibling) — keep playing.
+      if (c && !c.hasAttribute('data-volume-open') && !c.contains(e.relatedTarget as Node | null)) stop(c);
+    });
+    // Keyboard focus previews too (visible focus only).
+    document.addEventListener('focusin', (e) => {
+      const c = cardOf(e.target);
+      if (c && !reduced.matches && (e.target as HTMLElement).matches(':focus-visible')) start(c);
+    });
+    document.addEventListener('focusout', (e) => {
+      const c = cardOf(e.target);
+      // Focusing the gauge's controls also leaves the card: don't kill the preview it belongs to.
+      if (c && !c.hasAttribute('data-volume-open')) stop(c);
+    });
+
+    // Click: both PC and mobile preview in place. Lightbox is opened via the expand button (⤢) on the card.
+    document.addEventListener('click', (e) => {
+      const target = e.target instanceof Element ? e.target : null;
+      if (target?.closest('[data-volume-ui]')) return; // the gauge owns its own taps
+      const c = cardOf(target);
+      if (!c) {
+        // A lightbox trigger outside the card (the ⤢ button, a folder paper, …): end the in-place preview.
+        if (target?.closest('[data-dfl-open]')) stop(active);
+        return;
+      }
+      if (c === lastClosed && Date.now() - lastClosedAt < 400) return; // the tap/click that closed the gauge
+      if (c.hasAttribute('data-volume-open')) {
+        closeVolume(c);
+        return;
+      }
+      if (c.hasAttribute('data-previewing') || c.getAttribute('aria-pressed') === 'true') {
+        // Inline (Raw/Final) previews are silent by design — no volume gauge.
+        if (c.hasAttribute('data-inline')) return;
+        openVolume(c);
+        return;
+      }
+      start(c, true); // a click/tap starts preview in place with sound (session level)
+    }, true);
+
+    // The gauge closed itself (tap outside, Escape): clean up the card it belonged to.
+    window.addEventListener('dfl:volume-close', () => {
+      const open = document.querySelectorAll<HTMLElement>('[data-volume-open]');
+      if (open.length) {
+        lastClosed = open[0];
+        lastClosedAt = Date.now();
+      }
+      open.forEach((c) => closeVolume(c, true));
+    });
+    // A level picked in the gauge follows the video that is playing right now.
+    w.__dflVolume?.subscribe((vol) => {
+      if (!active) return;
+      const v = previewVideo(active);
+      if (v && v.getAttribute('src')) {
+        v.volume = vol;
+        v.muted = !(activeSound && vol > 0);
+      }
+    });
+
+    // Never keep playing off-screen or in a background tab.
+    document.addEventListener('visibilitychange', () => document.hidden && stop(active));
+    window.addEventListener('scroll', () => {
+      if (!active) return;
+      const r = active.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) stop(active);
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  .vcard-wrap { position: relative; display: block; }
+  .vcard { display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; color: var(--c-fg); }
+  .vcard--pending { cursor: default; }
+  .vcard__media { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: var(--radius); overflow: hidden; background: var(--c-bg-card); }
+  .vcard__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vcard__media :global(.vcard__preview) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 320ms var(--ease-out); pointer-events: none; background: #000; }
+  .vcard[data-previewing] .vcard__media :global(.vcard__preview) { opacity: 1; }
+  /* While the volume gauge is open the video behind it steps back (the gauge blurs it via backdrop-filter). */
+  .vcard__media :global(.vcard__preview.is-volume) { filter: brightness(0.8); }
+  @supports not (backdrop-filter: blur(4px)) {
+    .vcard__media :global(.vcard__preview.is-volume) { filter: blur(8px) brightness(0.8); }
+  }
+  .vcard__dur { position: absolute; right: 10px; bottom: 10px; padding: 3px 8px; border-radius: 999px; background: rgba(10, 10, 10, 0.7); font-size: 0.78rem; font-variant-numeric: tabular-nums; transition: opacity var(--dur); }
+  .vcard[data-previewing] .vcard__dur { opacity: 0; }
+  .vcard__pending { position: absolute; left: 10px; bottom: 10px; }
+  .vcard__label { position: absolute; left: 12px; top: 12px; z-index: 2; padding: 4px 10px; border-radius: 999px; background: rgba(250, 250, 250, 0.92); color: var(--c-bg); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; }
+  .vcard__title { font-weight: 600; font-size: 0.98rem; }
+
+  /* Expand button to open the lightbox while keeping in-place preview on card click */
+  .vcard__expand { position: absolute; top: 10px; right: 10px; z-index: 7; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(250, 250, 250, 0.24); background: rgba(10, 10, 10, 0.62); color: var(--c-fg); cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform 200ms var(--ease-out), background-color 200ms var(--ease-out), opacity 200ms var(--ease-out); }
+  /* Hover-capable devices: reveal the ⤢ button only when the card is hovered/focused (touch keeps it always visible). */
+  @media (hover: hover) {
+    .vcard__expand { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+    .vcard-wrap:hover .vcard__expand,
+    .vcard-wrap:focus-within .vcard__expand { opacity: 1; transform: none; pointer-events: auto; }
+  }
+  .vcard__expand:hover { background: rgba(10, 10, 10, 0.85); transform: scale(1.05); }
+  .vcard__expand svg { width: 18px; height: 18px; }
+  .vcard__expand:active { transform: scale(0.95); }
+  .vcard__expand:focus-visible { opacity: 1; transform: none; pointer-events: auto; }
+
+  .vcard:focus-visible { outline: none; }
+  .vcard:focus-visible .vcard__media { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+  .vcard__expand:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+  @media (hover: hover) { .vcard:not(.vcard--pending) .vcard__media { transition: transform 500ms var(--ease-out); } .vcard:not(.vcard--pending):hover .vcard__media { transform: scale(1.015); } }
+</style>

@@ -1,0 +1,26 @@
+# Drafty Lab V2 — Cloudflare Pages (LOCAL development config for `wrangler pages dev`).
+# Nothing here creates or touches any Cloudflare resource. The real project / bucket / database are created in
+# step 3B by the site owner (see docs/deployment-checklist.md); then the ids below are filled in.
+name = "draftylab-v2"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "draftylab-v2-leads"
+database_id = "820ba591-e81e-481c-a0d4-1ff785dc7610"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "draft2" # the V2 bucket created by the owner (never the V1 bucket draftylab-media)
+
+# Non-secret variables (deployed with the site; this file is the source of truth for Pages bindings and vars).
+# Secrets (TURNSTILE_SECRET, RATE_SALT, RESEND_API_KEY, TELEGRAM_BOT_TOKEN) are set with `wrangler pages secret put`.
+[vars]
+LEAD_ENABLED = "true"
+LEAD_NOTIFY = "resend"   # "resend" | "telegram" | "none" — leads are ALWAYS stored in D1 as well
+LEAD_TO_EMAIL = "thanhnguyenphotowork@gmail.com"
+# Resend's shared test sender needs no domain verification and can deliver to the Resend account owner's own address.
+LEAD_FROM_EMAIL = "Drafty Lab Leads <onboarding@resend.dev>"

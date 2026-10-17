@@ -1,14 +1,5 @@
 {
   "version": 1,
-  "description": "R2 Fallback: route video requests through Pages Function; serve static images directly.",
-  "include": ["/media/*"],
-  "exclude": [
-    "/media/*.jpg",
-    "/media/*.jpeg",
-    "/media/*.webp",
-    "/media/*.png",
-    "/media/*.gif",
-    "/media/*.svg",
-    "/media/*.ico"
-  ]
+  "include": ["/api/*", "/media/v2/*"],
+  "exclude": []
 }

@@ -1,0 +1,80 @@
+---
+import FadeContent from '../react-bits/FadeContent';
+import { getMedia, brands, brandMedia } from '../../lib/media';
+import { brandMeta } from '../../data/brands';
+import { cases } from '../../data/content';
+
+// Only cards whose screenshot really exists are shown. Follower counts are read from the supplied screenshots
+// and labelled as account size at capture time — never as a measured campaign result.
+const cards = cases.items
+  .map((c) => {
+    const media = getMedia(c.mediaId);
+    if (!media) return null;
+    const brand = brands.find((b) => b.id === c.id);
+    const items = brand ? brandMedia(brand) : [];
+    const images = items.filter((m) => m.type === 'image').length;
+    const videos = items.length - images;
+    const scope = [images ? `${images} bài đăng ảnh` : '', videos ? `${videos} video` : ''].filter(Boolean).join(' · ');
+    return { ...c, media, scope, link: brandMeta[c.id]?.platform?.url };
+  })
+  .filter(Boolean) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>>; scope: string; link?: string }>;
+---
+{cards.length > 0 && (
+  <section class="cs" id={cases.id} aria-labelledby="cs-title">
+    <div class="container-x">
+      <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0}>
+        <p class="kicker">{cases.kicker}</p>
+        <h2 id="cs-title" class="section-title">{cases.title}</h2>
+        <p class="section-lead">{cases.lead}</p>
+      </FadeContent>
+
+      <ul class="cs__grid">
+        {cards.map((c, i) => (
+          <li>
+            <FadeContent client:load blur={3} duration={0.6} delay={0.08 * i} threshold={0.12} initialOpacity={0} className="cs__fade">
+              <article class="cs__card">
+                <div class="cs__img">
+                  <img src={c.media.posterSrc} alt={c.media.alt} width={c.media.posterWidth} height={c.media.posterHeight} loading="lazy" decoding="async" />
+                </div>
+                <div class="cs__body">
+                  <h3 class="cs__name">{c.name}</h3>
+                  <dl class="cs__facts">
+                    <div><dt>{cases.scopeLabel}</dt><dd>{c.scope}</dd></div>
+                    <div>
+                      <dt>{cases.sizeLabel}</dt>
+                      <dd>{c.followers}</dd>
+                      <dd class="cs__src">{cases.sizeSource(c.platform)}</dd>
+                    </div>
+                  </dl>
+                  <p class="cs__caveat">{cases.sizeCaveat}</p>
+                  {c.link && <a class="cs__link" href={c.link} target="_blank" rel="noopener noreferrer">{`${cases.visit} ${c.platform}`} <span aria-hidden="true">↗</span></a>}
+                </div>
+              </article>
+            </FadeContent>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .cs { padding-block: var(--section-y); }
+  .cs__grid { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+  .cs__grid > li { display: flex; }
+  .cs__fade { display: flex; width: 100%; }
+  .cs__card { display: flex; flex-direction: column; width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--c-line); background: var(--c-bg-raised); overflow: hidden; }
+  .cs__img { height: 210px; background: #151515; border-bottom: 1px solid var(--c-line); padding: 12px; box-sizing: border-box; flex: none; }
+  .cs__img img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+  .cs__body { display: flex; flex-direction: column; gap: 14px; padding: 20px; flex: 1; }
+  .cs__name { margin: 0; font-size: 1.25rem; font-weight: 650; letter-spacing: -0.02em; }
+  .cs__facts { margin: 0; display: grid; gap: 12px; }
+  .cs__facts dt { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-fg-faint); }
+  .cs__facts dd { margin: 2px 0 0; font-size: 1rem; font-weight: 600; }
+  .cs__facts .cs__src { font-size: 0.78rem; font-weight: 400; color: var(--c-fg-muted); }
+  .cs__caveat { margin: 0; font-size: 0.78rem; line-height: 1.45; color: var(--c-fg-faint); }
+  .cs__link { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; color: var(--c-fg); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+  .cs__link:hover { text-decoration: underline; text-underline-offset: 5px; }
+  @media (max-width: 1023px) { .cs__grid { grid-template-columns: 1fr; } .cs__card { flex-direction: row; } .cs__img { width: 42%; height: auto; min-height: 200px; align-self: stretch; border-bottom: 0; border-right: 1px solid var(--c-line); } }
+  @media (max-width: 639px) { .cs__card { flex-direction: column; } .cs__img { width: auto; height: 180px; border-right: 0; border-bottom: 1px solid var(--c-line); } }
+</style>

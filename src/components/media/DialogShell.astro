@@ -1,0 +1,91 @@
+---
+// Static dialog shell shared by video, image and Quick Call. Behaviour: src/scripts/dialog-bootstrap.js.
+// React (MediaDialogHost) portals its UI into the slots below — it never creates a second dialog.
+import { dialog, quickCall, contact } from '../../data/content';
+---
+<div id="dfl-dialog" class="dlg" hidden data-quickcall-title={quickCall.title}>
+  <div class="dlg__backdrop" data-dfl-close></div>
+  <div class="dlg__panel" role="dialog" aria-modal="true" aria-labelledby="dfl-dialog-title" tabindex="-1">
+    <div class="dlg__bar">
+      <h2 id="dfl-dialog-title" class="dlg__title"></h2>
+      <div id="dfl-slot-counter" class="dlg__counter"></div>
+      <button class="dlg__close" type="button" data-dfl-close aria-label={dialog.close}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
+    </div>
+    <div class="dlg__stage">
+      <div class="dlg__frame">
+        <video id="dfl-video" class="dlg__video" playsinline webkit-playsinline disablepictureinpicture preload="metadata"></video>
+        <img id="dfl-image" class="dlg__image" alt="" decoding="async" />
+        <p class="dlg__pending" role="status">
+          <span class="badge-pending">Chưa sẵn sàng</span>
+          <span>Bản xem web của video này sẽ được xử lý sau khi duyệt prototype.</span>
+        </p>
+      </div>
+      <div id="dfl-slot-nav" class="dlg__nav"></div>
+    </div>
+    <div id="dfl-slot-controls" class="dlg__controls"></div>
+    <div id="dfl-slot-form" class="dlg__form">
+      <p class="dlg__loading" role="status">{dialog.loading}</p>
+    </div>
+    <div class="dlg__error" data-dfl-error hidden role="alert">
+      <p>{dialog.failed}</p>
+      <p class="dlg__error-contact">Liên hệ trực tiếp: <a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .dlg { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); --dlg-ar: 0.5625; }
+  .dlg[hidden] { display: none; }
+  .dlg__backdrop { position: absolute; inset: 0; background: rgba(5, 5, 8, 0.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: dlg-fade 180ms var(--ease-out); }
+  .dlg__panel { position: relative; display: flex; flex-direction: column; gap: 10px; max-height: 100%; outline: none; color: var(--c-fg); animation: dlg-in 220ms var(--ease-out); }
+  @keyframes dlg-fade { from { opacity: 0; } }
+  @keyframes dlg-in { from { opacity: 0; transform: translateY(8px) scale(0.985); } }
+
+  .dlg__bar { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+  .dlg__title { flex: 1; min-width: 0; margin: 0; font-size: 1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dlg__counter { font-size: 0.85rem; color: var(--c-fg-muted); font-variant-numeric: tabular-nums; }
+  .dlg__close { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--c-line-strong); background: rgba(23, 23, 29, 0.9); cursor: pointer; color: var(--c-fg); }
+  .dlg__close:hover { border-color: var(--c-fg); }
+  .dlg__close svg { width: 20px; height: 20px; }
+
+  /* Media variants (video / image): frame sized from the real aspect ratio, never cropped. */
+  .dlg__stage { position: relative; display: none; }
+  .dlg[data-variant='video'] .dlg__stage, .dlg[data-variant='image'] .dlg__stage { display: block; }
+  .dlg__frame { position: relative; background: #000; border-radius: var(--radius); overflow: hidden; aspect-ratio: var(--dlg-ar);
+    /* chrome ≈ bar + controls + gaps */
+    width: min(calc(100vw - 24px), calc((100dvh - 150px) * var(--dlg-ar)), 1100px); }
+  .dlg[data-variant='image'] .dlg__frame { width: min(calc(100vw - 24px), calc((100dvh - 120px) * var(--dlg-ar)), 1200px); background: transparent; }
+  .dlg__video, .dlg__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: none; }
+  .dlg[data-variant='video']:not([data-pending]) .dlg__video { display: block; }
+  .dlg[data-variant='image'] .dlg__image, .dlg[data-pending] .dlg__image { display: block; }
+  .dlg__pending { display: none; position: absolute; left: 12px; right: 12px; bottom: 12px; margin: 0; padding: 12px 14px; border-radius: 12px; background: rgba(10, 10, 10, 0.86); font-size: 0.9rem; line-height: 1.45; gap: 8px; flex-direction: column; align-items: flex-start; }
+  .dlg[data-pending] .dlg__pending { display: flex; }
+  .dlg[data-pending] .dlg__image { filter: brightness(0.6); }
+
+  .dlg__controls:empty, .dlg__nav:empty { display: none; }
+
+  /* Quick Call variant */
+  .dlg__form { display: none; }
+  .dlg[data-variant='quickcall'] .dlg__form { display: block; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 90px); overflow: auto; overscroll-behavior: contain; }
+  .dlg__loading { margin: 0; padding: 32px; text-align: center; color: var(--c-fg-muted); border-radius: var(--radius-lg); background: var(--c-bg-raised); opacity: 0; animation: dlg-fade 200ms 250ms forwards; }
+  /* Once React owns the shell, the loading placeholder disappears without a flash. */
+  .dlg[data-host] .dlg__loading { display: none; }
+
+  .dlg__error { width: min(520px, calc(100vw - 24px)); padding: 14px 16px; border-radius: 12px; background: var(--c-bg-raised); border: 1px solid var(--c-line-strong); font-size: 0.92rem; line-height: 1.5; }
+  .dlg__error p { margin: 0; }
+  .dlg__error a { color: var(--c-accent); }
+  .dlg[data-failed] .dlg__loading { display: none; }
+
+  @media (max-width: 640px) {
+    .dlg { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+    .dlg[data-variant='quickcall'] { place-items: stretch; padding: 0; }
+    .dlg[data-variant='quickcall'] .dlg__panel { width: 100vw; height: 100dvh; padding: 10px 12px max(12px, env(safe-area-inset-bottom)); background: var(--c-bg); box-sizing: border-box; }
+    .dlg[data-variant='quickcall'] .dlg__form { width: 100%; max-height: none; flex: 1; }
+    .dlg__frame { width: min(calc(100vw - 16px), calc((100dvh - 170px) * var(--dlg-ar))); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dlg__backdrop, .dlg__panel { animation: none; }
+  }
+</style>

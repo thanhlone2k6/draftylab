@@ -1,0 +1,46 @@
+---
+import FadeContent from '../react-bits/FadeContent';
+import ProcessFolder from '../interactive/ProcessFolder';
+import { getMedia } from '../../lib/media';
+import { howIWork as proc } from '../../data/content';
+
+const stages = proc.stages
+  .map((s, i) => ({ ...s, n: i + 1, count: s.mediaIds.map((id) => getMedia(id)).filter(Boolean).length }))
+  .filter((s) => s.count > 0);
+---
+{stages.length > 0 && (
+  <section class="hw" id={proc.id} aria-labelledby="hw-title">
+    <div class="container-x">
+      <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0}>
+        <p class="kicker">{proc.kicker}</p>
+        <h2 id="hw-title" class="section-title">{proc.title}</h2>
+      </FadeContent>
+
+      <ol class="hw__grid">
+        {stages.map((s, i) => (
+          <li class="hw__stage">
+            <FadeContent client:load blur={3} duration={0.6} delay={0.08 * i} threshold={0.1} initialOpacity={0} className="hw__fade">
+              <div class="hw__folder">
+                <ProcessFolder client:only="react" label={s.name} mediaIds={s.mediaIds} color={s.color} openLabel={proc.openLabel(s.name)} />
+              </div>
+              <h3 class="hw__name"><span class="hw__n">{`0${s.n}`}</span>{s.name}</h3>
+              <p class="hw__blurb">{s.blurb}</p>
+            </FadeContent>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+
+<style>
+  .hw { padding-block: var(--section-y); }
+  .hw__grid { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  .hw__fade { display: flex; flex-direction: column; align-items: flex-start; }
+  .hw__folder { width: 100%; min-height: 300px; display: grid; place-items: center; padding-top: 80px; box-sizing: border-box; }
+  .hw__name { margin: 18px 0 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; }
+  .hw__n { color: var(--c-fg-faint); font-weight: 500; font-variant-numeric: tabular-nums; margin-right: 6px; }
+  .hw__blurb { margin: 6px 0 0; color: var(--c-fg-muted); font-size: 0.92rem; line-height: 1.5; }
+  @media (max-width: 1023px) { .hw__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 48px; } }
+  @media (max-width: 559px) { .hw__grid { grid-template-columns: 1fr; } .hw__folder { min-height: 260px; } }
+</style>

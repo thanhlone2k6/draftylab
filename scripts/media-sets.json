@@ -1,0 +1,19 @@
+{
+  "$comment": "Video ids encoded per set. Phase 1 = 'prototype' (representative clips). 'all' encodes every phase-1 video and is run only after the prototype is approved.",
+  "prototype": [
+    "gallery-v01",
+    "gallery-v02",
+    "gallery-v03",
+    "gallery-v04",
+    "social-kazaki-v02",
+    "social-kazaki-v03",
+    "social-leechloe-v03",
+    "social-goodci-v02",
+    "social-winnie-v03"
+  ],
+  "phase2": [
+    "behind-raw-final-v01",
+    "behind-raw-final-v02",
+    "how-i-work-v01"
+  ]
+}

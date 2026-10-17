@@ -1,0 +1,165 @@
+/* React Bits — Depth Carousel CSS (fetched 2026-10-17). DFL2 changes marked below. */
+.depth-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: var(--dc-perspective, 1400px);
+  perspective-origin: 50% 50%;
+  touch-action: pan-y;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.depth-carousel:active {
+  cursor: grabbing;
+}
+
+.depth-carousel:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.depth-carousel__stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* DFL2: cards behind the front one sit at negative translateZ, i.e. behind this stage plane;
+     without this the stage swallows clicks meant for them. Cards set pointer-events per card. */
+  pointer-events: none;
+}
+
+.depth-carousel__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  overflow: hidden;
+  background: #0b0d12;
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.65),
+    0 8px 20px -10px rgba(0, 0, 0, 0.5);
+  will-change: transform, opacity, filter;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.depth-carousel__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* DFL2: portrait (9:16) slides show in full; the leftover area stays transparent, not the card's dark fill. */
+.depth-carousel__card[data-fit='contain'] {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Shrink the media box to the 9:16 content so the card's corner radius rounds the image itself. */
+.depth-carousel__card[data-fit='contain'] .depth-carousel__img {
+  width: auto;
+  height: 100%;
+  margin-inline: auto;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+.depth-carousel__tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.depth-carousel__arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3000;
+  width: 22%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.depth-carousel__arrow--prev {
+  left: 0;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+.depth-carousel__arrow--next {
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.depth-carousel__arrow svg {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85));
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.depth-carousel__arrow:hover svg {
+  transform: scale(1.12);
+}
+
+.depth-carousel__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(14, 16, 22, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.depth-carousel__dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.depth-carousel__dot.is-active {
+  width: 20px;
+  background: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-carousel__card {
+    will-change: auto;
+  }
+  .depth-carousel__arrow,
+  .depth-carousel__dot {
+    transition: none;
+  }
+}

@@ -1,0 +1,33 @@
+/* Drafty Lab V2 — design tokens. Change here to re-theme the whole site. */
+:root {
+  --c-bg: #0a0a0a;
+  --c-frame: #000000; /* frame around the viewport — slightly darker than the page */
+  --c-bg-raised: #111111;
+  --c-bg-card: #151515;
+  --c-fg: #fafafa;
+  --c-fg-muted: #a3a3a3;
+  --c-fg-faint: #737373;
+  --c-line: rgba(250, 250, 250, 0.1);
+  --c-line-strong: rgba(250, 250, 250, 0.22);
+  --c-accent: #c59c4a;
+  --c-accent-ink: #14110a;
+  --c-focus: #e9c77d;
+  --c-danger: #f08a7c;
+  --c-warn-bg: rgba(197, 156, 74, 0.14);
+
+  /* Geist (SIL OFL 1.1 — verified via @fontsource-variable/geist; includes the Vietnamese subset). System fallbacks follow. */
+  --font-sans: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+
+  --header-h: 88px; /* floating pill nav: used for scroll-margin and hero spacing */
+  --section-y: clamp(36px, 4.6vw, 64px); /* vertical rhythm between sections (no divider lines) */
+  --gutter: clamp(16px, 4vw, 40px);
+  --max-w: 1440px;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 200ms;
+}

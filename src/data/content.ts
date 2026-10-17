@@ -1,222 +1,216 @@
-// Central bilingual copy. Edit here — the whole site follows.
-export const content = {
-  vi: {
-    nav: {
-      work: 'Tác phẩm',
-      capabilities: 'Năng lực',
-      approach: 'Cách làm',
-      about: 'Về Drafty',
-      cta: 'Bắt đầu',
-      menu: 'Menu',
-      close: 'Đóng',
-    },
-    hero: {
-      eyebrow: 'AI & Creative Production Studio',
-      titleA: 'Ý tưởng táo bạo.',
-      titleB: 'Hình ảnh khó quên.',
-      sub: 'Studio sản xuất sáng tạo ứng dụng AI cho thương hiệu.',
-      ctaPrimary: 'Xem tác phẩm',
-      ctaSecondary: 'Bắt đầu dự án',
-      reelCaption: 'Showreel 2026',
-    },
-    work: {
-      eyebrow: 'Selected Work',
-      title: 'Tác phẩm chọn lọc',
-      sub: 'Một vài dự án gần đây trên nhiều định dạng và ngành hàng.',
-      viewLabel: 'Xem dự án',
-      featuredLabel: 'Nổi bật',
-      moreLabel: 'Nhiều dự án khác',
-      playHint: 'Nhấn để phát',
-      expandLabel: 'Xem kỹ',
-      seekLabel: 'Tua video',
-      tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
-    },
-    partners: {
-      title: 'Đối tác tin cậy của chủ doanh nghiệp, Content Creator và Brands',
-    },
-    capabilities: {
-      eyebrow: 'Capabilities',
-      title: 'Chúng tôi làm gì',
-      items: [
-        {
-          n: '01',
-          title: 'AI Creative & Hybrid Film',
-          desc: 'Từ ý tưởng đến khung hình không tưởng. Kết hợp quay thật với thế giới AI để tạo hình ảnh vượt giới hạn sản xuất.',
-        },
-        {
-          n: '02',
-          title: 'Video Editing & Post-production',
-          desc: 'Nhịp cắt, âm thanh, màu sắc. Dựng đúng nhịp thương hiệu, không chỉ đẹp mà còn hiệu quả.',
-        },
-        {
-          n: '03',
-          title: 'Social Production & Partnership',
-          desc: 'Sản xuất tinh gọn, đồng hành dài hạn. Từ nội dung social đến chiến dịch, giữ chất lượng ổn định.',
-        },
-      ],
-    },
-    process: {
-      eyebrow: 'From Brief to Poster',
-      title: 'Từ brief đến poster',
-      sub: 'Xem cách một yêu cầu ngắn gọn trên Zalo hóa thành ba phương án poster hoàn chỉnh — chỉ từ bốn tấm ảnh.',
-      caption: 'Case study · Motion ad',
-      play: 'Phát video quy trình',
-    },
-    approach: {
-      eyebrow: 'Our Approach',
-      title: 'Cách chúng tôi làm việc',
-      steps: [
-        { n: '01', title: 'Khám phá', desc: 'Hiểu mục tiêu, khán giả và thông điệp trước khi bấm máy.' },
-        { n: '02', title: 'Sáng tạo', desc: 'Concept, keyframe và định hướng hình ảnh được duyệt trước khi sản xuất.' },
-        { n: '03', title: 'Hoàn thiện', desc: 'Quay, dựng, AI và hậu kỳ — tất cả theo một nhịp thống nhất.' },
-        { n: '04', title: 'Bàn giao', desc: 'Đúng hạn, đúng định dạng, sẵn sàng lên kênh.' },
-      ],
-    },
-    about: {
-      eyebrow: 'About Drafty',
-      title: 'Studio nhỏ, dấu ấn lớn',
-      p1: 'Drafty Lab là studio sáng tạo của Thành Xuân, Hà Nội — hơn 3 năm kinh nghiệm trong lĩnh vực Design & Edit Video, hiện là Founder Drafty Lab chuyên ứng dụng AI để tối ưu sản xuất nội dung chất lượng cao.',
-      p2: 'Định vị: studio cá nhân chuyên hậu kỳ video kết hợp Thiết kế và AI, dành cho Creator, KOL và các thương hiệu cá nhân muốn xây dựng hình ảnh "Gọn – Mượt – Uy tín".',
-      p3: 'Triết lý: "From Draft to Direct" — biến bản nháp thô thành video hoàn chỉnh, đúng nhịp thương hiệu. Cam kết đúng deadline là danh dự.',
-      stats: [
-        { k: '+3', v: 'năm kinh nghiệm' },
-        { k: '70%', v: 'hậu kỳ video' },
-        { k: 'AI', v: 'trong quy trình' },
-      ],
-    },
-    contact: {
-      eyebrow: 'Contact',
-      title: 'Bắt đầu một điều táo bạo',
-      sub: 'Gửi vài dòng về dự án của bạn. Chúng tôi sẽ phản hồi trong vòng 24 giờ.',
-      name: 'Tên',
-      email: 'Email',
-      brand: 'Thương hiệu',
-      message: 'Bạn cần gì?',
-      submit: 'Gửi tin nhắn',
-      sending: 'Đang gửi…',
-      success: 'Đã gửi. Cảm ơn bạn!',
-      error: 'Có lỗi xảy ra. Vui lòng thử lại.',
-      orEmail: 'Hoặc gửi email trực tiếp',
-    },
-    footer: {
-      tagline: 'From Draft to Direct.',
-      rights: 'Bảo lưu mọi quyền.',
-      nav: 'Điều hướng',
-      social: 'Kết nối',
-      contact: 'Liên hệ',
-    },
-  },
-  en: {
-    nav: {
-      work: 'Work',
-      capabilities: 'Capabilities',
-      approach: 'Approach',
-      about: 'About',
-      cta: 'Start',
-      menu: 'Menu',
-      close: 'Close',
-    },
-    hero: {
-      eyebrow: 'AI & Creative Production Studio',
-      titleA: 'Bold ideas.',
-      titleB: 'Unforgettable visuals.',
-      sub: 'An AI-native creative production studio for brands.',
-      ctaPrimary: 'View work',
-      ctaSecondary: 'Start a project',
-      reelCaption: 'Showreel 2026',
-    },
-    work: {
-      eyebrow: 'Selected Work',
-      title: 'Selected Work',
-      sub: 'Recent projects across formats and industries.',
-      viewLabel: 'View project',
-      featuredLabel: 'Featured',
-      moreLabel: 'More work',
-      playHint: 'Tap to play',
-      expandLabel: 'View details',
-      seekLabel: 'Seek video',
-      tags: { commercial: 'Commercial', ai: 'AI Creative', fnb: 'F&B', film: 'Brand Film', personal: 'Personal' },
-    },
-    partners: {
-      title: 'Trusted by business owners, Content Creators and Brands',
-    },
-    capabilities: {
-      eyebrow: 'Capabilities',
-      title: 'What we do',
-      items: [
-        {
-          n: '01',
-          title: 'AI Creative & Hybrid Film',
-          desc: 'From concept to impossible frames. Real footage fused with AI worlds to create imagery beyond production limits.',
-        },
-        {
-          n: '02',
-          title: 'Video Editing & Post-production',
-          desc: 'Pacing, sound, color. Cut to the rhythm of the brand — not just pretty, but effective.',
-        },
-        {
-          n: '03',
-          title: 'Social Production & Partnership',
-          desc: 'Lean production, long-term partnership. From social content to campaigns, at a consistent quality.',
-        },
-      ],
-    },
-    process: {
-      eyebrow: 'From Brief to Poster',
-      title: 'From brief to poster',
-      sub: 'Watch a short message on Zalo become three finished poster options — from just four photos.',
-      caption: 'Case study · Motion ad',
-      play: 'Play the process video',
-    },
-    approach: {
-      eyebrow: 'Our Approach',
-      title: 'How we work',
-      steps: [
-        { n: '01', title: 'Discover', desc: 'Understand the goal, the audience and the message before rolling.' },
-        { n: '02', title: 'Create', desc: 'Concept, keyframe and visual direction approved before production.' },
-        { n: '03', title: 'Polish', desc: 'Shoot, edit, AI and post — all on one consistent rhythm.' },
-        { n: '04', title: 'Deliver', desc: 'On time, on format, ready to publish.' },
-      ],
-    },
-    about: {
-      eyebrow: 'About Drafty',
-      title: 'A small studio with a big mark',
-      p1: 'Drafty Lab is the creative studio of Thanh Xuan, Hanoi — 3+ years in Design & Video Editing, now Founder of Drafty Lab, focused on using AI to optimise high-quality content production.',
-      p2: 'Positioning: a personal studio specialising in video post-production combined with Design and AI, for Creators, KOLs and personal brands building a "Clean – Smooth – Trusted" image.',
-      p3: 'Philosophy: "From Draft to Direct" — turning a rough draft into a finished video, on the brand\'s rhythm. Meeting the deadline is a matter of honour.',
-      stats: [
-        { k: '+3', v: 'years of experience' },
-        { k: '70%', v: 'video post' },
-        { k: 'AI', v: 'in the workflow' },
-      ],
-    },
-    contact: {
-      eyebrow: 'Contact',
-      title: 'Start something bold',
-      sub: 'Send a few lines about your project. We reply within 24 hours.',
-      name: 'Name',
-      email: 'Email',
-      brand: 'Brand',
-      message: 'What do you need?',
-      submit: 'Send message',
-      sending: 'Sending…',
-      success: 'Sent. Thank you!',
-      error: 'Something went wrong. Please try again.',
-      orEmail: 'Or email us directly',
-    },
-    footer: {
-      tagline: 'From Draft to Direct.',
-      rights: 'All rights reserved.',
-      nav: 'Navigate',
-      social: 'Connect',
-      contact: 'Contact',
-    },
-  },
-} as const;
+// All visible copy lives here. Items marked DRAFT need user approval (see docs/audit-verification.md).
+// Contact/links marked temporaryFromV1 come from the V1 project's content.ts / partners.ts.
 
-export type Lang = keyof typeof content;
-export const CONTACT_EMAIL = 'thanhnguyenphotowork@gmail.com';
-export const SOCIAL = {
+import { BUDGETS, INDUSTRIES, NEEDS, TEAMS } from './lead-options';
+
+export const site = {
+  name: 'Drafty Lab',
+  title: 'Drafty Lab — Creative Production Studio',
+  description: 'Drafty Lab — video editing, social production và creative production cho thương hiệu.',
+  lang: 'vi',
+};
+
+export const nav = {
+  links: [
+    { label: 'Work', href: '#work' },
+    { label: 'Services', href: '#social' },
+    { label: 'Results', href: '#results' },
+    { label: 'About', href: '#about' },
+  ],
+  cta: "Let's Talk",
+  menuOpen: 'Mở menu',
+  menuClose: 'Đóng menu',
+};
+
+export const hero = {
+  eyebrow: 'Drafty Lab · Creative Production Studio',
+  // DRAFT headline from the spec — needs approval.
+  headline: ['Create more.', 'Worry less.'],
+  // DRAFT, paraphrased from the storyboard direction.
+  lead: 'Quay, kịch bản, đăng bài, đo lường, quảng cáo — làm thương hiệu có quá nhiều việc. Drafty Lab mang đến một quy trình sản xuất nội dung có hệ thống để bạn tập trung vào kinh doanh.',
+  primaryCta: 'Explore My Work',
+  secondaryCta: "Let's Talk",
+  portraitAlt: 'Thành Nguyễn — Founder & Creative Lead, Drafty Lab',
+};
+
+export const gallery = {
+  id: 'work',
+  kicker: '01 — Video Editing',
+  title: 'Video Editing / Content Production',
+  lead: 'Rê chuột hoặc bấm vào video để xem trước, bấm ⤢ để xem đầy đủ.',
+  play: 'Xem video',
+  expand: 'Xem đầy đủ',
+  notReady: 'Chưa sẵn sàng',
+};
+
+export const social = {
+  id: 'social',
+  kicker: '02 — Social Production',
+  title: 'Social Production',
+  railPrev: 'Thương hiệu trước',
+  railNext: 'Thương hiệu sau',
+  postPrev: (brand: string) => `Bài trước của ${brand}`,
+  postNext: (brand: string) => `Bài sau của ${brand}`,
+  mute: 'Rê chuột vào để nghe',
+};
+
+export const trusted = {
+  id: 'trusted',
+  kicker: 'Trusted by',
+  title: 'Đối tác tin cậy của chủ doanh nghiệp, Content Creator và Brands',
+};
+
+export const behind = {
+  id: 'behind',
+  kicker: '04 — Behind the Creative',
+  title: 'Behind the Creative',
+  rawFinal: {
+    title: 'Raw → Final',
+    rawLabel: 'Set quay',
+    finalLabel: 'Sản phẩm hoàn thiện',
+    previewRaw: 'Xem trước cảnh quay thô',
+    previewFinal: 'Xem trước video hoàn thiện',
+  },
+  ai: {
+    title: 'AI Workflow',
+    sliderLabel: 'So sánh ảnh gốc và poster hoàn thiện',
+  },
+};
+
+export const cases = {
+  id: 'results',
+  kicker: '05 — Case Studies + Results',
+  title: 'Case Studies + Results',
+  lead: 'Các thương hiệu đã sản xuất nội dung cùng Drafty Lab.',
+  scopeLabel: 'Đã sản xuất',
+  sizeLabel: 'Người theo dõi hiện tại',
+  sizeSource: (platform: string) => `Theo ảnh chụp trang ${platform}, 17/10/2026`,
+  sizeCaveat: 'Quy mô tài khoản tại thời điểm chụp, không phải kết quả đo lường của chiến dịch.',
+  visit: 'Mở trang',
+  items: [
+    { id: 'leechloe', name: 'Lee Chloe Coffee', platform: 'Facebook', mediaId: 'case-studies-i01', followers: '5,9K' },
+    { id: 'dinhhouse', name: 'DINH House', platform: 'Facebook', mediaId: 'case-studies-i02', followers: '12K' },
+    { id: 'kazaki', name: 'Kazaki', platform: 'Instagram', mediaId: 'case-studies-i03', followers: '10,3 N' },
+  ],
+};
+
+export const howIWork = {
+  id: 'process',
+  kicker: '06 — How I Work',
+  title: 'How I Work',
+  openLabel: (name: string) => `Mở thư mục ${name}`,
+  // DRAFT mapping of the 10 photos + 1 video to the 4 stages — NEEDS_USER_DECISION (docs/unmapped-assets.md).
+  stages: [
+    { id: 'discover', name: 'Discover', blurb: 'Lắng nghe yêu cầu, tìm hiểu sản phẩm và mục tiêu.', color: '#3c4250', mediaIds: ['how-i-work-v01', 'how-i-work-i06', 'how-i-work-i03'] },
+    { id: 'concept', name: 'Concept', blurb: 'Concept, moodboard, storyboard và phương án phù hợp ngân sách.', color: '#4a3f2e', mediaIds: ['how-i-work-i05', 'how-i-work-i08', 'how-i-work-i02'] },
+    { id: 'production', name: 'Production', blurb: 'Quay / chụp, dựng, và quy trình AI khi phù hợp.', color: '#35443d', mediaIds: ['how-i-work-i09', 'how-i-work-i10', 'how-i-work-i04'] },
+    { id: 'delivery', name: 'Delivery', blurb: 'Kiểm tra chất lượng, tối ưu định dạng và bàn giao.', color: '#463a44', mediaIds: ['how-i-work-i07', 'how-i-work-i01'] },
+  ],
+};
+
+export const about = {
+  id: 'about',
+  kicker: '07 — About the Founder',
+  title: 'About the Founder',
+  intro: 'Xin chào! Mình là Thành.',
+  body: [
+    'Mình là một <strong>Creative Designer và Video Editor</strong>, tập trung vào <strong>sáng tạo nội dung, thiết kế hình ảnh và trải nghiệm kỹ thuật số</strong>. Với Drafty Lab, mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ để biến những ý tưởng thành sản phẩm sáng tạo có dấu ấn riêng.',
+    'Mình tin rằng một sản phẩm tốt không chỉ cần đẹp mà còn phải <strong>truyền tải đúng thông điệp và tạo được sự kết nối</strong>. Từ video, chiến dịch truyền thông đến website, mình luôn tìm kiếm sự cân bằng giữa <strong>tính sáng tạo, trải nghiệm người dùng và hiệu quả thực tế</strong>.',
+    'Hiện tại, mình đang phát triển Drafty Lab, đồng hành cùng các thương hiệu và nhà sáng tạo trong lĩnh vực <strong>Video Production, Visual Design và Creative Web Development</strong>. Mình luôn thích khám phá những công nghệ mới, đặc biệt là <strong>AI và Interactive Design</strong>, để mở rộng giới hạn của những gì mình có thể tạo ra.',
+  ],
+  card: { name: 'Thành Nguyễn', role: 'Founder & Creative Lead', badge: 'Drafty Lab' },
+  tags: ['AI Creative', 'Video Editing', 'Hybrid Production'],
+};
+
+export const quickCall = {
+  title: 'Quick Call in 10 Min',
+  cta: 'Trao đổi thêm',
+  subtitle: 'Trả lời 4 câu nhanh — phần lớn chỉ cần bấm chọn.',
+  demoBanner: 'Form demo — chưa nhận lead thật',
+  back: 'Quay lại',
+  next: 'Tiếp tục',
+  submit: 'Gửi yêu cầu',
+  steps: {
+    industry: {
+      title: 'Lĩnh vực',
+      question: 'Bạn đang kinh doanh lĩnh vực nào?',
+      options: INDUSTRIES,
+    },
+    needs: {
+      title: 'Nhu cầu',
+      question: 'Bạn đang cần hỗ trợ gì nhất?',
+      hint: 'Chọn một hoặc nhiều',
+      options: NEEDS,
+    },
+    team: {
+      title: 'Hiện trạng',
+      question: 'Hiện bạn đang triển khai content như thế nào?',
+      options: TEAMS,
+    },
+    // Optional question shown under the team question (same step) — the step count stays 4.
+    budget: {
+      question: 'Ngân sách dự kiến của bạn?',
+      hint: 'Không bắt buộc',
+      options: BUDGETS,
+    },
+    contact: {
+      title: 'Liên hệ',
+      question: 'Làm sao để liên hệ với bạn?',
+      name: 'Tên của bạn',
+      method: 'Phương thức liên hệ',
+      methods: [
+        { id: 'phone', label: 'Zalo / Phone', placeholder: '09xx xxx xxx', error: 'Số điện thoại chưa hợp lệ (10–11 số).' },
+        { id: 'email', label: 'Email', placeholder: 'ban@congty.vn', error: 'Email chưa hợp lệ.' },
+        { id: 'instagram', label: 'Instagram', placeholder: '@tenthuonghieu', error: 'Tên Instagram chưa hợp lệ.' },
+      ],
+      note: 'Ghi chú (không bắt buộc)',
+      nameError: 'Vui lòng nhập tên.',
+      // DRAFT consent copy — NEEDS_USER_DECISION (docs/phase3-plan.md, question 7).
+      consent: 'Tôi đồng ý để Drafty Lab liên hệ lại với tôi qua thông tin trên.',
+      consentError: 'Vui lòng đồng ý để chúng tôi liên hệ lại.',
+      privacy: 'Thông tin chỉ dùng để liên hệ lại về yêu cầu này và được lưu tối đa 12 tháng.',
+    },
+  },
+  demoResult: 'Đây là bản demo: yêu cầu CHƯA được gửi đi và Drafty Lab chưa nhận được thông tin của bạn. Vui lòng liên hệ trực tiếp qua email bên dưới.',
+  errorResult: 'Không gửi được yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp.',
+  rateLimited: 'Bạn đã gửi khá nhiều yêu cầu. Vui lòng thử lại sau vài phút hoặc liên hệ trực tiếp.',
+  captchaFailed: 'Chưa xác minh được bạn là người thật. Vui lòng thử lại.',
+  invalidResult: 'Một số thông tin chưa hợp lệ. Vui lòng kiểm tra lại các ô đã nhập.',
+  disabledResult: 'Form tạm ngưng nhận yêu cầu. Vui lòng liên hệ trực tiếp.',
+  sending: 'Đang gửi…',
+  retry: 'Thử lại',
+  successTitle: 'Đã nhận yêu cầu liên hệ',
+  successBody: 'Drafty Lab sẽ liên hệ lại với bạn qua phương thức bạn đã chọn.',
+};
+
+export const contact = {
+  temporaryFromV1: true,
+  email: 'thanhnguyenphotowork@gmail.com',
   instagram: 'https://instagram.com/drafty.lab',
   facebook: 'https://fb.com/realthanhng',
+};
+
+export const footer = {
+  line: 'Drafty Lab — creative production studio.',
+  note: 'Prototype Phase 1 — nội dung đang chờ duyệt.',
+};
+
+export const dialog = {
+  close: 'Đóng',
+  loading: 'Đang mở…',
+  failed: 'Không tải được nội dung. Bạn có thể đóng cửa sổ này và thử lại.',
+  play: 'Phát',
+  pause: 'Tạm dừng',
+  mute: 'Tắt tiếng',
+  unmute: 'Bật tiếng',
+  seek: 'Tua video',
+  prev: 'Mục trước',
+  next: 'Mục sau',
+  mutedNotice: 'Trình duyệt đang phát không tiếng — bấm để bật tiếng',
+};
+
+// In-place volume gauge (touch). The SloshGauge readout shows the percentage; the caption names the control.
+export const volume = {
+  label: 'Âm lượng',
+  caption: 'Âm lượng',
 };

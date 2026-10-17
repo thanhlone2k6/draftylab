@@ -1,41 +1,18 @@
-# build output
-dist/
-.output/
-
-# dependencies
 node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment
-.env
-.env.production
-.env.local
-.env.staging
-.env.development
-.dev.vars
-.dev.vars.*
-
-# macOS
-.DS_Store
-
-# astro
+dist/
 .astro/
+media-src/
+public/media/v2/**/*.mp4
+test-results/
+playwright-report/
+.DS_Store
+.dev.vars
+.wrangler/
+dist-r2/
+dist-lead/
+dist-lead-r2/
 
-# local media working files (raw sources are never committed)
-public/media/_raw/
-
-# videos are hosted on Cloudflare R2 — never commit .mp4 (Pages 25MB/file limit)
-public/media/**/*.mp4
-
-# glide visual editor cache
-glide-components.json
-glide-positions.json
-
-# local editor backups
-*.bak
-
+# local tooling / scratch
+.playwright-mcp/
+/*.png
+/x

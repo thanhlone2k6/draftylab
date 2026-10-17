@@ -1,0 +1,5 @@
+/* React Bits — Gradual Blur styles (source: https://reactbits.dev/r/GradualBlur-JS-CSS.json, fetched 2026-10-17). */
+
+.gradual-blur {
+  pointer-events: none;
+}

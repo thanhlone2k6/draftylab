@@ -1,0 +1,32 @@
+---
+import SocialBrandRail from '../interactive/SocialBrandRail';
+import GradualBlur from '../react-bits/GradualBlur';
+import { social } from '../../data/content';
+---
+<section class="sp" id={social.id} aria-labelledby="sp-title">
+  <div class="container-x">
+    <p class="kicker">{social.kicker}</p>
+    <h2 id="sp-title" class="section-title">{social.title}</h2>
+    <SocialBrandRail client:visible={{ rootMargin: '400px' }} />
+    <GradualBlur
+      client:visible
+      position="bottom"
+      target="parent"
+      height="6rem"
+      strength={2}
+      layers={8}
+      curve="linear"
+      exponential
+      opacity={1}
+      saturation={1}
+      tint="rgba(18, 15, 23, 0.6)"
+      autoHide
+      style={{ bottom: '2.5rem' }}
+    />
+  </div>
+</section>
+
+<style>
+  .sp { padding-block: var(--section-y); }
+  .sp .container-x { position: relative; }
+</style>

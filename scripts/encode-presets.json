@@ -1,0 +1,6 @@
+{
+  "$comment": "Chosen from docs/encode-quality.md (2026-10-17). Adjust before `media:build -- --set=all`.",
+  "shortform": { "crf": 21, "maxrate": "3M", "bufsize": "6M", "preset": "slow", "audioBitrate": "128k" },
+  "landscape": { "crf": 21, "maxrate": "6M", "bufsize": "12M", "preset": "slow", "audioBitrate": "128k" },
+  "longform": { "crf": 23, "maxrate": "3500k", "bufsize": "7M", "preset": "slow", "audioBitrate": "128k" }
+}

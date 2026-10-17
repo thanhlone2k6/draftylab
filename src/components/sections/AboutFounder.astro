@@ -1,0 +1,37 @@
+---
+import FadeContent from '../react-bits/FadeContent';
+import FounderCard from '../interactive/FounderCard';
+import { about } from '../../data/content';
+---
+<section class="ab" id={about.id} aria-labelledby="ab-title">
+  <div class="container-x ab__inner">
+    <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0} className="ab__copy">
+      <p class="kicker">{about.kicker}</p>
+      <h2 id="ab-title" class="section-title">{about.title}</h2>
+      <p class="ab__intro">{about.intro}</p>
+      <div class="ab__body">
+        {about.body.map((p) => <p set:html={p} />)}
+      </div>
+      <ul class="ab__tags">
+        {about.tags.map((t) => <li>{t}</li>)}
+      </ul>
+    </FadeContent>
+    <div class="ab__card">
+      <FounderCard client:visible portrait="/media/founder/portrait-founder.webp" alt="Thành Nguyễn — Founder & Creative Lead, Drafty Lab" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ab { padding-block: var(--section-y); }
+  .ab__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .ab__intro { margin: 24px 0 0; font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.35; letter-spacing: -0.02em; font-weight: 500; max-width: 28ch; }
+  .ab__body { margin: 16px 0 0; color: var(--c-fg-muted); line-height: 1.62; max-width: 56ch; }
+  .ab__body p { margin: 0 0 12px; }
+  .ab__body p:last-child { margin-bottom: 0; }
+  .ab__body :global(strong) { color: var(--c-fg); font-weight: 600; }
+  .ab__tags { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ab__tags li { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--c-line-strong); font-size: 0.85rem; color: var(--c-fg); }
+  .ab__card { display: grid; place-items: center; min-height: 520px; }
+  @media (max-width: 899px) { .ab__inner { grid-template-columns: 1fr; } .ab__card { min-height: 0; } }
+</style>

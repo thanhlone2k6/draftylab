@@ -1,0 +1,13 @@
+/* Trusted-by marquee — partner logo treatments layered on top of LogoLoop.css.
+   Dimming/hover-brighten is handled by the loop's own `muted` prop, so only the per-kind look lives here. */
+
+/* Dark line-art logos → light on the dark theme (same treatment as the old static row). */
+.pl__img--logo {
+  filter: invert(1) brightness(1.15);
+}
+
+/* Square photo tiles. */
+.pl__img--photo {
+  border-radius: 12px;
+  object-fit: cover;
+}
