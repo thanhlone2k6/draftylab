@@ -192,7 +192,7 @@ export const contact = {
 
 export const footer = {
   line: 'Drafty Lab — creative production studio.',
-  note: 'Prototype Phase 1 — nội dung đang chờ duyệt.',
+  note: '',
 };
 
 export const dialog = {

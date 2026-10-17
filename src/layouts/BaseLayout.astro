@@ -18,7 +18,9 @@ import { site } from '../data/content';
     <title>{site.title}</title>
     <meta name="description" content={site.description} />
     <meta name="theme-color" content="#0a0a0a" />
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://draftylab.pages.dev/" />
+    <meta property="og:url" content="https://draftylab.pages.dev/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="vi_VN" />
     <meta property="og:site_name" content={site.name} />

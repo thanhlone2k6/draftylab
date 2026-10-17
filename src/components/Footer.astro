@@ -16,7 +16,7 @@ const year = new Date().getFullYear();
   </div>
   <div class="container-x ftr__base">
     <span>© {year} {site.name}</span>
-    <span>{footer.note}</span>
+    {footer.note && <span>{footer.note}</span>}
   </div>
 </footer>
 <style>
