@@ -1,7 +1,7 @@
 # Drafty Lab V2 — Cloudflare Pages (LOCAL development config for `wrangler pages dev`).
 # Nothing here creates or touches any Cloudflare resource. The real project / bucket / database are created in
 # step 3B by the site owner (see docs/deployment-checklist.md); then the ids below are filled in.
-name = "draftylab-v2"
+name = "draftylab"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
@@ -23,4 +23,22 @@ LEAD_ENABLED = "true"
 LEAD_NOTIFY = "resend"   # "resend" | "telegram" | "none" — leads are ALWAYS stored in D1 as well
 LEAD_TO_EMAIL = "thanhnguyenphotowork@gmail.com"
 # Resend's shared test sender needs no domain verification and can deliver to the Resend account owner's own address.
+LEAD_FROM_EMAIL = "Drafty Lab Leads <onboarding@resend.dev>"
+
+# Preview deployments (any non-production branch): same D1/R2, but no real email notifications.
+[env.preview]
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "draftylab-v2-leads"
+database_id = "820ba591-e81e-481c-a0d4-1ff785dc7610"
+migrations_dir = "migrations"
+
+[[env.preview.r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "draft2"
+
+[env.preview.vars]
+LEAD_ENABLED = "true"
+LEAD_NOTIFY = "none"
+LEAD_TO_EMAIL = "thanhnguyenphotowork@gmail.com"
 LEAD_FROM_EMAIL = "Drafty Lab Leads <onboarding@resend.dev>"

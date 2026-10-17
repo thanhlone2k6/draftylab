@@ -3,6 +3,8 @@ dist/
 .astro/
 media-src/
 public/media/v2/**/*.mp4
+# small hover-preview clips (<2 MB) ship with the site; full 720p videos live in R2
+!public/media/v2/**/*-preview.*.mp4
 test-results/
 playwright-report/
 .DS_Store
