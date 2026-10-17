@@ -28,3 +28,8 @@ No secrets in this file.
 1. Fastest (no git): Dashboard > draftylab > Deployments > `d9cbf25a...` > "Rollback to this deployment".
 2. Source: restore `main` from `backup-v1` (e.g. `git push origin backup-v1:main` with a reviewed fast-forward/revert commit, never deleting `backup-v1`), then Cloudflare redeploys.
 3. Restore Dashboard build settings to the values recorded above once filled in.
+
+## Cutover record (2026-10-18)
+- main fast-forwarded from 6b0e34f (V1) to the DFL2 branch; V1 stays at branch `backup-v1` and tag `v1-final-2026-10-17`.
+- Cloudflare build command is now `npm run build:cf` (was `npm run build`). A git-based rollback to V1 must ALSO either set the build command back to `npm run build`, or include `"build:cf": "astro build"` in package.json, otherwise the V1 build fails.
+- Fastest rollback stays: Dashboard > draftylab > Deployments > d9cbf25a-a557-44d3-9bfd-4c561ea3544b > Rollback.
