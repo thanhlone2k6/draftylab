@@ -1,32 +1,23 @@
 ---
-import SocialBrandRail from '../interactive/SocialBrandRail';
-import GradualBlur from '../react-bits/GradualBlur';
+// Social Production. 2026-10-18: the drifting brand rail was replaced by a React Bits CircularCarousel
+// in the panorama preset (see components/interactive/SocialCarousel.tsx) — every photo is one card and
+// the ring drifts forever. The old rail/folder components are parked, not deleted.
+import SocialCarousel from '../interactive/SocialCarousel';
 import { social } from '../../data/content';
 ---
 <section class="sp" id={social.id} aria-labelledby="sp-title">
   <div class="container-x">
     <p class="kicker">{social.kicker}</p>
     <h2 id="sp-title" class="section-title">{social.title}</h2>
-    <SocialBrandRail client:visible={{ rootMargin: '400px' }} />
-    <GradualBlur
-      client:visible
-      position="bottom"
-      target="parent"
-      height="6rem"
-      strength={2}
-      layers={8}
-      curve="linear"
-      exponential
-      opacity={1}
-      saturation={1}
-      tint="rgba(18, 15, 23, 0.6)"
-      autoHide
-      style={{ bottom: '2.5rem' }}
-    />
+    <div class="sp__ring">
+      <SocialCarousel client:visible={{ rootMargin: '400px' }} />
+    </div>
   </div>
 </section>
 
 <style>
   .sp { padding-block: var(--section-y); }
   .sp .container-x { position: relative; }
+  /* The ring needs a sized, positioned box: the carousel fills it and scales the cards to fit. */
+  .sp__ring { position: relative; height: clamp(380px, 56vh, 620px); margin-top: 28px; }
 </style>

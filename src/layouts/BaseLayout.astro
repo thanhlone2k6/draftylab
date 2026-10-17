@@ -27,6 +27,24 @@ import { site } from '../data/content';
     <meta property="og:title" content={site.title} />
     <meta property="og:description" content={site.description} />
     <link rel="icon" type="image/png" href="/media/v1-temp/logo-mark.png" />
+    <!-- Boot gate: hold the page for ~800ms on the first load of a session so the first-paint effects
+         (hero WebGL card, GlassSurface nav, the social ring's images) can initialise behind the scenes
+         instead of flickering in. Skipped on repeat visits in the same session, under reduced motion,
+         and on any error — the page must never stay hidden. Styles: `html[data-boot] body` below. -->
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        try {
+          if (sessionStorage.getItem('dfl-boot')) return;
+          sessionStorage.setItem('dfl-boot', '1');
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          root.setAttribute('data-boot', '');
+          window.setTimeout(() => root.removeAttribute('data-boot'), 800);
+        } catch {
+          root.removeAttribute('data-boot');
+        }
+      })();
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Bỏ qua tới nội dung</a>
@@ -43,6 +61,11 @@ import { site } from '../data/content';
   </body>
 </html>
 <style is:global>
+  /* Boot gate (see the inline script in <head>): the page is held, then fades in once the effects have
+     had their ~800ms head start. Without JS the attribute is never set, so the page simply shows. */
+  html[data-boot] body { opacity: 0; }
+  body { transition: opacity 420ms var(--ease-out, ease); }
+  @media (prefers-reduced-motion: reduce) { body { transition: none; } }
   /* Rounded window frame (style: React Bits Pro portfolio): a fixed 10px frame with rounded inner corners
      on all four sides. Implemented as one fixed element whose box-shadow paints the frame; it never takes
      pointer events and sits under dialogs (z 1000). Hidden on small screens where it would waste space. */

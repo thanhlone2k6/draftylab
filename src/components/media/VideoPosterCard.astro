@@ -27,7 +27,7 @@ const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(it
         {label && <span class="vcard__label" aria-hidden="true">{label}</span>}
         <span class="vcard__dur" aria-hidden="true">{fmtDuration(item.durationSeconds)}</span>
       </span>
-      <span class="vcard__title">{title ?? item.title}</span>
+      {(title ?? item.title) && <span class="vcard__title">{title ?? item.title}</span>}
     </button>
     {!inline && (
       <button type="button" class="vcard__expand" {...attrs} aria-label={`${gallery.expand}: ${item.title}`}>

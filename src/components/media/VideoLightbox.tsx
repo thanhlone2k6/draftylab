@@ -8,10 +8,14 @@ import type { DialogRequest } from '../../lib/dialog';
 import { fmtTime } from '../../lib/dialog';
 import { dialog as t } from '../../data/content';
 import { useDialogKeys, useGroupNav } from './useGroupNav';
+import LatticeLoader from '../react-bits/LatticeLoader';
 import { IconMuted, IconNext, IconPause, IconPlay, IconPrev, IconSound } from './icons';
 
 type Req = Extract<DialogRequest, { id: string }>;
-interface Slots { controls: HTMLElement | null; nav: HTMLElement | null; counter: HTMLElement | null }
+interface Slots { controls: HTMLElement | null; nav: HTMLElement | null; counter: HTMLElement | null; loading: HTMLElement | null }
+
+/** Wait this long before showing the spinner: a clip that is already buffered (or cached) must not flash it. */
+const LOADER_DELAY = 220;
 
 export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }) {
   const nav = useGroupNav(req);
@@ -21,6 +25,7 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
   const [muted, setMuted] = useState(false);
   const [mutedFallback, setMutedFallback] = useState(false);
   const [time, setTime] = useState({ cur: 0, dur: 0 });
+  const [loading, setLoading] = useState(false);
   const seeking = useRef(false);
 
   useEffect(() => {
@@ -49,6 +54,45 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
       mo.disconnect();
     };
   }, [req.id]);
+
+  // Buffering spinner. The shell assigns the video src synchronously inside the click, so React often
+  // mounts while the 720p file is still arriving. Show the lattice only when the clip really cannot
+  // play yet (or stalls mid-playback), never for a file that is already buffered.
+  useEffect(() => {
+    if (req.pending) return undefined;
+    const v = document.getElementById('dfl-video') as HTMLVideoElement | null;
+    if (!v) return undefined;
+    let timer = 0;
+    const clear = () => {
+      if (timer) {
+        window.clearTimeout(timer);
+        timer = 0;
+      }
+    };
+    const begin = () => {
+      if (timer || v.readyState >= 3) return;
+      timer = window.setTimeout(() => {
+        timer = 0;
+        setLoading(true);
+      }, LOADER_DELAY);
+    };
+    const end = () => {
+      clear();
+      setLoading(false);
+    };
+    if (v.readyState >= 3) end();
+    else begin();
+    const waiting = ['loadstart', 'waiting', 'stalled', 'seeking'];
+    const ready = ['playing', 'canplay', 'loadeddata', 'seeked', 'emptied', 'error'];
+    waiting.forEach((e) => v.addEventListener(e, begin));
+    ready.forEach((e) => v.addEventListener(e, end));
+    return () => {
+      clear();
+      setLoading(false);
+      waiting.forEach((e) => v.removeEventListener(e, begin));
+      ready.forEach((e) => v.removeEventListener(e, end));
+    };
+  }, [req.id, req.pending]);
 
   const togglePlay = useCallback(() => {
     const v = video.current;
@@ -144,6 +188,23 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
 
   return (
     <>
+      {slots.loading &&
+        loading &&
+        createPortal(
+          <LatticeLoader
+            status="working"
+            pattern="orbit"
+            grid={3}
+            shape="round"
+            cellSize={11}
+            gap={4}
+            idleOpacity={0.24}
+            showLabel={false}
+            showTimer={false}
+            label={t.buffering}
+          />,
+          slots.loading,
+        )}
       {slots.controls && controls && createPortal(controls, slots.controls)}
       {slots.nav && navUi && createPortal(navUi, slots.nav)}
       {slots.counter && nav.count > 1 && createPortal(<span aria-live="polite">{nav.index + 1} / {nav.count}</span>, slots.counter)}

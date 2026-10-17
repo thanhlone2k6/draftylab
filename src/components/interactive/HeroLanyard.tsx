@@ -8,6 +8,11 @@ const Lanyard = lazy(() => import('../react-bits/Lanyard'));
 export default function HeroLanyard({ portrait, alt }: { portrait: string; alt: string }) {
   const [use3d, setUse3d] = useState(false);
   const [ready, setReady] = useState(false);
+  // Phones get a shorter strap and a larger card: the hero must read as one frame there, and a long
+  // strap hanging from the header looks like a loose string. Desktop keeps the original smaller card
+  // (0.65 reads as too big on a full desktop hero), so only the canvas height changes there.
+  const [compact, setCompact] = useState(false);
+  const [desktop, setDesktop] = useState(false);
 
   useEffect(() => {
     const ok =
@@ -21,6 +26,22 @@ export default function HeroLanyard({ portrait, alt }: { portrait: string; alt: 
     }
   }, []);
 
+  useEffect(() => {
+    const phone = window.matchMedia('(max-width: 767px)');
+    const wide = window.matchMedia('(min-width: 1024px)');
+    const sync = () => {
+      setCompact(phone.matches);
+      setDesktop(wide.matches);
+    };
+    sync();
+    phone.addEventListener('change', sync);
+    wide.addEventListener('change', sync);
+    return () => {
+      phone.removeEventListener('change', sync);
+      wide.removeEventListener('change', sync);
+    };
+  }, []);
+
   return (
     <div className="hl" data-ready={ready ? '' : undefined} data-no-shock="">
       <figure className="hl__static" aria-hidden={use3d && ready ? true : undefined}>
@@ -29,7 +50,17 @@ export default function HeroLanyard({ portrait, alt }: { portrait: string; alt: 
       {use3d && (
         <div className="hl__3d" aria-hidden="true">
           <Suspense fallback={null}>
-            <Lanyard frontImage={portrait} imageFit="cover" cardColor="#0a0a0a" size={0.55} strapLength={0.4} strapColor="#141414" metal="graphite" finish="glossy" breeze={0.35} />
+            <Lanyard
+              frontImage={portrait}
+              imageFit="cover"
+              cardColor="#0a0a0a"
+              size={desktop ? 0.55 : 0.65}
+              strapLength={compact ? 0.3 : 0.4}
+              strapColor="#141414"
+              metal="graphite"
+              finish="glossy"
+              breeze={0.35}
+            />
           </Suspense>
         </div>
       )}

@@ -18,6 +18,7 @@ export default function MediaDialogHost() {
       controls: document.getElementById('dfl-slot-controls'),
       nav: document.getElementById('dfl-slot-nav'),
       counter: document.getElementById('dfl-slot-counter'),
+      loading: document.getElementById('dfl-slot-loading'),
       form: document.getElementById('dfl-slot-form'),
     };
   }, []);

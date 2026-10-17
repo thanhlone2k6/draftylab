@@ -23,7 +23,7 @@ export const nav = {
 };
 
 export const hero = {
-  eyebrow: 'Drafty Lab · Creative Production Studio',
+  eyebrow: 'Drafty Lab · Marketing Partner',
   // DRAFT headline from the spec — needs approval.
   headline: ['Create more.', 'Worry less.'],
   // DRAFT, paraphrased from the storyboard direction.
@@ -113,10 +113,10 @@ export const about = {
   kicker: '07 — About the Founder',
   title: 'About the Founder',
   intro: 'Xin chào! Mình là Thành.',
+  // 2026-10-18: the 2nd and 3rd paragraphs ("Mình tin rằng…", "Hiện tại, mình đang phát triển…")
+  // were removed at the owner's request — only the first paragraph stays.
   body: [
     'Mình là một <strong>Creative Designer và Video Editor</strong>, tập trung vào <strong>sáng tạo nội dung, thiết kế hình ảnh và trải nghiệm kỹ thuật số</strong>. Với Drafty Lab, mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ để biến những ý tưởng thành sản phẩm sáng tạo có dấu ấn riêng.',
-    'Mình tin rằng một sản phẩm tốt không chỉ cần đẹp mà còn phải <strong>truyền tải đúng thông điệp và tạo được sự kết nối</strong>. Từ video, chiến dịch truyền thông đến website, mình luôn tìm kiếm sự cân bằng giữa <strong>tính sáng tạo, trải nghiệm người dùng và hiệu quả thực tế</strong>.',
-    'Hiện tại, mình đang phát triển Drafty Lab, đồng hành cùng các thương hiệu và nhà sáng tạo trong lĩnh vực <strong>Video Production, Visual Design và Creative Web Development</strong>. Mình luôn thích khám phá những công nghệ mới, đặc biệt là <strong>AI và Interactive Design</strong>, để mở rộng giới hạn của những gì mình có thể tạo ra.',
   ],
   card: { name: 'Thành Nguyễn', role: 'Founder & Creative Lead', badge: 'Drafty Lab' },
   tags: ['AI Creative', 'Video Editing', 'Hybrid Production'],
@@ -198,6 +198,7 @@ export const footer = {
 export const dialog = {
   close: 'Đóng',
   loading: 'Đang mở…',
+  buffering: 'Đang tải video…',
   failed: 'Không tải được nội dung. Bạn có thể đóng cửa sổ này và thử lại.',
   play: 'Phát',
   pause: 'Tạm dừng',

@@ -33,5 +33,6 @@ import { about } from '../../data/content';
   .ab__tags { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
   .ab__tags li { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--c-line-strong); font-size: 0.85rem; color: var(--c-fg); }
   .ab__card { display: grid; place-items: center; min-height: 520px; }
-  @media (max-width: 899px) { .ab__inner { grid-template-columns: 1fr; } .ab__card { min-height: 0; } }
+  /* Phones: one column, and the greeting + story move into the Founder card instead of sitting here. */
+  @media (max-width: 899px) { .ab__inner { grid-template-columns: 1fr; } .ab__card { min-height: 0; } .ab__intro, .ab__body { display: none; } }
 </style>

@@ -9,7 +9,7 @@ Phase 1–2 assets are mapped through `scripts/media-roles.json` (labels/crops) 
 ## Content / assets not found in DFL2
 
 - TODO: ASSETS_WEBSITE — no Website & Landing Page assets in DFL2; the section is not rendered and has no nav link until at least one real item exists.
-- TODO: Founder portrait — no clean portrait in DFL2; using the user-supplied `portrait-founder.webp` (V1_TEMP slot).
+- TODO: Founder portrait — no clean portrait in DFL2; using V1_TEMP `portrait-founder.webp`.
 - TODO: Trusted By logos — none in DFL2; V1_TEMP partner logos in use.
 - TODO: CONTACT — using V1_TEMP contact (email/instagram/facebook) until confirmed.
 - TODO: Brand descriptions / official copy — not provided.

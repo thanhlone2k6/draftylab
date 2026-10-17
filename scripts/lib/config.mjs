@@ -37,7 +37,9 @@ export const SECTIONS = [
   { id: 'how-i-work', dir: 'Cách tôi sẽ làm việc', phase: 2 },
 ];
 
-export const EXPECTED_COUNTS = { socialVideos: 19, galleryVideos: 4 };
+// 2026-10-18: the 19 Social Production videos were moved to `Social Production/video riêng`
+// (outside the scanned brand folders) at the owner's request, so the section is images-only now.
+export const EXPECTED_COUNTS = { socialVideos: 0, galleryVideos: 4 };
 
 export const IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp']);
 export const VIDEO_EXT = new Set(['.mp4', '.mov', '.m4v']);

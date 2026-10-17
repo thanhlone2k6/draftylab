@@ -49,6 +49,14 @@
 @media (prefers-reduced-motion: reduce) { .vol { animation: none; } }
 
 /* ---------- Social Production rail ---------- */
+/* ---------- Header (React Bits PillNav) ---------- */
+/* Fixed, centred shell. React renders the nav, so this lives here (global) rather than scoped in
+   Header.astro. PillNav measures its parent to decide when to fold the links into the menu button,
+   so this wrapper must be full width — not shrink-to-fit. */
+.hnav { position: fixed; z-index: 100; top: 24px; left: 0; right: 0; display: flex; justify-content: center; padding-inline: 24px; pointer-events: none; }
+.hnav > * { pointer-events: auto; }
+@media (max-width: 899px) { .hnav { top: 16px; padding-inline: 16px; } }
+
 .srail { margin-top: 28px; --rail-gap: 40px; }
 /* Arrows live in the section's title row (top-right) — no extra row of controls. */
 .srail__bar { position: absolute; top: 0; right: var(--gutter); display: flex; gap: 8px; }
@@ -75,10 +83,24 @@
 .sb__name { margin: 16px 0 0; text-align: center; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
 .sb__stage { position: relative; height: 560px; }
 .sb__carousel { height: 100%; min-height: 0; }
+/* Tilted card (React Bits): the card size lives in CSS vars so one component serves every breakpoint.
+   It is a little smaller than the stage so the 1.2× hover scale never hits the rail's overflow clip. */
+/* The rail scrolls horizontally on touch, so horizontal pans must pass through the card (the
+   TiltedCard ships `touch-action: pan-y`, which would otherwise trap them). */
+/* (specificity 0,2,0 so it beats the component's own `.tilted-card { touch-action: pan-y }`) */
+.sb .sb__tilt { --sb-card-w: 360px; --sb-card-h: 450px; touch-action: pan-x pan-y pinch-zoom; }
 .sb__placeholder { height: 100%; display: grid; place-items: center; }
-.sb__placeholder img { width: 380px; height: 475px; object-fit: cover; border-radius: 18px; }
-@media (max-width: 1199px) { .sb__stage { height: 500px; } .sb__placeholder img { width: 340px; height: 425px; } }
-@media (max-width: 767px) { .sb__stage { height: 410px; } .sb__placeholder img { width: 260px; height: 325px; } }
+.sb__placeholder img { width: 360px; height: 450px; object-fit: cover; border-radius: 18px; }
+@media (max-width: 1199px) {
+  .sb__stage { height: 500px; }
+  .sb__tilt { --sb-card-w: 330px; --sb-card-h: 412px; }
+  .sb__placeholder img { width: 330px; height: 412px; }
+}
+@media (max-width: 767px) {
+  .sb__stage { height: 410px; }
+  .sb__tilt { --sb-card-w: 250px; --sb-card-h: 312px; }
+  .sb__placeholder img { width: 250px; height: 312px; }
+}
 
 /* Arrows inside a carousel: bare icons with a wide hit zone; only visible while the group is hovered/focused (desktop); swipe on touch. */
 .sb .depth-carousel__arrow { opacity: 0; transition: opacity var(--dur); }
@@ -150,11 +172,28 @@
 /* ---------- Founder card (About) ---------- */
 .fc { display: grid; place-items: center; }
 .fc__face { display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 14px; gap: 14px; }
+.fc__head { display: flex; flex-direction: column; gap: 14px; }
 .fc__face img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: var(--c-bg); border-radius: 18px; display: block; }
 .fc__id { display: flex; flex-direction: column; gap: 4px; padding: 2px 6px 6px; }
 .fc__badge { align-self: flex-start; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(250, 250, 250, 0.25); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .fc__name { margin: 8px 0 0; font-size: 1.4rem; font-weight: 650; letter-spacing: -0.02em; }
 .fc__role { margin: 0; font-size: 0.95rem; color: var(--c-fg-muted); }
+/* ABOUT copy lives in the copy column on desktop; on phones the greeting and the story move into
+   the card instead (the copy column is stacked right above it there). */
+.fc__intro { display: none; margin: 10px 0 0; font-size: 0.95rem; line-height: 1.45; color: var(--c-fg-muted); }
+.fc__body { display: none; }
+@media (max-width: 899px) {
+  /* Landscape profile: big photo on the left (44%, 2:3), the ID text beside it; the story keeps the
+     full card width below, because 900+ characters in a ~160px column would be a very tall strip. */
+  .fc__head { flex-direction: row; align-items: flex-start; }
+  .fc__head img { width: 44%; flex: none; aspect-ratio: 2 / 3; }
+  .fc__id { flex: 1 1 auto; min-width: 0; }
+  .fc__intro { display: block; }
+  .fc__body { display: block; }
+  .fc__body p { margin: 0 0 10px; font-size: 0.9rem; line-height: 1.55; color: var(--c-fg-muted); }
+  .fc__body p:last-child { margin-bottom: 0; }
+  .fc__body strong { color: var(--c-fg); font-weight: 600; }
+}
 .fc--static { width: min(100%, 360px); border-radius: 28px; background: #17171a; border: 1px solid var(--c-line-strong); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); }
 .fc--rc { min-height: 500px; }
 .qc-consent { display: flex; flex-direction: column; gap: 6px; }

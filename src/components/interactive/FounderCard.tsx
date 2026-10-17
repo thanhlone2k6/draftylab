@@ -15,11 +15,21 @@ interface Props {
 function CardFace({ portrait, alt }: { portrait: string; alt: string }) {
   return (
     <div className="fc__face">
-      <img src={portrait} alt={alt} width={688} height={960} decoding="async" loading="lazy" />
-      <div className="fc__id">
-        <span className="fc__badge">{about.card.badge}</span>
-        <p className="fc__name">{about.card.name}</p>
-        <p className="fc__role">{about.card.role}</p>
+      {/* .fc__head is a column on desktop and a row on phones (portrait photo beside the ID), so the
+          mobile card reads as a landscape badge instead of a very tall portrait one. */}
+      <div className="fc__head">
+        <img src={portrait} alt={alt} width={688} height={960} decoding="async" loading="lazy" />
+        <div className="fc__id">
+          <span className="fc__badge">{about.card.badge}</span>
+          <p className="fc__name">{about.card.name}</p>
+          <p className="fc__role">{about.card.role}</p>
+          {/* On phones the copy column is stacked under this card, so the greeting and the story move
+              in here (see .fc__intro / .fc__body in components.css); on desktop they stay in the copy. */}
+          <p className="fc__intro">{about.intro}</p>
+        </div>
+      </div>
+      <div className="fc__body">
+        {about.body.map((p) => <p key={p} dangerouslySetInnerHTML={{ __html: p }} />)}
       </div>
     </div>
   );

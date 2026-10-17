@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T08:02:21.993Z",
+  "generatedAt": "2026-10-17T20:56:28.013Z",
   "items": [
     {
       "id": "gallery-v01",
@@ -234,24 +234,6 @@
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i01-full.1b7437f3.webp"
     },
     {
-      "id": "social-leechloe-v01",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "leechloe",
-      "title": "Lee Chloe · Video 01",
-      "alt": "Ảnh đại diện video 01 của Lee Chloe",
-      "posterSrc": "/media/v2/social/leechloe/social-leechloe-v01-poster.eeba0672.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 2,
-      "durationSeconds": 29.6,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/leechloe/social-leechloe-v01-720.567d6bd1.mp4"
-    },
-    {
       "id": "social-leechloe-i02",
       "type": "image",
       "sectionId": "social",
@@ -264,26 +246,8 @@
       "width": 1086,
       "height": 1448,
       "aspectRatio": 0.75,
-      "sortOrder": 3,
+      "sortOrder": 2,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i02-full.36e7665c.webp"
-    },
-    {
-      "id": "social-leechloe-v02",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "leechloe",
-      "title": "Lee Chloe · Video 02",
-      "alt": "Ảnh đại diện video 02 của Lee Chloe",
-      "posterSrc": "/media/v2/social/leechloe/social-leechloe-v02-poster.d70fcb14.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 4,
-      "durationSeconds": 21.57,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/leechloe/social-leechloe-v02-720.2c56b0ac.mp4"
     },
     {
       "id": "social-leechloe-i03",
@@ -298,26 +262,8 @@
       "width": 1680,
       "height": 2240,
       "aspectRatio": 0.75,
-      "sortOrder": 5,
+      "sortOrder": 3,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i03-full.26152ea1.webp"
-    },
-    {
-      "id": "social-leechloe-v03",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "leechloe",
-      "title": "Lee Chloe · Video 03",
-      "alt": "Ảnh đại diện video 03 của Lee Chloe",
-      "posterSrc": "/media/v2/social/leechloe/social-leechloe-v03-poster.758f5080.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 720,
-      "height": 1280,
-      "aspectRatio": 0.5625,
-      "sortOrder": 6,
-      "durationSeconds": 53.57,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/leechloe/social-leechloe-v03-720.b2cc96f0.mp4"
     },
     {
       "id": "social-leechloe-i04",
@@ -332,7 +278,7 @@
       "width": 1080,
       "height": 1456,
       "aspectRatio": 0.7418,
-      "sortOrder": 7,
+      "sortOrder": 4,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i04-full.b3818491.webp"
     },
     {
@@ -348,7 +294,7 @@
       "width": 1024,
       "height": 1536,
       "aspectRatio": 0.6667,
-      "sortOrder": 8,
+      "sortOrder": 5,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i05-full.05b091f2.webp"
     },
     {
@@ -364,7 +310,7 @@
       "width": 1024,
       "height": 1536,
       "aspectRatio": 0.6667,
-      "sortOrder": 9,
+      "sortOrder": 6,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i06-full.390c44a4.webp"
     },
     {
@@ -380,7 +326,7 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 10,
+      "sortOrder": 7,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i07-full.5383be01.webp"
     },
     {
@@ -396,7 +342,7 @@
       "width": 1920,
       "height": 2400,
       "aspectRatio": 0.8,
-      "sortOrder": 11,
+      "sortOrder": 8,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i08-full.d90883f8.webp"
     },
     {
@@ -412,7 +358,7 @@
       "width": 2400,
       "height": 3000,
       "aspectRatio": 0.8,
-      "sortOrder": 12,
+      "sortOrder": 9,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i09-full.af07bd2d.webp"
     },
     {
@@ -428,7 +374,7 @@
       "width": 2000,
       "height": 2500,
       "aspectRatio": 0.8,
-      "sortOrder": 13,
+      "sortOrder": 10,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i10-full.525c9814.webp"
     },
     {
@@ -444,7 +390,7 @@
       "width": 2000,
       "height": 2500,
       "aspectRatio": 0.8,
-      "sortOrder": 14,
+      "sortOrder": 11,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i11-full.e8234648.webp"
     },
     {
@@ -460,7 +406,7 @@
       "width": 1080,
       "height": 1350,
       "aspectRatio": 0.8,
-      "sortOrder": 15,
+      "sortOrder": 12,
       "fullImageSrc": "/media/v2/social/leechloe/social-leechloe-i12-full.18380851.webp"
     },
     {
@@ -480,24 +426,6 @@
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i01-full.694815cc.webp"
     },
     {
-      "id": "social-kazaki-v01",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "kazaki",
-      "title": "Kazaki · Video 01",
-      "alt": "Ảnh đại diện video 01 của Kazaki",
-      "posterSrc": "/media/v2/social/kazaki/social-kazaki-v01-poster.790fdd2f.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 2,
-      "durationSeconds": 20,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/kazaki/social-kazaki-v01-720.f55a05cd.mp4"
-    },
-    {
       "id": "social-kazaki-i02",
       "type": "image",
       "sectionId": "social",
@@ -510,26 +438,8 @@
       "width": 1322,
       "height": 1656,
       "aspectRatio": 0.7983,
-      "sortOrder": 3,
+      "sortOrder": 2,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i02-full.fddd31ef.webp"
-    },
-    {
-      "id": "social-kazaki-v02",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "kazaki",
-      "title": "Kazaki · Video 02",
-      "alt": "Ảnh đại diện video 02 của Kazaki",
-      "posterSrc": "/media/v2/social/kazaki/social-kazaki-v02-poster.ca78ea6a.webp",
-      "posterWidth": 1080,
-      "posterHeight": 608,
-      "width": 1920,
-      "height": 1080,
-      "aspectRatio": 1.7778,
-      "sortOrder": 4,
-      "durationSeconds": 33.5,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/kazaki/social-kazaki-v02-720.228a8451.mp4"
     },
     {
       "id": "social-kazaki-i03",
@@ -544,26 +454,8 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 5,
+      "sortOrder": 3,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i03-full.dcc7d117.webp"
-    },
-    {
-      "id": "social-kazaki-v03",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "kazaki",
-      "title": "Kazaki · Video 03",
-      "alt": "Ảnh đại diện video 03 của Kazaki",
-      "posterSrc": "/media/v2/social/kazaki/social-kazaki-v03-poster.fdfcb801.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1440,
-      "height": 2560,
-      "aspectRatio": 0.5625,
-      "sortOrder": 6,
-      "durationSeconds": 35.25,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/kazaki/social-kazaki-v03-720.672fb653.mp4"
     },
     {
       "id": "social-kazaki-i04",
@@ -578,7 +470,7 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 7,
+      "sortOrder": 4,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i04-full.43def45b.webp"
     },
     {
@@ -594,7 +486,7 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 8,
+      "sortOrder": 5,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i05-full.2085a1b5.webp"
     },
     {
@@ -610,7 +502,7 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 9,
+      "sortOrder": 6,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i06-full.1cde23b4.webp"
     },
     {
@@ -626,7 +518,7 @@
       "width": 2048,
       "height": 2731,
       "aspectRatio": 0.7499,
-      "sortOrder": 10,
+      "sortOrder": 7,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i07-full.9157c935.webp"
     },
     {
@@ -642,7 +534,7 @@
       "width": 4000,
       "height": 5000,
       "aspectRatio": 0.8,
-      "sortOrder": 11,
+      "sortOrder": 8,
       "fullImageSrc": "/media/v2/social/kazaki/social-kazaki-i08-full.fe40c49f.webp"
     },
     {
@@ -662,24 +554,6 @@
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i01-full.4c058b18.webp"
     },
     {
-      "id": "social-goodci-v01",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "goodci",
-      "title": "Goodci · Video 01",
-      "alt": "Ảnh đại diện video 01 của Goodci",
-      "posterSrc": "/media/v2/social/goodci/social-goodci-v01-poster.eba0b03d.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 2,
-      "durationSeconds": 25.7,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/goodci/social-goodci-v01-720.7ac5b0ce.mp4"
-    },
-    {
       "id": "social-goodci-i02",
       "type": "image",
       "sectionId": "social",
@@ -692,26 +566,8 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 3,
+      "sortOrder": 2,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i02-full.1cd8bca8.webp"
-    },
-    {
-      "id": "social-goodci-v02",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "goodci",
-      "title": "Goodci · Video 02",
-      "alt": "Ảnh đại diện video 02 của Goodci",
-      "posterSrc": "/media/v2/social/goodci/social-goodci-v02-poster.49a06640.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 4,
-      "durationSeconds": 8.41,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/goodci/social-goodci-v02-720.9b1589be.mp4"
     },
     {
       "id": "social-goodci-i03",
@@ -726,26 +582,8 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 5,
+      "sortOrder": 3,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i03-full.ee90beff.webp"
-    },
-    {
-      "id": "social-goodci-v03",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "goodci",
-      "title": "Goodci · Video 03",
-      "alt": "Ảnh đại diện video 03 của Goodci",
-      "posterSrc": "/media/v2/social/goodci/social-goodci-v03-poster.5353488c.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 6,
-      "durationSeconds": 15.19,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/goodci/social-goodci-v03-720.1c62ad15.mp4"
     },
     {
       "id": "social-goodci-i04",
@@ -760,7 +598,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 7,
+      "sortOrder": 4,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i04-full.d7e5fe89.webp"
     },
     {
@@ -776,7 +614,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 8,
+      "sortOrder": 5,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i05-full.aaecf15f.webp"
     },
     {
@@ -792,7 +630,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 9,
+      "sortOrder": 6,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i06-full.96fbc850.webp"
     },
     {
@@ -808,7 +646,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 10,
+      "sortOrder": 7,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i07-full.fc915c89.webp"
     },
     {
@@ -824,7 +662,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 11,
+      "sortOrder": 8,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i08-full.210205b9.webp"
     },
     {
@@ -840,7 +678,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 12,
+      "sortOrder": 9,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i09-full.7988ec90.webp"
     },
     {
@@ -856,7 +694,7 @@
       "width": 3000,
       "height": 3750,
       "aspectRatio": 0.8,
-      "sortOrder": 13,
+      "sortOrder": 10,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i10-full.d16b6260.webp"
     },
     {
@@ -872,7 +710,7 @@
       "width": 1792,
       "height": 2240,
       "aspectRatio": 0.8,
-      "sortOrder": 14,
+      "sortOrder": 11,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i11-full.76d9dc5d.webp"
     },
     {
@@ -888,188 +726,8 @@
       "width": 2048,
       "height": 2048,
       "aspectRatio": 1,
-      "sortOrder": 15,
+      "sortOrder": 12,
       "fullImageSrc": "/media/v2/social/goodci/social-goodci-i12-full.3d6ca26b.webp"
-    },
-    {
-      "id": "social-winnie-v01",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "winnie",
-      "title": "Winnie · Video 01",
-      "alt": "Ảnh đại diện video 01 của Winnie",
-      "posterSrc": "/media/v2/social/winnie/social-winnie-v01-poster.4464c3f2.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 1,
-      "durationSeconds": 172.52,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/winnie/social-winnie-v01-720.d51dc483.mp4"
-    },
-    {
-      "id": "social-winnie-v02",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "winnie",
-      "title": "Winnie · Video 02",
-      "alt": "Ảnh đại diện video 02 của Winnie",
-      "posterSrc": "/media/v2/social/winnie/social-winnie-v02-poster.96aeb40c.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 2,
-      "durationSeconds": 166.02,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/winnie/social-winnie-v02-720.81ce50a4.mp4"
-    },
-    {
-      "id": "social-winnie-v03",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "winnie",
-      "title": "Winnie · Video 03",
-      "alt": "Ảnh đại diện video 03 của Winnie",
-      "posterSrc": "/media/v2/social/winnie/social-winnie-v03-poster.19b4aadb.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 3,
-      "durationSeconds": 102.07,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/winnie/social-winnie-v03-720.bb6ca87c.mp4"
-    },
-    {
-      "id": "social-winnie-v04",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "winnie",
-      "title": "Winnie · Video 04",
-      "alt": "Ảnh đại diện video 04 của Winnie",
-      "posterSrc": "/media/v2/social/winnie/social-winnie-v04-poster.69e388fd.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 4,
-      "durationSeconds": 117.83,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/winnie/social-winnie-v04-720.4dfddcb4.mp4"
-    },
-    {
-      "id": "social-winnie-v05",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "winnie",
-      "title": "Winnie · Video 05",
-      "alt": "Ảnh đại diện video 05 của Winnie",
-      "posterSrc": "/media/v2/social/winnie/social-winnie-v05-poster.cfa9ff5b.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1440,
-      "height": 2560,
-      "aspectRatio": 0.5625,
-      "sortOrder": 5,
-      "durationSeconds": 128.78,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/winnie/social-winnie-v05-720.f92130b8.mp4"
-    },
-    {
-      "id": "social-marie-v01",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "marie",
-      "title": "Marie · Video 01",
-      "alt": "Ảnh đại diện video 01 của Marie",
-      "posterSrc": "/media/v2/social/marie/social-marie-v01-poster.d1ff301c.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 1,
-      "durationSeconds": 82.83,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/marie/social-marie-v01-720.58a90f51.mp4"
-    },
-    {
-      "id": "social-marie-v02",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "marie",
-      "title": "Marie · Video 02",
-      "alt": "Ảnh đại diện video 02 của Marie",
-      "posterSrc": "/media/v2/social/marie/social-marie-v02-poster.a9e5834a.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 2,
-      "durationSeconds": 86.8,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/marie/social-marie-v02-720.0f326afd.mp4"
-    },
-    {
-      "id": "social-marie-v03",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "marie",
-      "title": "Marie · Video 03",
-      "alt": "Ảnh đại diện video 03 của Marie",
-      "posterSrc": "/media/v2/social/marie/social-marie-v03-poster.e75a7395.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 3,
-      "durationSeconds": 143.57,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/marie/social-marie-v03-720.b04bd33f.mp4"
-    },
-    {
-      "id": "social-marie-v04",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "marie",
-      "title": "Marie · Video 04",
-      "alt": "Ảnh đại diện video 04 của Marie",
-      "posterSrc": "/media/v2/social/marie/social-marie-v04-poster.424a592f.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 4,
-      "durationSeconds": 126.37,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/marie/social-marie-v04-720.fe55e8c8.mp4"
-    },
-    {
-      "id": "social-marie-v05",
-      "type": "video",
-      "sectionId": "social",
-      "brandId": "marie",
-      "title": "Marie · Video 05",
-      "alt": "Ảnh đại diện video 05 của Marie",
-      "posterSrc": "/media/v2/social/marie/social-marie-v05-poster.389bcffc.webp",
-      "posterWidth": 608,
-      "posterHeight": 1080,
-      "width": 1080,
-      "height": 1920,
-      "aspectRatio": 0.5625,
-      "sortOrder": 5,
-      "durationSeconds": 180.97,
-      "encoded": true,
-      "videoSrc": "/media/v2/social/marie/social-marie-v05-720.f4c5b5fb.mp4"
     },
     {
       "id": "social-porche-i01",
@@ -1521,11 +1179,8 @@
       "sortOrder": 2,
       "mediaIds": [
         "social-leechloe-i01",
-        "social-leechloe-v01",
         "social-leechloe-i02",
-        "social-leechloe-v02",
         "social-leechloe-i03",
-        "social-leechloe-v03",
         "social-leechloe-i04",
         "social-leechloe-i05",
         "social-leechloe-i06",
@@ -1543,11 +1198,8 @@
       "sortOrder": 3,
       "mediaIds": [
         "social-kazaki-i01",
-        "social-kazaki-v01",
         "social-kazaki-i02",
-        "social-kazaki-v02",
         "social-kazaki-i03",
-        "social-kazaki-v03",
         "social-kazaki-i04",
         "social-kazaki-i05",
         "social-kazaki-i06",
@@ -1561,11 +1213,8 @@
       "sortOrder": 4,
       "mediaIds": [
         "social-goodci-i01",
-        "social-goodci-v01",
         "social-goodci-i02",
-        "social-goodci-v02",
         "social-goodci-i03",
-        "social-goodci-v03",
         "social-goodci-i04",
         "social-goodci-i05",
         "social-goodci-i06",
@@ -1581,25 +1230,13 @@
       "id": "winnie",
       "displayName": "Winnie",
       "sortOrder": 5,
-      "mediaIds": [
-        "social-winnie-v01",
-        "social-winnie-v02",
-        "social-winnie-v03",
-        "social-winnie-v04",
-        "social-winnie-v05"
-      ]
+      "mediaIds": []
     },
     {
       "id": "marie",
       "displayName": "Marie",
       "sortOrder": 6,
-      "mediaIds": [
-        "social-marie-v01",
-        "social-marie-v02",
-        "social-marie-v03",
-        "social-marie-v04",
-        "social-marie-v05"
-      ]
+      "mediaIds": []
     },
     {
       "id": "porche",

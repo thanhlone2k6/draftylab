@@ -32,7 +32,12 @@ export interface Brand {
 }
 
 export const mediaItems = manifest.items as MediaItem[];
-export const brands = (manifest.brands as Brand[]).slice().sort((a, b) => a.sortOrder - b.sortOrder);
+/** Brands with nothing to show are dropped: Marie and Winnie are video-only folders, and the owner
+ * moved every Social Production video out of the scanned tree (2026-10-18), so only brands that
+ * still have images reach the rail. */
+export const brands = (manifest.brands as Brand[])
+  .filter((b) => b.mediaIds.length > 0)
+  .sort((a, b) => a.sortOrder - b.sortOrder);
 const byId = new Map(mediaItems.map((m) => [m.id, m]));
 
 export const getMedia = (id: string) => byId.get(id);

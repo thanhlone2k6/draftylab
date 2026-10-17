@@ -40,8 +40,11 @@ test('rotation is applied to display dimensions (raw.MP4 is -90°, portrait)', (
 });
 
 test('landscape source keeps landscape aspect in the public manifest', () => {
-  const k = pub.items.find((i) => i.id === 'social-kazaki-v02');
-  assert.ok(k.aspectRatio > 1.7 && k.aspectRatio < 1.8);
+  // 2026-10-18: the social videos moved out to `Social Production/video riêng`, so the landscape
+  // check now uses a landscape photo from the same section (Porche "Bài đăng 08", 6000×4000).
+  const k = pub.items.find((i) => i.id === 'social-porche-i08');
+  assert.ok(k, 'social-porche-i08 must exist');
+  assert.ok(k.aspectRatio > 1.4 && k.aspectRatio < 1.6);
 });
 
 test('public manifest has no source paths or raw file names', () => {
@@ -50,9 +53,15 @@ test('public manifest has no source paths or raw file names', () => {
   for (const it of internal.items.filter((i) => /\s|[^\x00-\x7F]/.test(i.fileName))) assert.ok(!text.includes(it.fileName), it.fileName);
 });
 
-test('brand order follows the spec and every phase-1 brand has items', () => {
+test('brand order follows the spec; video-only brands are empty by design', () => {
   assert.deepEqual(pub.brands.map((b) => b.id), ['dinhhouse', 'leechloe', 'kazaki', 'goodci', 'winnie', 'marie', 'porche']);
-  for (const b of pub.brands) assert.ok(b.mediaIds.length > 0, b.id);
+  // Marie and Winnie were video-only folders. The owner moved every Social Production video out of
+  // the scanned tree (2026-10-18), so those two now hold no items and the rail filters them out
+  // (`brands` in src/lib/media.ts) — every other brand must still have something to show.
+  for (const b of pub.brands) {
+    const videoOnly = b.id === 'marie' || b.id === 'winnie';
+    assert.equal(b.mediaIds.length > 0, !videoOnly, `${b.id} (${b.mediaIds.length} items)`);
+  }
 });
 
 test('non-encoded videos are flagged and carry no videoSrc', () => {
