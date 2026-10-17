@@ -3,6 +3,9 @@
 Website https://draftylab.pages.dev. Astro 5 + React islands + Cloudflare Pages Functions.
 Repo: https://github.com/thanhlone2k6/draftylab. Thư mục làm việc: `/Users/thanhng/Documents/DFL2/website`.
 
+## Bắt đầu / kết thúc phiên
+- Bắt đầu: đọc `HANDOFF.md` trước khi khám phá code. Kết thúc (nếu có sửa file): cập nhật `HANDOFF.md` (ngắn, ghi đè mục trạng thái + bước tiếp theo, giữ ≤150 dòng, không ghi secret).
+
 ## Quy trình push (QUAN TRỌNG)
 - Nhánh `main` = website thật. Push lên `main` → Cloudflare Pages tự build (`npm run build:cf`) và deploy sau 2–3 phút. KHÔNG có deploy tay.
 - Trước khi push: `npm run build:cf && npm run check && npm run check:functions && npm run test:unit` phải pass.
