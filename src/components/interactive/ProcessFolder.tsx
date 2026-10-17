@@ -23,10 +23,21 @@ export default function ProcessFolder({ label, mediaIds, openLabel, color }: Pro
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const el = wrap.current;
     if (!el) return;
-    // The folder is 224px wide at size 1; open papers fan out to ±25% — fit the column (min 0.85, max 1.1).
-    const ro = new ResizeObserver(([e]) => setSize(Math.min(1.1, Math.max(0.85, e.contentRect.width / 300))));
+    // The folder is 224px wide at size 1. On phones the grid is 2 columns (~169px) so it must be smaller
+    // there than on the wide layouts (which keep the previous 0.85). Clamped 0.56–1.1.
+    const narrow = window.matchMedia('(max-width: 559px)');
+    let width = 0;
+    const apply = () => setSize(Math.min(1.1, Math.max(narrow.matches ? 0.56 : 0.85, width / 300)));
+    const ro = new ResizeObserver(([e]) => {
+      width = e.contentRect.width;
+      apply();
+    });
     ro.observe(el);
-    return () => ro.disconnect();
+    narrow.addEventListener('change', apply);
+    return () => {
+      ro.disconnect();
+      narrow.removeEventListener('change', apply);
+    };
   }, []);
 
   return (
