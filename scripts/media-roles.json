@@ -72,17 +72,17 @@
       "height": 2370
     }
   },
-  "how-i-work-audience-v01": {
-    "expectFile": "0829(2).mp4",
-    "title": "Trao đổi với khách hàng",
-    "alt": "Cuộc gọi video trao đổi với khách hàng qua laptop"
-  },
   "how-i-work-audience-i01": {
+    "expectFile": "0829(2).jpg",
+    "title": "Trao đổi với khách hàng",
+    "alt": "Khung hình cuộc gọi video trao đổi với khách hàng"
+  },
+  "how-i-work-audience-i02": {
     "expectFile": "IMG_4350.jpeg",
     "title": "Tìm hiểu yêu cầu",
     "alt": "Làm việc tại bàn với laptop đang mở tài liệu"
   },
-  "how-i-work-audience-i02": {
+  "how-i-work-audience-i03": {
     "expectFile": "IMG_4409.jpeg",
     "title": "Họp với khách hàng",
     "alt": "Gọi video với khách hàng qua Google Meet trên laptop"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T18:38:22.840Z",
+  "generatedAt": "2026-10-18T19:14:50.094Z",
   "items": [
     {
       "id": "gallery-v01",
@@ -578,54 +578,52 @@
       "role": "case:dinhhouse"
     },
     {
-      "id": "how-i-work-audience-v01",
-      "type": "video",
+      "id": "how-i-work-audience-i01",
+      "type": "image",
       "sectionId": "how-i-work",
       "brandId": "audience",
       "title": "Trao đổi với khách hàng",
-      "alt": "Cuộc gọi video trao đổi với khách hàng qua laptop",
-      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-v01-poster.4f8b7143.webp",
+      "alt": "Khung hình cuộc gọi video trao đổi với khách hàng",
+      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i01-poster.eff3b223.webp",
       "posterWidth": 608,
       "posterHeight": 1080,
       "width": 1080,
       "height": 1920,
       "aspectRatio": 0.5625,
       "sortOrder": 1,
-      "durationSeconds": 25.97,
-      "encoded": true,
-      "videoSrc": "/media/v2/how-i-work/audience/how-i-work-audience-v01-720.93445db8.mp4"
-    },
-    {
-      "id": "how-i-work-audience-i01",
-      "type": "image",
-      "sectionId": "how-i-work",
-      "brandId": "audience",
-      "title": "Tìm hiểu yêu cầu",
-      "alt": "Làm việc tại bàn với laptop đang mở tài liệu",
-      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i01-poster.a3238589.webp",
-      "posterWidth": 810,
-      "posterHeight": 1080,
-      "width": 4284,
-      "height": 5712,
-      "aspectRatio": 0.75,
-      "sortOrder": 2,
-      "fullImageSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i01-full.4b683b66.webp"
+      "fullImageSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i01-full.234357f5.webp"
     },
     {
       "id": "how-i-work-audience-i02",
       "type": "image",
       "sectionId": "how-i-work",
       "brandId": "audience",
+      "title": "Tìm hiểu yêu cầu",
+      "alt": "Làm việc tại bàn với laptop đang mở tài liệu",
+      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i02-poster.a3238589.webp",
+      "posterWidth": 810,
+      "posterHeight": 1080,
+      "width": 4284,
+      "height": 5712,
+      "aspectRatio": 0.75,
+      "sortOrder": 2,
+      "fullImageSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i02-full.4b683b66.webp"
+    },
+    {
+      "id": "how-i-work-audience-i03",
+      "type": "image",
+      "sectionId": "how-i-work",
+      "brandId": "audience",
       "title": "Họp với khách hàng",
       "alt": "Gọi video với khách hàng qua Google Meet trên laptop",
-      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i02-poster.887273e6.webp",
+      "posterSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i03-poster.887273e6.webp",
       "posterWidth": 810,
       "posterHeight": 1080,
       "width": 4284,
       "height": 5712,
       "aspectRatio": 0.75,
       "sortOrder": 3,
-      "fullImageSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i02-full.f54b4a12.webp"
+      "fullImageSrc": "/media/v2/how-i-work/audience/how-i-work-audience-i03-full.f54b4a12.webp"
     },
     {
       "id": "how-i-work-plan-i01",

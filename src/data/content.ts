@@ -127,7 +127,7 @@ export const howIWork = {
   // see `how-i-work` in scripts/lib/config.mjs and scripts/media-roles.json). Order is the owner's
   // chosen workflow: analyse → plan/shoot → schedule → report.
   stages: [
-    { id: 'audience', name: 'Phân tích nhu cầu, mục tiêu và tệp khán giả', blurb: 'Tìm hiểu mục tiêu kinh doanh, sản phẩm và tệp khán giả trước khi bắt tay vào làm.', color: '#3c4250', mediaIds: ['how-i-work-audience-v01', 'how-i-work-audience-i01', 'how-i-work-audience-i02'] },
+    { id: 'audience', name: 'Phân tích nhu cầu, mục tiêu và tệp khán giả', blurb: 'Tìm hiểu mục tiêu kinh doanh, sản phẩm và tệp khán giả trước khi bắt tay vào làm.', color: '#3c4250', mediaIds: ['how-i-work-audience-i01', 'how-i-work-audience-i02', 'how-i-work-audience-i03'] },
     { id: 'plan', name: 'Lên kế hoạch và triển khai', blurb: 'Lên kế hoạch nội dung, chuẩn bị thiết bị và triển khai quay theo đúng kế hoạch.', color: '#4a3f2e', mediaIds: ['how-i-work-plan-i01', 'how-i-work-plan-i02', 'how-i-work-plan-i03', 'how-i-work-plan-i04'] },
     { id: 'schedule', name: 'Lên lịch đăng bài', blurb: 'Thiết kế, hoàn thiện nội dung và lên lịch đăng bài cho từng kênh.', color: '#35443d', mediaIds: ['how-i-work-schedule-i01', 'how-i-work-schedule-i02'] },
     { id: 'report', name: 'Báo cáo và thống kê', blurb: 'Theo dõi số liệu, tổng hợp báo cáo và tối ưu cho các chiến dịch tiếp theo.', color: '#463a44', mediaIds: ['how-i-work-report-i01', 'how-i-work-report-i02'] },

@@ -42,6 +42,8 @@ export const SECTIONS = [
     id: 'how-i-work',
     dir: 'Cách tôi sẽ làm việc',
     phase: 2,
+    // Images-only now (owner, 2026-10-19): the one video was cut to a still frame and moved to
+    // `Cách tôi sẽ làm việc/video riêng/` (not scanned). Everything under the step folders is images.
     brands: [
       { folder: 'Phân tích nhu cầu, mục tiêu khách hàng và tệp khán giả', id: 'audience', displayName: 'Phân tích nhu cầu' },
       { folder: 'Lên kế hoạch + Triển khai kế hoạch quay', id: 'plan', displayName: 'Lên kế hoạch' },

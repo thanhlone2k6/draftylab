@@ -8,24 +8,22 @@
 - 2026-10-19 — **Quick Call section**: lead line removed from the CTA (`.qcta__lead`; `quickCall.subtitle` still used in the form), button → **"Trao đổi ngay"** — `QuickCallCTA.astro`, `content.ts`
 - 2026-10-19 — **How I Work**: step names shortened — 01 → "Phân tích nhu cầu, mục tiêu và tệp khán giả", 02 → "Lên kế hoạch và triển khai", 04 → "Báo cáo và thống kê" (`name` in `content.ts`; ids/folders untouched)
 - 2026-10-19 — **Mobile pass**: `#work` ⤢ button only shows once the preview runs + loading spinner; play/pause removed from the volume gauge; Case Studies 3 video cards in one 3-up row; bigger compare slider; stripped trusted-logo marquee; hero collapsed nav = one centred pill covering the lanyard strap — `VideoPosterCard.astro`, `VolumeOverlay.tsx`, `CaseVideoCard.*`, `CaseStudies.astro`, `BehindCreative.astro`, `PartnerLoop.tsx`, `PillNav.css`, `components.css`
-- 2026-10-19 — **How I Work images**: one subfolder per step under `Cách tôi sẽ làm việc/` → `how-i-work` uses `brands` so ids are `how-i-work-<step>-iNN/vNN`; HEIC handled via macOS `sips` (`decodedSource` in `build-media.mjs`); 5 loose root photos ignored — `config.mjs`, `build-media.mjs`, `media-roles.json`, `media-sets.json`, `content.ts`
+- 2026-10-19 — **How I Work images**: one subfolder per step under `Cách tôi sẽ làm việc/` → `how-i-work` uses `brands` so ids are `how-i-work-<step>-iNN`; **images only** (the single video was cut to a still `0829(2).jpg` and the mp4 moved to `Cách tôi sẽ làm việc/video riêng/`, not scanned); HEIC handled via macOS `sips` (`decodedSource` in `build-media.mjs`) — `config.mjs`, `build-media.mjs`, `media-roles.json`, `media-sets.json`, `content.ts`, `build-media.test.mjs`
 
 ## Current state
-- **Deployed** `main` = commit `0ff7e5f` (2026-10-19) → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy. Gates before this push: `check`/`check:functions`/`test:unit`/`test:media` all 0 fails, `build:cf` OK.
-- ⚠ **R2 not yet updated**: the new `how-i-work-audience-v01` 720p is NOT on R2, so that one folder video won't play on prod until the owner runs `npm run media:upload -- --execute --remote --bucket draft2 --confirm-bucket draft2` (needs their wrangler auth; script is dry-run by default).
+- **Deployed** `main` = commit `0ff7e5f` (+ docs `9c92ca6`) on 2026-10-19 → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy.
 - Works: 32 videos + hover preview + lightbox, 404, Turnstile on preview, lead → D1.
 - Half-done: production email notification not verified end-to-end (needs a real lead with a Turnstile tick).
 - Not done: `public/media/v1-temp/*` placeholders (portrait/partners) still in use; remote branch `dfl2-migration` still exists (merged).
 
 ## Next steps
-1. Owner runs `npm run media:upload -- --execute --remote --bucket draft2 --confirm-bucket draft2` so the new How I Work video plays on prod.
-2. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
-3. Delete remote branch `dfl2-migration`; replace `v1-temp` placeholders when the owner supplies finals (`docs/unmapped-assets.md`).
+1. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
+2. Delete remote branch `dfl2-migration`; replace `v1-temp` placeholders when the owner supplies finals (`docs/unmapped-assets.md`).
 
 ## Gotchas
 - **Dev server goes stale**: after changing `content.ts`/adding a component, HMR can serve the old file (or islands fail with `504 Outdated Optimize Dep`). Fix: kill it, `rm -rf node_modules/.vite .astro`, `npm run dev`.
 - **Never re-enable `intro` on the Trusted-by `LogoLoop`** — it pre-hides every item and leaves the row blank/part-filled for ~1.15s (`.logoloop[data-intro]`, `PartnerLoop.tsx`). Check WebKit too (`npx playwright` ships the Safari engine).
-- **How I Work source folders = the ids**: renaming a subfolder under `Cách tôi sẽ làm việc/` changes every id → update `media-roles.json` (`expectFile` guard fails the test on drift) + `content.ts` `mediaIds`. HEIC needs macOS `sips` (no HEVC plugin in this sharp).
+- **How I Work source folders = the ids**: renaming a subfolder under `Cách tôi sẽ làm việc/` changes every id → update `media-roles.json` (`expectFile` guard fails the test on drift) + `content.ts` `mediaIds`. The section is **images-only** — a video in a step folder must be cut to a still (the old mp4 sits in `Cách tôi sẽ làm việc/video riêng/`). HEIC needs macOS `sips` (no HEVC plugin in this sharp).
 - Run `astro check` (0 errors) + `npm run test:media` before pushing; copy/labels live in `src/data/content.ts`.
 - `.mp4` is gitignored except `*-preview.*.mp4`; full 720p lives ONLY in R2 `draft2` (served by `functions/media/v2`). Never delete R2 `draft2` / `draftylab-media`.
 - Preview and production share D1 + R2; other preview hosts fail Turnstile unless added to the widget.
