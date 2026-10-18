@@ -37,10 +37,13 @@ const stages = proc.stages
   .hw { padding-block: var(--section-y); }
   .hw__grid { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
   .hw__fade { display: flex; flex-direction: column; align-items: flex-start; }
-  .hw__folder { width: 100%; min-height: 300px; display: grid; place-items: center; padding-top: 80px; box-sizing: border-box; }
-  .hw__name { margin: 18px 0 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; }
+  /* The folder box only reserves room ABOVE the folder for the opened papers (they rise ~55px past its top
+     edge, measured) — 64px of headroom is enough, and keeps consecutive rows close. min-height is only a
+     placeholder for the client:only folder, so it matches the real height (64 + ~167px at size 1.1). */
+  .hw__folder { width: 100%; min-height: 232px; display: grid; place-items: center; padding-top: 64px; box-sizing: border-box; }
+  .hw__name { margin: 14px 0 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; }
   .hw__n { color: var(--c-fg-faint); font-weight: 500; font-variant-numeric: tabular-nums; margin-right: 6px; }
   .hw__blurb { margin: 6px 0 0; color: var(--c-fg-muted); font-size: 0.92rem; line-height: 1.5; }
-  @media (max-width: 1023px) { .hw__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 48px; } }
-  @media (max-width: 559px) { .hw__folder { min-height: 165px; padding-top: 44px; } }
+  @media (max-width: 1023px) { .hw__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 30px; } }
+  @media (max-width: 559px) { .hw__folder { min-height: 128px; padding-top: 40px; } }
 </style>

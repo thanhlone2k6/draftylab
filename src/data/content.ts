@@ -84,13 +84,20 @@ export const cases = {
   lead: 'Các thương hiệu đã sản xuất nội dung cùng Drafty Lab.',
   scopeLabel: 'Đã sản xuất',
   sizeLabel: 'Người theo dõi hiện tại',
-  sizeSource: (platform: string) => `Theo ảnh chụp trang ${platform}, 17/10/2026`,
+  sizeSource: (platform: string) => `Theo ảnh chụp trang ${platform}, 18/10/2026`,
   sizeCaveat: 'Quy mô tài khoản tại thời điểm chụp, không phải kết quả đo lường của chiến dịch.',
   visit: 'Mở trang',
+  // 2026-10-18 (owner): the 4 phone-profile screenshots in `Case Studies + Results/` replace the old
+  // ones and the grid is 4-up (mediaId → id drift is guarded in scripts/media-roles.json).
+  // Order = highest follower count first, as read from the screenshots.
+  // The section now shows IMAGES ONLY, so only `name` + `followers` still reach the page (they are the
+  // TiltedCard cursor tooltip); `scopeLabel` / `sizeLabel` / `sizeSource` / `sizeCaveat` / `visit` /
+  // `items[].platform` are unused until copy comes back.
   items: [
+    { id: 'dinhhouse', name: 'DINH House', platform: 'Facebook', mediaId: 'case-studies-i04', followers: '12K' },
+    { id: 'kazaki', name: 'Kazaki', platform: 'Instagram', mediaId: 'case-studies-i02', followers: '10,4K' },
+    { id: 'goodci', name: 'Goodci', platform: 'Instagram', mediaId: 'case-studies-i03', followers: '6,3K' },
     { id: 'leechloe', name: 'Lee Chloe Coffee', platform: 'Facebook', mediaId: 'case-studies-i01', followers: '5,9K' },
-    { id: 'dinhhouse', name: 'DINH House', platform: 'Facebook', mediaId: 'case-studies-i02', followers: '12K' },
-    { id: 'kazaki', name: 'Kazaki', platform: 'Instagram', mediaId: 'case-studies-i03', followers: '10,3 N' },
   ],
 };
 
@@ -157,18 +164,13 @@ export const quickCall = {
       title: 'Liên hệ',
       question: 'Làm sao để liên hệ với bạn?',
       name: 'Tên của bạn',
-      method: 'Phương thức liên hệ',
-      methods: [
-        { id: 'phone', label: 'Zalo / Phone', placeholder: '09xx xxx xxx', error: 'Số điện thoại chưa hợp lệ (10–11 số).' },
-        { id: 'email', label: 'Email', placeholder: 'ban@congty.vn', error: 'Email chưa hợp lệ.' },
-        { id: 'instagram', label: 'Instagram', placeholder: '@tenthuonghieu', error: 'Tên Instagram chưa hợp lệ.' },
-      ],
+      // 2026-10-18 (owner): the "Phương thức liên hệ" selector (Zalo/Phone · Email · Instagram) and the
+      // consent + privacy lines were removed — one free-text field now takes a phone number OR an email,
+      // and the form derives `method` from what was typed (see QuickCallForm).
+      valueLabel: 'Zalo / số điện thoại hoặc email của bạn',
+      valueError: 'Số điện thoại hoặc email chưa hợp lệ.',
       note: 'Ghi chú (không bắt buộc)',
       nameError: 'Vui lòng nhập tên.',
-      // DRAFT consent copy — NEEDS_USER_DECISION (docs/phase3-plan.md, question 7).
-      consent: 'Tôi đồng ý để Drafty Lab liên hệ lại với tôi qua thông tin trên.',
-      consentError: 'Vui lòng đồng ý để chúng tôi liên hệ lại.',
-      privacy: 'Thông tin chỉ dùng để liên hệ lại về yêu cầu này và được lưu tối đa 12 tháng.',
     },
   },
   demoResult: 'Đây là bản demo: yêu cầu CHƯA được gửi đi và Drafty Lab chưa nhận được thông tin của bạn. Vui lòng liên hệ trực tiếp qua email bên dưới.',

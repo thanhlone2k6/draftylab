@@ -162,19 +162,23 @@ test.describe('phase 2 sections @webkit', () => {
     expect(Math.abs(Number(await handle.getAttribute('aria-valuenow')) - moved)).toBeLessThan(3);
   });
 
-  test('Case studies: three real cards, cropped screenshots, honest labels, no contact numbers', async ({ page }) => {
+  test('Case studies: four phone mockups, no copy at all, cropped screenshots, labels in the tooltip', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' });
     await scrollToId(page, 'results');
     await page.waitForTimeout(900);
-    const cards = page.locator('.cs__card');
-    await expect(cards).toHaveCount(3);
+    // Images only (owner, 2026-10-18): each cell is a React Bits TiltedCard showing the phone screenshot —
+    // no card frame, no name/facts/caveat/link (the caveat line was removed at the owner's request too).
+    await expect(page.locator('#results .tilted-card')).toHaveCount(4);
+    await expect(page.locator('#results .cs__card, #results .cs__note')).toHaveCount(0);
     const text = (await page.locator('#results').textContent()) ?? '';
-    for (const s of ['Lee Chloe Coffee', 'DINH House', 'Kazaki', '5,9K', '12K', '10,3 N', 'không phải kết quả đo lường']) expect(text).toContain(s);
-    expect(text).not.toMatch(/\b0\d{2,3}[ .]?\d{3}[ .]?\d{3,4}\b/); // no phone numbers on the page
-    const imgs = await page.locator('.cs__img img').evaluateAll((els) => els.map((i) => ({ ok: (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0, w: (i as HTMLImageElement).naturalWidth, h: (i as HTMLImageElement).naturalHeight })));
+    // Only the header copy + the 4 tooltips remain in the DOM, so the brand + account size stay reachable.
+    for (const s of ['DINH House', 'Kazaki', 'Goodci', 'Lee Chloe Coffee', '12K', '10,4K', '6,3K', '5,9K']) expect(text).toContain(s);
+    expect(text).not.toMatch(/\b0\d{2,3}[ .]?\d{3}[ .]?\d{3,4}\b/); // no phone numbers in the copy
+    const imgs = await page.locator('#results .tilted-card img').evaluateAll((els) => els.map((i) => ({ ok: (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0, w: (i as HTMLImageElement).naturalWidth, h: (i as HTMLImageElement).naturalHeight })));
+    expect(imgs).toHaveLength(4);
     expect(imgs.every((i) => i.ok)).toBe(true);
-    // Kazaki screenshot was cropped above the contact lines (very wide strip)
-    expect(imgs[2].w / imgs[2].h).toBeGreaterThan(3);
+    // The transparent frame is cropped off, so every card is the same tall phone mockup.
+    expect(imgs.every((i) => i.h / i.w > 1.9 && i.h / i.w < 2.2)).toBe(true);
     expect(await page.locator('#results').getByText(/tăng|doanh thu|conversion|ROI/i).count()).toBe(0);
   });
 

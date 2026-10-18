@@ -1,6 +1,6 @@
 'use client';
 // Social Production — React Bits **CircularCarousel** in the panorama preset (owner's settings:
-// Panorama · Rise · Portrait · 220px · gap 19 · curve 1 · tilt 0° · Drift 14°/s left · momentum .6 ·
+// Panorama · Rise · Portrait · 220px · gap 19 · curve 1 · tilt 0° · Drift 8°/s left · momentum .6 ·
 // parallax .3 · stretch .5 · snap + pause-on-hover + focus-on-click + draggable on · fade #120f17 ·
 // depth fade .55 · inner shade .6 · radius 12 · captions off).
 // Every Social Production photo is one card in the ring, and the drift never stops — the loop is
@@ -24,7 +24,7 @@ export default function SocialCarousel() {
       curve={1}
       tilt={0}
       autoplay="drift"
-      speed={14}
+      speed={8}
       direction="left"
       momentum={0.6}
       parallax={0.3}

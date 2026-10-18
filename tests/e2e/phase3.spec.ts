@@ -10,22 +10,21 @@ const d1 = (sql: string): Array<Record<string, unknown>> => {
 };
 const resetRate = () => d1('DELETE FROM rate_limit');
 
-async function fillAndSubmit(page: Page, email: string, consent = true, budget?: string) {
+async function fillAndSubmit(page: Page, email: string, budget?: string) {
   await page.locator('.hero__ctas [data-dfl-open="quickcall"]').click();
   const d = dialog(page);
   await expect(d.locator('.qc')).toBeVisible({ timeout: 30_000 });
   await d.getByRole('radio', { name: 'F&B / Restaurant' }).click();
+  // 2026-10-18 (owner): the industry step advances by itself — wait for step 2 instead of clicking Continue.
+  await expect(d.locator('.qc-q').last()).toHaveText('Bạn đang cần hỗ trợ gì nhất?');
   const next = d.locator('.stepper__button--next');
-  await next.click();
   await d.getByRole('checkbox', { name: 'Video Editing' }).click();
   await next.click();
   await d.getByRole('radio', { name: 'Tự làm' }).click();
   if (budget) await d.getByRole('radio', { name: budget }).click(); // optional question
   await next.click();
   await d.getByLabel('Tên của bạn').fill('Khách Thử Nghiệm');
-  await d.getByRole('radio', { name: 'Email' }).click();
-  await d.getByLabel("Email", { exact: true }).fill(email);
-  if (consent) await d.getByRole('checkbox', { name: /Tôi đồng ý/ }).check();
+  await d.getByLabel('Zalo / số điện thoại hoặc email của bạn').fill(email);
   return { d, next };
 }
 
@@ -38,16 +37,13 @@ test.beforeAll(() => {
   resetRate();
 });
 
-test('live form: no DEMO banner; consent is required; success only after the server stored the lead', async ({ page }) => {
+test('live form: no DEMO banner; name + contact complete the last step; success only after the server stored the lead', async ({ page }) => {
   const errors = trackConsoleErrors(page);
   await page.goto('/', { waitUntil: 'networkidle' });
   await waitHydrated(page);
-  const { d, next } = await fillAndSubmit(page, 'khach.thu@example.com', false, '5 – 15 triệu');
+  const { d, next } = await fillAndSubmit(page, 'khach.thu@example.com', '5 – 15 triệu');
   await expect(d.locator('.qc__demo')).toHaveCount(0);
-  await expect(next).toBeDisabled(); // consent missing
-  await d.getByRole('checkbox', { name: /Tôi đồng ý/ }).check();
-  await expect(next).toBeEnabled();
-  expect(await d.locator('.qc-privacy').textContent()).toContain('12 tháng');
+  await expect(next).toBeEnabled(); // the consent checkbox is gone (owner, 2026-10-18)
   await next.click();
   await expect(d.locator('.qc-result--ok')).toContainText('Đã nhận yêu cầu liên hệ', { timeout: 30_000 });
   await expect(d.locator('.qc-result--demo')).toHaveCount(0);

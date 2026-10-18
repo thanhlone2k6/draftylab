@@ -1,25 +1,19 @@
 ---
 import FadeContent from '../react-bits/FadeContent';
-import { getMedia, brands, brandMedia } from '../../lib/media';
-import { brandMeta } from '../../data/brands';
+import TiltedCard from '../react-bits/TiltedCard';
+import { getMedia } from '../../lib/media';
 import { cases } from '../../data/content';
 
-// Only cards whose screenshot really exists are shown. Follower counts are read from the supplied screenshots
-// and labelled as account size at capture time — never as a measured campaign result.
-const cards = cases.items
-  .map((c) => {
-    const media = getMedia(c.mediaId);
-    if (!media) return null;
-    const brand = brands.find((b) => b.id === c.id);
-    const items = brand ? brandMedia(brand) : [];
-    const images = items.filter((m) => m.type === 'image').length;
-    const videos = items.length - images;
-    const scope = [images ? `${images} bài đăng ảnh` : '', videos ? `${videos} video` : ''].filter(Boolean).join(' · ');
-    return { ...c, media, scope, link: brandMeta[c.id]?.platform?.url };
-  })
-  .filter(Boolean) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>>; scope: string; link?: string }>;
+// Images only (owner, 2026-10-18): no card frame and no copy — the phone screenshot IS the card. The
+// brand name + follower count live in the TiltedCard's cursor tooltip (and in the alt text so screen
+// readers still get them); the shared caveat line was removed too (owner). No "result" claim is made
+// anywhere in this section — see docs/phase2-mapping.md. Screenshots are cropped to the device at build
+// time (scripts/media-roles.json).
+const shots = cases.items
+  .map((c) => ({ ...c, media: getMedia(c.mediaId) }))
+  .filter((c) => c.media) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
 ---
-{cards.length > 0 && (
+{shots.length > 0 && (
   <section class="cs" id={cases.id} aria-labelledby="cs-title">
     <div class="container-x">
       <FadeContent client:load blur={4} duration={0.6} threshold={0.15} initialOpacity={0}>
@@ -29,28 +23,28 @@ const cards = cases.items
       </FadeContent>
 
       <ul class="cs__grid">
-        {cards.map((c, i) => (
-          <li>
-            <FadeContent client:load blur={3} duration={0.6} delay={0.08 * i} threshold={0.12} initialOpacity={0} className="cs__fade">
-              <article class="cs__card">
-                <div class="cs__img">
-                  <img src={c.media.posterSrc} alt={c.media.alt} width={c.media.posterWidth} height={c.media.posterHeight} loading="lazy" decoding="async" />
-                </div>
-                <div class="cs__body">
-                  <h3 class="cs__name">{c.name}</h3>
-                  <dl class="cs__facts">
-                    <div><dt>{cases.scopeLabel}</dt><dd>{c.scope}</dd></div>
-                    <div>
-                      <dt>{cases.sizeLabel}</dt>
-                      <dd>{c.followers}</dd>
-                      <dd class="cs__src">{cases.sizeSource(c.platform)}</dd>
-                    </div>
-                  </dl>
-                  <p class="cs__caveat">{cases.sizeCaveat}</p>
-                  {c.link && <a class="cs__link" href={c.link} target="_blank" rel="noopener noreferrer">{`${cases.visit} ${c.platform}`} <span aria-hidden="true">↗</span></a>}
-                </div>
-              </article>
-            </FadeContent>
+        {shots.map((c, i) => (
+          <li class="cs__shot">
+            <TiltedCard
+              client:visible={{ rootMargin: '300px' }}
+              imageSrc={c.media.posterSrc}
+              altText={c.media.alt}
+              captionText={`${c.name} · ${c.followers} người theo dõi`}
+              containerWidth="100%"
+              containerHeight="100%"
+              imageWidth="var(--cs-shot-w)"
+              imageHeight="var(--cs-shot-h)"
+              rotateAmplitude={12}
+              scaleOnHover={1.05}
+              perspective={800}
+              smoothness={0.6}
+              glare={0.5}
+              shadow={0.5}
+              parallax={1}
+              radius={15}
+              intro
+              introDelay={i * 90}
+            />
           </li>
         ))}
       </ul>
@@ -60,21 +54,20 @@ const cards = cases.items
 
 <style>
   .cs { padding-block: var(--section-y); }
-  .cs__grid { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
-  .cs__grid > li { display: flex; }
-  .cs__fade { display: flex; width: 100%; }
-  .cs__card { display: flex; flex-direction: column; width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--c-line); background: var(--c-bg-raised); overflow: hidden; }
-  .cs__img { height: 210px; background: #151515; border-bottom: 1px solid var(--c-line); padding: 12px; box-sizing: border-box; flex: none; }
-  .cs__img img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
-  .cs__body { display: flex; flex-direction: column; gap: 14px; padding: 20px; flex: 1; }
-  .cs__name { margin: 0; font-size: 1.25rem; font-weight: 650; letter-spacing: -0.02em; }
-  .cs__facts { margin: 0; display: grid; gap: 12px; }
-  .cs__facts dt { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-fg-faint); }
-  .cs__facts dd { margin: 2px 0 0; font-size: 1rem; font-weight: 600; }
-  .cs__facts .cs__src { font-size: 0.78rem; font-weight: 400; color: var(--c-fg-muted); }
-  .cs__caveat { margin: 0; font-size: 0.78rem; line-height: 1.45; color: var(--c-fg-faint); }
-  .cs__link { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; color: var(--c-fg); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
-  .cs__link:hover { text-decoration: underline; text-underline-offset: 5px; }
-  @media (max-width: 1023px) { .cs__grid { grid-template-columns: 1fr; } .cs__card { flex-direction: row; } .cs__img { width: 42%; height: auto; min-height: 200px; align-self: stretch; border-bottom: 0; border-right: 1px solid var(--c-line); } }
-  @media (max-width: 639px) { .cs__card { flex-direction: column; } .cs__img { width: auto; height: 180px; border-right: 0; border-bottom: 1px solid var(--c-line); } }
+  .cs__grid { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 18px); }
+  /* A cell is just the tilt stage: the phone (1160×2370 → aspect 0.4895, transparent frame cropped at
+     build time) floats on the page background. --cs-shot-w tracks the viewport so the device takes as
+     much of the column as it can while still leaving room for the 1.05 hover scale and the 12° tilt;
+     the stage height is the mockup + ~40px so consecutive rows sit close together. No frame on the cell
+     either — a border + overflow would clip the tilt, its shadow and the cursor tooltip. */
+  .cs__shot { --cs-shot-w: clamp(140px, 15vw, 210px); --cs-shot-h: calc(var(--cs-shot-w) * 2.0423); position: relative; display: grid; place-items: center; height: calc(var(--cs-shot-h) + 44px); padding-top: 10px; box-sizing: border-box; }
+  @media (max-width: 1023px) {
+    .cs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 16px); }
+    .cs__shot { --cs-shot-w: clamp(180px, 27vw, 300px); height: calc(var(--cs-shot-h) + 42px); }
+  }
+  @media (max-width: 639px) {
+    /* Phones: 2 mockups per row, as tight as the tilt allows (owner: bigger, closer together). */
+    .cs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 6px; margin-top: 18px; }
+    .cs__shot { --cs-shot-w: clamp(104px, 36vw, 164px); height: calc(var(--cs-shot-h) + 38px); padding-top: 12px; }
+  }
 </style>

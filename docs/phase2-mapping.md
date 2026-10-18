@@ -1,5 +1,13 @@
 # Phase 2 — mapping & decisions (APPROVED 17/10/2026, mapping kept as is)
 
+> 2026-10-18 update: the first row below is superseded for **Case Studies**. The owner dropped 4 new
+> phone-profile screenshots into `Case Studies + Results/` (transparent frame, cropped at build time →
+> 529×1080 posters), the grid is 4-up on React Bits TiltedCard, and the counts read
+> 12K DINH House · 10,4K Kazaki · 6,3K Goodci · 5,9K Lee Chloe (screenshot date 18/10/2026). Row 3's
+> labels were then dropped as well: the owner asked for **images only** and for the caveat line to be
+> removed, so the section now shows 4 phone mockups + the heading and makes no claim at all (the counts
+> only reach the page inside the hover tooltip). Rows 2/4/6/7 still hold. See `HANDOFF.md`.
+
 Everything below is already wired and easy to change: stage mapping and copy live in `src/data/content.ts`; per-asset labels, roles and crops in `scripts/media-roles.json` (guarded by a test so ids cannot silently drift).
 
 | # | Item | What I did | Decision needed |

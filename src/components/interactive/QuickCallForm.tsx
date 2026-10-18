@@ -41,34 +41,43 @@ export default function QuickCallForm() {
   const [team, setTeam] = useState('');
   const [budget, setBudget] = useState(''); // optional
   const [name, setName] = useState('');
-  const [method, setMethod] = useState<Method>('phone');
   const [value, setValue] = useState('');
   const [note, setNote] = useState('');
   const [website, setWebsite] = useState(''); // honeypot
-  const [consent, setConsent] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [captchaReset, setCaptchaReset] = useState(0);
   const [captchaDown, setCaptchaDown] = useState(false);
-  const [touched, setTouched] = useState({ name: false, value: false, consent: false });
+  const [touched, setTouched] = useState({ name: false, value: false });
   const [status, setStatus] = useState<Status>('idle');
   const busy = useRef(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const requestId = useRef(newRequestId()); // reused on retry → the server never stores a duplicate
+  const advanceTimer = useRef<number | null>(null);
 
-  const methodDef = q.steps.contact.methods.find((m) => m.id === method)!;
+  // 2026-10-18 (owner): the contact-method selector was removed — one field takes a phone number OR an
+  // email, so the method is derived from what was typed and the server still gets a consistent pair.
+  const method: Method = isValidContact('email', value) ? 'email' : 'phone';
   const nameOk = clean(name).length >= LIMITS.nameMin && clean(name).length <= LIMITS.nameMax;
-  const valueOk = isValidContact(method, value);
+  const valueOk = isValidContact('phone', value) || isValidContact('email', value);
   const needsCaptcha = !!(ENDPOINT && SITE_KEY);
   const captchaOk = !needsCaptcha || !!token;
   const stepValid = useMemo(
-    () => ({ 1: !!industry, 2: needs.length > 0, 3: !!team, 4: nameOk && valueOk && consent && captchaOk }) as Record<number, boolean>,
-    [industry, needs, team, nameOk, valueOk, consent, captchaOk],
+    () => ({ 1: !!industry, 2: needs.length > 0, 3: !!team, 4: nameOk && valueOk && captchaOk }) as Record<number, boolean>,
+    [industry, needs, team, nameOk, valueOk, captchaOk],
   );
+
+  /** Steps with a single question move on by themselves (owner). Capturing the step at select time keeps
+   *  a double advance impossible: the Continue button — or a second click — can never skip a step. */
+  const autoAdvance = (from: number, delay = 420) => {
+    if (advanceTimer.current) window.clearTimeout(advanceTimer.current);
+    advanceTimer.current = window.setTimeout(() => setStep((s) => (s === from ? from + 1 : s)), delay);
+  };
+  useEffect(() => () => { if (advanceTimer.current) window.clearTimeout(advanceTimer.current); }, []);
 
   const submit = async () => {
     if (busy.current) return; // no double submit
     if (!stepValid[4]) {
-      setTouched({ name: true, value: true, consent: true });
+      setTouched({ name: true, value: true });
       return;
     }
     if (website) return; // bot
@@ -86,7 +95,9 @@ export default function QuickCallForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           industry, needs, team, budget, name: clean(name), method, contact: clean(value), note: clean(note, true),
-          consent, requestId: requestId.current, turnstileToken: token ?? undefined, website,
+          // the visible consent checkbox was removed at the owner's request (2026-10-18); the shared
+          // schema still requires consent:true, so the form keeps sending it.
+          consent: true, requestId: requestId.current, turnstileToken: token ?? undefined, website,
         }),
         signal: ctrl.signal,
       });
@@ -138,7 +149,7 @@ export default function QuickCallForm() {
         width="100%"
         frame
         theme="dark"
-        accentColor="#c59c4a"
+        accentColor="#ffffff"
         backButtonText={q.back}
         nextButtonText={q.next}
         completeButtonText={status === 'submitting' ? q.sending : q.submit}
@@ -148,7 +159,7 @@ export default function QuickCallForm() {
           onClick: (e) => {
             if (step === 4 && !stepValid[4]) {
               e.preventDefault();
-              setTouched({ name: true, value: true, consent: true });
+              setTouched({ name: true, value: true });
             }
           },
         }}
@@ -164,7 +175,8 @@ export default function QuickCallForm() {
             <legend className="qc-q">{q.steps.industry.question}</legend>
             <div className="qc-choices" role="radiogroup">
               {q.steps.industry.options.map((o) => (
-                <Choice key={o} label={o} selected={industry === o} onSelect={() => setIndustry(o)} />
+                // one question on this step → answer it and the stepper moves on by itself (owner)
+                <Choice key={o} label={o} selected={industry === o} onSelect={() => { setIndustry(o); autoAdvance(1); }} />
               ))}
             </div>
           </fieldset>
@@ -232,30 +244,12 @@ export default function QuickCallForm() {
             </div>
 
             <div className="qc-field">
-              <span id={`${uid}-method`}>{q.steps.contact.method}</span>
-              <div className="qc-seg" role="radiogroup" aria-labelledby={`${uid}-method`}>
-                {q.steps.contact.methods.map((m) => (
-                  <Choice
-                    key={m.id}
-                    label={m.label}
-                    selected={method === m.id}
-                    onSelect={() => {
-                      setMethod(m.id as Method);
-                      setTouched((t) => ({ ...t, value: false }));
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="qc-field">
-              <label htmlFor={`${uid}-val`}>{methodDef.label}</label>
+              <label htmlFor={`${uid}-val`}>{q.steps.contact.valueLabel}</label>
               <input
                 id={`${uid}-val`}
-                type={method === 'email' ? 'email' : method === 'phone' ? 'tel' : 'text'}
-                inputMode={method === 'phone' ? 'tel' : method === 'email' ? 'email' : 'text'}
-                autoComplete={method === 'email' ? 'email' : method === 'phone' ? 'tel' : 'off'}
-                placeholder={methodDef.placeholder}
+                type="text"
+                inputMode="text"
+                autoComplete="off"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, value: true }))}
@@ -263,28 +257,12 @@ export default function QuickCallForm() {
                 aria-describedby={touched.value && !valueOk ? `${uid}-val-err` : undefined}
                 enterKeyHint="send"
               />
-              {touched.value && !valueOk && <span id={`${uid}-val-err`} className="qc-err">{methodDef.error}</span>}
+              {touched.value && !valueOk && <span id={`${uid}-val-err`} className="qc-err">{q.steps.contact.valueError}</span>}
             </div>
 
             <div className="qc-field">
               <label htmlFor={`${uid}-note`}>{q.steps.contact.note}</label>
               <textarea id={`${uid}-note`} rows={2} value={note} onChange={(e) => setNote(e.target.value)} maxLength={LIMITS.noteMax} />
-            </div>
-
-            <div className="qc-consent">
-              <label className="qc-consent__row">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  onBlur={() => setTouched((t) => ({ ...t, consent: true }))}
-                  aria-invalid={touched.consent && !consent}
-                  aria-describedby={`${uid}-privacy`}
-                />
-                <span>{q.steps.contact.consent}</span>
-              </label>
-              {touched.consent && !consent && <span className="qc-err">{q.steps.contact.consentError}</span>}
-              <p id={`${uid}-privacy`} className="qc-privacy">{q.steps.contact.privacy}</p>
             </div>
 
             {needsCaptcha && !captchaDown && (

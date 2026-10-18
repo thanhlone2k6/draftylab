@@ -3,21 +3,32 @@
 // in the panorama preset (see components/interactive/SocialCarousel.tsx) — every photo is one card and
 // the ring drifts forever. The old rail/folder components are parked, not deleted.
 import SocialCarousel from '../interactive/SocialCarousel';
+import { sectionMedia } from '../../lib/media';
 import { social } from '../../data/content';
+
+// The carousel falls back to its own stock Unsplash photos when it is handed an empty list, so it is only
+// mounted when the section really has images (e.g. if `Social Production/*/` is parked in `ảnh riêng` for
+// review and someone re-scans).
+const hasPhotos = sectionMedia('social').length > 0;
 ---
 <section class="sp" id={social.id} aria-labelledby="sp-title">
   <div class="container-x">
     <p class="kicker">{social.kicker}</p>
     <h2 id="sp-title" class="section-title">{social.title}</h2>
-    <div class="sp__ring">
-      <SocialCarousel client:visible={{ rootMargin: '400px' }} />
-    </div>
+    {hasPhotos && (
+      <div class="sp__ring">
+        <SocialCarousel client:visible={{ rootMargin: '400px' }} />
+      </div>
+    )}
   </div>
 </section>
 
 <style>
   .sp { padding-block: var(--section-y); }
   .sp .container-x { position: relative; }
-  /* The ring needs a sized, positioned box: the carousel fills it and scales the cards to fit. */
-  .sp__ring { position: relative; height: clamp(380px, 56vh, 620px); margin-top: 28px; }
+  /* The ring needs a sized, positioned box: the carousel fills it and scales the cards to fit.
+     The cards are a fixed 220×293, so a box taller than that only adds empty air above and below
+     the strip (56vh meant ~100px of dead space on each side at 1440×900). 42vh + the 330px floor
+     keeps the strip at its natural size (fit = 1 needs ≥ ~319px) with ~40px of breathing room. */
+  .sp__ring { position: relative; height: clamp(330px, 42vh, 430px); margin-top: 28px; }
 </style>

@@ -128,9 +128,11 @@
 .pf .folder-item { cursor: default !important; }
 
 /* ---------- Quick Call ---------- */
-.qc { display: flex; flex-direction: column; gap: 14px; }
+/* 2026-10-18 (owner): the gold accent (#c59c4a) is white inside the Quick Call form — the local override
+   covers the selected choice, links and the DEMO label; the Stepper gets the same via accentColor="#ffffff". */
+.qc { display: flex; flex-direction: column; gap: 14px; --c-accent: #ffffff; --c-accent-ink: #14110a; --c-focus: #ffffff; --c-warn-bg: rgba(250, 250, 250, 0.06); }
 .qc__sub { margin: 0; color: var(--c-fg-muted); font-size: 0.95rem; }
-.qc__demo { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--c-warn-bg); border: 1px solid rgba(197, 156, 74, 0.5); font-size: 0.88rem; }
+.qc__demo { margin: 8px 0 0; padding: 8px 12px; border-radius: 10px; background: var(--c-warn-bg); border: 1px solid rgba(250, 250, 250, 0.34); font-size: 0.88rem; }
 .qc__demo strong { color: var(--c-accent); margin-right: 6px; letter-spacing: 0.06em; }
 .qc-step { border: 0; margin: 0; padding: 4px 0 0; min-width: 0; }
 .qc-q { margin: 0 0 14px; padding: 0; font-size: 1.15rem; font-weight: 650; letter-spacing: -0.01em; color: var(--stepper-ink, var(--c-fg)); }
@@ -138,7 +140,7 @@
 .qc-choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .qc-choice { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--c-line-strong); background: rgba(250, 250, 250, 0.03); color: var(--c-fg); cursor: pointer; font-size: 0.95rem; text-align: left; transition: border-color var(--dur), background var(--dur); }
 .qc-choice:hover { border-color: var(--c-fg); }
-.qc-choice[data-selected] { border-color: var(--c-accent); background: rgba(197, 156, 74, 0.16); }
+.qc-choice[data-selected] { border-color: var(--c-accent); background: rgba(250, 250, 250, 0.1); }
 .qc-choice__mark { width: 16px; height: 16px; flex: none; border-radius: 999px; border: 2px solid var(--c-line-strong); }
 .qc-choice[role='checkbox'] .qc-choice__mark { border-radius: 5px; }
 .qc-choice[data-selected] .qc-choice__mark { border-color: var(--c-accent); background: var(--c-accent); box-shadow: inset 0 0 0 2px var(--c-bg); }
@@ -148,13 +150,12 @@
 .qc-field textarea { resize: vertical; }
 .qc-field input:focus-visible, .qc-field textarea:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 1px; }
 .qc-field input[aria-invalid='true'] { border-color: var(--c-danger); }
-.qc-seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .qc-err { color: var(--c-danger); font-size: 0.84rem; }
 .qc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .qc-result { padding: 12px 14px; border-radius: 12px; font-size: 0.92rem; line-height: 1.5; }
 .qc-result p { margin: 0 0 6px; }
 .qc-result a { color: var(--c-accent); }
-.qc-result--demo { background: var(--c-warn-bg); border: 1px solid rgba(197, 156, 74, 0.5); }
+.qc-result--demo { background: var(--c-warn-bg); border: 1px solid rgba(250, 250, 250, 0.3); }
 .qc-result--err { background: rgba(240, 138, 124, 0.12); border: 1px solid rgba(240, 138, 124, 0.5); }
 .qc .stepper__button:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -196,11 +197,6 @@
 }
 .fc--static { width: min(100%, 360px); border-radius: 28px; background: #17171a; border: 1px solid var(--c-line-strong); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); }
 .fc--rc { min-height: 500px; }
-.qc-consent { display: flex; flex-direction: column; gap: 6px; }
-.qc-consent__row { display: flex; align-items: flex-start; gap: 10px; color: var(--c-fg); font-size: 0.9rem; line-height: 1.45; cursor: pointer; }
-.qc-consent__row input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--c-accent); }
-.qc-consent__row input[aria-invalid='true'] { outline: 2px solid var(--c-danger); outline-offset: 2px; }
-.qc-privacy { margin: 0; font-size: 0.8rem; color: var(--c-fg-faint); line-height: 1.45; }
 .qc-turnstile { min-height: 0; display: flex; justify-content: flex-start; }
 
 .qc-optional { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--c-line-strong); }

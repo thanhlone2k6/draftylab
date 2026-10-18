@@ -579,6 +579,11 @@ test.describe('quick call stepper', () => {
     const next = d.locator('.stepper__button--next');
     await expect(next).toBeDisabled();
     await d.getByRole('radio', { name: 'F&B / Restaurant' }).click();
+    // 2026-10-18 (owner): a single-question step advances by itself, so no Continue click here.
+    await expect(d.locator('.qc-q').last()).toHaveText('Bạn đang cần hỗ trợ gì nhất?');
+    // …and going back proves the choice was kept and Continue still works.
+    await d.locator('.stepper__button--back').click();
+    await expect(d.getByRole('radio', { name: 'F&B / Restaurant' })).toHaveAttribute('aria-checked', 'true');
     await expect(next).toBeEnabled();
     await next.click();
     // step 2 multi-select
@@ -601,16 +606,13 @@ test.describe('quick call stepper', () => {
     await name.blur();
     await expect(d.locator('.qc-err')).toHaveText('Vui lòng nhập tên.');
     await name.fill('Lan Anh');
-    await d.getByRole('radio', { name: 'Email' }).click();
-    const val = d.getByLabel('Email', { exact: true });
+    const val = d.getByLabel('Zalo / số điện thoại hoặc email của bạn');
     await val.fill('khong-hop-le');
     await val.blur();
-    await expect(d.locator('.qc-err')).toHaveText('Email chưa hợp lệ.');
+    await expect(d.locator('.qc-err')).toHaveText('Số điện thoại hoặc email chưa hợp lệ.');
     await expect(next).toBeDisabled();
     await val.fill('lan.anh@example.com');
-    await expect(next).toBeDisabled(); // consent still missing
-    await d.getByRole('checkbox', { name: /Tôi đồng ý/ }).check();
-    await expect(next).toBeEnabled();
+    await expect(next).toBeEnabled(); // name + contact are all the step needs (no consent checkbox)
     await next.click();
     await expect(d.locator('.qc-result--demo')).toContainText('CHƯA được gửi đi');
     await expect(d.locator('.qc-result--ok')).toHaveCount(0);
