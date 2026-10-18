@@ -8,6 +8,7 @@ import type { DialogRequest } from '../../lib/dialog';
 import { fmtTime } from '../../lib/dialog';
 import { dialog as t } from '../../data/content';
 import { useDialogKeys, useGroupNav } from './useGroupNav';
+import { applyMediaVolume, getVolume } from '../../lib/volume';
 import LatticeLoader from '../react-bits/LatticeLoader';
 import { IconMuted, IconNext, IconPause, IconPlay, IconPrev, IconSound } from './icons';
 
@@ -104,8 +105,11 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
   const toggleMute = useCallback(() => {
     const v = video.current;
     if (!v) return;
-    v.muted = !v.muted;
-    if (!v.muted) shell.current?.removeAttribute('data-muted-fallback');
+    const next = !v.muted;
+    // Through the bridge: on iOS Safari the element's `volume` is read-only, so the level lives on a Web
+    // Audio gain (src/scripts/audio-level.js) and the gain has to move together with the mute state.
+    applyMediaVolume(v, getVolume(), next);
+    if (!next) shell.current?.removeAttribute('data-muted-fallback');
   }, []);
 
   const seekTo = (fraction: number) => {

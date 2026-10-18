@@ -8,6 +8,7 @@ import VolumeOverlay from '../components/media/VolumeOverlay';
 import PageRays from '../components/interactive/PageRays';
 import bootstrap from '../scripts/dialog-bootstrap.js?raw';
 import volumeStore from '../scripts/volume-store.js?raw';
+import audioLevel from '../scripts/audio-level.js?raw';
 import { site } from '../data/content';
 ---
 <!doctype html>
@@ -54,6 +55,8 @@ import { site } from '../data/content';
     <DialogShell />
     <!-- Runs immediately: CTAs/posters open the dialog on the very first click, before hydration. -->
     <script is:inline set:html={volumeStore} />
+    <!-- Level bridge: iOS Safari ignores `video.volume`, so the level is applied through a Web Audio gain there. -->
+    <script is:inline set:html={audioLevel} />
     <script is:inline set:html={bootstrap} />
     <MediaDialogHost client:load />
     <!-- In-place volume gauge for touch devices; opens when a running preview is tapped again. -->

@@ -6,7 +6,7 @@
 // Maps `partners` (src/data/partners.ts) to loop items and keeps the two logo treatments from the old static row:
 //   • kind 'logo'  → dark line-art, inverted for the dark theme
 //   • kind 'photo' → square tile with rounded corners
-// The 7 logos are ~100 KB in total and sit at the fold, but `loading="lazy"` on them was a trap: the
+// The logos are ~100 KB in total and sit at the fold, but `loading="lazy"` on them was a trap: the
 // marquee clips (`overflow: clip`) and translates its track, and WebKit in particular then kept an image
 // unloaded (naturalWidth 0 → an empty slot in the row), so they load eagerly instead.
 import LogoLoop, { type LogoItem } from '../react-bits/LogoLoop';

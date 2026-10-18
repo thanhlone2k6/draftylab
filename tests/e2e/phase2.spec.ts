@@ -12,24 +12,32 @@ test.describe('phase 2 sections @webkit', () => {
     for (const h of ['#work', '#social', '#results', '#about']) expect(await page.locator(h).count(), h).toBe(1);
   });
 
-  test('Trusted By shows all partners with names; links open in a new tab safely', async ({ page }) => {
+  test('Trusted By: phones run the still marquee (images only), the desktop dock keeps names + safe links', async ({ page }, info) => {
     await page.goto('/', { waitUntil: 'networkidle' });
     await scrollToId(page, 'trusted');
     await page.waitForTimeout(900);
-    await expect(page.locator('.tb__item')).toHaveCount(7);
-    expect(await page.locator('.tb__item img').evaluateAll((imgs) => imgs.every((i) => (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
-    const rels = await page.locator('a.tb__item').evaluateAll((as) => as.map((a) => [a.getAttribute('target'), a.getAttribute('rel')]));
-    for (const [t, r] of rels) {
-      expect(t).toBe('_blank');
-      expect(r).toContain('noopener');
+
+    if (isMobile(info.project.name)) {
+      // Phones (≤767px): the CSS marquee — the 6 partners repeated in 3 identical rows, images only.
+      // Deliberately no links: the row moves, so a tap target would be unusable (owner, 2026-10-19).
+      await expect(page.locator('#trusted .tb__marq-item')).toHaveCount(18);
+      expect(await page.locator('#trusted .tb__marq-item img').evaluateAll((imgs) => imgs.every((i) => (i as HTMLImageElement).complete && (i as HTMLImageElement).naturalWidth > 0))).toBe(true);
+      await expect(page.locator('#trusted .tb__marq a')).toHaveCount(0);
+      await expect(page.locator('#trusted .tb__marq')).toBeVisible();
+      await expect(page.locator('#trusted .tb__dock')).toBeHidden();
+    } else {
+      // Desktop (≥768px): the React Bits dock — one anchor per partner, names on hover, safe new-tab links.
+      const names = await page.locator('#trusted .logoloop__content[aria-label]').evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute('aria-label')))]);
+      expect(names).toEqual(['Kazaki Ramen', 'Lee Chloe Coffee', 'Good Ci', 'Maison', 'Dinh House', 'Winnie']);
+      const rels = await page.locator('#trusted a.logoloop__content').evaluateAll((as) => as.map((a) => [a.getAttribute('target'), a.getAttribute('rel')]));
+      expect(rels.length).toBeGreaterThanOrEqual(names.length);
+      for (const [t, r] of rels) {
+        expect(t).toBe('_blank');
+        expect(r).toContain('noopener');
+      }
+      await expect(page.locator('#trusted .tb__dock')).toBeVisible();
+      await expect(page.locator('#trusted .tb__marq')).toBeHidden();
     }
-    const op = await page.locator('.tb__row').evaluate((el) => {
-      let n: HTMLElement | null = el as HTMLElement;
-      let o = 1;
-      while (n) { o *= Number(getComputedStyle(n).opacity); n = n.parentElement; }
-      return o;
-    });
-    expect(op).toBe(1);
   });
 
   test('Raw → Final: no lightbox — hover previews in place; touch tap plays then opens the volume gauge; no play button', async ({ page }, info) => {

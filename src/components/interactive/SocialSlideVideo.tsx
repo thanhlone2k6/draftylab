@@ -5,7 +5,7 @@
 //    the page yet), it keeps playing muted and the sound comes on at the first gesture.
 //  • Source is attached only while playing and detached afterwards (network + decoder stop for real).
 import { useEffect, useRef, useState } from 'react';
-import { getVolume, subscribeVolume } from '../../lib/volume';
+import { applyMediaVolume, applySessionVolume, subscribeVolume } from '../../lib/volume';
 
 interface Props {
   src: string;
@@ -30,10 +30,9 @@ export default function SocialSlideVideo({ src, playing, engaged, landscape, con
     v.addEventListener('playing', onPlaying);
     if (playing) {
       v.src = src;
-      v.volume = getVolume();
-      v.muted = !engagedRef.current;
+      applySessionVolume(v, !engagedRef.current);
       v.play().catch(() => {
-        v.muted = true;
+        applySessionVolume(v, true);
         v.play().catch(() => {});
       });
     }
@@ -50,22 +49,18 @@ export default function SocialSlideVideo({ src, playing, engaged, landscape, con
   useEffect(() => {
     const v = ref.current;
     if (!v || !playing) return;
-    v.volume = getVolume();
-    if (!engaged) {
-      v.muted = true;
-      return;
-    }
-    v.muted = false;
+    applySessionVolume(v, !engaged);
+    if (!engaged) return;
     // Blocked unmute pauses the element in some browsers: fall back to muted and retry on the first gesture.
     const check = window.setTimeout(() => {
       if (v.paused && v.getAttribute('src')) {
-        v.muted = true;
+        applySessionVolume(v, true);
         v.play().catch(() => {});
         const on = () => {
           document.removeEventListener('pointerdown', on, true);
           document.removeEventListener('keydown', on, true);
           if (engagedRef.current && v.getAttribute('src')) {
-            v.muted = false;
+            applySessionVolume(v, false);
             v.play().catch(() => {});
           }
         };
@@ -81,7 +76,7 @@ export default function SocialSlideVideo({ src, playing, engaged, landscape, con
     () =>
       subscribeVolume((vol) => {
         const v = ref.current;
-        if (v) v.volume = vol;
+        if (v) applyMediaVolume(v, vol, !engagedRef.current);
       }),
     [],
   );

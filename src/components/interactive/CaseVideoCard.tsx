@@ -3,7 +3,7 @@
 // muted preview plays on hover (tap on touch); the bar has play/pause, sound, scrub; the pill opens the
 // original post. Only VIEWS are shown — likes/comments/shares were not supplied and are never invented.
 import { useEffect, useId, useRef, useState } from 'react';
-import { getVolume } from '../../lib/volume';
+import { applyMediaVolume, getVolume } from '../../lib/volume';
 import CountUp from '../react-bits/CountUp';
 import { IconPlay, IconPause, IconSound, IconMuted } from '../media/icons';
 import './CaseVideoCard.css';
@@ -73,7 +73,7 @@ export default function CaseVideoCard(p: Props) {
   const start = () => { setActive(true); setBuffering(true); setPlayReq((n) => n + 1); };
   useEffect(() => {
     const v = vref.current; if (!v || playReq === 0) return;
-    v.muted = muted; v.volume = getVolume();
+    applyMediaVolume(v, getVolume(), muted);
     v.play().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playReq, active]);
@@ -84,7 +84,7 @@ export default function CaseVideoCard(p: Props) {
   const toggle = () => { const v = vref.current; if (!v || v.paused) { userPaused.current = false; start(); } else { userPaused.current = true; stop(false); } };
   const toggleMute = () => {
     const v = vref.current; const next = !muted; setMuted(next);
-    if (v) { v.muted = next; v.volume = getVolume(); }
+    if (v) applyMediaVolume(v, getVolume(), next);
     if (!v) setActive(true);
   };
   const seek = (value: number) => {

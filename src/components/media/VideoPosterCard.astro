@@ -56,12 +56,22 @@ const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(it
   const w = window as unknown as {
     __dflPreview?: boolean;
     __dflVolume?: { get(): number; subscribe(fn: (level: number) => void): () => void };
+    __dflAudio?: { apply(el: HTMLMediaElement, level: number, muted: boolean): void; resume(): void };
   };
   if (!w.__dflPreview) {
     w.__dflPreview = true;
     const mouse = window.matchMedia('(hover: hover) and (pointer: fine)');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const level = () => w.__dflVolume?.get() ?? 0.5;
+    // The level always goes through the bridge: a plain `video.volume = x` is a no-op on iOS Safari and the
+    // gauge then changes nothing audible (src/scripts/audio-level.js; owner, 2026-10-19).
+    const applyLevel = (v: HTMLVideoElement, vol: number, muted: boolean) => {
+      if (w.__dflAudio) w.__dflAudio.apply(v, vol, muted);
+      else {
+        v.volume = vol;
+        v.muted = muted;
+      }
+    };
     let active: HTMLElement | null = null;
     // Whether the running preview is meant to be audible (hover on Raw/Final is silent by design).
     let activeSound = false;
@@ -131,8 +141,7 @@ const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(it
         document.removeEventListener('keydown', on, true);
         document.removeEventListener('touchstart', on, true);
         if (active === card && v.getAttribute('src')) {
-          v.volume = vol;
-          v.muted = false;
+          applyLevel(v, vol, false);
           v.play().catch(() => {});
         }
       };
@@ -154,10 +163,9 @@ const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(it
       card.setAttribute('data-loading', '');
       card.parentElement?.classList.add('is-live');
       v.src = src;
-      v.volume = vol;
-      v.muted = !wantSound;
+      applyLevel(v, vol, !wantSound);
       v.play().catch(() => {
-        v.muted = true;
+        applyLevel(v, vol, true);
         v.play().catch(() => {});
         if (wantSound) armUnmute(card, v, vol);
       });
@@ -236,10 +244,7 @@ const cardLabel = ariaLabel ?? `${gallery.play}: ${item.title} (${fmtDuration(it
     w.__dflVolume?.subscribe((vol) => {
       if (!active) return;
       const v = previewVideo(active);
-      if (v && v.getAttribute('src')) {
-        v.volume = vol;
-        v.muted = !(activeSound && vol > 0);
-      }
+      if (v && v.getAttribute('src')) applyLevel(v, vol, !(activeSound && vol > 0));
     });
 
     // Never keep playing off-screen or in a background tab.

@@ -24,8 +24,17 @@
   const closeBtn = shell.querySelector('.dlg__close');
   const FALLBACK_MS = 8000;
   // Session volume (src/scripts/volume-store.js): every video on the page shares one level (the lightbox
-  // used to hard-code 0.8). Falls back to 50% if the store is missing.
-  const level = () => (window.__dflVolume && window.__dflVolume.get()) || 0.5;
+  // used to hard-code 0.8). Falls back to 50% if the store is missing. The level goes through the audio
+  // bridge (src/scripts/audio-level.js) because `video.volume` is read-only on iOS Safari.
+  const level = () => (window.__dflVolume ? window.__dflVolume.get() : 0.5);
+  const applyLevel = (el, muted) => {
+    const bridge = window.__dflAudio;
+    if (bridge) bridge.apply(el, level(), muted);
+    else {
+      el.volume = level();
+      el.muted = muted;
+    }
+  };
   // Hover-capable devices keep the V1 behaviour (click anywhere on a card opens the lightbox); touch
   // devices play the preview in place and use the card's ⤢ button to open it (docs/decisions-log.md).
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -88,8 +97,7 @@
     if (req.kind === 'video' && !req.pending && req.src) {
       if (req.poster) video.poster = req.poster;
       video.src = req.src;
-      video.muted = false;
-      video.volume = level();
+      applyLevel(video, false);
       if (!d.host && shell.hasAttribute('data-failed')) video.controls = true;
       const p = video.play();
       if (p && typeof p.catch === 'function') {
@@ -97,7 +105,7 @@
         p.catch(() => {
           // Only retry if this same video is still the one on screen (not closed / not switched).
           if (shell.hidden || video.getAttribute('src') !== req.src) return;
-          video.muted = true;
+          applyLevel(video, true);
           shell.setAttribute('data-muted-fallback', '');
           video.play().catch(() => {});
         });
