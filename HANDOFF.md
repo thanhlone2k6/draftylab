@@ -9,13 +9,14 @@
 - 2026-10-19 — **Tests**: new `tests/e2e/audio-ios.spec.ts` (fakes iOS by making `volume` read-only in an init script, then watches the gain follow the gauge; green on all 4 projects incl. WebKit). Rewrote the stale phase-2 "Trusted By" test (old `.tb__item`/`.tb__row` classes) against `.tb__marq-item` (phones, images only, no links) / `.logoloop__content` (desktop dock, 6 names + safe links) — it passes now.
 
 ## Current state
-- **Not pushed yet** — the changes above are in the working tree (`main` is still `cff00df`). Local flow passes: `build:cf`, `check` (0 errors), `check:functions`, `test:unit` (29), `tests/e2e/audio-ios.spec.ts` + the rewritten Trusted-By test (4/4 projects each).
+- **Deployed** `main` = commit `28d8914` (2026-10-19) → https://draftylab.pages.dev (live build verified: the new `window.__dflAudio` bridge is in the HTML, and the fake-iOS harness + the desktop pass-through were re-run against production). Push to `main` auto-builds (`npm run build:cf`); no manual deploy.
+- Local flow green before the push: `build:cf`, `check` (0 errors), `check:functions`, `test:unit` (29), `tests/e2e/audio-ios.spec.ts` + the rewritten Trusted-By test (4/4 projects each).
 - Works: 32 videos + hover preview + lightbox, 404, Turnstile on preview, lead → D1; Trusted-by 6 partners on phones (CSS marquee) and desktop (LogoLoop dock); the volume gauge applies on the iOS path (gain) and on the native path (desktop/Android) with no behaviour change.
 - **Needs a real iPhone check** (owner): preview sound follows the gauge, and it stays audible with the silent switch on. `navigator.audioSession` needs Safari 16.4+; below that the gauge works but follows the silent switch. Playwright's WebKit is desktop WebKit — it cannot prove the real-iOS read-only behaviour, which is why the spec fakes it.
 - Pre-existing e2e failures (identical with the change stashed, so not from this session): `phase1.spec.ts` "Volume (touch)" (2.2m timeout), lightbox "controls, next/prev" and "focus is trapped", most of the social-rail tests, "nav links point to sections…". They hang on selectors/clicks under the sticky nav — worth a sweep of their own.
 
 ## Next steps
-1. Push `main` (auto-builds → verify live in WebKit), then ask the owner to test the gauge on a real iPhone (silent switch on/off).
+1. Owner tests the gauge on a real iPhone (silent switch on and off) and says whether the level is actually audible.
 2. Sweep the pre-existing e2e failures listed above (they are not caused by this work but they hide real ones).
 3. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
 4. Delete remote branch `dfl2-migration`; replace the `v1-temp` placeholders (`docs/unmapped-assets.md`). Trusted-by now lists 6 partners — confirm the final set/order with the owner.
