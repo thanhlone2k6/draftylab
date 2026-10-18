@@ -3,6 +3,10 @@
 .cvc__video { opacity: 0; transition: opacity 0.25s; }
 .cvc[data-playing] .cvc__video { opacity: 1; }
 .cvc__tap { position: absolute; inset: 0; z-index: 1; border: 0; background: transparent; cursor: pointer; }
+/* Loading spinner while a tapped preview buffers (mobile especially) so the card never looks frozen. */
+.cvc__spin { position: absolute; top: 50%; left: 50%; z-index: 2; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.28); border-top-color: #fff; animation: cvc-spin 0.8s linear infinite; pointer-events: none; }
+@keyframes cvc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .cvc__spin { animation-duration: 1.8s; } }
 .cvc__shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.45), transparent 22%, transparent 52%, rgba(0,0,0,.78)); }
 .cvc__chip, .cvc__logo, .cvc__stat, .cvc__bar, .cvc__cta { position: absolute; z-index: 2; }
 .cvc__chip { top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; background: rgba(15, 20, 32, 0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); pointer-events: none; }
@@ -26,10 +30,26 @@
 .cvc :focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 /* Hover-capable screens: the control bar slides in with the preview; touch screens keep it visible. */
 @media (hover: hover) { .cvc__bar { opacity: 0; } .cvc:hover .cvc__bar, .cvc:focus-within .cvc__bar { opacity: 1; } }
-@media (max-width: 639px) { .cvc__cta { font-size: 0.76rem; } .cvw__views { font-size: 1.7rem; } }
+@media (max-width: 639px) {
+  .cvc__cta { font-size: 0.68rem; min-height: 34px; left: 8px; right: 8px; bottom: 8px; padding-inline: 6px; }
+  /* Three cards share one phone row now: shrink the controls so the bar still fits (~110px wide). */
+  .cvc__bar { left: 6px; right: 6px; bottom: 50px; gap: 2px; }
+  .cvc__btn { width: 26px; height: 26px; }
+  .cvc__btn svg { width: 15px; height: 15px; }
+  .cvc__seek { height: 16px; }
+  .cvc__seek::-webkit-slider-thumb { width: 10px; height: 10px; margin-top: -3.5px; }
+  .cvc__chip { font-size: 0.62rem; padding: 4px 8px; top: 8px; left: 8px; }
+  .cvc__logo { width: 26px; height: 26px; top: 8px; right: 8px; }
+}
 
 .cvw__meta { padding: 14px 4px 0; }
 .cvw__views { margin: 0; display: flex; align-items: center; gap: 10px; font-size: clamp(1.9rem, 3.2vw, 2.5rem); font-weight: 800; line-height: 1.2; color: #fff; }
 .cvw__views > svg { flex: none; width: 0.8em; height: 0.8em; opacity: 0.9; }
 .cvw__num { display: inline-block; }
 .cvw__creator { margin: 2px 0 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.65); overflow-wrap: anywhere; }
+/* Phones: the view count + eye must fit the ~110px 3-up column (the base clamp is defined above,
+   so this override has to sit after it). */
+@media (max-width: 639px) {
+  .cvw__views { font-size: 1.35rem; gap: 6px; }
+  .cvw__creator { font-size: 0.82rem; }
+}

@@ -20,12 +20,13 @@ function CardFace({ portrait, alt }: { portrait: string; alt: string }) {
       <div className="fc__head">
         <img src={portrait} alt={alt} width={688} height={960} decoding="async" loading="lazy" />
         <div className="fc__id">
-          <span className="fc__badge">{about.card.badge}</span>
+          <img className="fc__badge" src="/media/brand/drafty-lab-wordmark.png" alt={about.card.badge} width="2502" height="631" decoding="async" />
           <p className="fc__name">{about.card.name}</p>
           <p className="fc__role">{about.card.role}</p>
-          {/* On phones the copy column is stacked under this card, so the greeting and the story move
-              in here (see .fc__intro / .fc__body in components.css); on desktop they stay in the copy. */}
-          <p className="fc__intro">{about.intro}</p>
+          {/* The 3 tag pills sit here, right under the role, on every layout (see .fc__tags). */}
+          <ul className="fc__tags">
+            {about.tags.map((t) => <li key={t}>{t}</li>)}
+          </ul>
         </div>
       </div>
       <div className="fc__body">

@@ -448,6 +448,41 @@
   pointer-events: none;
 }
 
+/* DFL2 (2026-10-19): on phones the collapsed nav becomes ONE pill, centred — logo and burger together.
+   It sits over the hero lanyard strap's top so the strap looks like it hangs from the nav. The open
+   menu panel is centred under the pill with its own width so the rows stay readable. */
+@media (max-width: 899px) {
+  .pill-nav[data-collapsed] {
+    width: auto;
+    justify-content: center;
+    gap: 4px;
+    height: calc(var(--pn-h) + 8px);
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--pn-surface);
+    box-shadow: var(--pn-shadow);
+    -webkit-backdrop-filter: var(--pn-blur);
+    backdrop-filter: var(--pn-blur);
+  }
+  .pill-nav[data-collapsed] .pill-nav__logo,
+  .pill-nav[data-collapsed] .pill-nav__toggle {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .pill-nav[data-collapsed] > .pill-nav__logo .pill-nav__rim,
+  .pill-nav[data-collapsed] > .pill-nav__toggle .pill-nav__rim {
+    display: none;
+  }
+  .pill-nav[data-collapsed] .pill-nav__panel {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    min-width: min(90vw, 300px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pill-nav__face,
   .pill-nav__face-alt,

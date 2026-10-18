@@ -10,6 +10,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import os from 'node:os';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import sharp from 'sharp';
 import { INTERNAL_MANIFEST, BUILD_CACHE, PUBLIC_MANIFEST, OUTPUT_DIR, OUTPUT_URL, SECTIONS } from './lib/config.mjs';
 import { ffmpeg, videoArgs, scaleFilter } from './lib/encode.mjs';
@@ -35,6 +37,19 @@ const FULL_LONG = 1600;
 const fingerprint = (it, extra) => crypto.createHash('sha1').update(`${it.sizeBytes}:${it.mtimeMs}:${it.hash}:${JSON.stringify(extra)}`).digest('hex').slice(0, 12);
 const outPath = (rel) => path.join(OUTPUT_DIR, rel);
 const exists = (p) => fs.access(p).then(() => true, () => false);
+
+// iPhone HEIC/HEIF photos (e.g. the two in How I Work's "Lên lịch đăng bài") can't be decoded by this
+// sharp build (no HEVC plugin). macOS `sips` converts them to a temp JPEG that sharp reads fine; the
+// result is cached by content hash so a re-build does no extra work. macOS-only, like the rest of this pipeline.
+const execFileP = promisify(execFile);
+async function decodedSource(it) {
+  if (it.type !== 'image' || !/^hei[cf]$/.test(String(it.format || ''))) return it.sourcePath;
+  const out = path.join(os.tmpdir(), `dfl2-heic-${it.id}-${it.hash || 'x'}.jpg`);
+  if (!(await exists(out))) {
+    await execFileP('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', 'best', it.sourcePath, '--out', out]);
+  }
+  return out;
+}
 
 async function needs(key, fp, file) {
   return cache[key] !== fp || !(await exists(file));
@@ -82,7 +97,10 @@ for (const it of phase1) {
     await adoptImage(posterKey, posterFp, poster, it.id, 'poster');
     if (!(await needs(posterKey, posterFp, outPath(poster.rel)))) return;
     if (it.type === 'video') await posterFromVideo(it, outPath(poster.rel));
-    else await atomicWrite(outPath(poster.rel), (tmp) => sharp(it.sourcePath).rotate().extract(roles[it.id]?.crop ?? { left: 0, top: 0, width: it.width, height: it.height }).resize({ width: POSTER_LONG, height: POSTER_LONG, fit: 'inside', withoutEnlargement: true }).webp({ quality: 80 }).toFile(tmp));
+    else {
+      const src = await decodedSource(it);
+      await atomicWrite(outPath(poster.rel), (tmp) => sharp(src).rotate().extract(roles[it.id]?.crop ?? { left: 0, top: 0, width: it.width, height: it.height }).resize({ width: POSTER_LONG, height: POSTER_LONG, fit: 'inside', withoutEnlargement: true }).webp({ quality: 80 }).toFile(tmp));
+    }
     cache[posterKey] = posterFp; console.log('poster', it.id);
   });
   if (it.type === 'image' && it.sectionId !== 'case-studies') {
@@ -92,7 +110,8 @@ for (const it of phase1) {
     tasks.push(async () => {
       await adoptImage(key, fp, full, it.id, 'full');
       if (!(await needs(key, fp, outPath(full.rel)))) return;
-      await atomicWrite(outPath(full.rel), (tmp) => sharp(it.sourcePath).rotate().resize({ width: FULL_LONG, height: FULL_LONG, fit: 'inside', withoutEnlargement: true }).webp({ quality: 84 }).toFile(tmp));
+      const src = await decodedSource(it);
+      await atomicWrite(outPath(full.rel), (tmp) => sharp(src).rotate().resize({ width: FULL_LONG, height: FULL_LONG, fit: 'inside', withoutEnlargement: true }).webp({ quality: 84 }).toFile(tmp));
       cache[key] = fp; console.log('full', it.id);
     });
   }

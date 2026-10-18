@@ -34,7 +34,21 @@ export const SECTIONS = [
   { id: 'behind-raw-final', dir: 'Behind the Creative/raw-final', phase: 2 },
   { id: 'behind-ai-workflow', dir: 'Behind the Creative/AI workflow', phase: 2 },
   { id: 'case-studies', dir: 'Case Studies + Results', phase: 2 },
-  { id: 'how-i-work', dir: 'Cách tôi sẽ làm việc', phase: 2 },
+  // 2026-10-19: the owner re-sorted this section into one subfolder per step (the folder names
+  // below). Each subfolder is scanned as its own group, so ids become `how-i-work-<step>-iNN/vNN`
+  // and a step can never show another step's photos. The 5 loose photos still at the root are
+  // intentionally not scanned (owner: "bỏ qua"). Folder names are stored NFC (APFS resolves them).
+  {
+    id: 'how-i-work',
+    dir: 'Cách tôi sẽ làm việc',
+    phase: 2,
+    brands: [
+      { folder: 'Phân tích nhu cầu, mục tiêu khách hàng và tệp khán giả', id: 'audience', displayName: 'Phân tích nhu cầu' },
+      { folder: 'Lên kế hoạch + Triển khai kế hoạch quay', id: 'plan', displayName: 'Lên kế hoạch' },
+      { folder: 'Lên lịch đăng bài', id: 'schedule', displayName: 'Lên lịch đăng bài' },
+      { folder: 'Làm báo cáo và thống kê để tối ưu hiệu quả marketing', id: 'report', displayName: 'Báo cáo' },
+    ],
+  },
 ];
 
 // 2026-10-18: the 19 Social Production videos were moved to `Social Production/video riêng`
@@ -46,7 +60,9 @@ export const SECTIONS = [
 // will render its heading only (see the `hasPhotos` guard in SocialProduction.astro). See HANDOFF.md.
 export const EXPECTED_COUNTS = { socialVideos: 0, galleryVideos: 4 };
 
-export const IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp']);
+// .heic added 2026-10-19: the owner filed two iPhone HEIC photos into the "Lên lịch đăng bài"
+// step; sharp reads HEIF fine, so they scan like any other image.
+export const IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp', '.heic', '.heif']);
 export const VIDEO_EXT = new Set(['.mp4', '.mov', '.m4v']);
 
 /** Natural, locale-aware filename sort so ids stay stable between scans. */

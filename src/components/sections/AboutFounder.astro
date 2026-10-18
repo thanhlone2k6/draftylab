@@ -12,9 +12,6 @@ import { about } from '../../data/content';
       <div class="ab__body">
         {about.body.map((p) => <p set:html={p} />)}
       </div>
-      <ul class="ab__tags">
-        {about.tags.map((t) => <li>{t}</li>)}
-      </ul>
     </FadeContent>
     <div class="ab__card">
       <FounderCard client:visible portrait="/media/founder/portrait-founder.webp" alt="Thành Nguyễn — Founder & Creative Lead, Drafty Lab" />
@@ -30,9 +27,9 @@ import { about } from '../../data/content';
   .ab__body p { margin: 0 0 12px; }
   .ab__body p:last-child { margin-bottom: 0; }
   .ab__body :global(strong) { color: var(--c-fg); font-weight: 600; }
-  .ab__tags { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .ab__tags li { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--c-line-strong); font-size: 0.85rem; color: var(--c-fg); }
+  /* The 3 tag pills (about.tags) live INSIDE the Founder card now (see .fc__tags in components.css),
+     directly under the role. */
   .ab__card { display: grid; place-items: center; min-height: 520px; }
-  /* Phones: one column, and the greeting + story move into the Founder card instead of sitting here. */
+  /* Phones: one column, and the greeting + story move out of here (story goes into the Founder card). */
   @media (max-width: 899px) { .ab__inner { grid-template-columns: 1fr; } .ab__card { min-height: 0; } .ab__intro, .ab__body { display: none; } }
 </style>

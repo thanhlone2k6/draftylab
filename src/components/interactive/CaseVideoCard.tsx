@@ -62,6 +62,7 @@ export default function CaseVideoCard(p: Props) {
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(false); // video element mounted (first interaction)
+  const [buffering, setBuffering] = useState(false); // preview requested but not yet playing
   const reduced = useRef(false);
   const userPaused = useRef(false); // an explicit pause sticks until the pointer leaves (some engines re-fire pointerenter on child moves)
   const uid = `cvc-ig-${useId().replace(/:/g, '')}`;
@@ -69,7 +70,7 @@ export default function CaseVideoCard(p: Props) {
   useEffect(() => { reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }, []);
 
   const [playReq, setPlayReq] = useState(0); // bumped to ask the (possibly not-yet-mounted) <video> to play
-  const start = () => { setActive(true); setPlayReq((n) => n + 1); };
+  const start = () => { setActive(true); setBuffering(true); setPlayReq((n) => n + 1); };
   useEffect(() => {
     const v = vref.current; if (!v || playReq === 0) return;
     v.muted = muted; v.volume = getVolume();
@@ -96,6 +97,7 @@ export default function CaseVideoCard(p: Props) {
     <div
       className={`cvc cvc--${p.platform}`}
       data-playing={playing ? '' : undefined}
+      data-buffering={buffering ? '' : undefined}
       style={{ aspectRatio: String(p.aspect) }}
       onPointerEnter={(e) => { if (e.pointerType === 'mouse' && !reduced.current && !userPaused.current && !playing) start(); }}
       onPointerLeave={(e) => { if (e.pointerType === 'mouse') { userPaused.current = false; stop(true); } }}
@@ -104,9 +106,10 @@ export default function CaseVideoCard(p: Props) {
       <img className="cvc__poster" src={p.posterSrc} alt="" width={608} height={1080} loading="lazy" decoding="async" />
       {active && (
         <video ref={vref} className="cvc__video" src={p.previewSrc} playsInline loop preload="auto" muted={muted}
-          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+          onPlay={() => { setPlaying(true); setBuffering(false); }} onPause={() => setPlaying(false)} onError={() => setBuffering(false)}
           onTimeUpdate={(e) => { const v = e.currentTarget; if (v.duration) setProgress(v.currentTime / v.duration); }} />
       )}
+      {buffering && <span className="cvc__spin" aria-hidden="true" />}
       <button type="button" className="cvc__tap" aria-label={playing ? p.pauseLabel : p.playLabel} onClick={toggle} />
       <div className="cvc__shade" aria-hidden="true" />
 
@@ -127,7 +130,7 @@ export default function CaseVideoCard(p: Props) {
       </div>
 
       <a className="cvc__cta" href={p.url} target="_blank" rel="noopener noreferrer" aria-label={p.ariaLabel}>
-        {p.ctaLabel}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <span className="cvc__cta-t">{p.ctaLabel}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </a>
     </div>
     <div className="cvw__meta">

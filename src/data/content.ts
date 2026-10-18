@@ -122,12 +122,15 @@ export const howIWork = {
   kicker: '06 — How I Work',
   title: 'How I Work',
   openLabel: (name: string) => `Mở thư mục ${name}`,
-  // DRAFT mapping of the 10 photos + 1 video to the 4 stages — NEEDS_USER_DECISION (docs/unmapped-assets.md).
+  // 2026-10-19: the owner re-sorted `Cách tôi sẽ làm việc/` into one folder per step and named them;
+  // each stage now shows exactly the photos/video of its own folder (ids build from the folder name —
+  // see `how-i-work` in scripts/lib/config.mjs and scripts/media-roles.json). Order is the owner's
+  // chosen workflow: analyse → plan/shoot → schedule → report.
   stages: [
-    { id: 'discover', name: 'Discover', blurb: 'Lắng nghe yêu cầu, tìm hiểu sản phẩm và mục tiêu.', color: '#3c4250', mediaIds: ['how-i-work-v01', 'how-i-work-i06', 'how-i-work-i03'] },
-    { id: 'concept', name: 'Concept', blurb: 'Concept, moodboard, storyboard và phương án phù hợp ngân sách.', color: '#4a3f2e', mediaIds: ['how-i-work-i05', 'how-i-work-i08', 'how-i-work-i02'] },
-    { id: 'production', name: 'Production', blurb: 'Quay / chụp, dựng, và quy trình AI khi phù hợp.', color: '#35443d', mediaIds: ['how-i-work-i09', 'how-i-work-i10', 'how-i-work-i04'] },
-    { id: 'delivery', name: 'Delivery', blurb: 'Kiểm tra chất lượng, tối ưu định dạng và bàn giao.', color: '#463a44', mediaIds: ['how-i-work-i07', 'how-i-work-i01'] },
+    { id: 'audience', name: 'Phân tích nhu cầu, mục tiêu và tệp khán giả', blurb: 'Tìm hiểu mục tiêu kinh doanh, sản phẩm và tệp khán giả trước khi bắt tay vào làm.', color: '#3c4250', mediaIds: ['how-i-work-audience-v01', 'how-i-work-audience-i01', 'how-i-work-audience-i02'] },
+    { id: 'plan', name: 'Lên kế hoạch và triển khai', blurb: 'Lên kế hoạch nội dung, chuẩn bị thiết bị và triển khai quay theo đúng kế hoạch.', color: '#4a3f2e', mediaIds: ['how-i-work-plan-i01', 'how-i-work-plan-i02', 'how-i-work-plan-i03', 'how-i-work-plan-i04'] },
+    { id: 'schedule', name: 'Lên lịch đăng bài', blurb: 'Thiết kế, hoàn thiện nội dung và lên lịch đăng bài cho từng kênh.', color: '#35443d', mediaIds: ['how-i-work-schedule-i01', 'how-i-work-schedule-i02'] },
+    { id: 'report', name: 'Báo cáo và thống kê', blurb: 'Theo dõi số liệu, tổng hợp báo cáo và tối ưu cho các chiến dịch tiếp theo.', color: '#463a44', mediaIds: ['how-i-work-report-i01', 'how-i-work-report-i02'] },
   ],
 };
 
@@ -142,12 +145,12 @@ export const about = {
     'Mình là một <strong>Creative Designer và Video Editor</strong>, tập trung vào <strong>sáng tạo nội dung, thiết kế hình ảnh và trải nghiệm kỹ thuật số</strong>. Với Drafty Lab, mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ để biến những ý tưởng thành sản phẩm sáng tạo có dấu ấn riêng.',
   ],
   card: { name: 'Thành Nguyễn', role: 'Founder & Creative Lead', badge: 'Drafty Lab' },
-  tags: ['AI Creative', 'Video Editing', 'Hybrid Production'],
+  tags: ['Marketing Partner', 'AI Hybrid Production'],
 };
 
 export const quickCall = {
   title: 'Quick Call in 10 Min',
-  cta: 'Trao đổi thêm',
+  cta: 'Trao đổi ngay',
   subtitle: 'Trả lời 4 câu nhanh — phần lớn chỉ cần bấm chọn.',
   demoBanner: 'Form demo — chưa nhận lead thật',
   back: 'Quay lại',

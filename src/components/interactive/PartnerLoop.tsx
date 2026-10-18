@@ -5,6 +5,7 @@
 // The 7 logos are ~100 KB in total and sit at the fold, but `loading="lazy"` on them was a trap: the
 // marquee clips (`overflow: clip`) and translates its track, and WebKit in particular then kept an image
 // unloaded (naturalWidth 0 → an empty slot in the row), so they load eagerly instead.
+import { useEffect, useState } from 'react';
 import LogoLoop, { type LogoItem } from '../react-bits/LogoLoop';
 import { partners } from '../../data/partners';
 import { trusted } from '../../data/content';
@@ -13,6 +14,17 @@ import './PartnerLoop.css';
 type PartnerLogo = LogoItem & { kind: 'logo' | 'photo' };
 
 export default function PartnerLoop() {
+  // Phones get a plain marquee (owner, 2026-10-19): no pointer lens, no hover tips, no fade mask and no
+  // drag — the fewest moving parts, so nothing can render wrong on iOS. Desktop keeps the full Dock preset.
+  const [simple, setSimple] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const apply = () => setSimple(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
   const logos: PartnerLogo[] = partners.map(p => ({
     src: p.logo,
     alt: p.name,
@@ -41,14 +53,14 @@ export default function PartnerLoop() {
       direction="left"
       logoHeight={44}
       gap={44}
-      labels="hover"
+      labels={simple ? 'none' : 'hover'}
       hoverSpeed={30}
-      magnify={0.8}
+      magnify={simple ? 0 : 0.8}
       muted={0.5}
       focus={0}
-      fadeOut
+      fadeOut={!simple}
       fadeOutWidth={0.12}
-      draggable
+      draggable={!simple}
       intro={false}
       ariaLabel={trusted.title}
       renderItem={(item, key) => (

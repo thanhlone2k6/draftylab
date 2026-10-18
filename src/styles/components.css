@@ -41,9 +41,6 @@
 /* The scrim is the .vol itself: the box must not swallow taps meant to close the gauge. */
 .vol__box { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 10px; box-sizing: border-box; pointer-events: none; }
 .vol__box > * { pointer-events: auto; }
-.vol__toggle { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 999px; border: 1px solid rgba(250, 250, 250, 0.24); background: rgba(10, 10, 10, 0.55); color: var(--c-fg); cursor: pointer; }
-.vol__toggle svg { width: 18px; height: 18px; }
-.vol__toggle:active { transform: scale(0.95); }
 .vol__cap { margin: 0; font-size: 0.72rem; line-height: 1.3; text-align: center; color: color-mix(in srgb, var(--c-fg) 72%, transparent); }
 @keyframes vol-in { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .vol { animation: none; } }
@@ -174,22 +171,24 @@
 .fc { display: grid; place-items: center; }
 .fc__face { display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 14px; gap: 14px; }
 .fc__head { display: flex; flex-direction: column; gap: 14px; }
-.fc__face img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: var(--c-bg); border-radius: 18px; display: block; }
+.fc__head > img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: var(--c-bg); border-radius: 18px; display: block; }
 .fc__id { display: flex; flex-direction: column; gap: 4px; padding: 2px 6px 6px; }
-.fc__badge { align-self: flex-start; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(250, 250, 250, 0.25); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.fc__badge { display: block; align-self: flex-start; height: 20px; width: auto; }
 .fc__name { margin: 8px 0 0; font-size: 1.4rem; font-weight: 650; letter-spacing: -0.02em; }
-.fc__role { margin: 0; font-size: 0.95rem; color: var(--c-fg-muted); }
-/* ABOUT copy lives in the copy column on desktop; on phones the greeting and the story move into
-   the card instead (the copy column is stacked right above it there). */
-.fc__intro { display: none; margin: 10px 0 0; font-size: 0.95rem; line-height: 1.45; color: var(--c-fg-muted); }
+.fc__role { margin: 0; font-size: 0.95rem; color: var(--c-fg-muted); white-space: nowrap; }
+/* ABOUT copy: the story lives in the copy column on desktop; on phones it moves into the card
+   (the copy column is stacked right above it there). The 3 tag pills are always inside the card. */
+.fc__tags { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.fc__tags li { padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(250, 250, 250, 0.22); background: rgba(250, 250, 250, 0.06); font-size: 0.72rem; letter-spacing: 0.01em; color: var(--c-fg); white-space: nowrap; }
 .fc__body { display: none; }
 @media (max-width: 899px) {
   /* Landscape profile: big photo on the left (44%, 2:3), the ID text beside it; the story keeps the
      full card width below, because 900+ characters in a ~160px column would be a very tall strip. */
   .fc__head { flex-direction: row; align-items: flex-start; }
-  .fc__head img { width: 44%; flex: none; aspect-ratio: 2 / 3; }
+  .fc__head > img { width: 44%; flex: none; aspect-ratio: 2 / 3; }
   .fc__id { flex: 1 1 auto; min-width: 0; }
-  .fc__intro { display: block; }
+  /* Role must stay on ONE line in the narrow ID column beside the photo. */
+  .fc__role { font-size: 0.68rem; }
   .fc__body { display: block; }
   .fc__body p { margin: 0 0 10px; font-size: 0.9rem; line-height: 1.55; color: var(--c-fg-muted); }
   .fc__body p:last-child { margin-bottom: 0; }

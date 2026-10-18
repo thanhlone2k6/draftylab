@@ -65,4 +65,9 @@ const hasAi = !!(before && after);
   .bc__cmp { display: flex; justify-content: center; }
   .bc__cmp :global(.cmp) { width: auto; }
   .bc__cmp :global(.cmp__frame) { height: var(--bh); width: auto; }
+  /* Phones: the compare frame felt small (owner, 2026-10-19) — give it more height (the raw/final pair
+     keeps --bh, since two cards at a larger --bh would not fit the row). */
+  @media (max-width: 767px) {
+    .bc__cmp :global(.cmp__frame) { height: clamp(310px, 84vw, 400px); }
+  }
 </style>

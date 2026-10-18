@@ -6,9 +6,17 @@ Phase 1–2 assets are mapped through `scripts/media-roles.json` (labels/crops) 
 
 | id | section | source |
 |---|---|---|
-| `case-studies-v01` | case-studies | Case Studies + Results/AQMW5C_OVJlkgdt1HToNvPqKIhcoJmS1C6DUOozt3NwGruQqAmDsa6_oDrTokYuAdefKQHibF37nMFAxbCdHYlp4ytnXFeTMUZngRXY.mp4 |
-| `case-studies-v02` | case-studies | Case Studies + Results/AQPRnsfXewkRCsWdS1hnNxBU88FHRrIXs5afp1YlaKZX9dUNpTKS5g12xLPEqe5mUknLbES9IGnpRIB1KpBVtsJI9AXgc18qAsvo1OU.mp4 |
-| `case-studies-v03` | case-studies | Case Studies + Results/Con gái lên mạng là phải ảo 🫪 #meitu #decejennie.mp4 |
+| `how-i-work-audience-v01` | how-i-work | Cách tôi sẽ làm việc/Phân tích nhu cầu, mục tiêu khách hàng và tệp khán giả/0829(2).mp4 |
+| `how-i-work-audience-i01` | how-i-work | Cách tôi sẽ làm việc/Phân tích nhu cầu, mục tiêu khách hàng và tệp khán giả/IMG_4350.jpeg |
+| `how-i-work-audience-i02` | how-i-work | Cách tôi sẽ làm việc/Phân tích nhu cầu, mục tiêu khách hàng và tệp khán giả/IMG_4409.jpeg |
+| `how-i-work-plan-i01` | how-i-work | Cách tôi sẽ làm việc/Lên kế hoạch + Triển khai kế hoạch quay/Ảnh màn hình 2026-10-18 lúc 21.11.13.png |
+| `how-i-work-plan-i02` | how-i-work | Cách tôi sẽ làm việc/Lên kế hoạch + Triển khai kế hoạch quay/IMG_1744.jpeg |
+| `how-i-work-plan-i03` | how-i-work | Cách tôi sẽ làm việc/Lên kế hoạch + Triển khai kế hoạch quay/IMG_2141.jpeg |
+| `how-i-work-plan-i04` | how-i-work | Cách tôi sẽ làm việc/Lên kế hoạch + Triển khai kế hoạch quay/IMG_4376.jpeg |
+| `how-i-work-schedule-i01` | how-i-work | Cách tôi sẽ làm việc/Lên lịch đăng bài/IMG_4565.HEIC |
+| `how-i-work-schedule-i02` | how-i-work | Cách tôi sẽ làm việc/Lên lịch đăng bài/IMG_4600.HEIC |
+| `how-i-work-report-i01` | how-i-work | Cách tôi sẽ làm việc/Làm báo cáo và thống kê để tối ưu hiệu quả marketing/IMG_4386.jpeg |
+| `how-i-work-report-i02` | how-i-work | Cách tôi sẽ làm việc/Làm báo cáo và thống kê để tối ưu hiệu quả marketing/IMG_4496.jpeg |
 
 ## Content / assets not found in DFL2
 

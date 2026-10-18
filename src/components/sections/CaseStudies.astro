@@ -101,10 +101,8 @@ const vc = cases.videoCopy;
   .cs__videos { list-style: none; margin: clamp(28px, 4vw, 48px) auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px); max-width: 880px; }
   .cs__video { min-width: 0; }
   @media (max-width: 639px) {
-    /* Phones: swipe sideways through the three cards (snap), peeking the next one. */
-    .cs__videos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(var(--gutter, 16px) * -1); padding-inline: var(--gutter, 16px); scrollbar-width: none; max-width: none; }
-    .cs__videos::-webkit-scrollbar { display: none; }
-    .cs__video { flex: 0 0 min(72vw, 280px); scroll-snap-align: center; }
+    /* Phones: all three video cards in one row (owner, 2026-10-19) — no sideways swipe. */
+    .cs__videos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: none; }
   }
   @media (max-width: 1023px) {
     .cs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 16px); }

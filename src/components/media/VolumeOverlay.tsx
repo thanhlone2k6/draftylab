@@ -7,9 +7,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SloshGauge from '../react-bits/SloshGauge';
-import { IconPause, IconPlay } from './icons';
 import { setVolume, useVolume } from '../../lib/volume';
-import { dialog, volume as t } from '../../data/content';
+import { volume as t } from '../../data/content';
 
 interface Target {
   /** The card wrapper the overlay mounts into (position: relative). */
@@ -33,7 +32,6 @@ const measure = (media: HTMLElement) => {
 export default function VolumeOverlay() {
   const [target, setTarget] = useState<Target | null>(null);
   const [size, setSize] = useState({ w: 88, h: 180, boxH: 0 });
-  const [playing, setPlaying] = useState(true);
   const level = useVolume();
 
   const close = useCallback(() => {
@@ -46,7 +44,6 @@ export default function VolumeOverlay() {
       const d = (e as CustomEvent<Target | undefined>).detail;
       if (!d || !d.wrap || !d.media) return;
       setSize(measure(d.media));
-      setPlaying(d.video ? !d.video.paused : true);
       setTarget(d);
     };
     window.addEventListener('dfl:volume', onOpen as EventListener);
@@ -79,18 +76,6 @@ export default function VolumeOverlay() {
 
   if (!target || typeof document === 'undefined') return null;
 
-  const toggle = () => {
-    const v = target.video;
-    if (!v) return;
-    if (v.paused) {
-      v.play().catch(() => {});
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
-  };
-
   return createPortal(
     <div
       className="vol"
@@ -99,9 +84,6 @@ export default function VolumeOverlay() {
       onPointerDown={(e) => e.target === e.currentTarget && close()}
     >
       <div className="vol__box">
-        <button type="button" className="vol__toggle" onClick={toggle} aria-label={playing ? dialog.pause : dialog.play}>
-          {playing ? <IconPause /> : <IconPlay />}
-        </button>
         <SloshGauge
           value={Math.round(level * 100)}
           onChange={(v) => setVolume(v / 100)}
