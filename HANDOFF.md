@@ -11,14 +11,14 @@
 - 2026-10-19 — **How I Work images**: one subfolder per step under `Cách tôi sẽ làm việc/` → `how-i-work` uses `brands` so ids are `how-i-work-<step>-iNN/vNN`; HEIC handled via macOS `sips` (`decodedSource` in `build-media.mjs`); 5 loose root photos ignored — `config.mjs`, `build-media.mjs`, `media-roles.json`, `media-sets.json`, `content.ts`
 
 ## Current state
-- **Deployed** `main` = commit `a170b90` (2026-10-18) → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy.
-- **Unpushed**: all 2026-10-19 work above (About/Quick Call/How I Work/mobile). Not yet verified on a device or pushed.
+- **Deployed** `main` = commit `0ff7e5f` (2026-10-19) → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy. Gates before this push: `check`/`check:functions`/`test:unit`/`test:media` all 0 fails, `build:cf` OK.
+- ⚠ **R2 not yet updated**: the new `how-i-work-audience-v01` 720p is NOT on R2, so that one folder video won't play on prod until the owner runs `npm run media:upload -- --execute --remote --bucket draft2 --confirm-bucket draft2` (needs their wrangler auth; script is dry-run by default).
 - Works: 32 videos + hover preview + lightbox, 404, Turnstile on preview, lead → D1.
 - Half-done: production email notification not verified end-to-end (needs a real lead with a Turnstile tick).
 - Not done: `public/media/v1-temp/*` placeholders (portrait/partners) still in use; remote branch `dfl2-migration` still exists (merged).
 
 ## Next steps
-1. Review the unpushed work on localhost; then `npm run media:upload` (the new `how-i-work-audience-v01` 720p must reach R2 — mp4 is gitignored) and push `main`.
+1. Owner runs `npm run media:upload -- --execute --remote --bucket draft2 --confirm-bucket draft2` so the new How I Work video plays on prod.
 2. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
 3. Delete remote branch `dfl2-migration`; replace `v1-temp` placeholders when the owner supplies finals (`docs/unmapped-assets.md`).
 
