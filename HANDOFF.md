@@ -8,16 +8,15 @@
 - 2026-10-19 — **Trusted-by caption one line on phones** (owner request): `.tb__title` → `font-size: min(0.95rem, 2.85vw); max-width: none` inside `@media (max-width: 767px)`. Not `nowrap` — sized to fit, so a wider fallback font wraps instead of overflowing the page.
 
 ## Current state
-- **Uncommitted**: the two edits above (`TrustedBy.astro`, `PartnerLoop.tsx`) are NOT committed/pushed yet. `main` is still `99b3ee8` (= live).
+- **Deployed** `main` = commit `a789dae` (2026-10-19) → https://draftylab.pages.dev (verified live in WebKit at 320/375/1280, ~30s after push). Push to `main` auto-builds (`npm run build:cf`); no manual deploy.
 - Works: 32 videos + hover preview + lightbox, 404, Turnstile on preview, lead → D1. Trusted-by verified in WebKit at 320/360/375/390/430/700/767/768/1280 + no-JS: title 1 line, row even, marquee loops seamlessly, no page overflow, island does not hydrate on phones, desktop dock unchanged (animates once on screen, idles off-screen).
 - Half-done: production email notification not verified end-to-end (needs a real lead with a Turnstile tick).
 - Not done: `public/media/v1-temp/*` placeholders (portrait/partners) still in use; remote branch `dfl2-migration` still exists (merged).
 
 ## Next steps
-1. Owner decides: commit + push these Trusted-by changes (push to `main` = live deploy in ~2–3 min).
-2. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
-3. `tests/e2e/phase2.spec.ts` "Trusted By shows all partners..." is **stale since 2026-10-18** (targets `.tb__item`, `.tb__row`, `a.tb__item` — classes that no longer exist; fails on every project). Rewrite against `.tb__marq-item` (mobile) / `.logoloop__item` (desktop) or delete it.
-4. Delete remote branch `dfl2-migration`; replace `v1-temp` placeholders when the owner supplies finals (`docs/unmapped-assets.md`).
+1. Owner submits a test lead on the live site; check D1 (`notify=sent`) + Gmail; delete the test row.
+2. `tests/e2e/phase2.spec.ts` "Trusted By shows all partners..." is **stale since 2026-10-18** (targets `.tb__item`, `.tb__row`, `a.tb__item` — classes that no longer exist; fails on every project). Rewrite against `.tb__marq-item` (mobile) / `.logoloop__item` (desktop) or delete it.
+3. Delete remote branch `dfl2-migration`; replace `v1-temp` placeholders when the owner supplies finals (`docs/unmapped-assets.md`).
 
 ## Gotchas
 - **Trusted-by = two implementations, one data source** (`src/data/partners.ts`): phones = CSS marquee in `TrustedBy.astro` (scoped styles), ≥768px = `PartnerLoop.tsx` (LogoLoop dock preset). Edit logos/treatments in both. Do **not** put `client:visible`/`client:load` on `PartnerLoop` — `client:media="(min-width: 768px)"` is what keeps the engine off phones.
