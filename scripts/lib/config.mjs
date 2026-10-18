@@ -39,6 +39,11 @@ export const SECTIONS = [
 
 // 2026-10-18: the 19 Social Production videos were moved to `Social Production/video riêng`
 // (outside the scanned brand folders) at the owner's request, so the section is images-only now.
+// 2026-10-18 (later): the 50 social IMAGES were then parked in `Social Production/ảnh riêng` (flat,
+// named `<folder> - <original name>`) for the owner to review. They were moved AFTER the last
+// media:scan, so `src/data/media.public.json` + `public/media/v2/social/**` still carry them and the live
+// site is unchanged — but a fresh `media:scan` + `media:build` will drop every social item and the section
+// will render its heading only (see the `hasPhotos` guard in SocialProduction.astro). See HANDOFF.md.
 export const EXPECTED_COUNTS = { socialVideos: 0, galleryVideos: 4 };
 
 export const IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.webp']);
