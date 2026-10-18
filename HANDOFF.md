@@ -11,7 +11,7 @@
 - 2026-10-19 — **How I Work images**: one subfolder per step under `Cách tôi sẽ làm việc/` → `how-i-work` uses `brands` so ids are `how-i-work-<step>-iNN`; **images only** (the single video was cut to a still `0829(2).jpg` and the mp4 moved to `Cách tôi sẽ làm việc/video riêng/`, not scanned); HEIC handled via macOS `sips` (`decodedSource` in `build-media.mjs`) — `config.mjs`, `build-media.mjs`, `media-roles.json`, `media-sets.json`, `content.ts`, `build-media.test.mjs`
 
 ## Current state
-- **Deployed** `main` = commit `0ff7e5f` (+ docs `9c92ca6`) on 2026-10-19 → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy.
+- **Deployed** `main` = commit `99b3ee8` (2026-10-19) → https://draftylab.pages.dev. Push to `main` auto-builds (`npm run build:cf`) in ~2–3 min; no manual deploy.
 - Works: 32 videos + hover preview + lightbox, 404, Turnstile on preview, lead → D1.
 - Half-done: production email notification not verified end-to-end (needs a real lead with a Turnstile tick).
 - Not done: `public/media/v1-temp/*` placeholders (portrait/partners) still in use; remote branch `dfl2-migration` still exists (merged).
