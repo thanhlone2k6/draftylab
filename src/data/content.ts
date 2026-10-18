@@ -99,6 +99,22 @@ export const cases = {
     { id: 'goodci', name: 'Goodci', platform: 'Instagram', mediaId: 'case-studies-i03', followers: '6,3K' },
     { id: 'leechloe', name: 'Lee Chloe Coffee', platform: 'Facebook', mediaId: 'case-studies-i01', followers: '5,9K' },
   ],
+  // 2026-10-18 (owner): 3 app-style video cards under the mockups, most views first. Views are read from the
+  // owner's screenshots of each post; likes/comments/shares were NOT supplied, so none are shown. `hasAudio`
+  // is false for the one source with no audio track (hides the sound button). File↔link pairing is from
+  // frames (media-roles.json `role`), confirmed by the owner. `creator` = the account in the post's own URL
+  // (og:url of each public page; TikTok handle from the link). `viewsTo`/`viewsDecimals` feed CountUp (compact).
+  videos: [
+    { id: 'tiktok-378k', platform: 'tiktok' as const, platformName: 'TikTok', mediaId: 'case-studies-v03', views: '378,9K', viewsTo: 378900, viewsDecimals: 1, creator: '@decejenni21', hasAudio: true, url: 'https://www.tiktok.com/@decejenni21/video/7653463775470718228' },
+    { id: 'ig-114k', platform: 'instagram' as const, platformName: 'Instagram', mediaId: 'case-studies-v02', views: '114K', viewsTo: 114000, viewsDecimals: 0, creator: '@winnie_wakanda', hasAudio: false, url: 'https://www.instagram.com/reel/Da0OLniBkbM/' },
+    { id: 'ig-42k', platform: 'instagram' as const, platformName: 'Instagram', mediaId: 'case-studies-v01', views: '42,3K', viewsTo: 42300, viewsDecimals: 1, creator: '@sarayaabdoul.stlaurent', hasAudio: true, url: 'https://www.instagram.com/reel/Dc7vF90B8Mj/' },
+  ],
+  videoCopy: {
+    viewsLabel: 'lượt xem',
+    cta: (platform: string) => `Xem trên ${platform}`,
+    aria: (platform: string, views: string) => `Xem video trên ${platform}, ${views} lượt xem (mở tab mới)`,
+    play: 'Phát video', pause: 'Tạm dừng', mute: 'Tắt tiếng', unmute: 'Bật tiếng', seek: 'Tua video',
+  },
 };
 
 export const howIWork = {

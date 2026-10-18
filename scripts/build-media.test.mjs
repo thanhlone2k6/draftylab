@@ -87,7 +87,7 @@ test('phase-2 ids still point at the files media-roles.json expects (no id drift
 });
 
 test('phase-2 public items exist with labels and roles', () => {
-  for (const id of ['behind-raw-final-v01', 'behind-raw-final-v02', 'behind-ai-workflow-i01', 'behind-ai-workflow-i02', 'case-studies-i01', 'case-studies-i02', 'case-studies-i03', 'case-studies-i04']) {
+  for (const id of ['behind-raw-final-v01', 'behind-raw-final-v02', 'behind-ai-workflow-i01', 'behind-ai-workflow-i02', 'case-studies-i01', 'case-studies-i02', 'case-studies-i03', 'case-studies-i04', 'case-studies-v01', 'case-studies-v02', 'case-studies-v03']) {
     const it = pub.items.find((i) => i.id === id);
     assert.ok(it, id);
     assert.ok(it.title && it.alt && it.role, id);
@@ -98,13 +98,22 @@ test('phase-2 public items exist with labels and roles', () => {
 test('case-study screenshots are the cropped phone mockups (transparent frame removed)', () => {
   // Source PNGs are 2500×2500 with the device at 666,63 1160×2370 on a transparent background
   // (scripts/media-roles.json `crop`), so every card is the same portrait phone.
-  const cs = pub.items.filter((i) => i.sectionId === 'case-studies');
+  const cs = pub.items.filter((i) => i.sectionId === 'case-studies' && i.type === 'image');
   assert.equal(cs.length, 4);
   for (const k of cs) {
     assert.equal(k.width, 1160, k.id);
     assert.equal(k.height, 2370, k.id);
     assert.ok(k.aspectRatio > 0.48 && k.aspectRatio < 0.5, `${k.id} aspect ${k.aspectRatio}`);
     assert.ok(k.posterHeight > k.posterWidth, k.id);
+  }
+});
+
+test('case-study video cards: 3 portrait clips, each with a poster and an audio-bearing-or-silent hover preview', () => {
+  const vids = pub.items.filter((i) => i.sectionId === 'case-studies' && i.type === 'video');
+  assert.deepEqual(vids.map((v) => v.id).sort(), ['case-studies-v01', 'case-studies-v02', 'case-studies-v03']);
+  for (const v of vids) {
+    assert.ok(v.previewSrc && v.posterSrc && v.role?.startsWith('case-video:'), v.id);
+    assert.ok(v.aspectRatio < 1, v.id);
   }
 });
 

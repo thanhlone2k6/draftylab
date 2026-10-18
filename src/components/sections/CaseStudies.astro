@@ -1,6 +1,7 @@
 ---
 import FadeContent from '../react-bits/FadeContent';
 import TiltedCard from '../react-bits/TiltedCard';
+import CaseVideoCard from '../interactive/CaseVideoCard';
 import { getMedia } from '../../lib/media';
 import { cases } from '../../data/content';
 
@@ -12,6 +13,11 @@ import { cases } from '../../data/content';
 const shots = cases.items
   .map((c) => ({ ...c, media: getMedia(c.mediaId) }))
   .filter((c) => c.media) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
+// Video cards (owner, 2026-10-18): hover plays the short preview in the card, the pill opens the original post.
+const videos = cases.videos
+  .map((v) => ({ ...v, media: getMedia(v.mediaId) }))
+  .filter((v) => v.media?.previewSrc) as Array<(typeof cases.videos)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
+const vc = cases.videoCopy;
 ---
 {shots.length > 0 && (
   <section class="cs" id={cases.id} aria-labelledby="cs-title">
@@ -48,6 +54,37 @@ const shots = cases.items
           </li>
         ))}
       </ul>
+
+      {videos.length > 0 && (
+        <ul class="cs__videos">
+          {videos.map((v) => (
+            <li class="cs__video">
+              <CaseVideoCard
+                client:visible={{ rootMargin: '300px' }}
+                platform={v.platform}
+                platformName={v.platformName}
+                views={v.views}
+                viewsTo={v.viewsTo}
+                viewsDecimals={v.viewsDecimals}
+                creator={v.creator}
+                viewsLabel={vc.viewsLabel}
+                url={v.url}
+                ctaLabel={vc.cta(v.platformName)}
+                ariaLabel={vc.aria(v.platformName, v.views)}
+                posterSrc={v.media.posterSrc}
+                previewSrc={v.media.previewSrc!}
+                aspect={v.media.aspectRatio}
+                hasAudio={v.hasAudio}
+                playLabel={vc.play}
+                pauseLabel={vc.pause}
+                muteLabel={vc.mute}
+                unmuteLabel={vc.unmute}
+                seekLabel={vc.seek}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   </section>
 )}
@@ -61,6 +98,14 @@ const shots = cases.items
      the stage height is the mockup + ~40px so consecutive rows sit close together. No frame on the cell
      either — a border + overflow would clip the tilt, its shadow and the cursor tooltip. */
   .cs__shot { --cs-shot-w: clamp(140px, 15vw, 210px); --cs-shot-h: calc(var(--cs-shot-w) * 2.0423); position: relative; display: grid; place-items: center; height: calc(var(--cs-shot-h) + 44px); padding-top: 10px; box-sizing: border-box; }
+  .cs__videos { list-style: none; margin: clamp(28px, 4vw, 48px) auto 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px); max-width: 880px; }
+  .cs__video { min-width: 0; }
+  @media (max-width: 639px) {
+    /* Phones: swipe sideways through the three cards (snap), peeking the next one. */
+    .cs__videos { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(var(--gutter, 16px) * -1); padding-inline: var(--gutter, 16px); scrollbar-width: none; max-width: none; }
+    .cs__videos::-webkit-scrollbar { display: none; }
+    .cs__video { flex: 0 0 min(72vw, 280px); scroll-snap-align: center; }
+  }
   @media (max-width: 1023px) {
     .cs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 16px); }
     .cs__shot { --cs-shot-w: clamp(180px, 27vw, 300px); height: calc(var(--cs-shot-h) + 42px); }

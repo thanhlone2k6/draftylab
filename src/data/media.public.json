@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T07:51:18.655Z",
+  "generatedAt": "2026-10-18T13:53:41.925Z",
   "items": [
     {
       "id": "gallery-v01",
@@ -509,6 +509,60 @@
       "role": "case:goodci"
     },
     {
+      "id": "case-studies-v01",
+      "type": "video",
+      "sectionId": "case-studies",
+      "title": "Reel Instagram — 42,3K lượt xem",
+      "alt": "Khung hình từ video Instagram Reel, 42,3K lượt xem",
+      "posterSrc": "/media/v2/case-studies/case-studies-v01-poster.238a2c26.webp",
+      "posterWidth": 608,
+      "posterHeight": 1080,
+      "width": 720,
+      "height": 1280,
+      "aspectRatio": 0.5625,
+      "sortOrder": 4,
+      "durationSeconds": 102.63,
+      "encoded": false,
+      "previewSrc": "/media/v2/case-studies/case-studies-v01-preview.012f8265.mp4",
+      "role": "case-video:instagram:42.3k"
+    },
+    {
+      "id": "case-studies-v02",
+      "type": "video",
+      "sectionId": "case-studies",
+      "title": "Reel Instagram — 114K lượt xem",
+      "alt": "Khung hình từ video Instagram Reel, 114K lượt xem",
+      "posterSrc": "/media/v2/case-studies/case-studies-v02-poster.11ca32bf.webp",
+      "posterWidth": 608,
+      "posterHeight": 1080,
+      "width": 720,
+      "height": 1280,
+      "aspectRatio": 0.5625,
+      "sortOrder": 5,
+      "durationSeconds": 99.57,
+      "encoded": false,
+      "previewSrc": "/media/v2/case-studies/case-studies-v02-preview.dc8d775b.mp4",
+      "role": "case-video:instagram:114k"
+    },
+    {
+      "id": "case-studies-v03",
+      "type": "video",
+      "sectionId": "case-studies",
+      "title": "Video TikTok — 378,9K lượt xem",
+      "alt": "Khung hình từ video TikTok, 378,9K lượt xem",
+      "posterSrc": "/media/v2/case-studies/case-studies-v03-poster.b74b4f3a.webp",
+      "posterWidth": 608,
+      "posterHeight": 1080,
+      "width": 1080,
+      "height": 1920,
+      "aspectRatio": 0.5625,
+      "sortOrder": 6,
+      "durationSeconds": 30.81,
+      "encoded": false,
+      "previewSrc": "/media/v2/case-studies/case-studies-v03-preview.a7183af7.mp4",
+      "role": "case-video:tiktok:378.9k"
+    },
+    {
       "id": "case-studies-i04",
       "type": "image",
       "sectionId": "case-studies",
@@ -520,7 +574,7 @@
       "width": 1160,
       "height": 2370,
       "aspectRatio": 0.4895,
-      "sortOrder": 4,
+      "sortOrder": 7,
       "role": "case:dinhhouse"
     },
     {

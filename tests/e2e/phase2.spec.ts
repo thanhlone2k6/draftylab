@@ -182,6 +182,38 @@ test.describe('phase 2 sections @webkit', () => {
     expect(await page.locator('#results').getByText(/tăng|doanh thu|conversion|ROI/i).count()).toBe(0);
   });
 
+  test('Case studies video cards: platform + views, hover plays in the card, pill opens the original post', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await scrollToId(page, 'results');
+    const cards = page.locator('#results .cvc');
+    await expect(cards).toHaveCount(3);
+    // Views sit BELOW the video (CountUp roll, eye icon) with the creator handle under them.
+    await expect(page.locator('#results .cvw__views')).toHaveCount(3);
+    expect(await page.locator('#results .cvw__views').evaluateAll((els) => els.map((e) => e.getAttribute('aria-label')))).toEqual(['378,9K lượt xem', '114K lượt xem', '42,3K lượt xem']);
+    await expect(page.locator('#results .cvw__views svg').first()).toBeVisible();
+    await expect(page.locator('#results .cvw__creator')).toHaveText(['@decejenni21', '@winnie_wakanda', '@sarayaabdoul.stlaurent']);
+    await page.waitForTimeout(2600);
+    expect(await page.locator('#results .cvw__num').allTextContents()).toEqual(expect.arrayContaining([expect.stringMatching(/378\.9K/), expect.stringMatching(/114K/), expect.stringMatching(/42\.3K/)]));
+    await expect(page.locator('#results .cvc__chip')).toHaveText(['TikTok', 'Instagram', 'Instagram']);
+    const hrefs = await page.locator('#results .cvc__cta').evaluateAll((els) => els.map((a) => [(a as HTMLAnchorElement).href, a.getAttribute('target'), a.getAttribute('rel')]));
+    expect(hrefs.map((h) => h[0])).toEqual([
+      'https://www.tiktok.com/@decejenni21/video/7653463775470718228',
+      'https://www.instagram.com/reel/Da0OLniBkbM/',
+      'https://www.instagram.com/reel/Dc7vF90B8Mj/',
+    ]);
+    expect(hrefs.every((h) => h[1] === '_blank' && /noopener/.test(h[2] ?? ''))).toBe(true);
+    await expect(cards.first().locator('video')).toHaveCount(0); // nothing downloads until hover
+    await cards.first().hover();
+    await expect(cards.first().locator('video')).toHaveCount(1);
+    // Playwright's bundled Chromium has no H.264 decoder, so there the clip errors instead of playing — WebKit plays it.
+    await page.waitForFunction(() => { const v = document.querySelector('#results .cvc video') as HTMLVideoElement | null; return !!v && ((!v.paused && v.currentTime > 0) || !!v.error || v.networkState === 3); }, undefined, { timeout: 15_000 });
+    const decodable = await cards.first().locator('video').evaluate((v) => !(v as HTMLVideoElement).error && (v as HTMLVideoElement).networkState !== 3);
+    if (decodable) {
+      await cards.first().locator('.cvc__btn').first().click(); // pause button
+      expect(await cards.first().locator('video').evaluate((v) => (v as HTMLVideoElement).paused)).toBe(true);
+    }
+  });
+
   test('How I Work: 4 folders; click opens; clicking a paper opens the right lightbox (video + image)', async ({ page }) => {
     const mp4 = trackMp4(page);
     await page.goto('/', { waitUntil: 'networkidle' });

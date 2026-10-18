@@ -4,7 +4,11 @@ Phase 1–2 assets are mapped through `scripts/media-roles.json` (labels/crops) 
 
 ## Inventoried but not mapped
 
-- none
+| id | section | source |
+|---|---|---|
+| `case-studies-v01` | case-studies | Case Studies + Results/AQMW5C_OVJlkgdt1HToNvPqKIhcoJmS1C6DUOozt3NwGruQqAmDsa6_oDrTokYuAdefKQHibF37nMFAxbCdHYlp4ytnXFeTMUZngRXY.mp4 |
+| `case-studies-v02` | case-studies | Case Studies + Results/AQPRnsfXewkRCsWdS1hnNxBU88FHRrIXs5afp1YlaKZX9dUNpTKS5g12xLPEqe5mUknLbES9IGnpRIB1KpBVtsJI9AXgc18qAsvo1OU.mp4 |
+| `case-studies-v03` | case-studies | Case Studies + Results/Con gái lên mạng là phải ảo 🫪 #meitu #decejennie.mp4 |
 
 ## Content / assets not found in DFL2
 

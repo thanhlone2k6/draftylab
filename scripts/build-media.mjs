@@ -138,9 +138,9 @@ for (const it of phase1.filter((i) => i.type === 'video')) {
 // Always built for those sections (cheap) so a hover never has to download the 720p lightbox file.
 const PREVIEW_SECONDS = 12;
 const PREVIEW = { crf: 27, maxrate: '1200k', bufsize: '2400k', maxShort: 540, audioBitrate: '64k' };
-for (const it of phase1.filter((i) => i.type === 'video' && ['gallery', 'behind-raw-final'].includes(i.sectionId))) {
-  // Gallery previews carry audio (played at 50% volume on hover); Raw/Final previews stay silent.
-  const withAudio = it.sectionId === 'gallery' && !!it.audioCodec;
+for (const it of phase1.filter((i) => i.type === 'video' && ['gallery', 'behind-raw-final', 'case-studies'].includes(i.sectionId))) {
+  // Gallery + case-study previews carry audio (the case-study card starts muted and the viewer can unmute); Raw/Final previews stay silent.
+  const withAudio = ['gallery', 'case-studies'].includes(it.sectionId) && !!it.audioCodec;
   const key = `${it.id}:preview`; const fp = fingerprint(it, { PREVIEW_SECONDS, withAudio, ...PREVIEW });
   const names = hashed(it, 'preview', fp);
   files[it.id] = { ...files[it.id], preview: names.rel };
