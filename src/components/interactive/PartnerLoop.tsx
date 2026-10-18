@@ -1,11 +1,14 @@
-// Trusted-by — the partner logos as a React Bits <LogoLoop /> marquee.
+// Trusted-by — DESKTOP ONLY: the partner logos as a React Bits <LogoLoop /> marquee (the "Dock" preset).
+// Phones never load this island — `TrustedBy.astro` renders a plain CSS marquee for ≤767px and gates this
+// component with `client:media="(min-width: 768px)"`, so a phone gets no engine, no ResizeObserver and no
+// hydration (owner, 2026-10-19: the measured marquee kept rendering uneven on iOS). Keep the two in sync:
+// same `partners` data, same inverted line-art / rounded photo treatments.
 // Maps `partners` (src/data/partners.ts) to loop items and keeps the two logo treatments from the old static row:
 //   • kind 'logo'  → dark line-art, inverted for the dark theme
 //   • kind 'photo' → square tile with rounded corners
 // The 7 logos are ~100 KB in total and sit at the fold, but `loading="lazy"` on them was a trap: the
 // marquee clips (`overflow: clip`) and translates its track, and WebKit in particular then kept an image
 // unloaded (naturalWidth 0 → an empty slot in the row), so they load eagerly instead.
-import { useEffect, useState } from 'react';
 import LogoLoop, { type LogoItem } from '../react-bits/LogoLoop';
 import { partners } from '../../data/partners';
 import { trusted } from '../../data/content';
@@ -14,17 +17,6 @@ import './PartnerLoop.css';
 type PartnerLogo = LogoItem & { kind: 'logo' | 'photo' };
 
 export default function PartnerLoop() {
-  // Phones get a plain marquee (owner, 2026-10-19): no pointer lens, no hover tips, no fade mask and no
-  // drag — the fewest moving parts, so nothing can render wrong on iOS. Desktop keeps the full Dock preset.
-  const [simple, setSimple] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)');
-    const apply = () => setSimple(mq.matches);
-    apply();
-    mq.addEventListener('change', apply);
-    return () => mq.removeEventListener('change', apply);
-  }, []);
-
   const logos: PartnerLogo[] = partners.map(p => ({
     src: p.logo,
     alt: p.name,
@@ -53,14 +45,14 @@ export default function PartnerLoop() {
       direction="left"
       logoHeight={44}
       gap={44}
-      labels={simple ? 'none' : 'hover'}
+      labels="hover"
       hoverSpeed={30}
-      magnify={simple ? 0 : 0.8}
+      magnify={0.8}
       muted={0.5}
       focus={0}
-      fadeOut={!simple}
+      fadeOut
       fadeOutWidth={0.12}
-      draggable={!simple}
+      draggable
       intro={false}
       ariaLabel={trusted.title}
       renderItem={(item, key) => (

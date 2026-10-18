@@ -1,14 +1,49 @@
 ---
 import AnimatedContent from '../react-bits/AnimatedContent';
 import PartnerLoop from '../interactive/PartnerLoop';
+import { partners } from '../../data/partners';
 import { trusted } from '../../data/content';
+
+// Phones (≤767px) do NOT use the measured React marquee: `PartnerLoop` is gated with `client:media` and the row
+// below is a plain CSS marquee — equal slots, one keyframe, no engine, no ResizeObserver, no hydration.
+// Owner, 2026-10-19: the dock preset kept rendering uneven on iOS (every logo kept its own intrinsic width, the
+// photo tiles read heavier than the line-art ones, no edge fade so logos were cut mid-letter at the edges).
 ---
 <section class="tb" id={trusted.id} aria-labelledby="tb-title">
   <div class="container-x">
     <AnimatedContent client:load distance={16} duration={0.7} threshold={0.15} initialOpacity={0} blur={4}>
       <p id="tb-title" class="tb__title">{trusted.title}</p>
     </AnimatedContent>
-    <PartnerLoop client:visible={{ rootMargin: '200px' }} />
+
+    {/* Three identical rows scrolled by one row width (-33.33%): two would already run out of track at
+        700–767px, leaving a blank strip at the right edge near the end of each cycle. No links here — the row
+        moves, so they were not tappable anyway; the desktop dock keeps them. */}
+    <div class="tb__marq">
+      <div class="tb__marq-track">
+        {[0, 1, 2].map(copy => (
+          <ul class="tb__marq-row" aria-hidden={copy > 0 ? 'true' : undefined}>
+            {partners.map(p => (
+              <li class="tb__marq-item">
+                <img
+                  class={`tb__marq-img tb__marq-img--${p.kind}`}
+                  src={p.logo}
+                  alt={copy === 0 ? p.name : ''}
+                  width={p.width}
+                  height={p.height}
+                  decoding="async"
+                  draggable="false"
+                />
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+
+    {/* Desktop only: the React Bits dock preset (hover labels, magnify lens, drag). */}
+    <div class="tb__dock">
+      <PartnerLoop client:media="(min-width: 768px)" />
+    </div>
   </div>
 </section>
 
@@ -17,4 +52,42 @@ import { trusted } from '../../data/content';
   .tb__title { margin: 0 auto 12px; max-width: 62ch; text-align: center; font-size: clamp(0.95rem, 1.5vw, 1.1rem); font-weight: 500; line-height: 1.45; letter-spacing: -0.005em; color: var(--c-fg-muted); }
   /* pull the marquee up a little so the gap reads tighter without clipping the hover-magnified logos */
   .tb :global(.logoloop) { margin-top: -16px; }
+
+  /* Phones: the CSS marquee. ≥768px: the React dock. Both logo sets sit in the DOM; CSS picks one. */
+  .tb__dock { display: none; }
+  @media (min-width: 768px) {
+    .tb__marq { display: none; }
+    .tb__dock { display: block; }
+  }
+
+  /* Caption on ONE line on phones (owner, 2026-10-19). The string is ~30em wide, so it is sized off the
+     viewport (2.85vw leaves ~4% slack at 320–430px) instead of being allowed to wrap. Deliberately not
+     `nowrap`: if a fallback font ever measured wider it would wrap, not overflow the page. */
+  @media (max-width: 767px) {
+    .tb__title { max-width: none; font-size: min(0.95rem, 2.85vw); letter-spacing: -0.01em; }
+  }
+
+  /* ---- mobile logo marquee: equal slot per logo so the rhythm stays even ---- */
+  .tb__marq {
+    overflow: clip;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 26px), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 26px), transparent 100%);
+  }
+  .tb__marq-track { display: flex; width: max-content; will-change: transform; animation: tb__marq-scroll 20s linear infinite; }
+  .tb__marq-row { display: flex; align-items: center; margin: 0; padding: 0; list-style: none; }
+  .tb__marq-item { flex: 0 0 auto; display: grid; place-items: center; width: 100px; height: 52px; }
+  .tb__marq-img { display: block; width: auto; height: auto; max-width: 88px; max-height: 40px; object-fit: contain; opacity: 0.85; }
+  .tb__marq-img--logo { filter: invert(1) brightness(1.15); }
+  .tb__marq-img--photo { width: 40px; height: 40px; border-radius: 11px; object-fit: cover; }
+  @keyframes tb__marq-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-33.3333%, 0, 0); }
+  }
+  /* Reduced motion: no loop — show all logos wrapped, without the edge fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .tb__marq { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+    .tb__marq-track { animation: none; width: auto; }
+    .tb__marq-row { flex-wrap: wrap; justify-content: center; }
+    .tb__marq-row + .tb__marq-row { display: none; }
+  }
 </style>
