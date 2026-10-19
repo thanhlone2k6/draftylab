@@ -133,8 +133,14 @@ export default function CaseVideoCard(p: Props) {
         )}
       </div>
 
+      {/* 2026-10-19 (owner): the label must never wrap to a second line, in any language. The full sentence
+          is shown while it fits (the font shrinks with the card); on a narrow phone card — three cards share
+          one row — it falls back to the platform name, which is what the button opens. The full sentence
+          stays in the aria-label either way. */}
       <a className="cvc__cta" href={p.url} target="_blank" rel="noopener noreferrer" aria-label={p.ariaLabel}>
-        <span className="cvc__cta-t">{p.ctaLabel}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <span className="cvc__cta-t">{p.ctaLabel}</span>
+        <span className="cvc__cta-s" aria-hidden="true">{p.platformName}</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </a>
     </div>
     <div className="cvw__meta">

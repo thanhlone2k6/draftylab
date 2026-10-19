@@ -1,4 +1,6 @@
-.cvc { position: relative; width: 100%; border-radius: 18px; overflow: hidden; background: #0e1523; color: #fff; isolation: isolate; box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
+/* The card is a query container: the CTA label is sized against the card, not the viewport, because
+   three cards share one phone row. */
+.cvc { container-type: inline-size; position: relative; width: 100%; border-radius: 18px; overflow: hidden; background: #0e1523; color: #fff; isolation: isolate; box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
 .cvc__poster, .cvc__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cvc__video { opacity: 0; transition: opacity 0.25s; }
 .cvc[data-playing] .cvc__video { opacity: 1; }
@@ -24,14 +26,27 @@
 .cvc__seek::-moz-range-progress { height: 3px; border-radius: 2px; background: #fff; }
 .cvc__seek::-webkit-slider-thumb { -webkit-appearance: none; width: 11px; height: 11px; margin-top: -4px; border-radius: 50%; background: #fff; border: 0; }
 .cvc__seek::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: #fff; border: 0; }
+/* One line, always (owner, 2026-10-19). The full sentence shrinks with the card; the longest one
+   ("Auf Instagram ansehen", 126px at 13.12px) needs ≈ cardWidth − 56px, hence the cqi slope. Below a
+   152px card the sentence cannot stay readable, so the platform name is shown instead. */
 .cvc__cta { left: 12px; right: 12px; bottom: 12px; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 999px; background: #fff; color: #0e1523; font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: transform 0.15s, background 0.15s; }
+.cvc__cta-t { white-space: nowrap; font-size: min(0.82rem, calc(9.4cqi - 4px)); }
+.cvc__cta-s { display: none; white-space: nowrap; font-size: min(0.72rem, calc(8cqi - 2px)); }
+@container (max-width: 151.9px) {
+  .cvc__cta-t { display: none; }
+  .cvc__cta-s { display: inline; }
+}
+/* The arrow costs 20px — the very narrow cards cannot afford it. */
+@container (max-width: 111.9px) {
+  .cvc__cta svg { display: none; }
+}
 .cvc__cta svg { width: 14px; height: 14px; }
 .cvc__cta:hover { background: #eef2fb; transform: translateY(-1px); }
 .cvc :focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 /* Hover-capable screens: the control bar slides in with the preview; touch screens keep it visible. */
 @media (hover: hover) { .cvc__bar { opacity: 0; } .cvc:hover .cvc__bar, .cvc:focus-within .cvc__bar { opacity: 1; } }
 @media (max-width: 639px) {
-  .cvc__cta { font-size: 0.68rem; min-height: 34px; left: 8px; right: 8px; bottom: 8px; padding-inline: 6px; }
+  .cvc__cta { min-height: 34px; left: 8px; right: 8px; bottom: 8px; padding-inline: 6px; }
   /* Three cards share one phone row now: shrink the controls so the bar still fits (~110px wide). */
   .cvc__bar { left: 6px; right: 6px; bottom: 50px; gap: 2px; }
   .cvc__btn { width: 26px; height: 26px; }

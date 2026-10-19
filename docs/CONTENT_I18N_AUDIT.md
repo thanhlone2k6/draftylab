@@ -641,6 +641,20 @@ node scripts/i18n/parse-review.mjs   # MD  → src/i18n/strings.json
 node scripts/i18n/build-media.mjs    # JSON → src/i18n/media.json
 ```
 
+### 25.3 Nút CTA trên thẻ video Case Studies — luôn 1 dòng (2026-10-19)
+
+**Yêu cầu:** "mấy cái nút này bất kì ở ngôn ngữ nào đều chỉ đc hiện trong 1 dòng".
+
+**Số đo:** nút rộng bằng thẻ trừ 24px (16px trên điện thoại). Ở 390px thẻ chỉ 114px → chỗ cho chữ ≈ 64px, trong khi nhãn dài nhất ("Auf Instagram ansehen") cần 105px ở cỡ 10,88px. Không cỡ chữ nào vừa 1 dòng mà còn đọc được.
+
+**Cách làm** (`CaseVideoCard.css` + `.tsx`): thẻ trở thành container query.
+- `.cvc__cta-t` (câu đầy đủ) `white-space: nowrap` + `font-size: min(0.82rem, calc(9.4cqi - 4px))` → tự co theo bề rộng thẻ, không bao giờ xuống dòng.
+- Thẻ < 152px (điện thoại, 3 thẻ/hàng) → đổi sang `.cvc__cta-s` = **tên nền tảng** ("TikTok"/"Instagram"), vẫn 1 dòng; câu đầy đủ vẫn nằm trong `aria-label`.
+- Thẻ < 112px → bỏ mũi tên để đủ chỗ.
+- Nhãn đầy đủ hiện từ ~559px trở lên (ở 700/1024px đã 1 dòng).
+
+**Kiểm chứng:** 5 ngôn ngữ × 17 kích thước (320→1440px) → tất cả nút đều 1 dòng, không tràn; quét thêm mọi nút khác (`.hbtn`, `.btn`, stepper, pill nav, switcher) ở 5 ngôn ngữ × 8 kích thước → cũng đều 1 dòng.
+
 ### 25.2 Lỗi hiển thị mobile (2026-10-19, sau khi lên sóng)
 
 **Triệu chứng:** trên thẻ video Case Studies, nút hiện ra nguyên văn tài liệu —
