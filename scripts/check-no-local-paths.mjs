@@ -4,7 +4,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { WEBSITE_DIR, INTERNAL_MANIFEST } from './lib/config.mjs';
 
-const PATTERNS = [/\/Users\//, /Documents\/DFL2/, /Dự án/, /Tôi có thể giúp/, /Social Production\//, /Cách tôi sẽ làm việc/, /sourcePath/, /sourceRel/];
+// 2026-10-19: `/Dự án/` was too broad — "Dự án" is also a legitimate nav label (owner's copy: "Dự án /
+// Dịch vụ / Kết quả / Giới thiệu"), so the check failed every build with no folder of that name even
+// existing in the source tree. Folder leaks always carry the path separator, so match that instead.
+const PATTERNS = [/\/Users\//, /Documents\/DFL2/, /Dự án\//, /Tôi có thể giúp/, /Social Production\//, /Cách tôi sẽ làm việc/, /sourcePath/, /sourceRel/];
 let sourceNames = [];
 try {
   const { items } = JSON.parse(await fs.readFile(INTERNAL_MANIFEST, 'utf8'));
