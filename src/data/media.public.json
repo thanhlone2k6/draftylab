@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T19:14:50.094Z",
+  "generatedAt": "2026-10-19T09:54:00.876Z",
   "items": [
     {
       "id": "gallery-v01",
@@ -17,7 +17,7 @@
       "durationSeconds": 30.8,
       "encoded": true,
       "videoSrc": "/media/v2/gallery/gallery-v01-720.10332c17.mp4",
-      "previewSrc": "/media/v2/gallery/gallery-v01-preview.796227a1.mp4"
+      "previewSrc": "/media/v2/gallery/gallery-v01-preview.2d760a84.mp4"
     },
     {
       "id": "gallery-v02",
@@ -35,7 +35,7 @@
       "durationSeconds": 57.43,
       "encoded": true,
       "videoSrc": "/media/v2/gallery/gallery-v02-720.3876f6e9.mp4",
-      "previewSrc": "/media/v2/gallery/gallery-v02-preview.217a757d.mp4"
+      "previewSrc": "/media/v2/gallery/gallery-v02-preview.8a254e44.mp4"
     },
     {
       "id": "gallery-v03",
@@ -53,7 +53,7 @@
       "durationSeconds": 35.23,
       "encoded": true,
       "videoSrc": "/media/v2/gallery/gallery-v03-720.cdc8c58f.mp4",
-      "previewSrc": "/media/v2/gallery/gallery-v03-preview.5a090226.mp4"
+      "previewSrc": "/media/v2/gallery/gallery-v03-preview.36e4cd9e.mp4"
     },
     {
       "id": "gallery-v04",
@@ -71,7 +71,7 @@
       "durationSeconds": 21.27,
       "encoded": true,
       "videoSrc": "/media/v2/gallery/gallery-v04-720.8e04a270.mp4",
-      "previewSrc": "/media/v2/gallery/gallery-v04-preview.ede0e8d8.mp4"
+      "previewSrc": "/media/v2/gallery/gallery-v04-preview.61ce6694.mp4"
     },
     {
       "id": "social-dinhhouse-i01",
@@ -409,7 +409,7 @@
       "durationSeconds": 10.5,
       "encoded": true,
       "videoSrc": "/media/v2/behind-raw-final/behind-raw-final-v01-720.12126d88.mp4",
-      "previewSrc": "/media/v2/behind-raw-final/behind-raw-final-v01-preview.bace409c.mp4",
+      "previewSrc": "/media/v2/behind-raw-final/behind-raw-final-v01-preview.9b6efb7e.mp4",
       "role": "raw"
     },
     {
@@ -428,7 +428,7 @@
       "durationSeconds": 45.18,
       "encoded": true,
       "videoSrc": "/media/v2/behind-raw-final/behind-raw-final-v02-720.d1ae22db.mp4",
-      "previewSrc": "/media/v2/behind-raw-final/behind-raw-final-v02-preview.114863b3.mp4",
+      "previewSrc": "/media/v2/behind-raw-final/behind-raw-final-v02-preview.7b614bf7.mp4",
       "role": "final"
     },
     {
@@ -523,7 +523,7 @@
       "sortOrder": 4,
       "durationSeconds": 102.63,
       "encoded": false,
-      "previewSrc": "/media/v2/case-studies/case-studies-v01-preview.012f8265.mp4",
+      "previewSrc": "/media/v2/case-studies/case-studies-v01-preview.2f374b89.mp4",
       "role": "case-video:instagram:42.3k"
     },
     {
@@ -541,7 +541,7 @@
       "sortOrder": 5,
       "durationSeconds": 99.57,
       "encoded": false,
-      "previewSrc": "/media/v2/case-studies/case-studies-v02-preview.dc8d775b.mp4",
+      "previewSrc": "/media/v2/case-studies/case-studies-v02-preview.5b65b322.mp4",
       "role": "case-video:instagram:114k"
     },
     {
@@ -559,7 +559,7 @@
       "sortOrder": 6,
       "durationSeconds": 30.81,
       "encoded": false,
-      "previewSrc": "/media/v2/case-studies/case-studies-v03-preview.a7183af7.mp4",
+      "previewSrc": "/media/v2/case-studies/case-studies-v03-preview.1f42d3e5.mp4",
       "role": "case-video:tiktok:378.9k"
     },
     {

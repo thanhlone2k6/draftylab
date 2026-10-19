@@ -155,8 +155,12 @@ for (const it of phase1.filter((i) => i.type === 'video')) {
 
 // Hover previews: short, silent, small clips for the cards that preview in place (gallery + Raw/Final).
 // Always built for those sections (cheap) so a hover never has to download the 720p lightbox file.
+// 2026-10-19 (owner): "video này đang để định dạng gì… t muốn load nhanh hơn… phải 480p thôi" — the
+// previews were 540px on the short edge at ~1 Mbps (1.4–1.6 MB each). Now 480px AND a lighter encode:
+// at card size (≤280px wide, ~110px on phones) CRF 32 is visually identical to the old CRF 27 but ~45%
+// smaller. The lightbox still plays the untouched 720p file, so nothing full-size got softer.
 const PREVIEW_SECONDS = 12;
-const PREVIEW = { crf: 27, maxrate: '1200k', bufsize: '2400k', maxShort: 540, audioBitrate: '64k' };
+const PREVIEW = { crf: 32, maxrate: '700k', bufsize: '1400k', maxShort: 480, audioBitrate: '64k' };
 for (const it of phase1.filter((i) => i.type === 'video' && ['gallery', 'behind-raw-final', 'case-studies'].includes(i.sectionId))) {
   // Gallery + case-study previews carry audio (the case-study card starts muted and the viewer can unmute); Raw/Final previews stay silent.
   const withAudio = ['gallery', 'case-studies'].includes(it.sectionId) && !!it.audioCodec;
