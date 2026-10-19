@@ -18,7 +18,7 @@ export interface NotifyResult {
 const LINE_BREAKS = new RegExp("[\\r\\n\\u2028\\u2029]+", "g");
 const oneLine = (s: string, max = 200) => s.replace(LINE_BREAKS, " ").trim().slice(0, max);
 
-const METHOD_LABEL = { phone: 'Zalo / Phone', email: 'Email', instagram: 'Instagram' } as const;
+const METHOD_LABEL = { phone: 'Zalo / Phone', email: 'Email', instagram: 'Instagram', other: 'Khác / Other' } as const;
 
 /** "17/10/2026 15:50 (GMT+7)" — Vietnam time, independent of the Worker's locale. */
 export function formatVN(ms: number): string {

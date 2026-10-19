@@ -71,6 +71,22 @@ test('control characters and odd whitespace are stripped', () => {
   assert.ok(r.ok && r.value.name === 'Lan Anh' && r.value.note === 'dòng 1\n\ndòng 2');
 });
 
+test('free-text contact: any value is accepted as method "other"', () => {
+  // 2026-10-19 (owner): "cho phép nhập bất kì cái gì cũng đc chứ ko giới hạn như hiện tại" — the contact
+  // field is no longer a phone/email-only field, so the form falls back to `other` and stores it verbatim.
+  for (const contact of ['whatsapp @test.me', 'Telegram: @draftylab', 'Zalo 0901 234 567', 'gọi qua công ty']) {
+    const r = validateLead({ ...base(), method: 'other', contact });
+    assert.ok(r.ok, contact);
+    if (r.ok) assert.equal(r.value.contact, contact);
+  }
+  assert.ok(isValidContact('other', 'ok'));
+  assert.ok(!isValidContact('other', 'x'));
+  assert.ok(!isValidContact('other', 'x'.repeat(LIMITS.contactMax + 1)));
+  // An email-shaped value still canonicalises as email (lowercased).
+  const e = validateLead({ ...base(), method: 'email', contact: 'Lan.Anh@Example.COM' });
+  assert.ok(e.ok && e.value.contact === 'lan.anh@example.com');
+});
+
 test('errors name fields only (no values echoed)', () => {
   const r = validateLead({ ...base(), name: 'A', contact: 'zzz' });
   assert.ok(!r.ok);

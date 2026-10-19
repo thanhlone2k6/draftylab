@@ -41,13 +41,22 @@ export const contactValidators: Record<ContactMethod, (v: string) => boolean> = 
   phone: (v) => /^0\d{9,10}$/.test(normalizePhone(v)),
   email: (v) => v.length <= LIMITS.contactMax && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v),
   instagram: (v) => /^@?[A-Za-z0-9._]{1,30}$/.test(v),
+  // Free text: WhatsApp/Telegram/Skype/WeChat handles, a Zalo name, a company switchboard… anything the
+  // visitor wants us to reach them on. Only length is enforced.
+  other: (v) => v.length >= 2 && v.length <= LIMITS.contactMax,
 };
 
 export const isValidContact = (method: ContactMethod, raw: string): boolean => contactValidators[method](clean(raw));
 
 /** The canonical stored form of a contact value. */
 export const canonicalContact = (method: ContactMethod, v: string): string =>
-  method === 'phone' ? normalizePhone(v) : method === 'instagram' ? v.replace(/^@/, '').toLowerCase() : v.toLowerCase();
+  method === 'phone'
+    ? normalizePhone(v)
+    : method === 'instagram'
+      ? v.replace(/^@/, '').toLowerCase()
+      : method === 'email'
+        ? v.toLowerCase()
+        : v;
 
 const isOneOf = <T extends readonly string[]>(list: T, v: unknown): v is T[number] => typeof v === 'string' && (list as readonly string[]).includes(v);
 

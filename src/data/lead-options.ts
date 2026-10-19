@@ -5,5 +5,8 @@ export const NEEDS = ['Video Editing', 'Social Content', 'Social Media Productio
 export const TEAMS = ['Tự làm', 'Có 1–2 người hỗ trợ', 'Có team 3+ người', 'Đã thuê ngoài nhưng chưa hiệu quả', 'Đang tìm đối tác dài hạn'] as const;
 // DRAFT budget buckets (optional question) — NEEDS_USER_DECISION: edit this list to match real pricing.
 export const BUDGETS = ['Dưới 5 triệu', '5 – 15 triệu', '15 – 30 triệu', 'Trên 30 triệu', 'Chưa xác định'] as const;
-export const CONTACT_METHODS = ['phone', 'email', 'instagram'] as const;
+// 2026-10-19 (owner): the contact field accepts ANY text ("cho phép nhập bất kì cái gì"), so a value that
+// is not recognisably a phone/email/Instagram handle is stored as 'other'. The D1 `method` column is plain
+// TEXT (no CHECK), so no migration is needed.
+export const CONTACT_METHODS = ['phone', 'email', 'instagram', 'other'] as const;
 export type ContactMethod = (typeof CONTACT_METHODS)[number];
