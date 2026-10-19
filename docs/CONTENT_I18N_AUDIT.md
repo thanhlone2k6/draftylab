@@ -641,6 +641,15 @@ node scripts/i18n/parse-review.mjs   # MD  → src/i18n/strings.json
 node scripts/i18n/build-media.mjs    # JSON → src/i18n/media.json
 ```
 
+### 25.2 Lỗi hiển thị mobile (2026-10-19, sau khi lên sóng)
+
+**Triệu chứng:** trên thẻ video Case Studies, nút hiện ra nguyên văn tài liệu —
+`Xem trên ${platform}` → "Xem trên TikTok" / "Xem trên Instagram".
+
+**Nguyên nhân:** file review viết các dòng dạng template theo cú pháp *"template → ví dụ đã resolve"*, và cột VI ghi cả **code** chứ không phải giá trị (`cases.videoCta`, `cases.videoAria`, `cases.tooltipTemplate`, `hw.folderAria`, `hw.folderName`, `qc.stepperStepAria`, `dialog.loaderAnnounce`, `carousel.slideAria`, `carousel.live`, `nav.logoAria`, `nav.menuToggleAria`). Parser cũ lấy nguyên ô → trang **tiếng Việt** in ra cả phần tài liệu; 4 ngôn ngữ kia không bị vì cột của họ là template sạch.
+
+**Đã sửa** (`scripts/i18n/parse-review.mjs`): cắt mọi thứ sau ` → `, bỏ `(vd "…")`, bỏ backtick/`**`, đổi `${token}` → `{token}`; 3 dòng cột VI là code (`nav.menuToggleAria`, `carousel.slideAria`, `carousel.live`) được map sang giá trị đúng; thêm **guard** chặn build nếu còn giá trị trông như tài liệu/code (danh sách `NOT_RENDERED` cho các dòng không render). Nhãn nav nay là tiếng Việt "Mở menu / Đóng menu" (trước đó rơi vào chuỗi rác).
+
 ### 25.1 Sửa đổi sau khi chủ site duyệt (2026-10-19)
 
 | Yêu cầu | Đã làm |

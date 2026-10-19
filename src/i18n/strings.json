@@ -160,7 +160,7 @@
     "status": "keep",
     "source": "`public/robots.txt:1-4`",
     "values": {
-      "vi": "User-agent: *`\n`Allow: /`\n`Sitemap: https://draftylab.pages.dev/sitemap.xml",
+      "vi": "User-agent: *\nAllow: /\nSitemap: https://draftylab.pages.dev/sitemap.xml",
       "en": null,
       "fr": null,
       "de": null,
@@ -244,7 +244,7 @@
     "status": "translate",
     "source": "`src/components/interactive/HeaderNav.tsx:55`",
     "values": {
-      "vi": "${site.name} — về đầu trang` → \"Drafty Lab — về đầu trang\"",
+      "vi": "Drafty Lab — về đầu trang",
       "en": "Drafty Lab — back to top",
       "fr": "Drafty Lab — retour en haut de page",
       "de": "Drafty Lab — zurück nach oben",
@@ -268,7 +268,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/PillNav.tsx:857`",
     "values": {
-      "vi": "open ? 'Close menu' : 'Open menu'` → \"Open menu\" / \"Close menu\"",
+      "vi": "Mở menu / Đóng menu",
       "en": "Open menu / Close menu",
       "fr": "Ouvrir le menu / Fermer le menu",
       "de": "Menü öffnen / Menü schließen",
@@ -376,7 +376,7 @@
     "status": "keep",
     "source": "`src/components/sections/TrustedBy.astro:30`, `src/components/interactive/PartnerLoop.tsx:62-64`",
     "values": {
-      "vi": "alt={p.name}` (mobile) / `alt`+`title` (desktop)",
+      "vi": "alt={p.name} (mobile) / alt+title (desktop)",
       "en": null,
       "fr": null,
       "de": null,
@@ -544,7 +544,7 @@
     "status": "keep",
     "source": "`src/lib/media.ts:51-55`",
     "values": {
-      "vi": "fmtDuration()` → \"0:30\" · \"0:57\" · \"0:35\" · \"0:21\"",
+      "vi": "fmtDuration()",
       "en": null,
       "fr": null,
       "de": null,
@@ -592,7 +592,7 @@
     "status": "translate",
     "source": "`src/data/media.public.json:81,97,…` (sinh từ `scripts/lib/public-manifest.mjs:76`)",
     "values": {
-      "vi": "<Brand> · Bài đăng 0N` (vd \"Goodci · Bài đăng 07\")",
+      "vi": "<Brand> · Bài đăng 0N",
       "en": "<Brand> · Post 0N",
       "fr": "<Brand> · Publication 0N",
       "de": "<Brand> · Beitrag 0N",
@@ -604,7 +604,7 @@
     "status": "translate",
     "source": "`src/data/media.public.json:82,98,…` (sinh từ `scripts/lib/public-manifest.mjs:77`)",
     "values": {
-      "vi": "Bài đăng 0N của <Brand>` (vd \"Bài đăng 07 của Goodci\")",
+      "vi": "Bài đăng 0N của <Brand>",
       "en": "Post 0N by <Brand>",
       "fr": "Publication 0N de <Brand>",
       "de": "Beitrag 0N von <Brand>",
@@ -628,7 +628,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/CircularCarousel.tsx:1009`",
     "values": {
-      "vi": "${item.title || item.alt || `Image ${index+1}`}, ${index+1} of ${count}",
+      "vi": "{itemTitle}, {index} of {count}",
       "en": "{itemTitle}, {index} of {count}",
       "fr": "{itemTitle}, {index} sur {count}",
       "de": "{itemTitle}, {index} von {count}",
@@ -640,7 +640,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/CircularCarousel.tsx:1033`",
     "values": {
-      "vi": "${label}, ${active+1} of ${count}",
+      "vi": "{label}, {index} of {count}",
       "en": "{label}, {index} of {count}",
       "fr": "{label}, {index} sur {count}",
       "de": "{label}, {index} von {count}",
@@ -832,7 +832,7 @@
     "status": "translate",
     "source": "`src/components/sections/CaseStudies.astro:38`",
     "values": {
-      "vi": "${name} · ${followers} người theo dõi` → \"DINH House · 12K người theo dõi\"",
+      "vi": "{name} · {followers} người theo dõi",
       "en": "{name} · {followers} followers",
       "fr": "{name} · {followers} abonnés",
       "de": "{name} · {followers} Follower",
@@ -904,7 +904,7 @@
     "status": "translate",
     "source": "`src/data/content.ts:125`",
     "values": {
-      "vi": "Xem trên ${platform}` → \"Xem trên TikTok\" / \"Xem trên Instagram\"",
+      "vi": "Xem trên {platform}",
       "en": "Watch on {platform}",
       "fr": "Voir sur {platform}",
       "de": "Auf {platform} ansehen",
@@ -916,7 +916,7 @@
     "status": "translate",
     "source": "`src/data/content.ts:126`",
     "values": {
-      "vi": "Xem video trên ${platform}, ${views} lượt xem (mở tab mới)",
+      "vi": "Xem video trên {platform}, {views} lượt xem (mở tab mới)",
       "en": "Watch video on {platform}, {views} views (opens a new tab)",
       "fr": "Voir la vidéo sur {platform}, {views} vues (ouvre un nouvel onglet)",
       "de": "Video auf {platform} ansehen, {views} Aufrufe (öffnet einen neuen Tab)",
@@ -1084,7 +1084,7 @@
     "status": "translate",
     "source": "`src/data/content.ts:135` (dùng ở `ProcessFolder.tsx:44`)",
     "values": {
-      "vi": "Mở thư mục ${name}` → \"Mở thư mục Phân tích nhu cầu, mục tiêu và tệp khán giả\"",
+      "vi": "Mở thư mục {name}",
       "en": "Open {name} folder",
       "fr": "Ouvrir le dossier {name}",
       "de": "Ordner {name} öffnen",
@@ -1096,7 +1096,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/Folder.tsx:2156`",
     "values": {
-      "vi": "${label} folder` → \"Phân tích nhu cầu, mục tiêu và tệp khán giả folder\"",
+      "vi": "{label} folder",
       "en": "{label} folder",
       "fr": "Dossier {label}",
       "de": "Ordner {label}",
@@ -1168,7 +1168,7 @@
     "status": "translate",
     "source": "`src/data/content.ts:156`",
     "values": {
-      "vi": "Mình là `<strong>`Creative Producer và Founder của Drafty Lab`</strong>`, tập trung vào `<strong>`sáng tạo nội dung, sản xuất hình ảnh và phát triển trải nghiệm kỹ thuật số cho thương hiệu`</strong>`.",
+      "vi": "Mình là <strong>Creative Producer và Founder của Drafty Lab</strong>, tập trung vào <strong>sáng tạo nội dung, sản xuất hình ảnh và phát triển trải nghiệm kỹ thuật số cho thương hiệu</strong>.",
       "en": "I'm a <strong>Creative Producer and the Founder of Drafty Lab</strong>, specializing in <strong>content creation, visual production and digital experiences for brands</strong>.",
       "fr": "Je suis <strong>producteur créatif et fondateur de Drafty Lab</strong>, spécialisé dans <strong>la création de contenu, la production visuelle et les expériences numériques pour les marques</strong>.",
       "de": "Ich bin <strong>Creative Producer und Gründer von Drafty Lab</strong> und spezialisiere mich auf <strong>Content Creation, visuelle Produktion und digitale Erlebnisse für Marken</strong>.",
@@ -1732,7 +1732,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/Stepper.tsx:477`",
     "values": {
-      "vi": "Step ${number}: ${title}` → \"Step 1: Lĩnh vực\"",
+      "vi": "Step {number}: {title}",
       "en": "Step {number}: {title}",
       "fr": "Étape {number} : {title}",
       "de": "Schritt {number}: {title}",
@@ -1840,7 +1840,7 @@
     "status": "keep",
     "source": "`src/components/Footer.astro:18`",
     "values": {
-      "vi": "© {year} Drafty Lab` → \"© 2026 Drafty Lab\"",
+      "vi": "© {year} Drafty Lab",
       "en": null,
       "fr": null,
       "de": null,
@@ -2044,7 +2044,7 @@
     "status": "translate",
     "source": "`src/components/react-bits/LatticeLoader.tsx:157`",
     "values": {
-      "vi": "${label}, in progress` → \"Đang tải video…, in progress\"",
+      "vi": "{label}, in progress",
       "en": "{label}, in progress",
       "fr": "{label}, en cours",
       "de": "{label}, wird bearbeitet",
@@ -2056,7 +2056,7 @@
     "status": "keep",
     "source": "`src/components/media/VideoLightbox.tsx:214`, `ImageLightbox.tsx:38`",
     "values": {
-      "vi": "{index+1} / {count}` → \"2 / 4\"",
+      "vi": "{index+1} / {count}",
       "en": null,
       "fr": null,
       "de": null,
@@ -2068,7 +2068,7 @@
     "status": "keep",
     "source": "`src/components/media/VideoLightbox.tsx:169`",
     "values": {
-      "vi": "${fmtTime(cur)} / ${fmtTime(dur)}` → \"0:12 / 0:30\"",
+      "vi": "${fmtTime(cur)} / ${fmtTime(dur)}",
       "en": null,
       "fr": null,
       "de": null,

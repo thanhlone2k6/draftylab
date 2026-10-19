@@ -17,13 +17,30 @@ const STATUS = { 'Cần dịch': 'translate', 'Giữ nguyên': 'keep', '⚠️ C
 const clean = (s) =>
   s
     .trim()
-    .replace(/^`|`$/g, '')
+    // The review file documents template rows as `` `tpl ${x}` → "resolved example" `` and list rows as
+    // `` `a · b` (vd "…") ``. Only the part BEFORE the arrow is the value — without this the Vietnamese
+    // site printed the whole documentation line (the "Xem trên ${platform}" → … bug, 2026-10-19).
+    .replace(/\s*→[\s\S]*$/, '')
+    .replace(/\s*\((?:vd|e\.g\.|ví dụ)[^)]*\)\s*$/i, '')
+    .replace(/`/g, '') // backticks wrap code/HTML inside the cell
+    .replace(/\*\*/g, '')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&')
     .replace(/\s*↵\s*/g, '\n')
     .replace(/\\\|/g, '|')
-    .replace(/\*\*/g, '');
+    .replace(/\$\{(\w+)\}/g, '{$1}') // ${token} → {token} (our interpolation syntax)
+    .trim();
+
+/** VI cells that documented CODE instead of the value (the other four columns hold clean templates).
+ *  These are the values the site actually used before i18n, so Vietnamese behaviour is unchanged —
+ *  except the nav toggle, which now uses the Vietnamese wording content.ts always had for it. */
+const VI_CODE_ROWS = {
+  'nav.menuToggleAria': 'Mở menu / Đóng menu',
+  'nav.logoAria': 'Drafty Lab — về đầu trang',
+  'carousel.slideAria': '{itemTitle}, {index} of {count}',
+  'carousel.live': '{label}, {index} of {count}',
+};
 
 /** Split a markdown table row on UNESCAPED pipes only (a cell may contain `\|\|`). */
 const splitRow = (raw) => {
@@ -62,8 +79,32 @@ for (const raw of text.split('\n')) {
     if (v === '—' || v === '*(rỗng)*') { rec.values[l] = null; continue; }
     rec.values[l] = v;
   }
+  if (VI_CODE_ROWS[id]) rec.values.vi = VI_CODE_ROWS[id];
   out[id] = rec;
   n++;
+}
+
+/** Rows the site never renders as copy (the value is produced in code) — not worth flagging. */
+const NOT_RENDERED = new Set([
+  'gallery.duration', 'dialog.timecode', 'dialog.counter', 'trusted.partnerAlt',
+  'global.robotsTxt', 'global.sitemap', 'global.themeColor', 'global.robots', 'footer.copyright',
+]);
+
+// Guard: nothing that still looks like documentation/code may reach the site.
+const suspicious = [];
+for (const [id, rec] of Object.entries(out)) {
+  if (NOT_RENDERED.has(id)) continue;
+  for (const l of LANGS) {
+    const v = rec.values[l];
+    if (v == null) continue;
+    if (/→|\$\{|`|\*\*|\(vd /.test(v)) suspicious.push(`${id} [${l}]: ${v.slice(0, 70)}`);
+    if (/\? ['"]|item\.title|fmtTime\(|fmtDuration\(/.test(v)) suspicious.push(`${id} [${l}] looks like code: ${v.slice(0, 70)}`);
+  }
+}
+if (suspicious.length) {
+  console.error(`!! ${suspicious.length} value(s) still look like documentation/code:`);
+  suspicious.slice(0, 20).forEach((s) => console.error('   ' + s));
+  process.exitCode = 1;
 }
 
 // Report: which rows are "keep" but still carry translations, and vice versa.
