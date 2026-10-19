@@ -1,24 +1,9 @@
 ---
 // Pages serves dist/404.html with a real 404 status (without it, Cloudflare Pages answers unknown paths with the
-// home page and a 200 — e.g. a missing .mp4 would "succeed" with HTML).
+// home page and a 200 — e.g. a missing .mp4 would "succeed" with HTML). Vietnamese is the default locale.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import NotFound from '../components/sections/NotFound.astro';
 ---
-<BaseLayout>
-  <Header />
-  <main id="main" class="nf">
-    <div class="container-x nf__inner">
-      <p class="kicker">404</p>
-      <h1 class="nf__title">Không tìm thấy trang</h1>
-      <p class="nf__text">Đường dẫn này không tồn tại hoặc đã được chuyển đi.</p>
-      <a class="btn btn-primary" href="/">Về trang chủ</a>
-    </div>
-  </main>
-  <Footer />
+<BaseLayout locale="vi">
+  <NotFound locale="vi" />
 </BaseLayout>
-<style>
-  .nf { min-height: 70dvh; display: grid; align-items: center; padding-top: 120px; }
-  .nf__title { margin: 8px 0 0; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 650; letter-spacing: -0.03em; }
-  .nf__text { margin: 12px 0 24px; color: var(--c-fg-muted); }
-</style>

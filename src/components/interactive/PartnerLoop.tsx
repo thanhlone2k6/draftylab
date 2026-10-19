@@ -11,12 +11,16 @@
 // unloaded (naturalWidth 0 → an empty slot in the row), so they load eagerly instead.
 import LogoLoop, { type LogoItem } from '../react-bits/LogoLoop';
 import { partners } from '../../data/partners';
-import { trusted } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 import './PartnerLoop.css';
 
 type PartnerLogo = LogoItem & { kind: 'logo' | 'photo' };
 
-export default function PartnerLoop() {
+interface Props { locale: Locale }
+
+export default function PartnerLoop({ locale }: Props) {
+  const trusted = getContent(locale).trusted;
   const logos: PartnerLogo[] = partners.map(p => ({
     src: p.logo,
     alt: p.name,

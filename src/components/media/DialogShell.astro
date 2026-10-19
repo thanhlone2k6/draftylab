@@ -1,15 +1,20 @@
 ---
 // Static dialog shell shared by video, image and Quick Call. Behaviour: src/scripts/dialog-bootstrap.js.
 // React (MediaDialogHost) portals its UI into the slots below — it never creates a second dialog.
-import { dialog, quickCall, contact } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
 ---
-<div id="dfl-dialog" class="dlg" hidden data-quickcall-title={quickCall.title}>
+<div id="dfl-dialog" class="dlg" hidden data-quickcall-title={c.quickCall.title}>
   <div class="dlg__backdrop" data-dfl-close></div>
   <div class="dlg__panel" role="dialog" aria-modal="true" aria-labelledby="dfl-dialog-title" tabindex="-1">
     <div class="dlg__bar">
       <h2 id="dfl-dialog-title" class="dlg__title"></h2>
       <div id="dfl-slot-counter" class="dlg__counter"></div>
-      <button class="dlg__close" type="button" data-dfl-close aria-label={dialog.close}>
+      <button class="dlg__close" type="button" data-dfl-close aria-label={c.dialog.close}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
       </button>
     </div>
@@ -20,19 +25,19 @@ import { dialog, quickCall, contact } from '../../data/content';
         <!-- Buffering spinner (LatticeLoader, icon only): React portals into it while the video loads. -->
         <div id="dfl-slot-loading" class="dlg__load"></div>
         <p class="dlg__pending" role="status">
-          <span class="badge-pending">Chưa sẵn sàng</span>
-          <span>Bản xem web của video này sẽ được xử lý sau khi duyệt prototype.</span>
+          <span class="badge-pending">{c.dialog.pendingBadge}</span>
+          <span>{c.gallery.pendingNote}</span>
         </p>
       </div>
       <div id="dfl-slot-nav" class="dlg__nav"></div>
     </div>
     <div id="dfl-slot-controls" class="dlg__controls"></div>
     <div id="dfl-slot-form" class="dlg__form">
-      <p class="dlg__loading" role="status">{dialog.loading}</p>
+      <p class="dlg__loading" role="status">{c.dialog.loading}</p>
     </div>
     <div class="dlg__error" data-dfl-error hidden role="alert">
-      <p>{dialog.failed}</p>
-      <p class="dlg__error-contact">Liên hệ trực tiếp: <a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+      <p>{c.dialog.failed}</p>
+      <p class="dlg__error-contact">{c.dialog.contactPrefix} <a href={`mailto:${c.contact.email}`}>{c.contact.email}</a></p>
     </div>
   </div>
 </div>

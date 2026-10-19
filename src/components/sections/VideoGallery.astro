@@ -1,9 +1,17 @@
 ---
 import FadeContent from '../react-bits/FadeContent';
 import VideoPosterCard from '../media/VideoPosterCard.astro';
-import { sectionMedia } from '../../lib/media';
-import { gallery } from '../../data/content';
-const items = sectionMedia('gallery');
+import { sectionMediaIn } from '../../lib/media';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const gallery = getContent(locale).gallery;
+// The media build bakes placeholder titles ("Content & Video Editing 01–04"); the owner's real project
+// names live in `gallery.itemTitles`. Overriding the item here fixes the card caption AND the lightbox
+// `data-title` (built by openAttrs from item.title).
+const items = sectionMediaIn('gallery', locale).map((m) => ({ ...m, title: gallery.itemTitles[m.id] ?? m.title }));
 ---
 <section class="vg" id={gallery.id} aria-labelledby="vg-title">
   <div class="container-x">
@@ -16,7 +24,7 @@ const items = sectionMedia('gallery');
       {items.map((item, i) => (
         <li>
           <FadeContent client:load blur={4} duration={0.6} delay={0.08 * i} threshold={0.12} initialOpacity={0}>
-            <VideoPosterCard item={item} group="gallery" />
+            <VideoPosterCard item={item} group="gallery" locale={locale} />
           </FadeContent>
         </li>
       ))}

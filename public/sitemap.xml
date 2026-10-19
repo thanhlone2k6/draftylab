@@ -1,4 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://draftylab.pages.dev/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://draftylab.pages.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/en/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/de/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/nl/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
+  </url>
 </urlset>

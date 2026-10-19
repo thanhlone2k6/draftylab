@@ -1,12 +1,17 @@
 ---
 import QuickCallButton from '../interactive/QuickCallButton';
-import { quickCall } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const quickCall = getContent(locale).quickCall;
 ---
 <section class="qcta" id="contact" aria-labelledby="qcta-title">
   <div class="container-x qcta__inner">
     <h2 id="qcta-title" class="section-title qcta__title">{quickCall.title}</h2>
     <div class="qcta__action">
-      <QuickCallButton client:visible />
+      <QuickCallButton client:visible locale={locale} />
     </div>
   </div>
 </section>

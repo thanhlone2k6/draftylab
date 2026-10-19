@@ -1,0 +1,32 @@
+---
+// The nine sections of the landing page, in order, for one locale. Shared by `/` (Vietnamese) and
+// `/<lang>/` so there is exactly one place that defines the page.
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustedBy from '../components/sections/TrustedBy.astro';
+import VideoGallery from '../components/sections/VideoGallery.astro';
+import SocialProduction from '../components/sections/SocialProduction.astro';
+import BehindCreative from '../components/sections/BehindCreative.astro';
+import CaseStudies from '../components/sections/CaseStudies.astro';
+import HowIWork from '../components/sections/HowIWork.astro';
+import AboutFounder from '../components/sections/AboutFounder.astro';
+import QuickCallCTA from '../components/sections/QuickCallCTA.astro';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+<Header locale={locale} />
+<main id="main">
+  <Hero locale={locale} />
+  <TrustedBy locale={locale} />
+  <VideoGallery locale={locale} />
+  <SocialProduction locale={locale} />
+  <BehindCreative locale={locale} />
+  <CaseStudies locale={locale} />
+  <HowIWork locale={locale} />
+  <AboutFounder locale={locale} />
+  <QuickCallCTA locale={locale} />
+</main>
+<Footer locale={locale} />

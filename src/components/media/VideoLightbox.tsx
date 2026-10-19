@@ -6,7 +6,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { DialogRequest } from '../../lib/dialog';
 import { fmtTime } from '../../lib/dialog';
-import { dialog as t } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 import { useDialogKeys, useGroupNav } from './useGroupNav';
 import { applyMediaVolume, getVolume } from '../../lib/volume';
 import LatticeLoader from '../react-bits/LatticeLoader';
@@ -18,7 +19,8 @@ interface Slots { controls: HTMLElement | null; nav: HTMLElement | null; counter
 /** Wait this long before showing the spinner: a clip that is already buffered (or cached) must not flash it. */
 const LOADER_DELAY = 220;
 
-export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }) {
+export default function VideoLightbox({ req, slots, locale }: { req: Req; slots: Slots; locale: Locale }) {
+  const t = getContent(locale).dialog;
   const nav = useGroupNav(req);
   const video = useRef<HTMLVideoElement | null>(null);
   const shell = useRef<HTMLElement | null>(null);
@@ -144,7 +146,7 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
   const pct = time.dur > 0 ? Math.round((time.cur / time.dur) * 1000) : 0;
 
   const controls = req.pending ? null : (
-    <div className="lb-controls" role="group" aria-label="Điều khiển video">
+    <div className="lb-controls" role="group" aria-label={t.videoControlsAria}>
       <button type="button" className="lb-btn" onClick={togglePlay} aria-label={playing ? t.pause : t.play}>
         {playing ? <IconPause /> : <IconPlay />}
       </button>
@@ -206,6 +208,7 @@ export default function VideoLightbox({ req, slots }: { req: Req; slots: Slots }
             showLabel={false}
             showTimer={false}
             label={t.buffering}
+            workingLabel={t.loaderAnnounce(t.buffering)}
           />,
           slots.loading,
         )}

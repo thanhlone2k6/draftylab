@@ -10,34 +10,45 @@ export const site = {
   lang: 'vi',
 };
 
+// 2026-10-19 (owner): nav labels + CTA are Vietnamese now (Work/Services/Results/About → Dự án/Dịch vụ/
+// Kết quả/Giới thiệu; "Let's Talk" → "Trao đổi thêm"). The hero button uses its own string (hero.secondaryCta).
 export const nav = {
   links: [
-    { label: 'Work', href: '#work' },
-    { label: 'Services', href: '#social' },
-    { label: 'Results', href: '#results' },
-    { label: 'About', href: '#about' },
+    { label: 'Dự án', href: '#work' },
+    { label: 'Dịch vụ', href: '#social' },
+    { label: 'Kết quả', href: '#results' },
+    { label: 'Giới thiệu', href: '#about' },
   ],
-  cta: "Let's Talk",
+  cta: 'Trao đổi thêm',
   menuOpen: 'Mở menu',
   menuClose: 'Đóng menu',
 };
 
 export const hero = {
   eyebrow: 'Drafty Lab · Marketing Partner',
-  // DRAFT headline from the spec — needs approval.
-  headline: ['Create more.', 'Worry less.'],
+  // 2026-10-19 (owner): the English DRAFT headline became the Vietnamese promise.
+  headline: ['Giải pháp Marketing', 'Cho doanh nghiệp của bạn.'],
   // DRAFT, paraphrased from the storyboard direction.
   lead: 'Quay, kịch bản, đăng bài, đo lường, quảng cáo — làm thương hiệu có quá nhiều việc. Drafty Lab mang đến một quy trình sản xuất nội dung có hệ thống để bạn tập trung vào kinh doanh.',
   primaryCta: 'Explore My Work',
-  secondaryCta: "Let's Talk",
+  secondaryCta: 'Trao đổi ngay',
   portraitAlt: 'Thành Nguyễn — Founder & Creative Lead, Drafty Lab',
 };
 
 export const gallery = {
   id: 'work',
   kicker: '01 — Video Editing',
-  title: 'Video Editing / Content Production',
+  title: 'Sản xuất Nội dung',
   lead: 'Rê chuột hoặc bấm vào video để xem trước, bấm ⤢ để xem đầy đủ.',
+  // 2026-10-19 (owner): the 4 cards carry the owner's project names. The media build still bakes the
+  // placeholder titles ("Content & Video Editing 01–04") into media.public.json, so the overrides live
+  // here and are applied in VideoGallery.astro (card caption AND the lightbox data-title).
+  itemTitles: {
+    'gallery-v01': 'Content creator',
+    'gallery-v02': 'Tổ hợp giải trí phòng riêng',
+    'gallery-v03': 'Nhà hàng Fnb',
+    'gallery-v04': 'Showroom',
+  } as Record<string, string>,
   play: 'Xem video',
   expand: 'Xem đầy đủ',
   notReady: 'Chưa sẵn sàng',
@@ -45,8 +56,8 @@ export const gallery = {
 
 export const social = {
   id: 'social',
-  kicker: '02 — Social Production',
-  title: 'Social Production',
+  kicker: 'Sản xuất Nội dung Social',
+  title: 'Ấn phầm truyền thông',
   railPrev: 'Thương hiệu trước',
   railNext: 'Thương hiệu sau',
   postPrev: (brand: string) => `Bài trước của ${brand}`,
@@ -62,10 +73,10 @@ export const trusted = {
 
 export const behind = {
   id: 'behind',
-  kicker: '04 — Behind the Creative',
-  title: 'Behind the Creative',
+  kicker: 'hậu trường',
+  title: 'Làm việc sáng tạo',
   rawFinal: {
-    title: 'Raw → Final',
+    title: 'Từ ý tưởng đến set quay',
     rawLabel: 'Set quay',
     finalLabel: 'Sản phẩm hoàn thiện',
     previewRaw: 'Xem trước cảnh quay thô',
@@ -80,8 +91,8 @@ export const behind = {
 export const cases = {
   id: 'results',
   kicker: '05 — Case Studies + Results',
-  title: 'Case Studies + Results',
-  lead: 'Các thương hiệu đã sản xuất nội dung cùng Drafty Lab.',
+  title: 'Kết quả đạt được',
+  lead: 'Những thương hiệu đã đồng hành sản xuất nội dung cùng Drafty Lab.',
   scopeLabel: 'Đã sản xuất',
   sizeLabel: 'Người theo dõi hiện tại',
   sizeSource: (platform: string) => `Theo ảnh chụp trang ${platform}, 18/10/2026`,
@@ -120,7 +131,7 @@ export const cases = {
 export const howIWork = {
   id: 'process',
   kicker: '06 — How I Work',
-  title: 'How I Work',
+  title: 'Quy trình làm việc',
   openLabel: (name: string) => `Mở thư mục ${name}`,
   // 2026-10-19: the owner re-sorted `Cách tôi sẽ làm việc/` into one folder per step and named them;
   // each stage now shows exactly the photos/video of its own folder (ids build from the folder name —
@@ -137,12 +148,13 @@ export const howIWork = {
 export const about = {
   id: 'about',
   kicker: '07 — About the Founder',
-  title: 'About the Founder',
+  title: 'Giới thiệu bản thân',
   intro: 'Xin chào! Mình là Thành.',
-  // 2026-10-18: the 2nd and 3rd paragraphs ("Mình tin rằng…", "Hiện tại, mình đang phát triển…")
-  // were removed at the owner's request — only the first paragraph stays.
+  // 2026-10-19 (owner): the single paragraph was replaced by the owner's two-paragraph bio
+  // (Creative Producer / Founder). The 2nd and 3rd paragraphs removed on 2026-10-18 stay gone.
   body: [
-    'Mình là một <strong>Creative Designer và Video Editor</strong>, tập trung vào <strong>sáng tạo nội dung, thiết kế hình ảnh và trải nghiệm kỹ thuật số</strong>. Với Drafty Lab, mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ để biến những ý tưởng thành sản phẩm sáng tạo có dấu ấn riêng.',
+    'Mình là <strong>Creative Producer và Founder của Drafty Lab</strong>, tập trung vào <strong>sáng tạo nội dung, sản xuất hình ảnh và phát triển trải nghiệm kỹ thuật số cho thương hiệu</strong>.',
+    'Mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ AI để tạo ra những sản phẩm sáng tạo mang bản sắc riêng, truyền tải đúng thông điệp và phục vụ mục tiêu kinh doanh.',
   ],
   card: { name: 'Thành Nguyễn', role: 'Founder & Creative Lead', badge: 'Drafty Lab' },
   tags: ['Marketing Partner', 'AI Hybrid Production'],
@@ -207,12 +219,13 @@ export const quickCall = {
 export const contact = {
   temporaryFromV1: true,
   email: 'thanhnguyenphotowork@gmail.com',
-  instagram: 'https://instagram.com/drafty.lab',
+  // 2026-10-19 (owner): the founder's personal IG handle replaces the old drafty.lab placeholder.
+  instagram: 'https://www.instagram.com/thanh.poto.des/',
   facebook: 'https://fb.com/realthanhng',
 };
 
 export const footer = {
-  line: 'Drafty Lab — creative production studio.',
+  line: 'Drafty Lab — Đối tác Marketing sáng tạo.',
   note: '',
 };
 
@@ -236,3 +249,6 @@ export const volume = {
   label: 'Âm lượng',
   caption: 'Âm lượng',
 };
+
+// The language switcher's own strings moved to `src/i18n/config.ts` (LOCALE_META) when the five
+// languages went live — see `src/i18n/`.

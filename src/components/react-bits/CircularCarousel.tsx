@@ -14,6 +14,9 @@ export interface CircularCarouselItem {
   subtitle?: string;
 }
 
+const fill = (template: string, vars: Record<string, string | number>) =>
+  template.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+
 const photo = (id: string) => `https://images.unsplash.com/${id}?w=900&q=80&auto=format&fit=max&sat=-100`;
 
 const DEFAULT_ITEMS: CircularCarouselItem[] = [
@@ -255,10 +258,19 @@ export interface CircularCarouselProps {
   onItemClick?: (item: CircularCarouselItem, index: number) => void;
   className?: string;
   style?: CSSProperties;
+  /** aria-label of the region (defaults to English "Image carousel"). */
+  ariaLabel?: string;
+  /** per-slide aria-label template — `{itemTitle}`, `{index}`, `{count}`. */
+  slideLabel?: string;
+  /** live-region template — `{label}`, `{index}`, `{count}`. */
+  liveLabel?: string;
 }
 
 const CircularCarousel = ({
   items = DEFAULT_ITEMS,
+  ariaLabel = 'Image carousel',
+  slideLabel = '{itemTitle}, {index} of {count}',
+  liveLabel = '{label}, {index} of {count}',
   preset = 'cylinder',
   intro = 'rise',
   cardWidth = 220,
@@ -976,7 +988,7 @@ const CircularCarousel = ({
       }
       role="region"
       aria-roledescription="carousel"
-      aria-label="Image carousel"
+      aria-label={ariaLabel}
       tabIndex={0}
       data-axis={axis}
       data-shape={shape}
@@ -1006,7 +1018,7 @@ const CircularCarousel = ({
                   data-cc-index={index}
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={`${item.title || item.alt || `Image ${index + 1}`}, ${index + 1} of ${count}`}
+                  aria-label={fill(slideLabel, { itemTitle: item.title || item.alt || `Image ${index + 1}`, index: index + 1, count })}
                 >
                   {tiles.map((tile) => renderTile(item, tile, false, index))}
                   {layout.backfaces && tiles.map((tile) => renderTile(item, tile, true, index))}
@@ -1030,7 +1042,7 @@ const CircularCarousel = ({
         </div>
       )}
       <div className="circular-carousel__live" aria-live="polite" aria-atomic="true">
-        {`${label}, ${active + 1} of ${count}`}
+        {fill(liveLabel, { label, index: active + 1, count })}
       </div>
     </div>
   );

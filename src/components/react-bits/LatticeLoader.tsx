@@ -35,6 +35,8 @@ export interface CustomPattern {
 
 export interface LatticeLoaderProps {
   label?: string;
+  /** full aria-live announcement while working (overrides the English `{label}, in progress`). */
+  workingLabel?: string;
   doneLabel?: string;
   errorLabel?: string;
   status?: Status;
@@ -100,6 +102,8 @@ const spoken = (ds: number) =>
 
 export default function LatticeLoader({
   label = 'Thinking',
+  /** full aria-live announcement while working (overrides the English `{label}, in progress`). */
+  workingLabel,
   doneLabel = 'Done in',
   errorLabel = 'Failed after',
   status = 'working',
@@ -154,7 +158,7 @@ export default function LatticeLoader({
   }, [status, elapsed]);
 
   useEffect(() => {
-    if (status === 'working') setAnnounce(`${label}, in progress`);
+    if (status === 'working') setAnnounce(workingLabel ?? `${label}, in progress`);
     else setAnnounce(`${status === 'done' ? doneLabel : errorLabel}${showTimer ? ` ${spoken(dsRef.current)}` : ''}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

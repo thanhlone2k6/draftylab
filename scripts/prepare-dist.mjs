@@ -65,10 +65,23 @@ const csp = [
 const tpl = await fs.readFile(path.join(WEBSITE_DIR, 'deploy/headers.template'), 'utf8');
 await fs.writeFile(path.join(DIST, '_headers'), tpl.replaceAll('__CSP__', csp));
 
+// 4. Localised 404s: Astro only special-cases a root `404.astro` into `dist/404.html`; a nested
+//    `src/pages/<lang>/404.astro` lands in `dist/<lang>/404/index.html`. Cloudflare Pages serves the
+//    closest `404.html`, so flatten each one to `dist/<lang>/404.html` (and drop the folder).
+for (const lang of ['en', 'fr', 'de', 'nl']) {
+  const nested = path.join(DIST, lang, '404', 'index.html');
+  try {
+    const html = await fs.readFile(nested, 'utf8');
+    await fs.writeFile(path.join(DIST, lang, '404.html'), html);
+    await fs.rm(path.join(DIST, lang, '404'), { recursive: true, force: true });
+  } catch {
+    /* no localised 404 for this language */
+  }
+}
+
 const tooBig = [];
 let total = 0;
-let count = 0;
-for await (const f of walk(DIST)) {
+let count = 0;for await (const f of walk(DIST)) {
   const { size } = await fs.stat(f);
   total += size;
   count++;

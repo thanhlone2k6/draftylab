@@ -49,6 +49,8 @@ interface StepperProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' |
   backButtonText?: string;
   nextButtonText?: string;
   completeButtonText?: string;
+  /** aria-label of each step badge — pass the locale's own wording (defaults to English "Step N: …"). */
+  stepAriaLabel?: (number: number, title?: unknown) => string;
   backButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
   nextButtonProps?: ButtonHTMLAttributes<HTMLButtonElement>;
   completedContent?: ReactNode;
@@ -185,6 +187,7 @@ export default function Stepper({
   backButtonText = 'Back',
   nextButtonText = 'Continue',
   completeButtonText = 'Complete',
+  stepAriaLabel = (number: number, title?: unknown) => (title ? `Step ${number}: ${String(title)}` : `Step ${number}`),
   backButtonProps = {},
   nextButtonProps = {},
   completedContent,
@@ -395,7 +398,7 @@ export default function Stepper({
                 type="button"
                 className="stepper__dot"
                 data-status={status}
-                aria-label={entry.props.title ? `Step ${number}: ${entry.props.title}` : `Step ${number}`}
+                aria-label={stepAriaLabel(number, entry.props.title)}
                 aria-current={number === current ? 'step' : undefined}
                 disabled={!reachable(number)}
                 onClick={() => go(number)}
@@ -419,7 +422,7 @@ export default function Stepper({
                 type="button"
                 className="stepper__bar"
                 data-status={completed || number < current ? 'complete' : number === current ? 'active' : 'upcoming'}
-                aria-label={entry.props.title ? `Step ${number}: ${entry.props.title}` : `Step ${number}`}
+                aria-label={stepAriaLabel(number, entry.props.title)}
                 aria-current={number === current ? 'step' : undefined}
                 disabled={!reachable(number)}
                 onClick={() => go(number)}
@@ -474,7 +477,7 @@ export default function Stepper({
               type="button"
               className="stepper__segment"
               data-status={status}
-              aria-label={typeof title === 'string' ? `Step ${number}: ${title}` : `Step ${number}`}
+              aria-label={stepAriaLabel(number, typeof title === 'string' ? title : undefined)}
               aria-current={number === current ? 'step' : undefined}
               disabled={!reachable(number)}
               onClick={() => go(number)}

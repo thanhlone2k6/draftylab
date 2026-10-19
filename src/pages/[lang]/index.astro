@@ -1,0 +1,16 @@
+---
+// The four non-default locales: /en/ · /fr/ · /de/ · /nl/ (Vietnamese owns the root `/`).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteSections from '../../layouts/SiteSections.astro';
+import { isLocale, type Locale } from '../../i18n/config';
+
+export function getStaticPaths() {
+  return ['en', 'fr', 'de', 'nl'].map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.params.lang as Locale;
+if (!isLocale(locale)) throw new Error(`unsupported locale: ${locale}`);
+---
+<BaseLayout locale={locale}>
+  <SiteSections locale={locale} />
+</BaseLayout>

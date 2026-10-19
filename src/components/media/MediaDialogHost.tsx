@@ -6,11 +6,14 @@ import { createPortal } from 'react-dom';
 import { dfl, type DialogHost, type DialogRequest } from '../../lib/dialog';
 import VideoLightbox from './VideoLightbox';
 import ImageLightbox from './ImageLightbox';
+import type { Locale } from '../../i18n/config';
 
 const loadQuickCall = () => import('../interactive/QuickCallForm');
 const QuickCallForm = lazy(loadQuickCall);
 
-export default function MediaDialogHost() {
+interface Props { locale: Locale }
+
+export default function MediaDialogHost({ locale }: Props) {
   const [req, setReq] = useState<DialogRequest | null>(null);
   const slots = useMemo(() => {
     if (typeof document === 'undefined') return null;
@@ -40,11 +43,13 @@ export default function MediaDialogHost() {
     return slots.form
       ? createPortal(
           <Suspense fallback={null}>
-            <QuickCallForm />
+            <QuickCallForm locale={locale} />
           </Suspense>,
           slots.form,
         )
       : null;
   }
-  return req.kind === 'video' ? <VideoLightbox req={req} slots={slots} /> : <ImageLightbox req={req} slots={slots} />;
+  return req.kind === 'video'
+    ? <VideoLightbox req={req} slots={slots} locale={locale} />
+    : <ImageLightbox req={req} slots={slots} locale={locale} />;
 }

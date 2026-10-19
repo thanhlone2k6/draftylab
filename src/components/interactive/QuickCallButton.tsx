@@ -2,9 +2,12 @@
 // laps once on hover, and pulses out from the click point; the gold tone ties to the site accent.
 // `data-dfl-open` is forwarded to the element so the dialog bootstrap still opens the Quick Call dialog.
 import StarBorder from '../react-bits/StarBorder';
-import { quickCall } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
-export default function QuickCallButton() {
+interface Props { locale: Locale }
+
+export default function QuickCallButton({ locale }: Props) {
   return (
     <StarBorder
       color="#c59c4a"
@@ -26,7 +29,7 @@ export default function QuickCallButton() {
       data-dfl-open="quickcall"
       style={{ padding: '1.05rem 2.5rem', fontSize: '1.06rem', fontWeight: 600, minHeight: 58 }}
     >
-      {quickCall.cta}
+      {getContent(locale).quickCall.cta}
     </StarBorder>
   );
 }

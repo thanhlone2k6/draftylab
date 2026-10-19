@@ -8,11 +8,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import PillNav from '../react-bits/PillNav';
 import { dfl } from '../../lib/dialog';
-import { nav, site } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
-const LINKS = nav.links;
+interface Props { locale: Locale }
 
-export default function HeaderNav() {
+export default function HeaderNav({ locale }: Props) {
+  const c = getContent(locale);
+  const nav = c.nav;
+  const LINKS = nav.links;
   // Starts empty (no section is in view at the top of the page), so the pill does not flash on "Work"
   // before the first scroll-spy pass.
   const [activeHref, setActiveHref] = useState('');
@@ -52,7 +56,7 @@ export default function HeaderNav() {
     <div className="hnav">
       <PillNav
         logo="/media/brand/logo.png"
-        logoAlt={`${site.name} — về đầu trang`}
+        logoAlt={nav.logoAria}
         logoHref="#top"
         items={[...LINKS, { label: nav.cta, ariaLabel: nav.cta }]}
         activeHref={activeHref}
@@ -65,7 +69,9 @@ export default function HeaderNav() {
         collapse="auto"
         bounce={0.56}
         intro
-        ariaLabel="Chính"
+        ariaLabel={nav.ariaLabel}
+        menuOpenLabel={nav.menuToggleAria.open}
+        menuCloseLabel={nav.menuToggleAria.close}
         onItemClick={onItemClick}
       />
     </div>

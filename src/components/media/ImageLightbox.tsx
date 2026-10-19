@@ -2,14 +2,16 @@
 import { useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import type { DialogRequest } from '../../lib/dialog';
-import { dialog as t } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 import { useDialogKeys, useGroupNav } from './useGroupNav';
 import { IconNext, IconPrev } from './icons';
 
 type Req = Extract<DialogRequest, { id: string }>;
 interface Slots { nav: HTMLElement | null; counter: HTMLElement | null }
 
-export default function ImageLightbox({ req, slots }: { req: Req; slots: Slots }) {
+export default function ImageLightbox({ req, slots, locale }: { req: Req; slots: Slots; locale: Locale }) {
+  const t = getContent(locale).dialog;
   const nav = useGroupNav(req);
   useDialogKeys(
     useCallback(

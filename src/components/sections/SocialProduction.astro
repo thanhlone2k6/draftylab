@@ -4,7 +4,12 @@
 // the ring drifts forever. The old rail/folder components are parked, not deleted.
 import SocialCarousel from '../interactive/SocialCarousel';
 import { sectionMedia } from '../../lib/media';
-import { social } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const social = getContent(locale).social;
 
 // The carousel falls back to its own stock Unsplash photos when it is handed an empty list, so it is only
 // mounted when the section really has images (e.g. if `Social Production/*/` is parked in `ảnh riêng` for
@@ -17,7 +22,7 @@ const hasPhotos = sectionMedia('social').length > 0;
     <h2 id="sp-title" class="section-title">{social.title}</h2>
     {hasPhotos && (
       <div class="sp__ring">
-        <SocialCarousel client:visible={{ rootMargin: '400px' }} />
+        <SocialCarousel client:visible={{ rootMargin: '400px' }} locale={locale} />
       </div>
     )}
   </div>

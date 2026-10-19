@@ -1,22 +1,57 @@
 ---
-import { contact, footer, site } from '../data/content';
+import { getContent } from '../i18n';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
 const year = new Date().getFullYear();
+// 2026-10-19 (owner): each link now carries its platform logo (mono, currentColor — matches the dark
+// footer; no icon font, no network). Instagram points at the founder's handle (see content.ts contact).
+const platforms = [
+  { key: 'gmail', label: c.contact.email, href: `mailto:${c.contact.email}`, external: false },
+  { key: 'instagram', label: 'Instagram', href: c.contact.instagram, external: true },
+  { key: 'facebook', label: 'Facebook', href: c.contact.facebook, external: true },
+];
 ---
 <footer class="ftr">
   <div class="container-x ftr__inner">
     <div>
-      <img src="/media/v1-temp/logo.webp" alt={site.name} width="320" height="81" class="ftr__logo" loading="lazy" />
-      <p class="ftr__line">{footer.line}</p>
+      <img src="/media/v1-temp/logo.webp" alt={c.site.name} width="320" height="81" class="ftr__logo" loading="lazy" />
+      <p class="ftr__line">{c.footer.line}</p>
     </div>
     <ul class="ftr__links">
-      <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
-      <li><a href={contact.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
-      <li><a href={contact.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      {platforms.map((p) => (
+        <li>
+          <a href={p.href} {...(p.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+            <span class="ftr__ico" aria-hidden="true">
+              {p.key === 'gmail' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                  <path d="m3.5 7.5 8.5 6 8.5-6" />
+                </svg>
+              )}
+              {p.key === 'instagram' && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <rect x="3" y="3" width="18" height="18" rx="5.2" />
+                  <circle cx="12" cy="12" r="4.1" />
+                  <circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none" />
+                </svg>
+              )}
+              {p.key === 'facebook' && (
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.4 21.5v-7.6h2.6l.4-3h-3V8.9c0-.9.25-1.5 1.55-1.5h1.65V4.72c-.29-.04-1.27-.13-2.42-.13-2.4 0-4.03 1.46-4.03 4.14v2.17H7.5v3h2.25v7.6h3.65Z" />
+                </svg>
+              )}
+            </span>
+            <span class="ftr__txt">{p.label}</span>
+          </a>
+        </li>
+      ))}
     </ul>
   </div>
   <div class="container-x ftr__base">
-    <span>© {year} {site.name}</span>
-    {footer.note && <span>{footer.note}</span>}
+    <span>© {year} {c.site.name}</span>
   </div>
 </footer>
 <style>
@@ -25,7 +60,10 @@ const year = new Date().getFullYear();
   .ftr__logo { height: 24px; width: auto; }
   .ftr__line { margin: 12px 0 0; color: var(--c-fg-muted); }
   .ftr__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-  .ftr__links a { display: inline-flex; align-items: center; min-height: 40px; color: var(--c-fg); text-decoration: none; }
-  .ftr__links a:hover { text-decoration: underline; text-underline-offset: 5px; }
+  .ftr__links a { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; color: var(--c-fg); text-decoration: none; }
+  .ftr__ico { display: inline-flex; flex: none; width: 20px; height: 20px; color: var(--c-fg-muted); transition: color 200ms var(--ease-out); }
+  .ftr__ico svg { width: 100%; height: 100%; }
+  .ftr__links a:hover .ftr__ico { color: var(--c-fg); }
+  .ftr__links a:hover .ftr__txt { text-decoration: underline; text-underline-offset: 5px; }
   .ftr__base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 32px; color: var(--c-fg-faint); font-size: 0.85rem; }
 </style>

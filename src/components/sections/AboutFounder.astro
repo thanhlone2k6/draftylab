@@ -1,7 +1,12 @@
 ---
 import FadeContent from '../react-bits/FadeContent';
 import FounderCard from '../interactive/FounderCard';
-import { about } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const about = getContent(locale).about;
 ---
 <section class="ab" id={about.id} aria-labelledby="ab-title">
   <div class="container-x ab__inner">
@@ -14,7 +19,7 @@ import { about } from '../../data/content';
       </div>
     </FadeContent>
     <div class="ab__card">
-      <FounderCard client:visible portrait="/media/founder/portrait-founder.webp" alt="Thành Nguyễn — Founder & Creative Lead, Drafty Lab" />
+      <FounderCard client:visible locale={locale} portrait="/media/founder/portrait-founder.webp" alt={about.portraitAlt} />
     </div>
   </div>
 </section>

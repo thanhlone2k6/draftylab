@@ -2,13 +2,22 @@
 import FadeContent from '../react-bits/FadeContent';
 import CompareSlider from '../interactive/CompareSlider';
 import VideoPosterCard from '../media/VideoPosterCard.astro';
-import { getMedia } from '../../lib/media';
-import { behind } from '../../data/content';
+import { getMedia, localizeMedia } from '../../lib/media';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
-const raw = getMedia('behind-raw-final-v01');
-const final = getMedia('behind-raw-final-v02');
-const before = getMedia('behind-ai-workflow-i02');
-const after = getMedia('behind-ai-workflow-i01');
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const behind = getContent(locale).behind;
+
+const rawItem = getMedia('behind-raw-final-v01');
+const finalItem = getMedia('behind-raw-final-v02');
+const beforeItem = getMedia('behind-ai-workflow-i02');
+const afterItem = getMedia('behind-ai-workflow-i01');
+const raw = rawItem && localizeMedia(rawItem, locale);
+const final = finalItem && localizeMedia(finalItem, locale);
+const before = beforeItem && localizeMedia(beforeItem, locale);
+const after = afterItem && localizeMedia(afterItem, locale);
 const hasRawFinal = !!(raw && final);
 const hasAi = !!(before && after);
 ---
@@ -27,8 +36,8 @@ const hasAi = !!(before && after);
             <div class="bc__pair">
               {/* No captions on these two cards (owner request 2026-10-18): an empty title drops the
                   `.vcard__title` span entirely, while the group heading above still names the pair. */}
-              <VideoPosterCard item={raw!} group="behind" mode="inline" aspect="9 / 16" title="" ariaLabel={`${behind.rawFinal.previewRaw}`} />
-              <VideoPosterCard item={final!} group="behind" mode="inline" aspect="9 / 16" title="" ariaLabel={`${behind.rawFinal.previewFinal}`} />
+              <VideoPosterCard item={raw!} group="behind" mode="inline" aspect="9 / 16" title="" ariaLabel={behind.rawFinal.previewRawAria} locale={locale} />
+              <VideoPosterCard item={final!} group="behind" mode="inline" aspect="9 / 16" title="" ariaLabel={behind.rawFinal.previewFinalAria} locale={locale} />
             </div>
           </FadeContent>
         )}
@@ -38,8 +47,8 @@ const hasAi = !!(before && after);
             <div class="bc__cmp">
               <CompareSlider
                 client:visible
-                before={{ src: before!.fullImageSrc ?? before!.posterSrc, alt: before!.alt, label: 'BEFORE' }}
-                after={{ src: after!.fullImageSrc ?? after!.posterSrc, alt: after!.alt, label: 'AFTER' }}
+                before={{ src: before!.fullImageSrc ?? before!.posterSrc, alt: before!.alt, label: behind.compare.before }}
+                after={{ src: after!.fullImageSrc ?? after!.posterSrc, alt: after!.alt, label: behind.compare.after }}
                 width={after!.width}
                 height={after!.height}
                 ariaLabel={behind.ai.sliderLabel}

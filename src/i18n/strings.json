@@ -1,0 +1,2150 @@
+{
+  "global.siteName": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/data/content.ts:7`",
+    "values": {
+      "vi": "Drafty Lab",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.siteTitle": {
+    "section": "0. Global / SEO / HTML",
+    "status": "review",
+    "source": "`src/data/content.ts:8`",
+    "values": {
+      "vi": "Drafty Lab — Creative Production Studio",
+      "en": "Drafty Lab — Marketing Partner",
+      "fr": "Drafty Lab — Partenaire marketing",
+      "de": "Drafty Lab — Marketingpartner",
+      "nl": "Drafty Lab — Marketingpartner"
+    }
+  },
+  "global.siteDescription": {
+    "section": "0. Global / SEO / HTML",
+    "status": "translate",
+    "source": "`src/data/content.ts:9`",
+    "values": {
+      "vi": "Drafty Lab — video editing, social production và creative production cho thương hiệu.",
+      "en": "Drafty Lab combines video production, social content and creative digital solutions for brands.",
+      "fr": "Drafty Lab réunit production vidéo, contenus pour les réseaux sociaux et solutions numériques créatives pour les marques.",
+      "de": "Drafty Lab verbindet Videoproduktion, Social-Media-Content und kreative digitale Lösungen für Marken.",
+      "nl": "Drafty Lab combineert videoproductie, socialmedia-content en creatieve digitale oplossingen voor merken."
+    }
+  },
+  "global.lang": {
+    "section": "0. Global / SEO / HTML",
+    "status": "translate",
+    "source": "`src/data/content.ts:10`",
+    "values": {
+      "vi": "vi",
+      "en": "en",
+      "fr": "fr",
+      "de": "de",
+      "nl": "nl"
+    }
+  },
+  "global.canonical": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/layouts/BaseLayout.astro:23`",
+    "values": {
+      "vi": "https://draftylab.pages.dev/",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.ogUrl": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/layouts/BaseLayout.astro:24`",
+    "values": {
+      "vi": "https://draftylab.pages.dev/",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.ogLocale": {
+    "section": "0. Global / SEO / HTML",
+    "status": "translate",
+    "source": "`src/layouts/BaseLayout.astro:26`",
+    "values": {
+      "vi": "vi_VN",
+      "en": "en_US",
+      "fr": "fr_FR",
+      "de": "de_DE",
+      "nl": "nl_NL"
+    }
+  },
+  "global.ogSiteName": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/layouts/BaseLayout.astro:27`",
+    "values": {
+      "vi": "{site.name}",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.ogTitle": {
+    "section": "0. Global / SEO / HTML",
+    "status": "review",
+    "source": "`src/layouts/BaseLayout.astro:28`",
+    "values": {
+      "vi": "{site.title}",
+      "en": "Drafty Lab — Marketing Partner",
+      "fr": "Drafty Lab — Partenaire marketing",
+      "de": "Drafty Lab — Marketingpartner",
+      "nl": "Drafty Lab — Marketingpartner"
+    }
+  },
+  "global.ogDescription": {
+    "section": "0. Global / SEO / HTML",
+    "status": "translate",
+    "source": "`src/layouts/BaseLayout.astro:29`",
+    "values": {
+      "vi": "{site.description}",
+      "en": "Drafty Lab combines video production, social content and creative digital solutions for brands.",
+      "fr": "Drafty Lab réunit production vidéo, contenus pour les réseaux sociaux et solutions numériques créatives pour les marques.",
+      "de": "Drafty Lab verbindet Videoproduktion, Social-Media-Content und kreative digitale Lösungen für Marken.",
+      "nl": "Drafty Lab combineert videoproductie, socialmedia-content en creatieve digitale oplossingen voor merken."
+    }
+  },
+  "global.skipLink": {
+    "section": "0. Global / SEO / HTML",
+    "status": "translate",
+    "source": "`src/layouts/BaseLayout.astro:51`",
+    "values": {
+      "vi": "Bỏ qua tới nội dung",
+      "en": "Skip to content",
+      "fr": "Aller au contenu",
+      "de": "Zum Inhalt springen",
+      "nl": "Ga naar de inhoud"
+    }
+  },
+  "global.themeColor": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/layouts/BaseLayout.astro:21`",
+    "values": {
+      "vi": "#0a0a0a",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.robots": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`src/layouts/BaseLayout.astro:22`",
+    "values": {
+      "vi": "index, follow",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.robotsTxt": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`public/robots.txt:1-4`",
+    "values": {
+      "vi": "User-agent: *`\n`Allow: /`\n`Sitemap: https://draftylab.pages.dev/sitemap.xml",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "global.sitemap": {
+    "section": "0. Global / SEO / HTML",
+    "status": "keep",
+    "source": "`public/sitemap.xml:3`",
+    "values": {
+      "vi": "<url><loc>https://draftylab.pages.dev/</loc></url>",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "nav.work": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/data/content.ts:17`",
+    "values": {
+      "vi": "Dự án",
+      "en": "Work",
+      "fr": "Projets",
+      "de": "Projekte",
+      "nl": "Projecten"
+    }
+  },
+  "nav.services": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/data/content.ts:18`",
+    "values": {
+      "vi": "Dịch vụ",
+      "en": "Services",
+      "fr": "Services",
+      "de": "Leistungen",
+      "nl": "Diensten"
+    }
+  },
+  "nav.results": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/data/content.ts:19`",
+    "values": {
+      "vi": "Kết quả",
+      "en": "Results",
+      "fr": "Résultats",
+      "de": "Ergebnisse",
+      "nl": "Resultaten"
+    }
+  },
+  "nav.about": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/data/content.ts:20`",
+    "values": {
+      "vi": "Giới thiệu",
+      "en": "About",
+      "fr": "À propos",
+      "de": "Über uns",
+      "nl": "Over ons"
+    }
+  },
+  "nav.cta": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/data/content.ts:22`",
+    "values": {
+      "vi": "Trao đổi thêm",
+      "en": "Let's talk",
+      "fr": "Discutons",
+      "de": "Kontakt aufnehmen",
+      "nl": "Kennismaken"
+    }
+  },
+  "nav.logoAria": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/components/interactive/HeaderNav.tsx:55`",
+    "values": {
+      "vi": "${site.name} — về đầu trang` → \"Drafty Lab — về đầu trang\"",
+      "en": "Drafty Lab — back to top",
+      "fr": "Drafty Lab — retour en haut de page",
+      "de": "Drafty Lab — zurück nach oben",
+      "nl": "Drafty Lab — terug naar boven"
+    }
+  },
+  "nav.ariaLabel": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/components/interactive/HeaderNav.tsx:68`",
+    "values": {
+      "vi": "Chính",
+      "en": "Main navigation",
+      "fr": "Navigation principale",
+      "de": "Hauptnavigation",
+      "nl": "Hoofdnavigatie"
+    }
+  },
+  "nav.menuToggleAria": {
+    "section": "1. Navigation / Header",
+    "status": "translate",
+    "source": "`src/components/react-bits/PillNav.tsx:857`",
+    "values": {
+      "vi": "open ? 'Close menu' : 'Open menu'` → \"Open menu\" / \"Close menu\"",
+      "en": "Open menu / Close menu",
+      "fr": "Ouvrir le menu / Fermer le menu",
+      "de": "Menü öffnen / Menü schließen",
+      "nl": "Menu openen / Menu sluiten"
+    }
+  },
+  "hero.eyebrow": {
+    "section": "2. Hero",
+    "status": "review",
+    "source": "`src/data/content.ts:28`",
+    "values": {
+      "vi": "Drafty Lab · Marketing Partner",
+      "en": "Drafty Lab · Marketing Partner",
+      "fr": "Drafty Lab · Partenaire marketing",
+      "de": "Drafty Lab · Marketingpartner",
+      "nl": "Drafty Lab · Marketingpartner"
+    }
+  },
+  "hero.title.line1": {
+    "section": "2. Hero",
+    "status": "translate",
+    "source": "`src/data/content.ts:30`",
+    "values": {
+      "vi": "Giải pháp Marketing",
+      "en": "Marketing solutions",
+      "fr": "Solutions marketing",
+      "de": "Marketinglösungen",
+      "nl": "Marketingoplossingen"
+    }
+  },
+  "hero.title.line2": {
+    "section": "2. Hero",
+    "status": "translate",
+    "source": "`src/data/content.ts:30`",
+    "values": {
+      "vi": "Cho doanh nghiệp của bạn.",
+      "en": "For your business.",
+      "fr": "Pour votre entreprise.",
+      "de": "Für Ihr Unternehmen.",
+      "nl": "Voor jouw bedrijf."
+    }
+  },
+  "hero.lead": {
+    "section": "2. Hero",
+    "status": "translate",
+    "source": "`src/data/content.ts:32`",
+    "values": {
+      "vi": "Quay, kịch bản, đăng bài, đo lường, quảng cáo — làm thương hiệu có quá nhiều việc. Drafty Lab mang đến một quy trình sản xuất nội dung có hệ thống để bạn tập trung vào kinh doanh.",
+      "en": "Shooting, scripting, posting, analytics and advertising — building a brand involves many moving parts. Drafty Lab brings structure to content production so you can focus on your business.",
+      "fr": "Tournage, scénarios, publications, analyse des performances et publicité : développer une marque demande de tout gérer à la fois. Drafty Lab structure la production de contenus pour vous permettre de vous concentrer sur votre activité.",
+      "de": "Dreharbeiten, Skripte, Posts, Analysen und Werbung – Markenaufbau hat viele Facetten. Drafty Lab bringt Struktur in die Content-Produktion, damit Sie sich auf Ihr Geschäft konzentrieren können.",
+      "nl": "Opnames, scripts, posts, analyses en advertenties: een merk opbouwen vraagt veel tegelijk. Drafty Lab brengt structuur in de contentproductie, zodat jij je op je bedrijf kunt richten."
+    }
+  },
+  "hero.cta": {
+    "section": "2. Hero",
+    "status": "translate",
+    "source": "`src/data/content.ts:34`",
+    "values": {
+      "vi": "Trao đổi ngay",
+      "en": "Let's talk",
+      "fr": "Parlons-en",
+      "de": "Jetzt anfragen",
+      "nl": "Laten we praten"
+    }
+  },
+  "hero.portraitAlt": {
+    "section": "2. Hero",
+    "status": "review",
+    "source": "`src/data/content.ts:35`",
+    "values": {
+      "vi": "Thành Nguyễn — Founder & Creative Lead, Drafty Lab",
+      "en": "Thành Nguyễn — Founder & Creative Lead, Drafty Lab",
+      "fr": "Thành Nguyễn — fondateur et directeur créatif, Drafty Lab",
+      "de": "Thành Nguyễn — Gründer und Creative Lead, Drafty Lab",
+      "nl": "Thành Nguyễn — oprichter en Creative Lead, Drafty Lab"
+    }
+  },
+  "trusted.caption": {
+    "section": "3. Brand / Client Marquee",
+    "status": "translate",
+    "source": "`src/data/content.ts:71`",
+    "values": {
+      "vi": "Đối tác tin cậy của chủ doanh nghiệp, Content Creator và Brands",
+      "en": "A creative partner for business owners, content creators and brands",
+      "fr": "Un partenaire créatif pour les entrepreneurs, les créateurs de contenu et les marques",
+      "de": "Kreativpartner für Unternehmen, Content Creator und Marken",
+      "nl": "Creatieve partner voor ondernemers, contentmakers en merken"
+    }
+  },
+  "trusted.partnerNames": {
+    "section": "3. Brand / Client Marquee",
+    "status": "keep",
+    "source": "`src/data/partners.ts:16-21`",
+    "values": {
+      "vi": "Kazaki Ramen · Lee Chloe Coffee · Good Ci · Maison · Dinh House · Winnie",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "trusted.partnerAlt": {
+    "section": "3. Brand / Client Marquee",
+    "status": "keep",
+    "source": "`src/components/sections/TrustedBy.astro:30`, `src/components/interactive/PartnerLoop.tsx:62-64`",
+    "values": {
+      "vi": "alt={p.name}` (mobile) / `alt`+`title` (desktop)",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "gallery.kicker": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:40`",
+    "values": {
+      "vi": "01 — Video Editing",
+      "en": "01 — Video Editing",
+      "fr": "01 — Montage vidéo",
+      "de": "01 — Videoschnitt",
+      "nl": "01 — Videobewerking"
+    }
+  },
+  "gallery.title": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:41`",
+    "values": {
+      "vi": "Sản xuất Nội dung",
+      "en": "Content Production",
+      "fr": "Production de contenu",
+      "de": "Content-Produktion",
+      "nl": "Contentproductie"
+    }
+  },
+  "gallery.lead": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:42`",
+    "values": {
+      "vi": "Rê chuột hoặc bấm vào video để xem trước, bấm ⤢ để xem đầy đủ.",
+      "en": "Hover over or tap a video to preview it, then select ⤢ to watch in full.",
+      "fr": "Survolez ou touchez une vidéo pour la prévisualiser, puis cliquez sur ⤢ pour la voir en entier.",
+      "de": "Bewegen Sie den Mauszeiger über ein Video oder tippen Sie darauf, um eine Vorschau zu sehen. Mit ⤢ öffnen Sie das ganze Video.",
+      "nl": "Beweeg over een video of tik erop voor een voorbeeld. Tik op ⤢ om de volledige video te bekijken."
+    }
+  },
+  "gallery.card01": {
+    "section": "4. Video Editing / Content Production",
+    "status": "review",
+    "source": "`src/data/content.ts:47`",
+    "values": {
+      "vi": "Content creator",
+      "en": "Content Creator",
+      "fr": "Créateur de contenu",
+      "de": "Content Creator",
+      "nl": "Contentmaker"
+    }
+  },
+  "gallery.card02": {
+    "section": "4. Video Editing / Content Production",
+    "status": "review",
+    "source": "`src/data/content.ts:48`",
+    "values": {
+      "vi": "Tổ hợp giải trí phòng riêng",
+      "en": "Private entertainment complex",
+      "fr": "Complexe de divertissement privatif",
+      "de": "Privater Unterhaltungskomplex",
+      "nl": "Privé-entertainmentcomplex"
+    }
+  },
+  "gallery.card03": {
+    "section": "4. Video Editing / Content Production",
+    "status": "review",
+    "source": "`src/data/content.ts:49`",
+    "values": {
+      "vi": "Nhà hàng Fnb",
+      "en": "F&B Restaurant",
+      "fr": "Restaurant et restauration",
+      "de": "Restaurant / Gastronomie",
+      "nl": "Restaurant / horeca"
+    }
+  },
+  "gallery.card04": {
+    "section": "4. Video Editing / Content Production",
+    "status": "review",
+    "source": "`src/data/content.ts:50`",
+    "values": {
+      "vi": "Showroom",
+      "en": "Showroom",
+      "fr": "Showroom",
+      "de": "Showroom",
+      "nl": "Showroom"
+    }
+  },
+  "gallery.play": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:52`",
+    "values": {
+      "vi": "Xem video",
+      "en": "Watch video",
+      "fr": "Voir la vidéo",
+      "de": "Video ansehen",
+      "nl": "Video bekijken"
+    }
+  },
+  "gallery.expand": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:53`",
+    "values": {
+      "vi": "Xem đầy đủ",
+      "en": "Watch in full",
+      "fr": "Voir en entier",
+      "de": "Vollständig ansehen",
+      "nl": "Volledig bekijken"
+    }
+  },
+  "gallery.notReady": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:54`",
+    "values": {
+      "vi": "Chưa sẵn sàng",
+      "en": "Not ready yet",
+      "fr": "Pas encore disponible",
+      "de": "Noch nicht verfügbar",
+      "nl": "Nog niet beschikbaar"
+    }
+  },
+  "gallery.pendingNote": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/components/media/DialogShell.astro:24`",
+    "values": {
+      "vi": "Bản xem web của video này sẽ được xử lý sau khi duyệt prototype.",
+      "en": "The web version of this video will be processed after the prototype is approved.",
+      "fr": "La version web de cette vidéo sera préparée après validation du prototype.",
+      "de": "Die Webversion dieses Videos wird nach Freigabe des Prototyps vorbereitet.",
+      "nl": "De webversie van deze video wordt verwerkt na goedkeuring van het prototype."
+    }
+  },
+  "gallery.mediaTitleFallback": {
+    "section": "4. Video Editing / Content Production",
+    "status": "review",
+    "source": "`src/data/media.public.json:8,26,44,62` (sinh từ `scripts/lib/public-manifest.mjs:64`)",
+    "values": {
+      "vi": "Content & Video Editing 01 · 02 · 03 · 04",
+      "en": "Content & Video Editing 01 · 02 · 03 · 04",
+      "fr": "Contenu et montage vidéo 01 · 02 · 03 · 04",
+      "de": "Content und Videoschnitt 01 · 02 · 03 · 04",
+      "nl": "Content en videobewerking 01 · 02 · 03 · 04"
+    }
+  },
+  "gallery.mediaAlt": {
+    "section": "4. Video Editing / Content Production",
+    "status": "translate",
+    "source": "`src/data/media.public.json:9,27,45,63` (sinh từ `scripts/lib/public-manifest.mjs:64`)",
+    "values": {
+      "vi": "Ảnh đại diện video Content & Video Editing 01 · 02 · 03 · 04",
+      "en": "Video thumbnail for Content & Video Editing 01 · 02 · 03 · 04",
+      "fr": "Vignette vidéo — contenu et montage 01 · 02 · 03 · 04",
+      "de": "Videovorschaubild für Content und Videoschnitt 01 · 02 · 03 · 04",
+      "nl": "Videominiatuur voor content en videobewerking 01 · 02 · 03 · 04"
+    }
+  },
+  "gallery.duration": {
+    "section": "4. Video Editing / Content Production",
+    "status": "keep",
+    "source": "`src/lib/media.ts:51-55`",
+    "values": {
+      "vi": "fmtDuration()` → \"0:30\" · \"0:57\" · \"0:35\" · \"0:21\"",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "social.kicker": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:59`",
+    "values": {
+      "vi": "Sản xuất Nội dung Social",
+      "en": "Social Content Production",
+      "fr": "Production de contenu social",
+      "de": "Social-Media-Produktion",
+      "nl": "Socialmedia-productie"
+    }
+  },
+  "social.title": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/data/content.ts:60`",
+    "values": {
+      "vi": "Ấn phầm truyền thông",
+      "en": "Social Media Creatives",
+      "fr": "Visuels pour les réseaux sociaux",
+      "de": "Social-Media-Designs",
+      "nl": "Socialmedia-ontwerpen"
+    }
+  },
+  "social.brandNames": {
+    "section": "5. Social Production",
+    "status": "keep",
+    "source": "`scripts/lib/config.mjs:25-31` → `src/data/media.public.json` (`brands[].displayName`)",
+    "values": {
+      "vi": "DinhHouse · Lee Chloe · Kazaki · Goodci · Winnie · Marie · Porche",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "social.photoTitle": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/data/media.public.json:81,97,…` (sinh từ `scripts/lib/public-manifest.mjs:76`)",
+    "values": {
+      "vi": "<Brand> · Bài đăng 0N` (vd \"Goodci · Bài đăng 07\")",
+      "en": "<Brand> · Post 0N",
+      "fr": "<Brand> · Publication 0N",
+      "de": "<Brand> · Beitrag 0N",
+      "nl": "<Brand> · Bericht 0N"
+    }
+  },
+  "social.photoAlt": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/data/media.public.json:82,98,…` (sinh từ `scripts/lib/public-manifest.mjs:77`)",
+    "values": {
+      "vi": "Bài đăng 0N của <Brand>` (vd \"Bài đăng 07 của Goodci\")",
+      "en": "Post 0N by <Brand>",
+      "fr": "Publication 0N de <Brand>",
+      "de": "Beitrag 0N von <Brand>",
+      "nl": "Bericht 0N van <Brand>"
+    }
+  },
+  "carousel.ariaLabel": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/components/react-bits/CircularCarousel.tsx:979`",
+    "values": {
+      "vi": "Image carousel",
+      "en": "Image carousel",
+      "fr": "Carrousel d’images",
+      "de": "Bilderkarussell",
+      "nl": "Afbeeldingencarrousel"
+    }
+  },
+  "carousel.slideAria": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/components/react-bits/CircularCarousel.tsx:1009`",
+    "values": {
+      "vi": "${item.title || item.alt || `Image ${index+1}`}, ${index+1} of ${count}",
+      "en": "{itemTitle}, {index} of {count}",
+      "fr": "{itemTitle}, {index} sur {count}",
+      "de": "{itemTitle}, {index} von {count}",
+      "nl": "{itemTitle}, {index} van {count}"
+    }
+  },
+  "carousel.live": {
+    "section": "5. Social Production",
+    "status": "translate",
+    "source": "`src/components/react-bits/CircularCarousel.tsx:1033`",
+    "values": {
+      "vi": "${label}, ${active+1} of ${count}",
+      "en": "{label}, {index} of {count}",
+      "fr": "{label}, {index} sur {count}",
+      "de": "{label}, {index} von {count}",
+      "nl": "{label}, {index} van {count}"
+    }
+  },
+  "behind.kicker": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:76`",
+    "values": {
+      "vi": "hậu trường",
+      "en": "Behind the Scenes",
+      "fr": "Coulisses",
+      "de": "Hinter den Kulissen",
+      "nl": "Achter de schermen"
+    }
+  },
+  "behind.title": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:77`",
+    "values": {
+      "vi": "Làm việc sáng tạo",
+      "en": "The Creative Process",
+      "fr": "Le processus créatif",
+      "de": "Der kreative Prozess",
+      "nl": "Het creatieve proces"
+    }
+  },
+  "behind.rawFinalTitle": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:79`",
+    "values": {
+      "vi": "Từ ý tưởng đến set quay",
+      "en": "From idea to set",
+      "fr": "De l’idée au tournage",
+      "de": "Von der Idee zum Set",
+      "nl": "Van idee tot set"
+    }
+  },
+  "behind.previewRawAria": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:82`",
+    "values": {
+      "vi": "Xem trước cảnh quay thô",
+      "en": "Preview raw footage",
+      "fr": "Prévisualiser les rushes",
+      "de": "Rohmaterial in der Vorschau ansehen",
+      "nl": "Ruwe beelden bekijken"
+    }
+  },
+  "behind.previewFinalAria": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:83`",
+    "values": {
+      "vi": "Xem trước video hoàn thiện",
+      "en": "Preview finished video",
+      "fr": "Prévisualiser la vidéo finale",
+      "de": "Fertiges Video in der Vorschau ansehen",
+      "nl": "Afgewerkte video bekijken"
+    }
+  },
+  "behind.aiTitle": {
+    "section": "6. Behind the Creative",
+    "status": "review",
+    "source": "`src/data/content.ts:86`",
+    "values": {
+      "vi": "AI Workflow",
+      "en": "AI Workflow",
+      "fr": "Flux de travail avec l’IA",
+      "de": "KI-Workflow",
+      "nl": "AI-workflow"
+    }
+  },
+  "behind.sliderAria": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`src/data/content.ts:87`",
+    "values": {
+      "vi": "So sánh ảnh gốc và poster hoàn thiện",
+      "en": "Compare the original image with the finished poster",
+      "fr": "Comparer l’image d’origine et l’affiche finale",
+      "de": "Originalbild und fertiges Poster vergleichen",
+      "nl": "Vergelijk de originele afbeelding met de definitieve poster"
+    }
+  },
+  "behind.mediaTitles": {
+    "section": "6. Behind the Creative",
+    "status": "review",
+    "source": "`scripts/media-roles.json:6,12,18,24`",
+    "values": {
+      "vi": "RAW · FINAL · BEFORE · AFTER",
+      "en": "RAW · FINAL · BEFORE · AFTER",
+      "fr": "BRUT · FINAL · AVANT · APRÈS",
+      "de": "ROHMATERIAL · FINAL · VORHER · NACHHER",
+      "nl": "RUW · DEFINITIEF · VOOR · NA"
+    }
+  },
+  "behind.mediaAlts": {
+    "section": "6. Behind the Creative",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:7,13,19,25`",
+    "values": {
+      "vi": "Cảnh quay thô trước khi dựng · Video hoàn thiện sau khi dựng · Ảnh gốc của ly đồ uống trước khi xử lý AI · Poster hoàn thiện sau khi xử lý AI",
+      "en": "Raw footage before editing · Finished video after editing · Original photo of the drink before AI editing · Finished poster after AI editing",
+      "fr": "Rushes avant montage · Vidéo finale après montage · Photo originale de la boisson avant retouche IA · Affiche finale après retouche IA",
+      "de": "Rohmaterial vor dem Schnitt · Fertiges Video nach dem Schnitt · Originalfoto des Getränks vor der KI-Bearbeitung · Fertiges Poster nach der KI-Bearbeitung",
+      "nl": "Ruwe beelden vóór montage · Afgewerkte video na montage · Originele drankfoto vóór AI-bewerking · Definitieve poster na AI-bewerking"
+    }
+  },
+  "behind.compareLabels": {
+    "section": "6. Behind the Creative",
+    "status": "review",
+    "source": "`src/components/sections/BehindCreative.astro:41-42`",
+    "values": {
+      "vi": "BEFORE / AFTER",
+      "en": "BEFORE / AFTER",
+      "fr": "AVANT / APRÈS",
+      "de": "VORHER / NACHHER",
+      "nl": "VOOR / NA"
+    }
+  },
+  "cases.kicker": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:93`",
+    "values": {
+      "vi": "05 — Case Studies + Results",
+      "en": "05 — Case Studies + Results",
+      "fr": "05 — Études de cas et résultats",
+      "de": "05 — Fallstudien und Ergebnisse",
+      "nl": "05 — Cases en resultaten"
+    }
+  },
+  "cases.title": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:94`",
+    "values": {
+      "vi": "Kết quả đạt được",
+      "en": "Results",
+      "fr": "Résultats",
+      "de": "Ergebnisse",
+      "nl": "Resultaten"
+    }
+  },
+  "cases.lead": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:95`",
+    "values": {
+      "vi": "Những thương hiệu đã đồng hành sản xuất nội dung cùng Drafty Lab.",
+      "en": "Brands that have partnered with Drafty Lab on content production.",
+      "fr": "Des marques qui ont fait confiance à Drafty Lab pour leur production de contenu.",
+      "de": "Marken, die bei der Content-Produktion mit Drafty Lab zusammengearbeitet haben.",
+      "nl": "Merken die met Drafty Lab samenwerken aan contentproductie."
+    }
+  },
+  "cases.brandNames": {
+    "section": "7. Case Studies + Results",
+    "status": "keep",
+    "source": "`src/data/content.ts:108-111`",
+    "values": {
+      "vi": "DINH House · Kazaki · Goodci · Lee Chloe Coffee",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "cases.followers": {
+    "section": "7. Case Studies + Results",
+    "status": "keep",
+    "source": "`src/data/content.ts:108-111`",
+    "values": {
+      "vi": "12K · 10,4K · 6,3K · 5,9K",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "cases.tooltipTemplate": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/components/sections/CaseStudies.astro:38`",
+    "values": {
+      "vi": "${name} · ${followers} người theo dõi` → \"DINH House · 12K người theo dõi\"",
+      "en": "{name} · {followers} followers",
+      "fr": "{name} · {followers} abonnés",
+      "de": "{name} · {followers} Follower",
+      "nl": "{name} · {followers} volgers"
+    }
+  },
+  "cases.screenshotAlts": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:31,43,55,67`",
+    "values": {
+      "vi": "Ảnh chụp trang Facebook của Lee Chloe Coffee · Ảnh chụp trang Instagram của Kazaki · Ảnh chụp trang Instagram của Goodci · Ảnh chụp trang Facebook của DINH House",
+      "en": "Screenshot of Lee Chloe Coffee’s Facebook page · Screenshot of Kazaki’s Instagram page · Screenshot of Goodci’s Instagram page · Screenshot of DINH House’s Facebook page",
+      "fr": "Capture de la page Facebook de Lee Chloe Coffee · Capture du compte Instagram de Kazaki · Capture du compte Instagram de Goodci · Capture de la page Facebook de DINH House",
+      "de": "Screenshot der Facebook-Seite von Lee Chloe Coffee · Screenshot des Instagram-Profils von Kazaki · Screenshot des Instagram-Profils von Goodci · Screenshot der Facebook-Seite von DINH House",
+      "nl": "Screenshot van de Facebookpagina van Lee Chloe Coffee · Screenshot van Instagram van Kazaki · Screenshot van Instagram van Goodci · Screenshot van de Facebookpagina van DINH House"
+    }
+  },
+  "cases.videoPlatforms": {
+    "section": "7. Case Studies + Results",
+    "status": "keep",
+    "source": "`src/data/content.ts:119-121`",
+    "values": {
+      "vi": "TikTok · Instagram",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "cases.videoViews": {
+    "section": "7. Case Studies + Results",
+    "status": "keep",
+    "source": "`src/data/content.ts:119-121`",
+    "values": {
+      "vi": "378,9K · 114K · 42,3K",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "cases.videoCreators": {
+    "section": "7. Case Studies + Results",
+    "status": "keep",
+    "source": "`src/data/content.ts:119-121`",
+    "values": {
+      "vi": "@decejenni21 · @winnie_wakanda · @sarayaabdoul.stlaurent",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "cases.viewsLabel": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:124`",
+    "values": {
+      "vi": "lượt xem",
+      "en": "views",
+      "fr": "vues",
+      "de": "Aufrufe",
+      "nl": "weergaven"
+    }
+  },
+  "cases.videoCta": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:125`",
+    "values": {
+      "vi": "Xem trên ${platform}` → \"Xem trên TikTok\" / \"Xem trên Instagram\"",
+      "en": "Watch on {platform}",
+      "fr": "Voir sur {platform}",
+      "de": "Auf {platform} ansehen",
+      "nl": "Bekijken op {platform}"
+    }
+  },
+  "cases.videoAria": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:126`",
+    "values": {
+      "vi": "Xem video trên ${platform}, ${views} lượt xem (mở tab mới)",
+      "en": "Watch video on {platform}, {views} views (opens a new tab)",
+      "fr": "Voir la vidéo sur {platform}, {views} vues (ouvre un nouvel onglet)",
+      "de": "Video auf {platform} ansehen, {views} Aufrufe (öffnet einen neuen Tab)",
+      "nl": "Video bekijken op {platform}, {views} weergaven (opent een nieuw tabblad)"
+    }
+  },
+  "cases.playerLabels": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`src/data/content.ts:127`",
+    "values": {
+      "vi": "Phát video · Tạm dừng · Tắt tiếng · Bật tiếng · Tua video",
+      "en": "Play video · Pause · Mute · Unmute · Seek video",
+      "fr": "Lire la vidéo · Pause · Couper le son · Activer le son · Avancer dans la vidéo",
+      "de": "Video abspielen · Pause · Stummschalten · Ton einschalten · Video vorspulen",
+      "nl": "Video afspelen · Pauzeren · Geluid uit · Geluid aan · Video doorspoelen"
+    }
+  },
+  "cases.videoMediaTitles": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:133,139,145`",
+    "values": {
+      "vi": "Reel Instagram — 42,3K lượt xem · Reel Instagram — 114K lượt xem · Video TikTok — 378,9K lượt xem",
+      "en": "Instagram Reel — 42,3K views · Instagram Reel — 114K views · TikTok video — 378,9K views",
+      "fr": "Reel Instagram — 42,3K vues · Reel Instagram — 114K vues · Vidéo TikTok — 378,9K vues",
+      "de": "Instagram-Reel — 42,3K Aufrufe · Instagram-Reel — 114K Aufrufe · TikTok-Video — 378,9K Aufrufe",
+      "nl": "Instagram Reel — 42,3K weergaven · Instagram Reel — 114K weergaven · TikTok-video — 378,9K weergaven"
+    }
+  },
+  "cases.videoMediaAlts": {
+    "section": "7. Case Studies + Results",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:134,140,146`",
+    "values": {
+      "vi": "Khung hình từ video Instagram Reel, 42,3K lượt xem · Khung hình từ video Instagram Reel, 114K lượt xem · Khung hình từ video TikTok, 378,9K lượt xem",
+      "en": "Frame from Instagram Reel, 42,3K views · Frame from Instagram Reel, 114K views · Frame from TikTok video, 378,9K views",
+      "fr": "Image extraite d’un Reel Instagram, 42,3K vues · Image extraite d’un Reel Instagram, 114K vues · Image extraite d’une vidéo TikTok, 378,9K vues",
+      "de": "Standbild aus einem Instagram-Reel, 42,3K Aufrufe · Standbild aus einem Instagram-Reel, 114K Aufrufe · Standbild aus einem TikTok-Video, 378,9K Aufrufe",
+      "nl": "Beeld uit een Instagram Reel, 42,3K weergaven · Beeld uit een Instagram Reel, 114K weergaven · Beeld uit een TikTok-video, 378,9K weergaven"
+    }
+  },
+  "hw.kicker": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:133`",
+    "values": {
+      "vi": "06 — How I Work",
+      "en": "06 — How I Work",
+      "fr": "06 — Ma méthode",
+      "de": "06 — So arbeite ich",
+      "nl": "06 — Mijn werkwijze"
+    }
+  },
+  "hw.title": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:134`",
+    "values": {
+      "vi": "Quy trình làm việc",
+      "en": "How I Work",
+      "fr": "Ma méthode de travail",
+      "de": "So arbeite ich",
+      "nl": "Mijn werkwijze"
+    }
+  },
+  "hw.stage01Name": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:141`",
+    "values": {
+      "vi": "Phân tích nhu cầu, mục tiêu và tệp khán giả",
+      "en": "Understand needs, goals and audiences",
+      "fr": "Analyser les besoins, les objectifs et les publics cibles",
+      "de": "Bedürfnisse, Ziele und Zielgruppen analysieren",
+      "nl": "Behoeften, doelen en doelgroep analyseren"
+    }
+  },
+  "hw.stage01Blurb": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:141`",
+    "values": {
+      "vi": "Tìm hiểu mục tiêu kinh doanh, sản phẩm và tệp khán giả trước khi bắt tay vào làm.",
+      "en": "We understand your business goals, products and target audience before getting started.",
+      "fr": "Nous étudions vos objectifs commerciaux, vos produits et votre public cible avant de commencer.",
+      "de": "Wir lernen Ihre Geschäftsziele, Produkte und Zielgruppe kennen, bevor wir loslegen.",
+      "nl": "We verdiepen ons eerst in je bedrijfsdoelen, producten en doelgroep."
+    }
+  },
+  "hw.stage02Name": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:142`",
+    "values": {
+      "vi": "Lên kế hoạch và triển khai",
+      "en": "Plan and execute",
+      "fr": "Planifier et réaliser",
+      "de": "Planung und Umsetzung",
+      "nl": "Plannen en uitvoeren"
+    }
+  },
+  "hw.stage02Blurb": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:142`",
+    "values": {
+      "vi": "Lên kế hoạch nội dung, chuẩn bị thiết bị và triển khai quay theo đúng kế hoạch.",
+      "en": "We plan the content, prepare the equipment and carry out the shoot as agreed.",
+      "fr": "Nous planifions les contenus, préparons le matériel et réalisons le tournage comme convenu.",
+      "de": "Wir planen die Inhalte, bereiten die Ausrüstung vor und führen den Dreh wie vereinbart durch.",
+      "nl": "We plannen de content, bereiden de apparatuur voor en voeren de opnames volgens plan uit."
+    }
+  },
+  "hw.stage03Name": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:143`",
+    "values": {
+      "vi": "Lên lịch đăng bài",
+      "en": "Schedule content",
+      "fr": "Planifier les publications",
+      "de": "Beiträge planen",
+      "nl": "Berichten inplannen"
+    }
+  },
+  "hw.stage03Blurb": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:143`",
+    "values": {
+      "vi": "Thiết kế, hoàn thiện nội dung và lên lịch đăng bài cho từng kênh.",
+      "en": "We design, finalize and schedule content for each channel.",
+      "fr": "Nous concevons, finalisons et planifions les contenus pour chaque canal.",
+      "de": "Wir gestalten und finalisieren die Inhalte und planen die Veröffentlichung für jeden Kanal.",
+      "nl": "We ontwerpen en finaliseren de content en plannen berichten voor elk kanaal in."
+    }
+  },
+  "hw.stage04Name": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:144`",
+    "values": {
+      "vi": "Báo cáo và thống kê",
+      "en": "Report and analyze",
+      "fr": "Rapports et analyses",
+      "de": "Reporting und Analyse",
+      "nl": "Rapportage en analyse"
+    }
+  },
+  "hw.stage04Blurb": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:144`",
+    "values": {
+      "vi": "Theo dõi số liệu, tổng hợp báo cáo và tối ưu cho các chiến dịch tiếp theo.",
+      "en": "We monitor performance, share reports and optimize future campaigns.",
+      "fr": "Nous suivons les performances, partageons les rapports et optimisons les campagnes suivantes.",
+      "de": "Wir verfolgen die Kennzahlen, erstellen Berichte und optimieren kommende Kampagnen.",
+      "nl": "We volgen de resultaten, maken rapportages en optimaliseren volgende campagnes."
+    }
+  },
+  "hw.folderAria": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/data/content.ts:135` (dùng ở `ProcessFolder.tsx:44`)",
+    "values": {
+      "vi": "Mở thư mục ${name}` → \"Mở thư mục Phân tích nhu cầu, mục tiêu và tệp khán giả\"",
+      "en": "Open {name} folder",
+      "fr": "Ouvrir le dossier {name}",
+      "de": "Ordner {name} öffnen",
+      "nl": "Map {name} openen"
+    }
+  },
+  "hw.folderName": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`src/components/react-bits/Folder.tsx:2156`",
+    "values": {
+      "vi": "${label} folder` → \"Phân tích nhu cầu, mục tiêu và tệp khán giả folder\"",
+      "en": "{label} folder",
+      "fr": "Dossier {label}",
+      "de": "Ordner {label}",
+      "nl": "Map {label}"
+    }
+  },
+  "hw.photoTitles": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:77,82,87,92,97,102,107,112,117,122,127`",
+    "values": {
+      "vi": "Trao đổi với khách hàng · Tìm hiểu yêu cầu · Họp với khách hàng · Lịch kế hoạch · Chuẩn bị quay · Thiết bị quay · Triển khai kế hoạch · Thiết kế bài đăng · Lên lịch đăng bài · Trang kế hoạch nội dung · Tổng hợp nội dung",
+      "en": "Client discussion · Reviewing requirements · Client meeting · Planning calendar · Preparing for a shoot · Filming equipment · Executing the plan · Social post design · Scheduling posts · Content planning page · Content overview",
+      "fr": "Échange avec un client · Analyse des besoins · Réunion client · Calendrier de planification · Préparation du tournage · Matériel de tournage · Mise en œuvre du plan · Création d’une publication · Programmation de publications · Page de planification du contenu · Vue d’ensemble du contenu",
+      "de": "Kundengespräch · Anforderungen prüfen · Kundentermin · Planungskalender · Drehvorbereitung · Drehausrüstung · Umsetzung des Plans · Beitragsdesign · Beiträge planen · Content-Planungsseite · Content-Übersicht",
+      "nl": "Klantgesprek · Behoeften bespreken · Klantoverleg · Planningskalender · Opnames voorbereiden · Filmapparatuur · Plan uitvoeren · Socialmediapost ontwerpen · Berichten inplannen · Contentplanning · Contentoverzicht"
+    }
+  },
+  "hw.photoAlts": {
+    "section": "8. How I Work",
+    "status": "translate",
+    "source": "`scripts/media-roles.json:78,83,88,93,98,103,108,113,118,123,128`",
+    "values": {
+      "vi": "Khung hình cuộc gọi video trao đổi với khách hàng · Làm việc tại bàn với laptop đang mở tài liệu · Gọi video với khách hàng qua Google Meet trên laptop · Lịch tháng trên Google Calendar dùng để lên kế hoạch · Quay sản phẩm bằng điện thoại gắn gimbal · Máy ảnh và gimbal chuẩn bị cho buổi quay · Laptop và cà phê trong buổi làm việc tại quán · Thiết kế poster bài đăng trên laptop · Lên lịch đăng bài trên Meta Business Suite · Trang kế hoạch nội dung trên màn hình laptop · Màn hình laptop đang mở tài liệu tổng hợp nội dung",
+      "en": "Video-call with a client · Working at a desk with documents open on a laptop · Google Meet call with a client on a laptop · Monthly Google Calendar planning view · Filming a product with a phone on a gimbal · Camera and gimbal prepared for shooting · Laptop and coffee during a café work session · Designing a social post on a laptop · Scheduling posts in Meta Business Suite · Content plan displayed on a laptop · Laptop showing a content overview document",
+      "fr": "Appel vidéo avec un client · Travail à un bureau avec des documents ouverts sur un ordinateur portable · Appel Google Meet avec un client sur ordinateur portable · Vue mensuelle de Google Calendar pour la planification · Tournage d’un produit avec téléphone sur stabilisateur · Appareil photo et stabilisateur prêts pour le tournage · Ordinateur et café lors d’une séance de travail · Conception d’un post sur ordinateur portable · Programmation de posts dans Meta Business Suite · Plan de contenu affiché sur ordinateur portable · Document récapitulatif de contenu affiché sur ordinateur portable",
+      "de": "Videokonferenz mit einem Kunden · Arbeit am Schreibtisch mit geöffneten Dokumenten auf dem Laptop · Google-Meet-Gespräch mit einem Kunden auf dem Laptop · Monatsansicht in Google Calendar zur Planung · Produktaufnahme mit Smartphone auf einem Gimbal · Kamera und Gimbal für den Dreh vorbereitet · Laptop und Kaffee beim Arbeiten im Café · Gestaltung eines Social-Media-Beitrags am Laptop · Beitragsplanung in Meta Business Suite · Content-Plan auf dem Laptop · Laptop mit Content-Übersicht",
+      "nl": "Videogesprek met een klant · Werken aan een bureau met documenten op een laptop · Google Meet-gesprek met een klant op een laptop · Maandoverzicht in Google Calendar voor de planning · Product filmen met een telefoon op een gimbal · Camera en gimbal klaar voor de opnames · Laptop en koffie tijdens een werksessie in een café · Een socialmediapost ontwerpen op een laptop · Berichten inplannen in Meta Business Suite · Contentplanning op een laptop · Laptop met een contentoverzicht"
+    }
+  },
+  "about.kicker": {
+    "section": "9. About the Founder",
+    "status": "translate",
+    "source": "`src/data/content.ts:150`",
+    "values": {
+      "vi": "07 — About the Founder",
+      "en": "07 — About the Founder",
+      "fr": "07 — À propos du fondateur",
+      "de": "07 — Über den Gründer",
+      "nl": "07 — Over de oprichter"
+    }
+  },
+  "about.title": {
+    "section": "9. About the Founder",
+    "status": "translate",
+    "source": "`src/data/content.ts:151`",
+    "values": {
+      "vi": "Giới thiệu bản thân",
+      "en": "About the Founder",
+      "fr": "À propos du fondateur",
+      "de": "Über den Gründer",
+      "nl": "Over de oprichter"
+    }
+  },
+  "about.intro": {
+    "section": "9. About the Founder",
+    "status": "translate",
+    "source": "`src/data/content.ts:152`",
+    "values": {
+      "vi": "Xin chào! Mình là Thành.",
+      "en": "Hi! I'm Thanh.",
+      "fr": "Bonjour ! Je suis Thanh.",
+      "de": "Hallo! Ich bin Thanh.",
+      "nl": "Hoi! Ik ben Thanh."
+    }
+  },
+  "about.body1": {
+    "section": "9. About the Founder",
+    "status": "translate",
+    "source": "`src/data/content.ts:156`",
+    "values": {
+      "vi": "Mình là `<strong>`Creative Producer và Founder của Drafty Lab`</strong>`, tập trung vào `<strong>`sáng tạo nội dung, sản xuất hình ảnh và phát triển trải nghiệm kỹ thuật số cho thương hiệu`</strong>`.",
+      "en": "I'm a <strong>Creative Producer and the Founder of Drafty Lab</strong>, specializing in <strong>content creation, visual production and digital experiences for brands</strong>.",
+      "fr": "Je suis <strong>producteur créatif et fondateur de Drafty Lab</strong>, spécialisé dans <strong>la création de contenu, la production visuelle et les expériences numériques pour les marques</strong>.",
+      "de": "Ich bin <strong>Creative Producer und Gründer von Drafty Lab</strong> und spezialisiere mich auf <strong>Content Creation, visuelle Produktion und digitale Erlebnisse für Marken</strong>.",
+      "nl": "Ik ben <strong>Creative Producer en oprichter van Drafty Lab</strong> en richt me op <strong>contentcreatie, visuele productie en digitale merkervaringen</strong>."
+    }
+  },
+  "about.body2": {
+    "section": "9. About the Founder",
+    "status": "translate",
+    "source": "`src/data/content.ts:157`",
+    "values": {
+      "vi": "Mình kết hợp tư duy thẩm mỹ, khả năng kể chuyện và công nghệ AI để tạo ra những sản phẩm sáng tạo mang bản sắc riêng, truyền tải đúng thông điệp và phục vụ mục tiêu kinh doanh.",
+      "en": "I combine visual thinking, storytelling and AI technology to create distinctive work that communicates clearly, reflects each brand's identity and supports business goals.",
+      "fr": "J’associe sens visuel, storytelling et technologies d’IA pour créer des contenus singuliers, fidèles à l’identité de chaque marque, porteurs d’un message clair et utiles aux objectifs de l’entreprise.",
+      "de": "Ich verbinde visuelles Denken, Storytelling und KI-Technologie, um unverwechselbare Arbeiten zu schaffen, die Botschaften klar vermitteln, Markenidentität zeigen und Geschäftsziele unterstützen.",
+      "nl": "Ik combineer visueel denken, storytelling en AI-technologie om onderscheidend werk te maken dat een heldere boodschap overbrengt, bij de merkidentiteit past en bedrijfsdoelen ondersteunt."
+    }
+  },
+  "about.cardName": {
+    "section": "9. About the Founder",
+    "status": "keep",
+    "source": "`src/data/content.ts:159`",
+    "values": {
+      "vi": "Thành Nguyễn",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "about.cardRole": {
+    "section": "9. About the Founder",
+    "status": "review",
+    "source": "`src/data/content.ts:159`",
+    "values": {
+      "vi": "Founder & Creative Lead",
+      "en": "Founder & Creative Lead",
+      "fr": "Fondateur et directeur créatif",
+      "de": "Gründer und Creative Lead",
+      "nl": "Oprichter en Creative Lead"
+    }
+  },
+  "about.cardBadge": {
+    "section": "9. About the Founder",
+    "status": "keep",
+    "source": "`src/data/content.ts:159`",
+    "values": {
+      "vi": "Drafty Lab",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "about.tag01": {
+    "section": "9. About the Founder",
+    "status": "review",
+    "source": "`src/data/content.ts:160`",
+    "values": {
+      "vi": "Marketing Partner",
+      "en": "Marketing Partner",
+      "fr": "Partenaire marketing",
+      "de": "Marketingpartner",
+      "nl": "Marketingpartner"
+    }
+  },
+  "about.tag02": {
+    "section": "9. About the Founder",
+    "status": "review",
+    "source": "`src/data/content.ts:160`",
+    "values": {
+      "vi": "AI Hybrid Production",
+      "en": "AI Hybrid Production",
+      "fr": "Production hybride avec IA",
+      "de": "Hybride KI-Produktion",
+      "nl": "Hybride productie met AI"
+    }
+  },
+  "about.portraitAlt": {
+    "section": "9. About the Founder",
+    "status": "review",
+    "source": "`src/components/sections/AboutFounder.astro:17`",
+    "values": {
+      "vi": "Thành Nguyễn — Founder & Creative Lead, Drafty Lab",
+      "en": "Thành Nguyễn — Founder & Creative Lead, Drafty Lab",
+      "fr": "Thành Nguyễn — fondateur et directeur créatif, Drafty Lab",
+      "de": "Thành Nguyễn — Gründer und Creative Lead, Drafty Lab",
+      "nl": "Thành Nguyễn — oprichter en Creative Lead, Drafty Lab"
+    }
+  },
+  "qc.title": {
+    "section": "10. Quick Call / Form",
+    "status": "review",
+    "source": "`src/data/content.ts:164`",
+    "values": {
+      "vi": "Quick Call in 10 Min",
+      "en": "Quick Call in 10 Min",
+      "fr": "Échange de 10 minutes",
+      "de": "10-Minuten-Gespräch",
+      "nl": "Kennismaking in 10 minuten"
+    }
+  },
+  "qc.cta": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:165`",
+    "values": {
+      "vi": "Trao đổi ngay",
+      "en": "Let's talk",
+      "fr": "Parlons-en",
+      "de": "Jetzt anfragen",
+      "nl": "Laten we praten"
+    }
+  },
+  "qc.subtitle": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:166`",
+    "values": {
+      "vi": "Trả lời 4 câu nhanh — phần lớn chỉ cần bấm chọn.",
+      "en": "Answer 4 quick questions — mostly with just a few clicks.",
+      "fr": "Répondez à 4 questions rapides — quelques clics suffisent.",
+      "de": "Beantworten Sie 4 kurze Fragen – meist mit wenigen Klicks.",
+      "nl": "Beantwoord 4 korte vragen — meestal met een paar klikken."
+    }
+  },
+  "qc.demoBanner": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:167`",
+    "values": {
+      "vi": "Form demo — chưa nhận lead thật",
+      "en": "Demo form — no real leads are being collected",
+      "fr": "Formulaire de démonstration — aucune demande réelle collectée",
+      "de": "Demo-Formular – es werden keine echten Anfragen empfangen",
+      "nl": "Demoformulier — er worden geen echte aanvragen ontvangen"
+    }
+  },
+  "qc.demoBadge": {
+    "section": "10. Quick Call / Form",
+    "status": "review",
+    "source": "`src/components/interactive/QuickCallForm.tsx:135`",
+    "values": {
+      "vi": "DEMO",
+      "en": "DEMO",
+      "fr": "DÉMO",
+      "de": "DEMO",
+      "nl": "DEMO"
+    }
+  },
+  "qc.back": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:168`",
+    "values": {
+      "vi": "Quay lại",
+      "en": "Back",
+      "fr": "Retour",
+      "de": "Zurück",
+      "nl": "Terug"
+    }
+  },
+  "qc.next": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:169`",
+    "values": {
+      "vi": "Tiếp tục",
+      "en": "Continue",
+      "fr": "Continuer",
+      "de": "Weiter",
+      "nl": "Verder"
+    }
+  },
+  "qc.submit": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:170`",
+    "values": {
+      "vi": "Gửi yêu cầu",
+      "en": "Send request",
+      "fr": "Envoyer la demande",
+      "de": "Anfrage senden",
+      "nl": "Aanvraag versturen"
+    }
+  },
+  "qc.sending": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:213`",
+    "values": {
+      "vi": "Đang gửi…",
+      "en": "Sending…",
+      "fr": "Envoi en cours…",
+      "de": "Wird gesendet…",
+      "nl": "Verzenden…"
+    }
+  },
+  "qc.step1Title": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:173`",
+    "values": {
+      "vi": "Lĩnh vực",
+      "en": "Industry",
+      "fr": "Secteur",
+      "de": "Branche",
+      "nl": "Branche"
+    }
+  },
+  "qc.step1Question": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:174`",
+    "values": {
+      "vi": "Bạn đang kinh doanh lĩnh vực nào?",
+      "en": "What industry is your business in?",
+      "fr": "Dans quel secteur exercez-vous ?",
+      "de": "In welcher Branche ist Ihr Unternehmen tätig?",
+      "nl": "In welke branche is je bedrijf actief?"
+    }
+  },
+  "qc.step2Title": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:178`",
+    "values": {
+      "vi": "Nhu cầu",
+      "en": "Your needs",
+      "fr": "Vos besoins",
+      "de": "Ihr Bedarf",
+      "nl": "Je behoeften"
+    }
+  },
+  "qc.step2Question": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:179`",
+    "values": {
+      "vi": "Bạn đang cần hỗ trợ gì nhất?",
+      "en": "What do you need the most help with?",
+      "fr": "Sur quoi avez-vous le plus besoin d’aide ?",
+      "de": "Wobei benötigen Sie am meisten Unterstützung?",
+      "nl": "Waar heb je het meeste hulp bij nodig?"
+    }
+  },
+  "qc.step2Hint": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:180`",
+    "values": {
+      "vi": "Chọn một hoặc nhiều",
+      "en": "Select one or more",
+      "fr": "Sélectionnez une ou plusieurs options",
+      "de": "Eine oder mehrere Optionen auswählen",
+      "nl": "Selecteer een of meer opties"
+    }
+  },
+  "qc.step3Title": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:184`",
+    "values": {
+      "vi": "Hiện trạng",
+      "en": "Current setup",
+      "fr": "Situation actuelle",
+      "de": "Aktuelle Situation",
+      "nl": "Huidige situatie"
+    }
+  },
+  "qc.step3Question": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:185`",
+    "values": {
+      "vi": "Hiện bạn đang triển khai content như thế nào?",
+      "en": "How are you currently producing content?",
+      "fr": "Comment produisez-vous actuellement vos contenus ?",
+      "de": "Wie erstellen Sie derzeit Ihre Inhalte?",
+      "nl": "Hoe maak je op dit moment content?"
+    }
+  },
+  "qc.budgetQuestion": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:190`",
+    "values": {
+      "vi": "Ngân sách dự kiến của bạn?",
+      "en": "What is your estimated budget?",
+      "fr": "Quel est votre budget prévisionnel ?",
+      "de": "Wie hoch ist Ihr voraussichtliches Budget?",
+      "nl": "Wat is je geschatte budget?"
+    }
+  },
+  "qc.budgetHint": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:191`",
+    "values": {
+      "vi": "Không bắt buộc",
+      "en": "Optional",
+      "fr": "Facultatif",
+      "de": "Optional",
+      "nl": "Optioneel"
+    }
+  },
+  "qc.step4Title": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:195`",
+    "values": {
+      "vi": "Liên hệ",
+      "en": "Contact",
+      "fr": "Contact",
+      "de": "Kontakt",
+      "nl": "Contact"
+    }
+  },
+  "qc.contactQuestion": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:196`",
+    "values": {
+      "vi": "Làm sao để liên hệ với bạn?",
+      "en": "How can we contact you?",
+      "fr": "Comment pouvons-nous vous contacter ?",
+      "de": "Wie können wir Sie kontaktieren?",
+      "nl": "Hoe kunnen we contact met je opnemen?"
+    }
+  },
+  "qc.contactName": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:197`",
+    "values": {
+      "vi": "Tên của bạn",
+      "en": "Your name",
+      "fr": "Votre nom",
+      "de": "Ihr Name",
+      "nl": "Je naam"
+    }
+  },
+  "qc.contactValueLabel": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:201`",
+    "values": {
+      "vi": "Zalo / số điện thoại hoặc email của bạn",
+      "en": "Your Zalo / phone number or email",
+      "fr": "Votre Zalo / téléphone ou adresse e-mail",
+      "de": "Ihre Zalo-ID / Telefonnummer oder E-Mail-Adresse",
+      "nl": "Je Zalo / telefoonnummer of e-mailadres"
+    }
+  },
+  "qc.contactValueError": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:202`",
+    "values": {
+      "vi": "Số điện thoại hoặc email chưa hợp lệ.",
+      "en": "Please enter a valid phone number or email address.",
+      "fr": "Veuillez saisir un numéro de téléphone ou une adresse e-mail valide.",
+      "de": "Bitte geben Sie eine gültige Telefonnummer oder E-Mail-Adresse ein.",
+      "nl": "Vul een geldig telefoonnummer of e-mailadres in."
+    }
+  },
+  "qc.contactNote": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:203`",
+    "values": {
+      "vi": "Ghi chú (không bắt buộc)",
+      "en": "Notes (optional)",
+      "fr": "Message (facultatif)",
+      "de": "Anmerkungen (optional)",
+      "nl": "Opmerking (optioneel)"
+    }
+  },
+  "qc.contactNameError": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:204`",
+    "values": {
+      "vi": "Vui lòng nhập tên.",
+      "en": "Please enter your name.",
+      "fr": "Veuillez saisir votre nom.",
+      "de": "Bitte geben Sie Ihren Namen ein.",
+      "nl": "Vul je naam in."
+    }
+  },
+  "qc.industryOptions": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/lead-options.ts:3`",
+    "values": {
+      "vi": "F&B / Restaurant · Brand / E-commerce · Agency / Marketing · Creator / Personal Brand · Khác",
+      "en": "Food & Beverage / Restaurant · Brand / E-commerce · Agency / Marketing · Creator / Personal Brand · Other",
+      "fr": "Restauration / Restaurant · Marque / E-commerce · Agence / Marketing · Créateur / Marque personnelle · Autre",
+      "de": "Gastronomie / Restaurant · Marke / E-Commerce · Agentur / Marketing · Creator / Personal Brand · Sonstiges",
+      "nl": "Horeca / Restaurant · Merk / E-commerce · Bureau / Marketing · Creator / Personal Brand · Anders"
+    }
+  },
+  "qc.needsOptions": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/lead-options.ts:4`",
+    "values": {
+      "vi": "Video Editing · Social Content · Social Media Production · Website / Landing Page · Branding / AI Creative · Chưa rõ, cần tư vấn",
+      "en": "Video Editing · Social Content · Social Media Production · Website / Landing Page · Branding / AI Creative · Not sure yet — need advice",
+      "fr": "Montage vidéo · Contenu pour les réseaux sociaux · Production social media · Site web / Landing page · Identité de marque / Création avec IA · Je ne sais pas encore — besoin de conseils",
+      "de": "Videoschnitt · Social-Media-Content · Social-Media-Produktion · Website / Landingpage · Branding / KI-Kreation · Noch unsicher — Beratung erwünscht",
+      "nl": "Videobewerking · Socialmedia-content · Socialmedia-productie · Website / Landingspagina · Branding / AI-creatie · Nog niet zeker — advies gewenst"
+    }
+  },
+  "qc.teamOptions": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/lead-options.ts:5`",
+    "values": {
+      "vi": "Tự làm · Có 1–2 người hỗ trợ · Có team 3+ người · Đã thuê ngoài nhưng chưa hiệu quả · Đang tìm đối tác dài hạn",
+      "en": "I do it myself · I have 1–2 people helping · I have a team of 3+ · I outsource but results are disappointing · Looking for a long-term partner",
+      "fr": "Je m’en occupe seul(e) · 1 à 2 personnes m’aident · Une équipe de 3 personnes ou plus · J’externalise sans résultats satisfaisants · Je cherche un partenaire à long terme",
+      "de": "Ich mache es selbst · 1–2 Personen helfen mir · Ich habe ein Team mit 3+ Personen · Ausgelagert, aber ohne zufriedenstellende Ergebnisse · Ich suche einen langfristigen Partner",
+      "nl": "Ik doe het zelf · Ik krijg hulp van 1–2 mensen · Ik heb een team van 3+ mensen · Uitbesteed, maar zonder goed resultaat · Ik zoek een vaste partner"
+    }
+  },
+  "qc.budgetOptions": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/lead-options.ts:7`",
+    "values": {
+      "vi": "Dưới 5 triệu · 5 – 15 triệu · 15 – 30 triệu · Trên 30 triệu · Chưa xác định",
+      "en": "Under VND 5 million · VND 5–15 million · VND 15–30 million · Over VND 30 million · Not decided yet",
+      "fr": "Moins de 5 millions VND · 5 à 15 millions VND · 15 à 30 millions VND · Plus de 30 millions VND · Pas encore défini",
+      "de": "Unter 5 Mio. VND · 5–15 Mio. VND · 15–30 Mio. VND · Über 30 Mio. VND · Noch offen",
+      "nl": "Minder dan 5 miljoen VND · 5–15 miljoen VND · 15–30 miljoen VND · Meer dan 30 miljoen VND · Nog niet bepaald"
+    }
+  },
+  "qc.demoResult": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:207`",
+    "values": {
+      "vi": "Đây là bản demo: yêu cầu CHƯA được gửi đi và Drafty Lab chưa nhận được thông tin của bạn. Vui lòng liên hệ trực tiếp qua email bên dưới.",
+      "en": "This is a demo: your request has NOT been sent and Drafty Lab has not received your details. Please contact us directly by email below.",
+      "fr": "Ceci est une démonstration : votre demande N’A PAS été envoyée et Drafty Lab n’a pas reçu vos coordonnées. Contactez-nous directement par e-mail ci-dessous.",
+      "de": "Dies ist eine Demo: Ihre Anfrage wurde NICHT gesendet und Drafty Lab hat Ihre Daten nicht erhalten. Bitte kontaktieren Sie uns direkt über die E-Mail-Adresse unten.",
+      "nl": "Dit is een demo: je aanvraag is NIET verstuurd en Drafty Lab heeft je gegevens niet ontvangen. Neem rechtstreeks contact op via het e-mailadres hieronder."
+    }
+  },
+  "qc.errorResult": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:208`",
+    "values": {
+      "vi": "Không gửi được yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp.",
+      "en": "Unable to send your request. Please try again or contact us directly.",
+      "fr": "Impossible d’envoyer votre demande. Réessayez ou contactez-nous directement.",
+      "de": "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.",
+      "nl": "Je aanvraag kon niet worden verstuurd. Probeer het opnieuw of neem rechtstreeks contact op."
+    }
+  },
+  "qc.rateLimited": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:209`",
+    "values": {
+      "vi": "Bạn đã gửi khá nhiều yêu cầu. Vui lòng thử lại sau vài phút hoặc liên hệ trực tiếp.",
+      "en": "You have submitted several requests. Please try again in a few minutes or contact us directly.",
+      "fr": "Vous avez envoyé plusieurs demandes. Réessayez dans quelques minutes ou contactez-nous directement.",
+      "de": "Sie haben bereits mehrere Anfragen gesendet. Bitte versuchen Sie es in einigen Minuten erneut oder kontaktieren Sie uns direkt.",
+      "nl": "Je hebt meerdere aanvragen verstuurd. Probeer het over een paar minuten opnieuw of neem rechtstreeks contact op."
+    }
+  },
+  "qc.captchaFailed": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:210`",
+    "values": {
+      "vi": "Chưa xác minh được bạn là người thật. Vui lòng thử lại.",
+      "en": "We could not verify that you are human. Please try again.",
+      "fr": "Nous n’avons pas pu vérifier que vous êtes une personne réelle. Veuillez réessayer.",
+      "de": "Wir konnten nicht bestätigen, dass Sie ein Mensch sind. Bitte versuchen Sie es erneut.",
+      "nl": "We konden niet bevestigen dat je een echt persoon bent. Probeer het opnieuw."
+    }
+  },
+  "qc.invalidResult": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:211`",
+    "values": {
+      "vi": "Một số thông tin chưa hợp lệ. Vui lòng kiểm tra lại các ô đã nhập.",
+      "en": "Some details are invalid. Please check your entries.",
+      "fr": "Certaines informations sont incorrectes. Vérifiez les champs saisis.",
+      "de": "Einige Angaben sind ungültig. Bitte überprüfen Sie Ihre Eingaben.",
+      "nl": "Sommige gegevens zijn ongeldig. Controleer je invoer."
+    }
+  },
+  "qc.disabledResult": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:212`",
+    "values": {
+      "vi": "Form tạm ngưng nhận yêu cầu. Vui lòng liên hệ trực tiếp.",
+      "en": "The form is temporarily unavailable. Please contact us directly.",
+      "fr": "Le formulaire est temporairement indisponible. Contactez-nous directement.",
+      "de": "Das Formular ist vorübergehend nicht verfügbar. Bitte kontaktieren Sie uns direkt.",
+      "nl": "Het formulier is tijdelijk niet beschikbaar. Neem rechtstreeks contact op."
+    }
+  },
+  "qc.retry": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:214`",
+    "values": {
+      "vi": "Thử lại",
+      "en": "Try again",
+      "fr": "Réessayer",
+      "de": "Erneut versuchen",
+      "nl": "Opnieuw proberen"
+    }
+  },
+  "qc.successTitle": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:215`",
+    "values": {
+      "vi": "Đã nhận yêu cầu liên hệ",
+      "en": "Request received",
+      "fr": "Demande reçue",
+      "de": "Anfrage erhalten",
+      "nl": "Aanvraag ontvangen"
+    }
+  },
+  "qc.successBody": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/data/content.ts:216`",
+    "values": {
+      "vi": "Drafty Lab sẽ liên hệ lại với bạn qua phương thức bạn đã chọn.",
+      "en": "Drafty Lab will contact you using your preferred method.",
+      "fr": "Drafty Lab vous recontactera par le moyen choisi.",
+      "de": "Drafty Lab meldet sich über Ihren gewählten Kontaktweg bei Ihnen.",
+      "nl": "Drafty Lab neemt contact met je op via de gekozen methode."
+    }
+  },
+  "qc.turnstileLang": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/components/interactive/TurnstileBox.tsx:55`",
+    "values": {
+      "vi": "vi",
+      "en": "en",
+      "fr": "fr",
+      "de": "de",
+      "nl": "nl"
+    }
+  },
+  "qc.stepperStepAria": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/components/react-bits/Stepper.tsx:477`",
+    "values": {
+      "vi": "Step ${number}: ${title}` → \"Step 1: Lĩnh vực\"",
+      "en": "Step {number}: {title}",
+      "fr": "Étape {number} : {title}",
+      "de": "Schritt {number}: {title}",
+      "nl": "Stap {number}: {title}"
+    }
+  },
+  "qc.dialogFallbackTitle": {
+    "section": "10. Quick Call / Form",
+    "status": "review",
+    "source": "`src/scripts/dialog-bootstrap.js:139`",
+    "values": {
+      "vi": "Quick Call",
+      "en": "Quick Call",
+      "fr": "Échange rapide",
+      "de": "Kurzgespräch",
+      "nl": "Kort gesprek"
+    }
+  },
+  "qc.stepperDefaults": {
+    "section": "10. Quick Call / Form",
+    "status": "translate",
+    "source": "`src/components/react-bits/Stepper.tsx:185-187`",
+    "values": {
+      "vi": "Back · Continue · Complete",
+      "en": "Back · Continue · Complete",
+      "fr": "Retour · Continuer · Terminer",
+      "de": "Zurück · Weiter · Abschließen",
+      "nl": "Terug · Verder · Afronden"
+    }
+  },
+  "footer.line": {
+    "section": "11. Footer",
+    "status": "translate",
+    "source": "`src/data/content.ts:228`",
+    "values": {
+      "vi": "Drafty Lab — Đối tác Marketing sáng tạo.",
+      "en": "Drafty Lab — Your Marketing Partner.",
+      "fr": "Drafty Lab — Votre partenaire marketing.",
+      "de": "Drafty Lab — Ihr Marketingpartner.",
+      "nl": "Drafty Lab — Jouw marketingpartner."
+    }
+  },
+  "footer.email": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/data/content.ts:221`",
+    "values": {
+      "vi": "thanhnguyenphotowork@gmail.com",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.instagramUrl": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/data/content.ts:223`",
+    "values": {
+      "vi": "https://www.instagram.com/thanh.poto.des/",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.facebookUrl": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/data/content.ts:224`",
+    "values": {
+      "vi": "https://fb.com/realthanhng",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.platformLabels": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/components/Footer.astro:15-16`",
+    "values": {
+      "vi": "Instagram · Facebook",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.logoAlt": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/components/Footer.astro:8`",
+    "values": {
+      "vi": "Drafty Lab",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.copyright": {
+    "section": "11. Footer",
+    "status": "keep",
+    "source": "`src/components/Footer.astro:18`",
+    "values": {
+      "vi": "© {year} Drafty Lab` → \"© 2026 Drafty Lab\"",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "footer.note": {
+    "section": "11. Footer",
+    "status": "translate",
+    "source": "`src/data/content.ts:229`",
+    "values": {
+      "vi": "(rỗng — không render)",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "dialog.close": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:233`",
+    "values": {
+      "vi": "Đóng",
+      "en": "Close",
+      "fr": "Fermer",
+      "de": "Schließen",
+      "nl": "Sluiten"
+    }
+  },
+  "dialog.loading": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:234`",
+    "values": {
+      "vi": "Đang mở…",
+      "en": "Opening…",
+      "fr": "Ouverture…",
+      "de": "Wird geöffnet…",
+      "nl": "Openen…"
+    }
+  },
+  "dialog.buffering": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:235`",
+    "values": {
+      "vi": "Đang tải video…",
+      "en": "Loading video…",
+      "fr": "Chargement de la vidéo…",
+      "de": "Video wird geladen…",
+      "nl": "Video laden…"
+    }
+  },
+  "dialog.failed": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:236`",
+    "values": {
+      "vi": "Không tải được nội dung. Bạn có thể đóng cửa sổ này và thử lại.",
+      "en": "Unable to load this content. Close this window and try again.",
+      "fr": "Impossible de charger ce contenu. Fermez cette fenêtre et réessayez.",
+      "de": "Dieser Inhalt konnte nicht geladen werden. Schließen Sie das Fenster und versuchen Sie es erneut.",
+      "nl": "Deze inhoud kon niet worden geladen. Sluit dit venster en probeer het opnieuw."
+    }
+  },
+  "dialog.play": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:237`",
+    "values": {
+      "vi": "Phát",
+      "en": "Play",
+      "fr": "Lire",
+      "de": "Abspielen",
+      "nl": "Afspelen"
+    }
+  },
+  "dialog.pause": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:238`",
+    "values": {
+      "vi": "Tạm dừng",
+      "en": "Pause",
+      "fr": "Pause",
+      "de": "Pause",
+      "nl": "Pauzeren"
+    }
+  },
+  "dialog.mute": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:239`",
+    "values": {
+      "vi": "Tắt tiếng",
+      "en": "Mute",
+      "fr": "Couper le son",
+      "de": "Stummschalten",
+      "nl": "Geluid uit"
+    }
+  },
+  "dialog.unmute": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:240`",
+    "values": {
+      "vi": "Bật tiếng",
+      "en": "Unmute",
+      "fr": "Activer le son",
+      "de": "Ton einschalten",
+      "nl": "Geluid aan"
+    }
+  },
+  "dialog.seek": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:241`",
+    "values": {
+      "vi": "Tua video",
+      "en": "Seek video",
+      "fr": "Parcourir la vidéo",
+      "de": "Video vorspulen",
+      "nl": "Video doorspoelen"
+    }
+  },
+  "dialog.prev": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:242`",
+    "values": {
+      "vi": "Mục trước",
+      "en": "Previous item",
+      "fr": "Élément précédent",
+      "de": "Vorheriges Element",
+      "nl": "Vorig item"
+    }
+  },
+  "dialog.next": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:243`",
+    "values": {
+      "vi": "Mục sau",
+      "en": "Next item",
+      "fr": "Élément suivant",
+      "de": "Nächstes Element",
+      "nl": "Volgend item"
+    }
+  },
+  "dialog.mutedNotice": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:244`",
+    "values": {
+      "vi": "Trình duyệt đang phát không tiếng — bấm để bật tiếng",
+      "en": "Your browser is playing without sound — tap to enable audio",
+      "fr": "Votre navigateur lit la vidéo sans son — cliquez pour activer le son",
+      "de": "Ihr Browser spielt ohne Ton ab – tippen Sie, um den Ton einzuschalten",
+      "nl": "Je browser speelt zonder geluid af — tik om geluid aan te zetten"
+    }
+  },
+  "dialog.videoControlsAria": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/components/media/VideoLightbox.tsx:147`",
+    "values": {
+      "vi": "Điều khiển video",
+      "en": "Video controls",
+      "fr": "Commandes vidéo",
+      "de": "Videosteuerung",
+      "nl": "Videobediening"
+    }
+  },
+  "dialog.contactPrefix": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/components/media/DialogShell.astro:35`",
+    "values": {
+      "vi": "Liên hệ trực tiếp:",
+      "en": "Contact directly:",
+      "fr": "Contacter directement :",
+      "de": "Direkt kontaktieren:",
+      "nl": "Rechtstreeks contact:"
+    }
+  },
+  "dialog.pendingBadge": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/components/media/DialogShell.astro:23`",
+    "values": {
+      "vi": "Chưa sẵn sàng",
+      "en": "Not ready yet",
+      "fr": "Pas encore disponible",
+      "de": "Noch nicht verfügbar",
+      "nl": "Nog niet beschikbaar"
+    }
+  },
+  "dialog.loaderAnnounce": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/components/react-bits/LatticeLoader.tsx:157`",
+    "values": {
+      "vi": "${label}, in progress` → \"Đang tải video…, in progress\"",
+      "en": "{label}, in progress",
+      "fr": "{label}, en cours",
+      "de": "{label}, wird bearbeitet",
+      "nl": "{label}, bezig"
+    }
+  },
+  "dialog.counter": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "keep",
+    "source": "`src/components/media/VideoLightbox.tsx:214`, `ImageLightbox.tsx:38`",
+    "values": {
+      "vi": "{index+1} / {count}` → \"2 / 4\"",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "dialog.timecode": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "keep",
+    "source": "`src/components/media/VideoLightbox.tsx:169`",
+    "values": {
+      "vi": "${fmtTime(cur)} / ${fmtTime(dur)}` → \"0:12 / 0:30\"",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  },
+  "volume.label": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:249`",
+    "values": {
+      "vi": "Âm lượng",
+      "en": "Volume",
+      "fr": "Volume",
+      "de": "Lautstärke",
+      "nl": "Volume"
+    }
+  },
+  "volume.caption": {
+    "section": "12. Lightbox / Modal / Carousel",
+    "status": "translate",
+    "source": "`src/data/content.ts:250`",
+    "values": {
+      "vi": "Âm lượng",
+      "en": "Volume",
+      "fr": "Volume",
+      "de": "Lautstärke",
+      "nl": "Volume"
+    }
+  },
+  "nf.title": {
+    "section": "13. 404",
+    "status": "translate",
+    "source": "`src/pages/404.astro:13`",
+    "values": {
+      "vi": "Không tìm thấy trang",
+      "en": "Page not found",
+      "fr": "Page introuvable",
+      "de": "Seite nicht gefunden",
+      "nl": "Pagina niet gevonden"
+    }
+  },
+  "nf.text": {
+    "section": "13. 404",
+    "status": "translate",
+    "source": "`src/pages/404.astro:14`",
+    "values": {
+      "vi": "Đường dẫn này không tồn tại hoặc đã được chuyển đi.",
+      "en": "This page does not exist or has moved.",
+      "fr": "Cette page n’existe pas ou a été déplacée.",
+      "de": "Diese Seite existiert nicht oder wurde verschoben.",
+      "nl": "Deze pagina bestaat niet of is verplaatst."
+    }
+  },
+  "nf.home": {
+    "section": "13. 404",
+    "status": "translate",
+    "source": "`src/pages/404.astro:15`",
+    "values": {
+      "vi": "Về trang chủ",
+      "en": "Back to homepage",
+      "fr": "Retour à l’accueil",
+      "de": "Zur Startseite",
+      "nl": "Terug naar de homepage"
+    }
+  },
+  "nf.kicker": {
+    "section": "13. 404",
+    "status": "keep",
+    "source": "`src/pages/404.astro:12`",
+    "values": {
+      "vi": "404",
+      "en": null,
+      "fr": null,
+      "de": null,
+      "nl": null
+    }
+  }
+}

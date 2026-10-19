@@ -181,6 +181,9 @@ export interface PillNavProps {
   collapse?: 'auto' | 'always' | 'never';
   onMenuToggle?: (open: boolean) => void;
   ariaLabel?: string;
+  /** aria-label of the collapsed menu button — pass the locale's own words (defaults to English). */
+  menuOpenLabel?: string;
+  menuCloseLabel?: string;
   className?: string;
   style?: CSSProperties;
 }
@@ -211,6 +214,8 @@ const PillNav = ({
   collapse = 'auto',
   onMenuToggle,
   ariaLabel = 'Main',
+  menuOpenLabel = 'Open menu',
+  menuCloseLabel = 'Close menu',
   className = '',
   style
 }: PillNavProps) => {
@@ -656,12 +661,23 @@ const PillNav = ({
     const root = rootRef.current;
     if (!panel || !root) return undefined;
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const width = panel.offsetWidth;
     const height = panel.offsetHeight;
     const header = joined ? root.offsetHeight : toggleRef.current?.offsetHeight ?? 44;
+    // DFL2 (2026-10-19): the start box used to be pinned to the panel's TOP-RIGHT corner. On phones the
+    // collapsed panel is centred under the centred pill (PillNav.css, ≤899px), so that corner sits ~100px
+    // away from the burger and the menu visibly grew out of the right edge instead of out of the nav.
+    // Measuring the anchor (burger, or the pill when joined) keeps the morph over the control in the
+    // centred phone layout AND keeps the old right-aligned behaviour on wider collapsed layouts.
+    const anchor = (joined ? root : toggleRef.current ?? root) as HTMLElement;
+    const pr = panel.getBoundingClientRect();
+    const ar = anchor.getBoundingClientRect();
+    const startTop = Math.max(0, Math.round(ar.top - pr.top));
+    const startBottom = Math.max(0, height - startTop - header);
+    const startLeft = Math.max(0, Math.round(ar.left - pr.left));
+    const startRight = Math.max(0, Math.round(pr.right - ar.right));
     const start = joined
-      ? `inset(0px 0px ${Math.max(0, height - header)}px 0px round ${header / 2}px)`
-      : `inset(0px 0px ${Math.max(0, height - header)}px ${Math.max(0, width - header)}px round ${header / 2}px)`;
+      ? `inset(${startTop}px 0px ${startBottom}px 0px round ${header / 2}px)`
+      : `inset(${startTop}px ${startRight}px ${startBottom}px ${startLeft}px round ${header / 2}px)`;
     const end = 'inset(0px 0px 0px 0px round 24px)';
     const rows = panel.querySelectorAll('li');
     const running: Animation[] = [];
@@ -854,7 +870,7 @@ const PillNav = ({
           className={[TOGGLE, joined ? TOGGLE_BARE : surfaceClass].filter(Boolean).join(' ')}
           aria-expanded={open}
           aria-controls={panelId}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? menuCloseLabel : menuOpenLabel}
           onClick={toggle}
         >
           <span className={BURGER} aria-hidden="true">

@@ -7,12 +7,22 @@
 // infinite by construction (no snap-back, no clone list). Replaced the old drifting brand rail on
 // 2026-10-18; the rail components are parked, not deleted.
 import CircularCarousel from '../react-bits/CircularCarousel';
-import { sectionMedia } from '../../lib/media';
+import { sectionMedia, localizeMedia } from '../../lib/media';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
 /** All Social Production photos, in manifest order (brand by brand). Each becomes one card. */
-const SOCIAL_PHOTOS = sectionMedia('social').map((m) => ({ src: m.posterSrc, alt: m.alt, title: m.title }));
+const photosIn = (locale: Locale) =>
+  sectionMedia('social').map((m) => {
+    const l = localizeMedia(m, locale);
+    return { src: l.posterSrc, alt: l.alt, title: l.title };
+  });
 
-export default function SocialCarousel() {
+interface Props { locale: Locale }
+
+export default function SocialCarousel({ locale }: Props) {
+  const SOCIAL_PHOTOS = photosIn(locale);
+  const carousel = getContent(locale).social;
   return (
     <CircularCarousel
       items={SOCIAL_PHOTOS}
@@ -39,6 +49,9 @@ export default function SocialCarousel() {
       cornerRadius={12}
       captions={false}
       className="sp__ring-inner"
+      ariaLabel={carousel.carouselAria}
+      liveLabel={carousel.carouselLive}
+      slideLabel={carousel.carouselSlide}
     />
   );
 }

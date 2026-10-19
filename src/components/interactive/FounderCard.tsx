@@ -2,17 +2,19 @@
 // requested). The reflection source is optional: pass `reflectionSrc` (a tiny muted decorative loop) or nothing.
 // On mobile / reduced motion / no WebGL2 / small screens the static card (server-rendered) is the final UI.
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { about } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
 const ReflectiveCard = lazy(() => import('../react-bits/ReflectiveCard'));
 
 interface Props {
+  locale: Locale;
   portrait: string;
   alt: string;
   reflectionSrc?: string;
 }
 
-function CardFace({ portrait, alt }: { portrait: string; alt: string }) {
+function CardFace({ about, portrait, alt }: { about: ReturnType<typeof getContent>['about']; portrait: string; alt: string }) {
   return (
     <div className="fc__face">
       {/* .fc__head is a column on desktop and a row on phones (portrait photo beside the ID), so the
@@ -36,7 +38,8 @@ function CardFace({ portrait, alt }: { portrait: string; alt: string }) {
   );
 }
 
-export default function FounderCard({ portrait, alt, reflectionSrc }: Props) {
+export default function FounderCard({ locale, portrait, alt, reflectionSrc }: Props) {
+  const about = getContent(locale).about;
   const [fancy, setFancy] = useState(false);
 
   useEffect(() => {
@@ -50,15 +53,15 @@ export default function FounderCard({ portrait, alt, reflectionSrc }: Props) {
   if (!fancy) {
     return (
       <div className="fc fc--static">
-        <CardFace portrait={portrait} alt={alt} />
+        <CardFace about={about} portrait={portrait} alt={alt} />
       </div>
     );
   }
   return (
     <div className="fc fc--rc">
-      <Suspense fallback={<div className="fc fc--static"><CardFace portrait={portrait} alt={alt} /></div>}>
+      <Suspense fallback={<div className="fc fc--static"><CardFace about={about} portrait={portrait} alt={alt} /></div>}>
         <ReflectiveCard width={340} height={500} radius={28} webcam={false} videoSrc={reflectionSrc} theme="dark" intro enableTilt tiltStrength={10}>
-          <CardFace portrait={portrait} alt={alt} />
+          <CardFace about={about} portrait={portrait} alt={alt} />
         </ReflectiveCard>
       </Suspense>
     </div>

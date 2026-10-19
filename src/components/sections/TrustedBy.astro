@@ -2,7 +2,13 @@
 import AnimatedContent from '../react-bits/AnimatedContent';
 import PartnerLoop from '../interactive/PartnerLoop';
 import { partners } from '../../data/partners';
-import { trusted } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
+const trusted = c.trusted;
 
 // Phones (≤767px) do NOT use the measured React marquee: `PartnerLoop` is gated with `client:media` and the row
 // below is a plain CSS marquee — equal slots, one keyframe, no engine, no ResizeObserver, no hydration.
@@ -42,7 +48,7 @@ import { trusted } from '../../data/content';
 
     {/* Desktop only: the React Bits dock preset (hover labels, magnify lens, drag). */}
     <div class="tb__dock">
-      <PartnerLoop client:media="(min-width: 768px)" />
+      <PartnerLoop client:media="(min-width: 768px)" locale={locale} />
     </div>
   </div>
 </section>

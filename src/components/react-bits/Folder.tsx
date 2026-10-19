@@ -29,6 +29,10 @@ export type FolderEntry = FolderItem | string | number | ReactElement;
 export interface FolderProps {
   items?: FolderEntry[];
   label?: string;
+  /** Text shown on the tab. Defaults to `label`; pass `''` for a blank tab that still announces `label`. */
+  tabLabel?: string;
+  /** Overrides the `"{label} folder"` accessible name — pass the locale's own wording. */
+  folderLabel?: string;
   mode?: 'flap' | 'book';
   variant?: 'solid' | 'glass' | 'matte';
   color?: string;
@@ -1063,6 +1067,8 @@ const placeFlap = (
 const Folder = ({
   items,
   label,
+  tabLabel,
+  folderLabel,
   mode = 'flap',
   variant = 'solid',
   color = '#3d8bff',
@@ -1118,7 +1124,10 @@ const Folder = ({
   const count = entries.length;
 
   const scale = Math.max(0.3, Number(size) || 1);
-  const g = measureFolder(book, scale, labelWidth, Boolean(label), tabPosition);
+  // The tab carries `tabLabel` when given (ProcessFolder passes '' to leave the tab blank), while
+  // `label` stays the accessible name. A blank tab falls back to the default tab width.
+  const tabText = tabLabel ?? label;
+  const g = measureFolder(book, scale, labelWidth, Boolean(tabText), tabPosition);
   const total = g.tabH + g.h;
   const view = book
     ? { x: -0.75 * g.w, y: -0.25 * total, width: 2.5 * g.w, height: 1.5 * total }
@@ -1136,7 +1145,7 @@ const Folder = ({
     return () => {
       active = false;
     };
-  }, [label, scale]);
+  }, [tabText, scale]);
 
   const setOpen = useCallback(
     (next: boolean | ((open: boolean) => boolean)) => {
@@ -2147,7 +2156,7 @@ const Folder = ({
         role="button"
         tabIndex={0}
         aria-expanded={isOpen}
-        aria-label={label ? `${label} folder` : 'Folder'}
+        aria-label={folderLabel ?? (label ? `${label} folder` : 'Folder')}
         onClick={toggle}
         onKeyDown={event => {
           if (event.target !== event.currentTarget) return;
@@ -2167,9 +2176,9 @@ const Folder = ({
           <svg className="folder-back-rim" width={g.w} height={total} viewBox={`0 0 ${g.w} ${total}`}>
             <path className="folder-focus" d={shape} />
           </svg>
-          {label && (
+          {tabText && (
             <span className="folder-tab-text" style={{ left: g.tabX, width: g.tabW }}>
-              {label}
+              {tabText}
             </span>
           )}
         </div>
@@ -2220,9 +2229,9 @@ const Folder = ({
         )}
       </div>
 
-      {label && (
+      {tabText && (
         <span ref={measureRef} className="folder-tab-text folder-measure" aria-hidden="true">
-          {label}
+          {tabText}
         </span>
       )}
     </div>

@@ -34,11 +34,13 @@ interface Props {
   siteKey: string;
   /** bump to force a fresh challenge (after a failed submit) */
   resetKey: number;
+  /** Turnstile's own widget language, from the locale registry */
+  language: string;
   onToken: (token: string | null) => void;
   onUnavailable: () => void;
 }
 
-export default function TurnstileBox({ siteKey, resetKey, onToken, onUnavailable }: Props) {
+export default function TurnstileBox({ siteKey, resetKey, language, onToken, onUnavailable }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
   const cb = useRef({ onToken, onUnavailable });
@@ -52,7 +54,7 @@ export default function TurnstileBox({ siteKey, resetKey, onToken, onUnavailable
         widget.current = window.turnstile.render(host.current, {
           sitekey: siteKey,
           theme: 'dark',
-          language: 'vi',
+          language,
           callback: (t: string) => cb.current.onToken(t),
           'expired-callback': () => cb.current.onToken(null),
           'error-callback': () => cb.current.onToken(null),

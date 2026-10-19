@@ -9,24 +9,40 @@ import PageRays from '../components/interactive/PageRays';
 import bootstrap from '../scripts/dialog-bootstrap.js?raw';
 import volumeStore from '../scripts/volume-store.js?raw';
 import audioLevel from '../scripts/audio-level.js?raw';
-import { site } from '../data/content';
+import { getContent } from '../i18n';
+import { LOCALE_META, LOCALES, localePath, type Locale } from '../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
+const meta = LOCALE_META[locale];
+// Every locale gets its own canonical URL and the full hreflang set (x-default → Vietnamese).
+const ORIGIN = 'https://draftylab.pages.dev';
+const canonical = `${ORIGIN}${localePath(locale)}`;
 ---
 <!doctype html>
-<html lang={site.lang}>
+<html lang={meta.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{site.title}</title>
-    <meta name="description" content={site.description} />
+    <title>{c.site.title}</title>
+    <meta name="description" content={c.site.description} />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://draftylab.pages.dev/" />
-    <meta property="og:url" content="https://draftylab.pages.dev/" />
+    <link rel="canonical" href={canonical} />
+    {LOCALES.map((l) => (
+      <link rel="alternate" hreflang={LOCALE_META[l].htmlLang} href={`${ORIGIN}${localePath(l)}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${ORIGIN}${localePath('vi')}`} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="vi_VN" />
-    <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={site.title} />
-    <meta property="og:description" content={site.description} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    {LOCALES.filter((l) => l !== locale).map((l) => (
+      <meta property="og:locale:alternate" content={LOCALE_META[l].ogLocale} />
+    ))}
+    <meta property="og:site_name" content={c.site.name} />
+    <meta property="og:title" content={c.site.title} />
+    <meta property="og:description" content={c.site.description} />
     <link rel="icon" type="image/png" href="/media/v1-temp/logo-mark.png" />
     <!-- Boot gate: hold the page for ~800ms on the first load of a session so the first-paint effects
          (hero WebGL card, GlassSurface nav, the social ring's images) can initialise behind the scenes
@@ -48,19 +64,19 @@ import { site } from '../data/content';
     </script>
   </head>
   <body>
-    <a class="skip" href="#main">Bỏ qua tới nội dung</a>
+    <a class="skip" href="#main">{c.site.skipLink}</a>
     <div class="site-frame" aria-hidden="true"></div>
     <PageRays client:load />
     <slot />
-    <DialogShell />
+    <DialogShell locale={locale} />
     <!-- Runs immediately: CTAs/posters open the dialog on the very first click, before hydration. -->
     <script is:inline set:html={volumeStore} />
     <!-- Level bridge: iOS Safari ignores `video.volume`, so the level is applied through a Web Audio gain there. -->
     <script is:inline set:html={audioLevel} />
     <script is:inline set:html={bootstrap} />
-    <MediaDialogHost client:load />
+    <MediaDialogHost client:load locale={locale} />
     <!-- In-place volume gauge for touch devices; opens when a running preview is tapped again. -->
-    <VolumeOverlay client:load />
+    <VolumeOverlay client:load locale={locale} />
   </body>
 </html>
 <style is:global>

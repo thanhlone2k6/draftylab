@@ -54,6 +54,27 @@
 .hnav > * { pointer-events: auto; }
 @media (max-width: 899px) { .hnav { top: 16px; padding-inline: 16px; } }
 
+/* ---------- Language switcher (header, top-right) ---------- */
+/* Same glass surface as the nav pill (PillNav's measured values: rgba(38,35,46,.66) + blur(20px) saturate(1.6)),
+   but compact. The MENU has no box (owner, 2026-10-19): just flag + code, smaller, kept legible with a
+   soft shadow instead of a panel. React renders it → global styles. */
+.lsw { position: fixed; z-index: 101; top: 24px; right: 24px; font-size: 13px; }
+@media (max-width: 899px) { .lsw { top: 16px; right: 16px; } }
+.lsw__btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--c-line); background: rgba(38, 35, 46, 0.66); color: var(--c-fg); font: inherit; font-weight: 500; cursor: pointer; -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: rgba(0, 0, 0, 0.8) 0 22px 44px -20px, rgba(0, 0, 0, 0.5) 0 6px 16px -8px; transition: border-color 200ms var(--ease-out); }
+.lsw__btn:hover { border-color: var(--c-line-strong); }
+.lsw__btn:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.lsw__flag { font-size: 15px; line-height: 1; }
+.lsw__code { letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+
+/* No box: transparent list, right-aligned, items are flag + code only. */
+.lsw__menu { position: absolute; top: calc(100% + 4px); right: 0; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); animation: lsw-in 160ms var(--ease-out); }
+@keyframes lsw-in { from { opacity: 0; transform: translateY(-3px); } }
+.lsw__opt { display: inline-flex; align-items: center; gap: 6px; padding: 4px 7px; border-radius: 8px; color: var(--c-fg); font: inherit; text-decoration: none; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85); transition: color 160ms var(--ease-out), transform 160ms var(--ease-out); }
+.lsw__opt:hover { color: var(--c-accent); transform: translateX(-1px); }
+.lsw__opt:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 1px; }
+.lsw__opt[aria-selected='true'] { color: var(--c-accent); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .lsw__menu { animation: none; } .lsw__opt { transition: none; } }
+
 .srail { margin-top: 28px; --rail-gap: 40px; }
 /* Arrows live in the section's title row (top-right) — no extra row of controls. */
 .srail__bar { position: absolute; top: 0; right: var(--gutter); display: flex; gap: 8px; }

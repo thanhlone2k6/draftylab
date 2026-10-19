@@ -2,7 +2,12 @@
 import FadeContent from '../react-bits/FadeContent';
 import ProcessFolder from '../interactive/ProcessFolder';
 import { getMedia } from '../../lib/media';
-import { howIWork as proc } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const proc = getContent(locale).howIWork;
 
 const stages = proc.stages
   .map((s, i) => ({ ...s, n: i + 1, count: s.mediaIds.map((id) => getMedia(id)).filter(Boolean).length }))
@@ -21,7 +26,7 @@ const stages = proc.stages
           <li class="hw__stage">
             <FadeContent client:load blur={3} duration={0.6} delay={0.08 * i} threshold={0.1} initialOpacity={0} className="hw__fade">
               <div class="hw__folder">
-                <ProcessFolder client:only="react" label={s.name} mediaIds={s.mediaIds} color={s.color} openLabel={proc.openLabel(s.name)} />
+                <ProcessFolder client:only="react" locale={locale} label={s.name} mediaIds={s.mediaIds} color={s.color} openLabel={proc.openLabel(s.name)} folderLabel={proc.folderLabel(s.name)} />
               </div>
               <h3 class="hw__name"><span class="hw__n">{`0${s.n}`}</span>{s.name}</h3>
               <p class="hw__blurb">{s.blurb}</p>
@@ -36,12 +41,18 @@ const stages = proc.stages
 <style>
   .hw { padding-block: var(--section-y); }
   .hw__grid { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  /* Each stage is a query container so its title can be sized against the space it really has: the owner
+     wants a stage name on at most TWO lines on any screen, and on one line whenever it fits (2026-10-19).
+     The longest name ("Phân tích nhu cầu, mục tiêu và tệp khán giả") is ~21.5× the font size wide, so a
+     7–8cqi cap keeps its one-line width at ~1.5–1.7× the column (never the ~1.9 that forces a third line),
+     while 1.2rem still wins on wide desktops. */
+  .hw__stage { container-type: inline-size; }
   .hw__fade { display: flex; flex-direction: column; align-items: flex-start; }
   /* The folder box only reserves room ABOVE the folder for the opened papers (they rise ~55px past its top
      edge, measured) — 64px of headroom is enough, and keeps consecutive rows close. min-height is only a
      placeholder for the client:only folder, so it matches the real height (64 + ~167px at size 1.1). */
   .hw__folder { width: 100%; min-height: 232px; display: grid; place-items: center; padding-top: 64px; box-sizing: border-box; }
-  .hw__name { margin: 14px 0 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; }
+  .hw__name { margin: 14px 0 0; font-size: min(1.2rem, 8cqi); font-weight: 650; letter-spacing: -0.02em; text-wrap: balance; }
   .hw__n { color: var(--c-fg-faint); font-weight: 500; font-variant-numeric: tabular-nums; margin-right: 6px; }
   .hw__blurb { margin: 6px 0 0; color: var(--c-fg-muted); font-size: 0.92rem; line-height: 1.5; }
   @media (max-width: 1023px) { .hw__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 30px; } }

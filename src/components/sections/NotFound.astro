@@ -1,0 +1,27 @@
+---
+// Localised "page not found" body. Rendered by `src/pages/404.astro` (Vietnamese) and the four
+// `src/pages/<lang>/404.astro` files, which is what makes Cloudflare Pages serve `/<lang>/404.html`.
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { getContent } from '../../i18n';
+import { localePath, type Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
+---
+<Header locale={locale} />
+<main id="main" class="nf">
+  <div class="container-x nf__inner">
+    <p class="kicker">404</p>
+    <h1 class="nf__title">{c.notFound.title}</h1>
+    <p class="nf__text">{c.notFound.text}</p>
+    <a class="btn btn-primary" href={localePath(locale)}>{c.notFound.home}</a>
+  </div>
+</main>
+<Footer locale={locale} />
+<style>
+  .nf { min-height: 70dvh; display: grid; align-items: center; padding-top: 120px; }
+  .nf__title { margin: 8px 0 0; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 650; letter-spacing: -0.03em; }
+  .nf__text { margin: 12px 0 24px; color: var(--c-fg-muted); }
+</style>

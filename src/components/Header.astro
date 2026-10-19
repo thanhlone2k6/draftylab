@@ -2,8 +2,15 @@
 // Site header. The nav itself is React Bits **PillNav** (see components/interactive/HeaderNav.tsx);
 // its fixed, centred shell lives in src/styles/components.css as `.hnav` because React renders the nav
 // outside Astro's style scoping. Replaced the hand-rolled pill + burger + indicator on 2026-10-18.
+// The language switcher (owner, 2026-10-19) is a separate fixed pill in the top-right corner.
 import HeaderNav from './interactive/HeaderNav';
+import LangSwitcher from './interactive/LangSwitcher';
+import type { Locale } from '../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
 ---
 <header>
-  <HeaderNav client:load />
+  <HeaderNav client:load locale={locale} />
+  <LangSwitcher client:load locale={locale} />
 </header>

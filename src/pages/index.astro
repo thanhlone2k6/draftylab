@@ -1,31 +1,8 @@
 ---
+// Vietnamese (default locale) — the site root.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Hero from '../components/sections/Hero.astro';
-import TrustedBy from '../components/sections/TrustedBy.astro';
-import VideoGallery from '../components/sections/VideoGallery.astro';
-import SocialProduction from '../components/sections/SocialProduction.astro';
-import BehindCreative from '../components/sections/BehindCreative.astro';
-import CaseStudies from '../components/sections/CaseStudies.astro';
-import HowIWork from '../components/sections/HowIWork.astro';
-import AboutFounder from '../components/sections/AboutFounder.astro';
-import QuickCallCTA from '../components/sections/QuickCallCTA.astro';
-// Website & Landing Page: no real assets in DFL2 yet (TODO: ASSETS_WEBSITE) — the section is intentionally
-// not rendered and has no nav link until at least one real item exists. See docs/unmapped-assets.md.
+import SiteSections from '../layouts/SiteSections.astro';
 ---
-<BaseLayout>
-  <Header />
-  <main id="main">
-    <Hero />
-    <TrustedBy />
-    <VideoGallery />
-    <SocialProduction />
-    <BehindCreative />
-    <CaseStudies />
-    <HowIWork />
-    <AboutFounder />
-    <QuickCallCTA />
-  </main>
-  <Footer />
+<BaseLayout locale="vi">
+  <SiteSections locale="vi" />
 </BaseLayout>

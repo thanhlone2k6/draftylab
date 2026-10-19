@@ -1,7 +1,13 @@
 ---
 import HeroDotGrid from '../interactive/HeroDotGrid';
 import HeroLanyard from '../interactive/HeroLanyard';
-import { hero } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
+const hero = c.hero;
 ---
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero__bg" aria-hidden="true">
@@ -19,7 +25,7 @@ import { hero } from '../../data/content';
       <div class="hero__ctas">
         <button type="button" class="hbtn hbtn--solid" data-dfl-open="quickcall">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8" /><path d="m4 7.5 8 5.5 8-5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
-          {hero.secondaryCta}
+          {hero.cta}
         </button>
       </div>
     </div>
@@ -40,7 +46,10 @@ import { hero } from '../../data/content';
   .hero__bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 25% 50%, rgba(10, 10, 10, 0.8), transparent 72%), linear-gradient(to bottom, transparent 72%, var(--c-bg)); pointer-events: none; }
 
   .hero__inner { position: relative; z-index: 1; width: 100%; max-width: 1100px; margin-inline: auto; box-sizing: border-box; padding: 128px 24px 40px; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 32px; }
-  .hero__copy { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 16px; }
+  /* The copy column is a query container so the headline can be sized against the space it really has:
+     the owner's Vietnamese headline is much longer than "Create more. / Worry less." and at the old
+     3.65rem it ran out of the 48% column and under the portrait canvas (2026-10-19). */
+  .hero__copy { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 16px; container-type: inline-size; }
 
   .hero__eyebrow { margin: 0; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 500; color: var(--c-fg); }
   .hero__title { margin: 0; display: flex; flex-direction: column; font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; font-size: 2.75rem; color: var(--c-fg); }
@@ -71,7 +80,7 @@ import { hero } from '../../data/content';
   @media (min-width: 1024px) {
     .hero { min-height: min(100dvh, 900px); }
     .hero__inner { padding-block: 112px 48px; }
-    .hero__title { font-size: 3.65rem; }
+    .hero__title { font-size: min(3.65rem, 8cqi); }
     .hero__lead { font-size: 1.375rem; max-width: 36ch; }
     .hero__copy { max-width: 48%; }
     /* The Lanyard canvas spans the FULL hero height on the right (half the width, so the card has room to swing),
@@ -98,7 +107,7 @@ import { hero } from '../../data/content';
     .hero__visual { height: clamp(150px, 50dvh, 460px); }
     .hero__copy { gap: clamp(8px, 1.6dvh, 14px); }
     .hero__eyebrow { font-size: clamp(0.875rem, 2.4dvh, 1.0625rem); }
-    .hero__title { font-size: clamp(1.5rem, 4.1dvh, 2.125rem); }
+    .hero__title { font-size: min(clamp(1.5rem, 4.1dvh, 2.125rem), 8cqi); }
     .hero__lead { font-size: clamp(0.8125rem, 2.3dvh, 1rem); line-height: 1.4; }
     .hero__ctas { margin-top: 4px; }
   }

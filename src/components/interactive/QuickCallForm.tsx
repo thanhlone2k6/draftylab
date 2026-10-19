@@ -5,13 +5,17 @@
 // verifies Turnstile, rate-limits and stores the lead. "Success" is shown only after the server answers 200.
 import { lazy, Suspense, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Stepper, { Step } from '../react-bits/Stepper';
-import { quickCall as q, contact } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+import { BUDGETS, INDUSTRIES, NEEDS, TEAMS } from '../../data/lead-options';
 import { LIMITS, clean, isValidContact } from '../../lib/lead-schema';
 import type { ContactMethod as Method } from '../../data/lead-options';
 
 const TurnstileBox = lazy(() => import('./TurnstileBox'));
 
 type Status = 'idle' | 'submitting' | 'demo' | 'success' | 'error' | 'invalid' | 'rate' | 'captcha' | 'disabled';
+
+interface Props { locale: Locale }
 
 const ENDPOINT: string | undefined = import.meta.env.PUBLIC_LEAD_ENDPOINT || undefined;
 const SITE_KEY: string | undefined = import.meta.env.PUBLIC_TURNSTILE_SITEKEY || undefined;
@@ -33,7 +37,10 @@ function Choice({ label, selected, onSelect, multi }: { label: string; selected:
   );
 }
 
-export default function QuickCallForm() {
+export default function QuickCallForm({ locale }: Props) {
+  const c = getContent(locale);
+  const q = c.quickCall;
+  const contact = c.contact;
   const uid = useId();
   const [step, setStep] = useState(1);
   const [industry, setIndustry] = useState('');
@@ -56,9 +63,17 @@ export default function QuickCallForm() {
 
   // 2026-10-18 (owner): the contact-method selector was removed — one field takes a phone number OR an
   // email, so the method is derived from what was typed and the server still gets a consistent pair.
-  const method: Method = isValidContact('email', value) ? 'email' : 'phone';
+  // 2026-10-19 (owner): the contact field is free text — anything the visitor wants us to reach them on
+  // (email, phone, WhatsApp, Zalo name…). The method is only a hint for the notification email.
+  const method: Method = isValidContact('email', value)
+    ? 'email'
+    : isValidContact('phone', value)
+      ? 'phone'
+      : isValidContact('instagram', value)
+        ? 'instagram'
+        : 'other';
   const nameOk = clean(name).length >= LIMITS.nameMin && clean(name).length <= LIMITS.nameMax;
-  const valueOk = isValidContact('phone', value) || isValidContact('email', value);
+  const valueOk = clean(value).length >= 2 && clean(value).length <= LIMITS.contactMax;
   const needsCaptcha = !!(ENDPOINT && SITE_KEY);
   const captchaOk = !needsCaptcha || !!token;
   const stepValid = useMemo(
@@ -132,13 +147,14 @@ export default function QuickCallForm() {
         <p className="qc__sub">{q.subtitle}</p>
         {!ENDPOINT && (
           <p className="qc__demo" role="note">
-            <strong>DEMO</strong> {q.demoBanner}
+            <strong>{q.demoBadge}</strong> {q.demoBanner}
           </p>
         )}
       </header>
 
       <Stepper
         step={step}
+        stepAriaLabel={(number, title) => q.stepAria(number, String(title ?? ''))}
         onStepChange={(s) => {
           setStep(s);
           if (status !== 'submitting' && status !== 'success') setStatus('idle');
@@ -174,9 +190,10 @@ export default function QuickCallForm() {
           <fieldset className="qc-step">
             <legend className="qc-q">{q.steps.industry.question}</legend>
             <div className="qc-choices" role="radiogroup">
-              {q.steps.industry.options.map((o) => (
+              {q.steps.industry.options.map((label, i) => (
                 // one question on this step → answer it and the stepper moves on by itself (owner)
-                <Choice key={o} label={o} selected={industry === o} onSelect={() => { setIndustry(o); autoAdvance(1); }} />
+                // The LABEL is translated; the VALUE stays the Vietnamese whitelist string the API + D1 use.
+                <Choice key={INDUSTRIES[i]} label={label} selected={industry === INDUSTRIES[i]} onSelect={() => { setIndustry(INDUSTRIES[i]); autoAdvance(1); }} />
               ))}
             </div>
           </fieldset>
@@ -187,8 +204,8 @@ export default function QuickCallForm() {
             <legend className="qc-q">{q.steps.needs.question}</legend>
             <p className="qc-hint">{q.steps.needs.hint}</p>
             <div className="qc-choices">
-              {q.steps.needs.options.map((o) => (
-                <Choice key={o} label={o} multi selected={needs.includes(o)} onSelect={() => toggleNeed(o)} />
+              {q.steps.needs.options.map((label, i) => (
+                <Choice key={NEEDS[i]} label={label} multi selected={needs.includes(NEEDS[i])} onSelect={() => toggleNeed(NEEDS[i])} />
               ))}
             </div>
           </fieldset>
@@ -198,8 +215,8 @@ export default function QuickCallForm() {
           <fieldset className="qc-step">
             <legend className="qc-q">{q.steps.team.question}</legend>
             <div className="qc-choices" role="radiogroup">
-              {q.steps.team.options.map((o) => (
-                <Choice key={o} label={o} selected={team === o} onSelect={() => setTeam(o)} />
+              {q.steps.team.options.map((label, i) => (
+                <Choice key={TEAMS[i]} label={label} selected={team === TEAMS[i]} onSelect={() => setTeam(TEAMS[i])} />
               ))}
             </div>
             <div className="qc-optional">
@@ -207,9 +224,9 @@ export default function QuickCallForm() {
                 {q.steps.budget.question} <span className="qc-hint-inline">({q.steps.budget.hint})</span>
               </p>
               <div className="qc-choices" role="radiogroup" aria-labelledby={`${uid}-budget`}>
-                {q.steps.budget.options.map((o) => (
+                {q.steps.budget.options.map((label, i) => (
                   // tap the selected option again to clear it — the question is optional
-                  <Choice key={o} label={o} selected={budget === o} onSelect={() => setBudget((b) => (b === o ? '' : o))} />
+                  <Choice key={BUDGETS[i]} label={label} selected={budget === BUDGETS[i]} onSelect={() => setBudget((b) => (b === BUDGETS[i] ? '' : BUDGETS[i]))} />
                 ))}
               </div>
             </div>
@@ -267,7 +284,7 @@ export default function QuickCallForm() {
 
             {needsCaptcha && !captchaDown && (
               <Suspense fallback={null}>
-                <TurnstileBox siteKey={SITE_KEY!} resetKey={captchaReset} onToken={setToken} onUnavailable={() => setCaptchaDown(true)} />
+                <TurnstileBox siteKey={SITE_KEY!} resetKey={captchaReset} onToken={setToken} onUnavailable={() => setCaptchaDown(true)} language={q.turnstileLang} />
               </Suspense>
             )}
             {needsCaptcha && captchaDown && <p className="qc-err" role="alert">{q.captchaFailed}</p>}

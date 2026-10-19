@@ -1,0 +1,814 @@
+{
+  "gallery-v01": {
+    "en": {
+      "title": "Content & Video Editing 01",
+      "alt": "Video thumbnail for Content & Video Editing 01"
+    },
+    "fr": {
+      "title": "Contenu et montage vidéo 01",
+      "alt": "Vignette vidéo — contenu et montage 01"
+    },
+    "de": {
+      "title": "Content und Videoschnitt 01",
+      "alt": "Videovorschaubild für Content und Videoschnitt 01"
+    },
+    "nl": {
+      "title": "Content en videobewerking 01",
+      "alt": "Videominiatuur voor content en videobewerking 01"
+    }
+  },
+  "gallery-v02": {
+    "en": {
+      "title": "Content & Video Editing 02",
+      "alt": "Video thumbnail for Content & Video Editing 02"
+    },
+    "fr": {
+      "title": "Contenu et montage vidéo 02",
+      "alt": "Vignette vidéo — contenu et montage 02"
+    },
+    "de": {
+      "title": "Content und Videoschnitt 02",
+      "alt": "Videovorschaubild für Content und Videoschnitt 02"
+    },
+    "nl": {
+      "title": "Content en videobewerking 02",
+      "alt": "Videominiatuur voor content en videobewerking 02"
+    }
+  },
+  "gallery-v03": {
+    "en": {
+      "title": "Content & Video Editing 03",
+      "alt": "Video thumbnail for Content & Video Editing 03"
+    },
+    "fr": {
+      "title": "Contenu et montage vidéo 03",
+      "alt": "Vignette vidéo — contenu et montage 03"
+    },
+    "de": {
+      "title": "Content und Videoschnitt 03",
+      "alt": "Videovorschaubild für Content und Videoschnitt 03"
+    },
+    "nl": {
+      "title": "Content en videobewerking 03",
+      "alt": "Videominiatuur voor content en videobewerking 03"
+    }
+  },
+  "gallery-v04": {
+    "en": {
+      "title": "Content & Video Editing 04",
+      "alt": "Video thumbnail for Content & Video Editing 04"
+    },
+    "fr": {
+      "title": "Contenu et montage vidéo 04",
+      "alt": "Vignette vidéo — contenu et montage 04"
+    },
+    "de": {
+      "title": "Content und Videoschnitt 04",
+      "alt": "Videovorschaubild für Content und Videoschnitt 04"
+    },
+    "nl": {
+      "title": "Content en videobewerking 04",
+      "alt": "Videominiatuur voor content en videobewerking 04"
+    }
+  },
+  "social-dinhhouse-i01": {
+    "en": {
+      "title": "DinhHouse · Post 01",
+      "alt": "Post 01 by DinhHouse"
+    },
+    "fr": {
+      "title": "DinhHouse · Publication 01",
+      "alt": "Publication 01 de DinhHouse"
+    },
+    "de": {
+      "title": "DinhHouse · Beitrag 01",
+      "alt": "Beitrag 01 von DinhHouse"
+    },
+    "nl": {
+      "title": "DinhHouse · Bericht 01",
+      "alt": "Bericht 01 van DinhHouse"
+    }
+  },
+  "social-leechloe-i01": {
+    "en": {
+      "title": "Lee Chloe · Post 01",
+      "alt": "Post 01 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 01",
+      "alt": "Publication 01 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 01",
+      "alt": "Beitrag 01 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 01",
+      "alt": "Bericht 01 van Lee Chloe"
+    }
+  },
+  "social-leechloe-i02": {
+    "en": {
+      "title": "Lee Chloe · Post 02",
+      "alt": "Post 02 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 02",
+      "alt": "Publication 02 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 02",
+      "alt": "Beitrag 02 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 02",
+      "alt": "Bericht 02 van Lee Chloe"
+    }
+  },
+  "social-leechloe-i03": {
+    "en": {
+      "title": "Lee Chloe · Post 03",
+      "alt": "Post 03 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 03",
+      "alt": "Publication 03 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 03",
+      "alt": "Beitrag 03 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 03",
+      "alt": "Bericht 03 van Lee Chloe"
+    }
+  },
+  "social-leechloe-i04": {
+    "en": {
+      "title": "Lee Chloe · Post 04",
+      "alt": "Post 04 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 04",
+      "alt": "Publication 04 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 04",
+      "alt": "Beitrag 04 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 04",
+      "alt": "Bericht 04 van Lee Chloe"
+    }
+  },
+  "social-leechloe-i05": {
+    "en": {
+      "title": "Lee Chloe · Post 05",
+      "alt": "Post 05 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 05",
+      "alt": "Publication 05 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 05",
+      "alt": "Beitrag 05 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 05",
+      "alt": "Bericht 05 van Lee Chloe"
+    }
+  },
+  "social-leechloe-i06": {
+    "en": {
+      "title": "Lee Chloe · Post 06",
+      "alt": "Post 06 by Lee Chloe"
+    },
+    "fr": {
+      "title": "Lee Chloe · Publication 06",
+      "alt": "Publication 06 de Lee Chloe"
+    },
+    "de": {
+      "title": "Lee Chloe · Beitrag 06",
+      "alt": "Beitrag 06 von Lee Chloe"
+    },
+    "nl": {
+      "title": "Lee Chloe · Bericht 06",
+      "alt": "Bericht 06 van Lee Chloe"
+    }
+  },
+  "social-kazaki-i01": {
+    "en": {
+      "title": "Kazaki · Post 01",
+      "alt": "Post 01 by Kazaki"
+    },
+    "fr": {
+      "title": "Kazaki · Publication 01",
+      "alt": "Publication 01 de Kazaki"
+    },
+    "de": {
+      "title": "Kazaki · Beitrag 01",
+      "alt": "Beitrag 01 von Kazaki"
+    },
+    "nl": {
+      "title": "Kazaki · Bericht 01",
+      "alt": "Bericht 01 van Kazaki"
+    }
+  },
+  "social-kazaki-i02": {
+    "en": {
+      "title": "Kazaki · Post 02",
+      "alt": "Post 02 by Kazaki"
+    },
+    "fr": {
+      "title": "Kazaki · Publication 02",
+      "alt": "Publication 02 de Kazaki"
+    },
+    "de": {
+      "title": "Kazaki · Beitrag 02",
+      "alt": "Beitrag 02 von Kazaki"
+    },
+    "nl": {
+      "title": "Kazaki · Bericht 02",
+      "alt": "Bericht 02 van Kazaki"
+    }
+  },
+  "social-kazaki-i03": {
+    "en": {
+      "title": "Kazaki · Post 03",
+      "alt": "Post 03 by Kazaki"
+    },
+    "fr": {
+      "title": "Kazaki · Publication 03",
+      "alt": "Publication 03 de Kazaki"
+    },
+    "de": {
+      "title": "Kazaki · Beitrag 03",
+      "alt": "Beitrag 03 von Kazaki"
+    },
+    "nl": {
+      "title": "Kazaki · Bericht 03",
+      "alt": "Bericht 03 van Kazaki"
+    }
+  },
+  "social-goodci-i01": {
+    "en": {
+      "title": "Goodci · Post 01",
+      "alt": "Post 01 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 01",
+      "alt": "Publication 01 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 01",
+      "alt": "Beitrag 01 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 01",
+      "alt": "Bericht 01 van Goodci"
+    }
+  },
+  "social-goodci-i02": {
+    "en": {
+      "title": "Goodci · Post 02",
+      "alt": "Post 02 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 02",
+      "alt": "Publication 02 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 02",
+      "alt": "Beitrag 02 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 02",
+      "alt": "Bericht 02 van Goodci"
+    }
+  },
+  "social-goodci-i03": {
+    "en": {
+      "title": "Goodci · Post 03",
+      "alt": "Post 03 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 03",
+      "alt": "Publication 03 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 03",
+      "alt": "Beitrag 03 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 03",
+      "alt": "Bericht 03 van Goodci"
+    }
+  },
+  "social-goodci-i04": {
+    "en": {
+      "title": "Goodci · Post 04",
+      "alt": "Post 04 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 04",
+      "alt": "Publication 04 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 04",
+      "alt": "Beitrag 04 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 04",
+      "alt": "Bericht 04 van Goodci"
+    }
+  },
+  "social-goodci-i05": {
+    "en": {
+      "title": "Goodci · Post 05",
+      "alt": "Post 05 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 05",
+      "alt": "Publication 05 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 05",
+      "alt": "Beitrag 05 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 05",
+      "alt": "Bericht 05 van Goodci"
+    }
+  },
+  "social-goodci-i06": {
+    "en": {
+      "title": "Goodci · Post 06",
+      "alt": "Post 06 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 06",
+      "alt": "Publication 06 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 06",
+      "alt": "Beitrag 06 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 06",
+      "alt": "Bericht 06 van Goodci"
+    }
+  },
+  "social-goodci-i07": {
+    "en": {
+      "title": "Goodci · Post 07",
+      "alt": "Post 07 by Goodci"
+    },
+    "fr": {
+      "title": "Goodci · Publication 07",
+      "alt": "Publication 07 de Goodci"
+    },
+    "de": {
+      "title": "Goodci · Beitrag 07",
+      "alt": "Beitrag 07 von Goodci"
+    },
+    "nl": {
+      "title": "Goodci · Bericht 07",
+      "alt": "Bericht 07 van Goodci"
+    }
+  },
+  "social-porche-i01": {
+    "en": {
+      "title": "Porche · Post 01",
+      "alt": "Post 01 by Porche"
+    },
+    "fr": {
+      "title": "Porche · Publication 01",
+      "alt": "Publication 01 de Porche"
+    },
+    "de": {
+      "title": "Porche · Beitrag 01",
+      "alt": "Beitrag 01 von Porche"
+    },
+    "nl": {
+      "title": "Porche · Bericht 01",
+      "alt": "Bericht 01 van Porche"
+    }
+  },
+  "social-porche-i02": {
+    "en": {
+      "title": "Porche · Post 02",
+      "alt": "Post 02 by Porche"
+    },
+    "fr": {
+      "title": "Porche · Publication 02",
+      "alt": "Publication 02 de Porche"
+    },
+    "de": {
+      "title": "Porche · Beitrag 02",
+      "alt": "Beitrag 02 von Porche"
+    },
+    "nl": {
+      "title": "Porche · Bericht 02",
+      "alt": "Bericht 02 van Porche"
+    }
+  },
+  "social-porche-i03": {
+    "en": {
+      "title": "Porche · Post 03",
+      "alt": "Post 03 by Porche"
+    },
+    "fr": {
+      "title": "Porche · Publication 03",
+      "alt": "Publication 03 de Porche"
+    },
+    "de": {
+      "title": "Porche · Beitrag 03",
+      "alt": "Beitrag 03 von Porche"
+    },
+    "nl": {
+      "title": "Porche · Bericht 03",
+      "alt": "Bericht 03 van Porche"
+    }
+  },
+  "behind-raw-final-v01": {
+    "en": {
+      "title": "RAW",
+      "alt": "Raw footage before editing"
+    },
+    "fr": {
+      "title": "BRUT",
+      "alt": "Rushes avant montage"
+    },
+    "de": {
+      "title": "ROHMATERIAL",
+      "alt": "Rohmaterial vor dem Schnitt"
+    },
+    "nl": {
+      "title": "RUW",
+      "alt": "Ruwe beelden vóór montage"
+    }
+  },
+  "behind-raw-final-v02": {
+    "en": {
+      "title": "FINAL",
+      "alt": "Finished video after editing"
+    },
+    "fr": {
+      "title": "FINAL",
+      "alt": "Vidéo finale après montage"
+    },
+    "de": {
+      "title": "FINAL",
+      "alt": "Fertiges Video nach dem Schnitt"
+    },
+    "nl": {
+      "title": "DEFINITIEF",
+      "alt": "Afgewerkte video na montage"
+    }
+  },
+  "behind-ai-workflow-i01": {
+    "en": {
+      "title": "AFTER",
+      "alt": "Finished poster after AI editing"
+    },
+    "fr": {
+      "title": "APRÈS",
+      "alt": "Affiche finale après retouche IA"
+    },
+    "de": {
+      "title": "NACHHER",
+      "alt": "Fertiges Poster nach der KI-Bearbeitung"
+    },
+    "nl": {
+      "title": "NA",
+      "alt": "Definitieve poster na AI-bewerking"
+    }
+  },
+  "behind-ai-workflow-i02": {
+    "en": {
+      "title": "BEFORE",
+      "alt": "Original photo of the drink before AI editing"
+    },
+    "fr": {
+      "title": "AVANT",
+      "alt": "Photo originale de la boisson avant retouche IA"
+    },
+    "de": {
+      "title": "VORHER",
+      "alt": "Originalfoto des Getränks vor der KI-Bearbeitung"
+    },
+    "nl": {
+      "title": "VOOR",
+      "alt": "Originele drankfoto vóór AI-bewerking"
+    }
+  },
+  "case-studies-i01": {
+    "en": {
+      "alt": "Screenshot of Lee Chloe Coffee’s Facebook page"
+    },
+    "fr": {
+      "alt": "Capture de la page Facebook de Lee Chloe Coffee"
+    },
+    "de": {
+      "alt": "Screenshot der Facebook-Seite von Lee Chloe Coffee"
+    },
+    "nl": {
+      "alt": "Screenshot van de Facebookpagina van Lee Chloe Coffee"
+    }
+  },
+  "case-studies-i02": {
+    "en": {
+      "alt": "Screenshot of Kazaki’s Instagram page"
+    },
+    "fr": {
+      "alt": "Capture du compte Instagram de Kazaki"
+    },
+    "de": {
+      "alt": "Screenshot des Instagram-Profils von Kazaki"
+    },
+    "nl": {
+      "alt": "Screenshot van Instagram van Kazaki"
+    }
+  },
+  "case-studies-i03": {
+    "en": {
+      "alt": "Screenshot of Goodci’s Instagram page"
+    },
+    "fr": {
+      "alt": "Capture du compte Instagram de Goodci"
+    },
+    "de": {
+      "alt": "Screenshot des Instagram-Profils von Goodci"
+    },
+    "nl": {
+      "alt": "Screenshot van Instagram van Goodci"
+    }
+  },
+  "case-studies-v01": {
+    "en": {
+      "title": "Instagram Reel — 42,3K views",
+      "alt": "Frame from Instagram Reel, 42,3K views"
+    },
+    "fr": {
+      "title": "Reel Instagram — 42,3K vues",
+      "alt": "Image extraite d’un Reel Instagram, 42,3K vues"
+    },
+    "de": {
+      "title": "Instagram-Reel — 42,3K Aufrufe",
+      "alt": "Standbild aus einem Instagram-Reel, 42,3K Aufrufe"
+    },
+    "nl": {
+      "title": "Instagram Reel — 42,3K weergaven",
+      "alt": "Beeld uit een Instagram Reel, 42,3K weergaven"
+    }
+  },
+  "case-studies-v02": {
+    "en": {
+      "title": "Instagram Reel — 114K views",
+      "alt": "Frame from Instagram Reel, 114K views"
+    },
+    "fr": {
+      "title": "Reel Instagram — 114K vues",
+      "alt": "Image extraite d’un Reel Instagram, 114K vues"
+    },
+    "de": {
+      "title": "Instagram-Reel — 114K Aufrufe",
+      "alt": "Standbild aus einem Instagram-Reel, 114K Aufrufe"
+    },
+    "nl": {
+      "title": "Instagram Reel — 114K weergaven",
+      "alt": "Beeld uit een Instagram Reel, 114K weergaven"
+    }
+  },
+  "case-studies-v03": {
+    "en": {
+      "title": "TikTok video — 378,9K views",
+      "alt": "Frame from TikTok video, 378,9K views"
+    },
+    "fr": {
+      "title": "Vidéo TikTok — 378,9K vues",
+      "alt": "Image extraite d’une vidéo TikTok, 378,9K vues"
+    },
+    "de": {
+      "title": "TikTok-Video — 378,9K Aufrufe",
+      "alt": "Standbild aus einem TikTok-Video, 378,9K Aufrufe"
+    },
+    "nl": {
+      "title": "TikTok-video — 378,9K weergaven",
+      "alt": "Beeld uit een TikTok-video, 378,9K weergaven"
+    }
+  },
+  "case-studies-i04": {
+    "en": {
+      "alt": "Screenshot of DINH House’s Facebook page"
+    },
+    "fr": {
+      "alt": "Capture de la page Facebook de DINH House"
+    },
+    "de": {
+      "alt": "Screenshot der Facebook-Seite von DINH House"
+    },
+    "nl": {
+      "alt": "Screenshot van de Facebookpagina van DINH House"
+    }
+  },
+  "how-i-work-audience-i01": {
+    "en": {
+      "title": "Client discussion",
+      "alt": "Video-call with a client"
+    },
+    "fr": {
+      "title": "Échange avec un client",
+      "alt": "Appel vidéo avec un client"
+    },
+    "de": {
+      "title": "Kundengespräch",
+      "alt": "Videokonferenz mit einem Kunden"
+    },
+    "nl": {
+      "title": "Klantgesprek",
+      "alt": "Videogesprek met een klant"
+    }
+  },
+  "how-i-work-audience-i02": {
+    "en": {
+      "title": "Reviewing requirements",
+      "alt": "Working at a desk with documents open on a laptop"
+    },
+    "fr": {
+      "title": "Analyse des besoins",
+      "alt": "Travail à un bureau avec des documents ouverts sur un ordinateur portable"
+    },
+    "de": {
+      "title": "Anforderungen prüfen",
+      "alt": "Arbeit am Schreibtisch mit geöffneten Dokumenten auf dem Laptop"
+    },
+    "nl": {
+      "title": "Behoeften bespreken",
+      "alt": "Werken aan een bureau met documenten op een laptop"
+    }
+  },
+  "how-i-work-audience-i03": {
+    "en": {
+      "title": "Client meeting",
+      "alt": "Google Meet call with a client on a laptop"
+    },
+    "fr": {
+      "title": "Réunion client",
+      "alt": "Appel Google Meet avec un client sur ordinateur portable"
+    },
+    "de": {
+      "title": "Kundentermin",
+      "alt": "Google-Meet-Gespräch mit einem Kunden auf dem Laptop"
+    },
+    "nl": {
+      "title": "Klantoverleg",
+      "alt": "Google Meet-gesprek met een klant op een laptop"
+    }
+  },
+  "how-i-work-plan-i01": {
+    "en": {
+      "title": "Planning calendar",
+      "alt": "Monthly Google Calendar planning view"
+    },
+    "fr": {
+      "title": "Calendrier de planification",
+      "alt": "Vue mensuelle de Google Calendar pour la planification"
+    },
+    "de": {
+      "title": "Planungskalender",
+      "alt": "Monatsansicht in Google Calendar zur Planung"
+    },
+    "nl": {
+      "title": "Planningskalender",
+      "alt": "Maandoverzicht in Google Calendar voor de planning"
+    }
+  },
+  "how-i-work-plan-i02": {
+    "en": {
+      "title": "Preparing for a shoot",
+      "alt": "Filming a product with a phone on a gimbal"
+    },
+    "fr": {
+      "title": "Préparation du tournage",
+      "alt": "Tournage d’un produit avec téléphone sur stabilisateur"
+    },
+    "de": {
+      "title": "Drehvorbereitung",
+      "alt": "Produktaufnahme mit Smartphone auf einem Gimbal"
+    },
+    "nl": {
+      "title": "Opnames voorbereiden",
+      "alt": "Product filmen met een telefoon op een gimbal"
+    }
+  },
+  "how-i-work-plan-i03": {
+    "en": {
+      "title": "Filming equipment",
+      "alt": "Camera and gimbal prepared for shooting"
+    },
+    "fr": {
+      "title": "Matériel de tournage",
+      "alt": "Appareil photo et stabilisateur prêts pour le tournage"
+    },
+    "de": {
+      "title": "Drehausrüstung",
+      "alt": "Kamera und Gimbal für den Dreh vorbereitet"
+    },
+    "nl": {
+      "title": "Filmapparatuur",
+      "alt": "Camera en gimbal klaar voor de opnames"
+    }
+  },
+  "how-i-work-plan-i04": {
+    "en": {
+      "title": "Executing the plan",
+      "alt": "Laptop and coffee during a café work session"
+    },
+    "fr": {
+      "title": "Mise en œuvre du plan",
+      "alt": "Ordinateur et café lors d’une séance de travail"
+    },
+    "de": {
+      "title": "Umsetzung des Plans",
+      "alt": "Laptop und Kaffee beim Arbeiten im Café"
+    },
+    "nl": {
+      "title": "Plan uitvoeren",
+      "alt": "Laptop en koffie tijdens een werksessie in een café"
+    }
+  },
+  "how-i-work-schedule-i01": {
+    "en": {
+      "title": "Social post design",
+      "alt": "Designing a social post on a laptop"
+    },
+    "fr": {
+      "title": "Création d’une publication",
+      "alt": "Conception d’un post sur ordinateur portable"
+    },
+    "de": {
+      "title": "Beitragsdesign",
+      "alt": "Gestaltung eines Social-Media-Beitrags am Laptop"
+    },
+    "nl": {
+      "title": "Socialmediapost ontwerpen",
+      "alt": "Een socialmediapost ontwerpen op een laptop"
+    }
+  },
+  "how-i-work-schedule-i02": {
+    "en": {
+      "title": "Scheduling posts",
+      "alt": "Scheduling posts in Meta Business Suite"
+    },
+    "fr": {
+      "title": "Programmation de publications",
+      "alt": "Programmation de posts dans Meta Business Suite"
+    },
+    "de": {
+      "title": "Beiträge planen",
+      "alt": "Beitragsplanung in Meta Business Suite"
+    },
+    "nl": {
+      "title": "Berichten inplannen",
+      "alt": "Berichten inplannen in Meta Business Suite"
+    }
+  },
+  "how-i-work-report-i01": {
+    "en": {
+      "title": "Content planning page",
+      "alt": "Content plan displayed on a laptop"
+    },
+    "fr": {
+      "title": "Page de planification du contenu",
+      "alt": "Plan de contenu affiché sur ordinateur portable"
+    },
+    "de": {
+      "title": "Content-Planungsseite",
+      "alt": "Content-Plan auf dem Laptop"
+    },
+    "nl": {
+      "title": "Contentplanning",
+      "alt": "Contentplanning op een laptop"
+    }
+  },
+  "how-i-work-report-i02": {
+    "en": {
+      "title": "Content overview",
+      "alt": "Laptop showing a content overview document"
+    },
+    "fr": {
+      "title": "Vue d’ensemble du contenu",
+      "alt": "Document récapitulatif de contenu affiché sur ordinateur portable"
+    },
+    "de": {
+      "title": "Content-Übersicht",
+      "alt": "Laptop mit Content-Übersicht"
+    },
+    "nl": {
+      "title": "Contentoverzicht",
+      "alt": "Laptop met een contentoverzicht"
+    }
+  }
+}

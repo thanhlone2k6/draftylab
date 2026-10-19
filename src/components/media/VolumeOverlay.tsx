@@ -8,7 +8,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SloshGauge from '../react-bits/SloshGauge';
 import { setVolume, useVolume } from '../../lib/volume';
-import { volume as t } from '../../data/content';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 
 interface Target {
   /** The card wrapper the overlay mounts into (position: relative). */
@@ -29,7 +30,10 @@ const measure = (media: HTMLElement) => {
   };
 };
 
-export default function VolumeOverlay() {
+interface Props { locale: Locale }
+
+export default function VolumeOverlay({ locale }: Props) {
+  const t = getContent(locale).volume;
   const [target, setTarget] = useState<Target | null>(null);
   const [size, setSize] = useState({ w: 88, h: 180, boxH: 0 });
   const level = useVolume();

@@ -2,8 +2,13 @@
 import FadeContent from '../react-bits/FadeContent';
 import TiltedCard from '../react-bits/TiltedCard';
 import CaseVideoCard from '../interactive/CaseVideoCard';
-import { getMedia } from '../../lib/media';
-import { cases } from '../../data/content';
+import { getMedia, localizeMedia } from '../../lib/media';
+import { getContent } from '../../i18n';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const cases = getContent(locale).cases;
 
 // Images only (owner, 2026-10-18): no card frame and no copy — the phone screenshot IS the card. The
 // brand name + follower count live in the TiltedCard's cursor tooltip (and in the alt text so screen
@@ -11,12 +16,18 @@ import { cases } from '../../data/content';
 // anywhere in this section — see docs/phase2-mapping.md. Screenshots are cropped to the device at build
 // time (scripts/media-roles.json).
 const shots = cases.items
-  .map((c) => ({ ...c, media: getMedia(c.mediaId) }))
-  .filter((c) => c.media) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
+  .map((c) => {
+    const media = getMedia(c.mediaId);
+    return media ? { ...c, media: localizeMedia(media, locale) } : null;
+  })
+  .filter(Boolean) as Array<(typeof cases.items)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
 // Video cards (owner, 2026-10-18): hover plays the short preview in the card, the pill opens the original post.
 const videos = cases.videos
-  .map((v) => ({ ...v, media: getMedia(v.mediaId) }))
-  .filter((v) => v.media?.previewSrc) as Array<(typeof cases.videos)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
+  .map((v) => {
+    const media = getMedia(v.mediaId);
+    return media?.previewSrc ? { ...v, media: localizeMedia(media, locale) } : null;
+  })
+  .filter(Boolean) as Array<(typeof cases.videos)[number] & { media: NonNullable<ReturnType<typeof getMedia>> }>;
 const vc = cases.videoCopy;
 ---
 {shots.length > 0 && (
@@ -35,7 +46,7 @@ const vc = cases.videoCopy;
               client:visible={{ rootMargin: '300px' }}
               imageSrc={c.media.posterSrc}
               altText={c.media.alt}
-              captionText={`${c.name} · ${c.followers} người theo dõi`}
+              captionText={cases.tooltip(c.name, c.followers)}
               containerWidth="100%"
               containerHeight="100%"
               imageWidth="var(--cs-shot-w)"
@@ -61,6 +72,7 @@ const vc = cases.videoCopy;
             <li class="cs__video">
               <CaseVideoCard
                 client:visible={{ rootMargin: '300px' }}
+                locale={locale}
                 platform={v.platform}
                 platformName={v.platformName}
                 views={v.views}

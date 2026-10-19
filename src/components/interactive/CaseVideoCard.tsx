@@ -4,12 +4,15 @@
 // original post. Only VIEWS are shown — likes/comments/shares were not supplied and are never invented.
 import { useEffect, useId, useRef, useState } from 'react';
 import { applyMediaVolume, getVolume } from '../../lib/volume';
+import { numberSeparators } from '../../i18n';
+import type { Locale } from '../../i18n/config';
 import CountUp from '../react-bits/CountUp';
 import { IconPlay, IconPause, IconSound, IconMuted } from '../media/icons';
 import './CaseVideoCard.css';
 
 export type CasePlatform = 'tiktok' | 'instagram';
 interface Props {
+  locale: Locale;
   platform: CasePlatform;
   platformName: string;
   views: string;
@@ -57,6 +60,7 @@ const EyeIcon = () => (
 );
 
 export default function CaseVideoCard(p: Props) {
+  const sep = numberSeparators(p.locale);
   const vref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -136,7 +140,7 @@ export default function CaseVideoCard(p: Props) {
     <div className="cvw__meta">
       <p className="cvw__views" aria-label={`${p.views} ${p.viewsLabel}`}>
         <EyeIcon />
-        <CountUp from={0} to={p.viewsTo} mode="roll" easing="easeOut" format="compact" separator="," prefix="" suffix="" direction="up" duration={1.8} delay={0} trigger="view" replayOnHover decimals={p.viewsDecimals} className="cvw__num" />
+        <CountUp from={0} to={p.viewsTo} mode="roll" easing="easeOut" format="compact" separator={sep.group} decimal={sep.decimal} prefix="" suffix="" direction="up" duration={1.8} delay={0} trigger="view" replayOnHover decimals={p.viewsDecimals} className="cvw__num" />
       </p>
       <p className="cvw__creator">{p.creator}</p>
     </div>
