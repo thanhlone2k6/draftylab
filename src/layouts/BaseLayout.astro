@@ -77,6 +77,45 @@ const canonical = `${ORIGIN}${localePath(locale)}`;
     <MediaDialogHost client:load locale={locale} />
     <!-- In-place volume gauge for touch devices; opens when a running preview is tapped again. -->
     <VolumeOverlay client:load locale={locale} />
+    <!-- 2026-10-21 (owner): a language switch must not lose the reader's place. The switcher stashes
+         scrollY under `dfl-lang-scroll` right before navigating; this restores it after the destination
+         has laid out (media boxes reserve their height in CSS, so the pixel offset maps 1:1). Runs at the
+         end of <body>, when the document is fully parsed. No stored value on a normal visit → no-op. -->
+    <script is:inline>
+      (() => {
+        try {
+          const KEY = 'dfl-lang-scroll';
+          const saved = sessionStorage.getItem(KEY);
+          if (saved == null) return;
+          sessionStorage.removeItem(KEY);
+          const top = parseInt(saved, 10);
+          if (!top || top < 1) return;
+          if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+          // The site sets `scroll-behavior: smooth` (globals.css); jump instantly here so arrival is a
+          // landing, not a long animated slide from the top.
+          const de = document.documentElement;
+          const prevSmooth = de.style.scrollBehavior;
+          de.style.scrollBehavior = 'auto';
+          let tries = 0;
+          let timer = 0;
+          const stop = () => {
+            if (timer) { clearInterval(timer); timer = 0; }
+            de.style.scrollBehavior = prevSmooth;
+            window.removeEventListener('load', restore);
+          };
+          const restore = () => {
+            // Stop as soon as we are there — never keep fighting a reader who scrolls on arrival.
+            if (Math.abs(window.scrollY - top) < 2) { stop(); return; }
+            window.scrollTo(0, top);
+          };
+          restore();
+          requestAnimationFrame(restore);
+          window.addEventListener('load', restore, { once: true });
+          // Late layout (fonts, lazy media) can shift the target: re-apply briefly, then give up.
+          timer = setInterval(() => { restore(); if (++tries > 8) stop(); }, 120);
+        } catch { /* no sessionStorage (private mode) — nothing to restore */ }
+      })();
+    </script>
   </body>
 </html>
 <style is:global>

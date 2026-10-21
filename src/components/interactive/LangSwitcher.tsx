@@ -102,7 +102,13 @@ export default function LangSwitcher({ locale }: Props) {
                   aria-current={active ? 'true' : undefined}
                   href={localePath(code)}
                   hrefLang={meta.htmlLang}
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    // 2026-10-21 (owner): keep the reader's place across the language switch — this is a
+                    // plain MPA navigation, so the browser would land at the top. Remember scrollY here and
+                    // let the inline script in BaseLayout restore it on the destination page.
+                    try { sessionStorage.setItem('dfl-lang-scroll', String(window.scrollY || 0)); } catch { /* private mode */ }
+                    setOpen(false);
+                  }}
                 >
                   <span className="lsw__flag" aria-hidden="true">{meta.flag}</span>
                   <span className="lsw__code">{meta.short}</span>
