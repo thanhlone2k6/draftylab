@@ -19,6 +19,10 @@ const meta = LOCALE_META[locale];
 // Every locale gets its own canonical URL and the full hreflang set (x-default → Vietnamese).
 const ORIGIN = 'https://draftylab.pages.dev';
 const canonical = `${ORIGIN}${localePath(locale)}`;
+// Link-preview card (owner, 2026-10-21): Zalo/Facebook/Messenger showed only the domain + title because
+// the page had no og:image. `public/og/og-image.jpg` is a 1200x1200 JPEG made from the brand render
+// `logo/design-gen-176648f8293865.png` (that source lives outside the repo, so the file is committed).
+const OG_IMAGE = `${ORIGIN}/og/og-image.jpg`;
 ---
 <!doctype html>
 <html lang={meta.htmlLang}>
@@ -43,6 +47,18 @@ const canonical = `${ORIGIN}${localePath(locale)}`;
     <meta property="og:site_name" content={c.site.name} />
     <meta property="og:title" content={c.site.title} />
     <meta property="og:description" content={c.site.description} />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image:secure_url" content={OG_IMAGE} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content={c.site.title} />
+    <!-- Twitter/X uses `twitter:*`; without a card it falls back to a small thumbnail. -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={c.site.title} />
+    <meta name="twitter:description" content={c.site.description} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+    <meta name="twitter:image:alt" content={c.site.title} />
     <link rel="icon" type="image/png" href="/media/v1-temp/logo-mark.png" />
     <!-- Boot gate: hold the page for ~800ms on the first load of a session so the first-paint effects
          (hero WebGL card, GlassSurface nav, the social ring's images) can initialise behind the scenes
