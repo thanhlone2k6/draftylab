@@ -12,6 +12,7 @@ interface Post {
   image: string;
   status: 'published' | 'hidden';
   createdAt: number;
+  sortOrder: number | null;
 }
 
 const ERRORS: Record<string, string> = {
@@ -25,9 +26,19 @@ const ERRORS: Record<string, string> = {
   image: 'Bạn chưa chọn ảnh.',
   image_type: 'File này không phải ảnh JPG, PNG hoặc WebP.',
   image_too_large: 'Ảnh quá nặng. Hãy chọn ảnh khác.',
+  date: 'Ngày đăng chưa đúng.',
+  ids: 'Thứ tự gửi lên không hợp lệ.',
+  bad_json: 'Dữ liệu gửi lên không hợp lệ.',
   not_found: 'Bài này không còn tồn tại.',
 };
 const errorText = (code?: string) => (code && ERRORS[code]) || 'Có lỗi xảy ra. Hãy thử lại.';
+
+/** `2026-11-05` for <input type="date">, from the stored unix milliseconds (local calendar day). */
+const toDateValue = (ms?: number) => {
+  const d = new Date(ms ?? Date.now());
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
 
 async function api(path: string, init: RequestInit = {}): Promise<{ status: number; data: Record<string, any> }> {
   try {
@@ -158,6 +169,7 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
   const [title, setTitle] = useState(editing?.title ?? '');
   const [description, setDescription] = useState(editing?.description ?? '');
   const [url, setUrl] = useState(editing?.url ?? '');
+  const [date, setDate] = useState(toDateValue(editing?.createdAt));
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -183,6 +195,9 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
     form.set('title', title);
     form.set('description', description);
     form.set('url', url);
+    // Noon local time on purpose: midnight in Vietnam can still be "yesterday" in another timezone.
+    const stamp = new Date(`${date}T12:00:00`).getTime();
+    if (Number.isFinite(stamp)) form.set('createdAt', String(stamp));
     if (file) {
       try {
         const blob = await prepareImage(file);
@@ -218,6 +233,10 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
         <span>Link tài liệu</span>
         <input required type="url" inputMode="url" placeholder="https://" value={url} onChange={(e) => setUrl(e.target.value)} />
       </label>
+      <label className="adm-field">
+        <span>Ngày đăng <em>(ngày hiện trên thẻ)</em></span>
+        <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </label>
       {error && <p className="adm-error" role="alert">{error}</p>}
       <div className="adm-row">
         <button type="submit" className="adm-btn adm-btn--primary" disabled={busy}>
@@ -237,6 +256,8 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [devices, setDevices] = useState<number | null>(null);
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
 
   useEffect(() => {
     void api('devices').then(({ status, data }) => {
@@ -281,6 +302,43 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
     onSignedOut();
   };
 
+  // Order of the cards on the public page: dragging writes the whole list, then reloads it.
+  const persistOrder = (next: Post[]) => {
+    setPosts(next);
+    void act(
+      api('posts/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: next.map((p) => p.id) }),
+      }),
+      'Đã lưu thứ tự hiển thị.',
+    );
+  };
+
+  const dropOn = (targetId: string) => {
+    const fromId = dragId;
+    setDragId(null);
+    setOverId(null);
+    if (!fromId || fromId === targetId || !posts) return;
+    const next = [...posts];
+    const from = next.findIndex((p) => p.id === fromId);
+    const to = next.findIndex((p) => p.id === targetId);
+    if (from < 0 || to < 0) return;
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    persistOrder(next);
+  };
+
+  const moveBy = (index: number, delta: number) => {
+    if (!posts) return;
+    const to = index + delta;
+    if (to < 0 || to >= posts.length) return;
+    const next = [...posts];
+    const [moved] = next.splice(index, 1);
+    next.splice(to, 0, moved);
+    persistOrder(next);
+  };
+
   const revokeAll = async () => {
     if (!window.confirm('Đăng xuất tất cả thiết bị, kể cả máy này? Lần sau cần nhập mã mới từ Gmail. Bài đăng không bị ảnh hưởng.')) return;
     const { status, data } = await api('devices/revoke-all', { method: 'POST' });
@@ -323,18 +381,41 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
 
       <section>
         <h2>Bài đã đăng</h2>
-        <p className="adm-muted">Trang Cộng đồng chỉ hiện {limit} bài mới nhất. Bài cũ hơn vẫn được giữ ở đây.</p>
+        <p className="adm-muted">
+          Trang Cộng đồng hiện {limit} thẻ đầu (4 thẻ trên điện thoại), rồi tới nút “Xem thêm tài liệu” để mở toàn bộ.
+          Kéo thẻ bên dưới — hoặc dùng nút ↑ ↓ — để chọn thứ tự hiển thị.
+        </p>
         {posts === null && <p className="adm-muted">Đang tải…</p>}
         {posts?.length === 0 && <p className="adm-muted">Chưa có bài nào.</p>}
         <ul className="adm-list">
-          {posts?.map((p) => (
-            <li key={p.id} className="adm-item">
-              <img src={p.image} alt="" loading="lazy" />
+          {posts?.map((p, i) => (
+            <li
+              key={p.id}
+              className={`adm-item${dragId === p.id ? ' is-dragging' : ''}${overId === p.id ? ' is-over' : ''}`}
+              draggable
+              onDragStart={(e) => {
+                setDragId(p.id);
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', p.id);
+              }}
+              onDragEnd={() => { setDragId(null); setOverId(null); }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (overId !== p.id) setOverId(p.id);
+              }}
+              onDragLeave={() => setOverId((v) => (v === p.id ? null : v))}
+              onDrop={(e) => { e.preventDefault(); dropOn(p.id); }}
+            >
+              <span className="adm-item__handle" aria-hidden="true">⠿</span>
+              <img src={p.image} alt="" loading="lazy" draggable={false} />
               <div className="adm-item__body">
                 <strong>{p.title}</strong>
                 <a href={p.url} target="_blank" rel="noopener noreferrer">{p.url}</a>
                 <span className={`adm-badge${live.has(p.id) ? ' is-live' : ''}`}>{badge(p)} · {new Date(p.createdAt).toLocaleDateString('vi-VN')}</span>
                 <div className="adm-row">
+                  <button type="button" className="adm-btn adm-btn--small adm-btn--move" onClick={() => moveBy(i, -1)} disabled={i === 0} aria-label={`Đưa “${p.title}” lên`}>↑</button>
+                  <button type="button" className="adm-btn adm-btn--small adm-btn--move" onClick={() => moveBy(i, 1)} disabled={i === posts.length - 1} aria-label={`Đưa “${p.title}” xuống`}>↓</button>
                   <button type="button" className="adm-btn adm-btn--small" onClick={() => { setEditing(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Sửa</button>
                   <button type="button" className="adm-btn adm-btn--small" onClick={() => toggle(p)}>{p.status === 'hidden' ? 'Hiện lại' : 'Ẩn'}</button>
                   <button type="button" className="adm-btn adm-btn--small adm-btn--danger" onClick={() => remove(p)}>Xoá</button>

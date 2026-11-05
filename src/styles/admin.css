@@ -39,8 +39,12 @@
 .adm-notice { margin: 0; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--c-warn-bg); color: var(--c-focus); font-size: 0.92rem; }
 
 .adm-list { display: grid; gap: 12px; margin: 14px 0 0; padding: 0; list-style: none; }
-.adm-item { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 12px; border: 1px solid var(--c-line); border-radius: var(--radius); background: var(--c-bg-card); }
-.adm-item > img { width: 112px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius-sm); }
+.adm-item { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 12px 12px 12px 34px; border: 1px solid var(--c-line); border-radius: var(--radius); background: var(--c-bg-card); cursor: grab; transition: border-color var(--dur), box-shadow var(--dur), opacity var(--dur); }
+.adm-item.is-dragging { opacity: 0.45; cursor: grabbing; }
+.adm-item.is-over { border-color: var(--c-accent); box-shadow: inset 0 0 0 1px var(--c-accent); }
+.adm-item__handle { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--c-fg-faint); font-size: 17px; letter-spacing: -2px; pointer-events: none; }
+.adm-item > img { width: 112px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius-sm); -webkit-user-drag: none; user-select: none; }
+.adm-btn--move { min-width: 44px; padding: 0; font-size: 1rem; }
 .adm-item__body { display: grid; gap: 6px; min-width: 0; }
 .adm-item__body strong { overflow-wrap: anywhere; font-weight: 600; }
 .adm-item__body a { overflow: hidden; color: var(--c-fg-muted); font-size: 0.85rem; text-overflow: ellipsis; white-space: nowrap; }

@@ -4,6 +4,7 @@ import type { Env } from './env';
 import { countDevices, isAdmin, json, logout, originAllowed, requestCode, revokeAllDevices, verifyCode, type AuthDeps } from './admin-auth';
 
 export const PUBLIC_LIMIT = 3;
+export const PUBLIC_ALL_LIMIT = 200;
 export const LIMITS = { title: 120, description: 300, url: 2048, imageBytes: 3 * 1024 * 1024, adminList: 500 } as const;
 
 const IMAGE_KEY = /^[0-9a-f]{32}\.(webp|jpg|png)$/;
@@ -19,10 +20,25 @@ interface PostRow {
   status: string;
   created_at: number;
   updated_at: number;
+  sort_order: number | null;
 }
 
 const imageUrl = (key: string) => `/api/community/image/${key}`;
 const cleanText = (v: string, max: number) => v.replace(CONTROL_CHARS, ' ').trim().slice(0, max);
+
+const MIN_POST_DATE = Date.UTC(2000, 0, 1);
+/**
+ * Posting date picked in /admin (unix milliseconds). `undefined` = field not sent (keep the current
+ * value), `null` = malformed. Noon local time on the client keeps the calendar day stable elsewhere.
+ */
+export function parsePostDate(value: string | null): number | null | undefined {
+  if (value === null || value.trim() === '') return undefined;
+  const v = value.trim();
+  if (!/^\d{12,15}$/.test(v)) return null;
+  const n = Number(v);
+  if (!Number.isSafeInteger(n) || n < MIN_POST_DATE || n > Date.now() + 10 * 365 * 86400000) return null;
+  return n;
+}
 
 /** http(s) only: a `javascript:` link on a public card would run in the visitor's browser. */
 export function cleanUrl(value: string): string | null {
@@ -46,11 +62,15 @@ export function sniffImage(b: Uint8Array): 'jpg' | 'png' | 'webp' | null {
   return null;
 }
 
-export async function handlePublicList(env: Env): Promise<Response> {
+/** Manual order first (higher = earlier); posts never dragged keep the newest-first default. */
+const ORDER = 'ORDER BY COALESCE(sort_order, created_at) DESC, created_at DESC';
+
+export async function handlePublicList(env: Env, limit = PUBLIC_LIMIT): Promise<Response> {
+  const take = Math.min(PUBLIC_ALL_LIMIT, Math.max(1, Math.round(limit) || PUBLIC_LIMIT));
   const { results } = await env.DB.prepare(
-    "SELECT id, title, description, url, image_key, created_at FROM community_posts WHERE status = 'published' ORDER BY created_at DESC LIMIT ?",
+    `SELECT id, title, description, url, image_key, created_at FROM community_posts WHERE status = 'published' ${ORDER} LIMIT ?`,
   )
-    .bind(PUBLIC_LIMIT)
+    .bind(take)
     .all<Pick<PostRow, 'id' | 'title' | 'description' | 'url' | 'image_key' | 'created_at'>>();
   const items = results.map((r) => ({
     id: r.id,
@@ -99,6 +119,7 @@ const toAdminPost = (r: PostRow) => ({
   image: imageUrl(r.image_key),
   status: r.status,
   createdAt: r.created_at,
+  sortOrder: r.sort_order,
 });
 
 async function readForm(request: Request): Promise<FormData | Response> {
@@ -126,9 +147,12 @@ async function createPost(request: Request, env: Env, now: number): Promise<Resp
   const description = cleanText(textOf(form, 'description') ?? '', LIMITS.description);
   const url = cleanUrl(textOf(form, 'url') ?? '');
   const file = fileOf(form, 'image');
+  const rawDate = parsePostDate(textOf(form, 'createdAt'));
   if (!title) return json(400, { ok: false, code: 'title' });
   if (!url) return json(400, { ok: false, code: 'url' });
   if (!file) return json(400, { ok: false, code: 'image' });
+  if (rawDate === null) return json(400, { ok: false, code: 'date' });
+  const createdAt = rawDate ?? now;
 
   const stored = await storeImage(env, file);
   if (stored instanceof Response) return stored;
@@ -137,7 +161,7 @@ async function createPost(request: Request, env: Env, now: number): Promise<Resp
     await env.DB.prepare(
       "INSERT INTO community_posts (id, title, description, url, image_key, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'published', ?, ?)",
     )
-      .bind(id, title, description, url, stored.key, now, now)
+      .bind(id, title, description, url, stored.key, createdAt, now)
       .run();
   } catch (e) {
     await dropImage(env, stored.key);
@@ -160,9 +184,12 @@ async function updatePost(request: Request, env: Env, id: string, now: number): 
   const description = rawDescription === null ? row.description : cleanText(rawDescription, LIMITS.description);
   const url = rawUrl === null ? row.url : cleanUrl(rawUrl);
   const status = rawStatus ?? row.status;
+  const rawDate = parsePostDate(textOf(form, 'createdAt'));
   if (!title) return json(400, { ok: false, code: 'title' });
   if (!url) return json(400, { ok: false, code: 'url' });
   if (status !== 'published' && status !== 'hidden') return json(400, { ok: false, code: 'status' });
+  if (rawDate === null) return json(400, { ok: false, code: 'date' });
+  const createdAt = rawDate ?? row.created_at;
 
   let imageKey = row.image_key;
   const file = fileOf(form, 'image');
@@ -171,10 +198,30 @@ async function updatePost(request: Request, env: Env, id: string, now: number): 
     if (stored instanceof Response) return stored;
     imageKey = stored.key;
   }
-  await env.DB.prepare('UPDATE community_posts SET title = ?, description = ?, url = ?, image_key = ?, status = ?, updated_at = ? WHERE id = ?')
-    .bind(title, description, url, imageKey, status, now, id)
+  await env.DB.prepare('UPDATE community_posts SET title = ?, description = ?, url = ?, image_key = ?, status = ?, created_at = ?, updated_at = ? WHERE id = ?')
+    .bind(title, description, url, imageKey, status, createdAt, now, id)
     .run();
   if (imageKey !== row.image_key) await dropImage(env, row.image_key);
+  return json(200, { ok: true });
+}
+
+/** /admin drag & drop: the ids arrive in the order the owner wants, first card first. */
+async function reorderPosts(request: Request, env: Env): Promise<Response> {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return json(400, { ok: false, code: 'bad_json' });
+  }
+  const ids = (body as { ids?: unknown })?.ids;
+  if (!Array.isArray(ids) || ids.length > LIMITS.adminList) return json(400, { ok: false, code: 'ids' });
+  if (!ids.every((id) => typeof id === 'string' && /^[a-f0-9]{20}$/.test(id))) return json(400, { ok: false, code: 'ids' });
+  if (new Set(ids).size !== ids.length) return json(400, { ok: false, code: 'ids' });
+  if (ids.length) {
+    // Higher value = earlier card. Newly created posts stay NULL and sort on top by created_at.
+    const stmt = env.DB.prepare('UPDATE community_posts SET sort_order = ? WHERE id = ?');
+    await env.DB.batch(ids.map((id, index) => stmt.bind((ids.length - index) * 1000, id)));
+  }
   return json(200, { ok: true });
 }
 
@@ -205,10 +252,11 @@ export async function handleAdmin(request: Request, env: Env, deps: AuthDeps, se
   if (path === 'devices' && method === 'GET') return json(200, { ok: true, count: await countDevices(env, deps.now()) });
   if (path === 'devices/revoke-all' && method === 'POST') return revokeAllDevices(request, env);
   if (path === 'posts' && method === 'GET') {
-    const { results } = await env.DB.prepare('SELECT * FROM community_posts ORDER BY created_at DESC LIMIT ?').bind(LIMITS.adminList).all<PostRow>();
+    const { results } = await env.DB.prepare(`SELECT * FROM community_posts ${ORDER} LIMIT ?`).bind(LIMITS.adminList).all<PostRow>();
     return json(200, { ok: true, items: results.map(toAdminPost), publicLimit: PUBLIC_LIMIT });
   }
   if (path === 'posts' && method === 'POST') return createPost(request, env, deps.now());
+  if (path === 'posts/reorder' && method === 'POST') return reorderPosts(request, env);
   if (segments[0] === 'posts' && segments.length === 2) {
     if (method === 'POST') return updatePost(request, env, segments[1], deps.now());
     if (method === 'DELETE') return deletePost(env, segments[1]);

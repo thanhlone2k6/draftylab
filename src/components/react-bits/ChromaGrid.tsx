@@ -239,17 +239,17 @@ export const ChromaGrid = ({
               <div className="chroma-media" data-chroma-area="">
                 <img className="chroma-mono" src={item.image} alt={item.alt ?? item.title ?? ''} loading="lazy" />
                 <img className="chroma-color" src={item.image} alt="" aria-hidden="true" loading="lazy" />
-                {item.date && (
-                  <time className="chroma-date" dateTime={item.dateTime ?? item.date}>
-                    {item.dateLabel && <span className="sr-only">{item.dateLabel} </span>}
-                    {item.date}
-                  </time>
-                )}
                 <span className="chroma-media-rim" aria-hidden="true" />
               </div>
-              {showInfo && (item.title || item.subtitle) && (
+              {showInfo && (item.title || item.subtitle || item.date) && (
                 <div className="chroma-info">
                   {item.title && <span className="chroma-title">{item.title}</span>}
+                  {item.date && (
+                    <time className="chroma-date" dateTime={item.dateTime ?? item.date}>
+                      {item.dateLabel && <span className="sr-only">{item.dateLabel} </span>}
+                      {item.date}
+                    </time>
+                  )}
                   {item.subtitle && <span className="chroma-subtitle">{item.subtitle}</span>}
                 </div>
               )}

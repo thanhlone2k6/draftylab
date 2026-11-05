@@ -173,8 +173,47 @@ test('the public list has only the 3 newest published posts', async () => {
   assert.deepEqual(body.items.map((i) => i.title), ['ba', 'hai', 'một']);
 });
 
-test('bad links and non-image uploads are refused', async () => {
+test('the owner can drag cards into a new order', async () => {
   const s = setup();
+  const cookie = await s.login();
+  for (const title of ['một', 'hai', 'ba']) {
+    assert.equal((await s.post(cookie, title)).status, 201);
+    s.advance(1);
+  }
+  const read = async () =>
+    (await (await handlePublicList(s.env)).json()) as { items: Array<{ id: string; title: string }> };
+  const before = await read();
+  assert.deepEqual(before.items.map((i) => i.title), ['ba', 'hai', 'một']);
+
+  const ids = [before.items[2].id, before.items[0].id, before.items[1].id];
+  const res = await s.call('posts/reorder', { method: 'POST', cookie, json: { ids } });
+  assert.equal(res.status, 200);
+  assert.deepEqual((await read()).items.map((i) => i.title), ['một', 'ba', 'hai']);
+  // /admin reads the same order, so the list there matches the site.
+  const admin = (await (await s.call('posts', { cookie })).json()) as { items: Array<{ title: string }> };
+  assert.deepEqual(admin.items.map((i) => i.title), ['một', 'ba', 'hai']);
+
+  // A post created after a drag still lands on top (sort_order NULL sorts by created_at).
+  s.advance(1);
+  assert.equal((await s.post(cookie, 'mới')).status, 201);
+  assert.deepEqual((await read()).items.map((i) => i.title), ['mới', 'một', 'ba']);
+});
+
+test('the posting date can be changed from /admin', async () => {
+  const s = setup();
+  const cookie = await s.login();
+  assert.equal((await s.post(cookie, 'một')).status, 201);
+  const id = ((await (await handlePublicList(s.env)).json()) as { items: Array<{ id: string }> }).items[0].id;
+  const when = Date.UTC(2024, 0, 2, 12);
+  const res = await s.call(`posts/${id}`, { method: 'POST', cookie, body: s.form({ createdAt: String(when) }, null) });
+  assert.equal(res.status, 200);
+  const after = (await (await handlePublicList(s.env)).json()) as { items: Array<{ id: string; createdAt: number }> };
+  assert.equal(after.items.find((i) => i.id === id)?.createdAt, when);
+  // Malformed dates are rejected instead of silently resetting to now.
+  assert.equal((await s.call(`posts/${id}`, { method: 'POST', cookie, body: s.form({ createdAt: '123' }, null) })).status, 400);
+});
+
+test('bad links and non-image uploads are refused', async () => {  const s = setup();
   const cookie = await s.login();
   for (const url of ['javascript:alert(1)', 'data:text/html,x', 'not a url', 'https://user:pw@example.com/']) {
     assert.equal(cleanUrl(url), null, url);
