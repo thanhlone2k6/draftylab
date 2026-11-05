@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { AUTH } from '../../functions/_lib/admin-auth.ts';
-import { cleanUrl, handleAdmin, handleImage, handlePublicList, sniffImage } from '../../functions/_lib/community.ts';
+import { cleanUrl, handleAdmin, handleImage, handlePublicList, handlePublicSkills, sniffImage } from '../../functions/_lib/community.ts';
 import type { Env } from '../../functions/_lib/env.ts';
 import { makeD1 } from './d1-sqlite.ts';
 
@@ -289,4 +289,39 @@ test('the emergency button signs out every device and needs a session', async ()
   assert.equal((await s.call('posts', { cookie: laptop })).status, 401);
   s.advance(AUTH.sendCooldownS);
   assert.equal((await s.login()).length > 0, true, 'a new Gmail code still works');
+});
+
+test('skills: seeds are public, admin can add, hide and reorder them', async () => {
+  const s = setup();
+  const cookie = await s.login();
+
+  const read = async () =>
+    (await (await handlePublicSkills(s.env)).json()) as {
+      items: Array<{ id: string; title: string; description: string; url: string; image: string | null }>;
+    };
+
+  let body = await read();
+  assert.deepEqual(body.items.map((i) => i.title), ['Video Edit Skill', 'Herk Edit Kit', 'Awesome Claude Video Skills']);
+  assert.equal(body.items[0].image, null, 'no cover is null, not a broken URL');
+  assert.match(body.items[0].url, /^https:\/\/github\.com\//);
+
+  // Add one with a cover (the test form always carries the PNG).
+  const created = await s.call('skills', {
+    method: 'POST',
+    cookie,
+    body: s.form({ title: 'Skill thử', description: 'mô tả', url: 'https://github.com/example/skill' }),
+  });
+  assert.equal(created.status, 201);
+  body = await read();
+  const added = body.items.find((i) => i.title === 'Skill thử');
+  assert.ok(added?.image, 'cover is served through /api/community/image');
+
+  // Hide: disappears from the public shelf but stays in admin.
+  assert.equal((await s.call(`skills/${added!.id}`, { method: 'POST', cookie, body: s.form({ status: 'hidden' }, null) })).status, 200);
+  assert.equal((await read()).items.some((i) => i.title === 'Skill thử'), false);
+
+  // Reorder: the ids arrive first-row-first.
+  const ids = body.items.map((i) => i.id).reverse();
+  assert.equal((await s.call('skills/reorder', { method: 'POST', cookie, json: { ids } })).status, 200);
+  assert.deepEqual((await read()).items.map((i) => i.id), ids.slice(0, -1)); // hidden skill excluded from the public list
 });

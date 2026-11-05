@@ -23,6 +23,19 @@ interface PostRow {
   sort_order: number | null;
 }
 
+/** Same columns as a post, minus the posting date; `image_key` may be '' when there is no cover. */
+interface SkillRow {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  image_key: string;
+  status: string;
+  sort_order: number | null;
+  created_at: number;
+  updated_at: number;
+}
+
 const imageUrl = (key: string) => `/api/community/image/${key}`;
 const cleanText = (v: string, max: number) => v.replace(CONTROL_CHARS, ' ').trim().slice(0, max);
 
@@ -83,6 +96,23 @@ export async function handlePublicList(env: Env, limit = PUBLIC_LIMIT): Promise<
   return json(200, { ok: true, items }, { 'Cache-Control': 'public, max-age=15' });
 }
 
+/** The "Skill AI x Claude" shelf above the posts: every published skill, in the owner's order. */
+export async function handlePublicSkills(env: Env): Promise<Response> {
+  const { results } = await env.DB.prepare(
+    `SELECT id, title, description, url, image_key FROM community_skills WHERE status = 'published' ${ORDER} LIMIT ?`,
+  )
+    .bind(PUBLIC_ALL_LIMIT)
+    .all<Pick<SkillRow, 'id' | 'title' | 'description' | 'url' | 'image_key'>>();
+  const items = results.map((r) => ({
+    id: r.id,
+    title: r.title,
+    description: r.description,
+    url: r.url,
+    image: r.image_key ? imageUrl(r.image_key) : null,
+  }));
+  return json(200, { ok: true, items }, { 'Cache-Control': 'public, max-age=15' });
+}
+
 export async function handleImage(request: Request, env: Env, key: string): Promise<Response> {
   if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
   if (!IMAGE_KEY.test(key)) return new Response('Not Found', { status: 404 });
@@ -120,6 +150,17 @@ const toAdminPost = (r: PostRow) => ({
   status: r.status,
   createdAt: r.created_at,
   sortOrder: r.sort_order,
+});
+
+const toAdminSkill = (r: SkillRow) => ({
+  id: r.id,
+  title: r.title,
+  description: r.description,
+  url: r.url,
+  image: r.image_key ? imageUrl(r.image_key) : null,
+  status: r.status,
+  sortOrder: r.sort_order,
+  createdAt: r.created_at,
 });
 
 async function readForm(request: Request): Promise<FormData | Response> {
@@ -205,8 +246,8 @@ async function updatePost(request: Request, env: Env, id: string, now: number): 
   return json(200, { ok: true });
 }
 
-/** /admin drag & drop: the ids arrive in the order the owner wants, first card first. */
-async function reorderPosts(request: Request, env: Env): Promise<Response> {
+/** /admin drag & drop: the ids arrive in the order the owner wants, first row first. */
+async function reorderRows(request: Request, env: Env, table: 'community_posts' | 'community_skills'): Promise<Response> {
   let body: unknown;
   try {
     body = await request.json();
@@ -218,15 +259,87 @@ async function reorderPosts(request: Request, env: Env): Promise<Response> {
   if (!ids.every((id) => typeof id === 'string' && /^[a-f0-9]{20}$/.test(id))) return json(400, { ok: false, code: 'ids' });
   if (new Set(ids).size !== ids.length) return json(400, { ok: false, code: 'ids' });
   if (ids.length) {
-    // Higher value = earlier card. Newly created posts stay NULL and sort on top by created_at.
-    const stmt = env.DB.prepare('UPDATE community_posts SET sort_order = ? WHERE id = ?');
+    // Higher value = earlier row. Newly created rows stay NULL and sort on top by created_at.
+    const stmt = env.DB.prepare(`UPDATE ${table} SET sort_order = ? WHERE id = ?`);
     await env.DB.batch(ids.map((id, index) => stmt.bind((ids.length - index) * 1000, id)));
   }
   return json(200, { ok: true });
 }
 
+const reorderPosts = (request: Request, env: Env) => reorderRows(request, env, 'community_posts');
+const reorderSkills = (request: Request, env: Env) => reorderRows(request, env, 'community_skills');
+
 async function deletePost(env: Env, id: string): Promise<Response> {
   const row = await env.DB.prepare('DELETE FROM community_posts WHERE id = ? RETURNING image_key').bind(id).first<{ image_key: string }>();
+  if (!row) return json(404, { ok: false, code: 'not_found' });
+  await dropImage(env, row.image_key);
+  return json(200, { ok: true });
+}
+
+async function createSkill(request: Request, env: Env, now: number): Promise<Response> {
+  const form = await readForm(request);
+  if (form instanceof Response) return form;
+  const title = cleanText(textOf(form, 'title') ?? '', LIMITS.title);
+  const description = cleanText(textOf(form, 'description') ?? '', LIMITS.description);
+  const url = cleanUrl(textOf(form, 'url') ?? '');
+  if (!title) return json(400, { ok: false, code: 'title' });
+  if (!url) return json(400, { ok: false, code: 'url' });
+
+  let imageKey = '';
+  const file = fileOf(form, 'image');
+  if (file) {
+    const stored = await storeImage(env, file);
+    if (stored instanceof Response) return stored;
+    imageKey = stored.key;
+  }
+  const id = crypto.randomUUID().replace(/-/g, '').slice(0, 20);
+  try {
+    await env.DB.prepare(
+      "INSERT INTO community_skills (id, title, description, url, image_key, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'published', ?, ?)",
+    )
+      .bind(id, title, description, url, imageKey, now, now)
+      .run();
+  } catch (e) {
+    await dropImage(env, imageKey);
+    throw e;
+  }
+  return json(201, { ok: true, id });
+}
+
+async function updateSkill(request: Request, env: Env, id: string, now: number): Promise<Response> {
+  const row = await env.DB.prepare('SELECT * FROM community_skills WHERE id = ?').bind(id).first<SkillRow>();
+  if (!row) return json(404, { ok: false, code: 'not_found' });
+  const form = await readForm(request);
+  if (form instanceof Response) return form;
+
+  const rawTitle = textOf(form, 'title');
+  const rawDescription = textOf(form, 'description');
+  const rawUrl = textOf(form, 'url');
+  const rawStatus = textOf(form, 'status');
+  const title = rawTitle === null ? row.title : cleanText(rawTitle, LIMITS.title);
+  const description = rawDescription === null ? row.description : cleanText(rawDescription, LIMITS.description);
+  const url = rawUrl === null ? row.url : cleanUrl(rawUrl);
+  const status = rawStatus ?? row.status;
+  if (!title) return json(400, { ok: false, code: 'title' });
+  if (!url) return json(400, { ok: false, code: 'url' });
+  if (status !== 'published' && status !== 'hidden') return json(400, { ok: false, code: 'status' });
+
+  let imageKey = row.image_key;
+  const file = fileOf(form, 'image');
+  if (file) {
+    const stored = await storeImage(env, file);
+    if (stored instanceof Response) return stored;
+    imageKey = stored.key;
+  }
+  await env.DB.prepare('UPDATE community_skills SET title = ?, description = ?, url = ?, image_key = ?, status = ?, updated_at = ? WHERE id = ?')
+    .bind(title, description, url, imageKey, status, now, id)
+    .run();
+  if (imageKey !== row.image_key) await dropImage(env, row.image_key);
+  return json(200, { ok: true });
+}
+
+async function deleteSkill(env: Env, id: string): Promise<Response> {
+  const row = await env.DB.prepare('DELETE FROM community_skills WHERE id = ? RETURNING image_key').bind(id).first<{ image_key: string }>();
   if (!row) return json(404, { ok: false, code: 'not_found' });
   await dropImage(env, row.image_key);
   return json(200, { ok: true });
@@ -260,6 +373,16 @@ export async function handleAdmin(request: Request, env: Env, deps: AuthDeps, se
   if (segments[0] === 'posts' && segments.length === 2) {
     if (method === 'POST') return updatePost(request, env, segments[1], deps.now());
     if (method === 'DELETE') return deletePost(env, segments[1]);
+  }
+  if (path === 'skills' && method === 'GET') {
+    const { results } = await env.DB.prepare(`SELECT * FROM community_skills ${ORDER} LIMIT ?`).bind(LIMITS.adminList).all<SkillRow>();
+    return json(200, { ok: true, items: results.map(toAdminSkill) });
+  }
+  if (path === 'skills' && method === 'POST') return createSkill(request, env, deps.now());
+  if (path === 'skills/reorder' && method === 'POST') return reorderSkills(request, env);
+  if (segments[0] === 'skills' && segments.length === 2) {
+    if (method === 'POST') return updateSkill(request, env, segments[1], deps.now());
+    if (method === 'DELETE') return deleteSkill(env, segments[1]);
   }
   return json(404, { ok: false, code: 'not_found' });
 }

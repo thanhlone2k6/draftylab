@@ -3,8 +3,10 @@
 // Vietnamese only, because only the owner uses it. Security lives on the server (functions/_lib/admin-auth.ts).
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { communityPath } from '../../i18n/config';
+import { adminApi as api } from '../../lib/admin-api';
 import AdminLightbox from './AdminLightbox';
-import ImageCropper from './ImageCropper';
+import CoverField from './CoverField';
+import SkillsAdmin from './SkillsAdmin';
 
 interface Post {
   id: string;
@@ -42,14 +44,6 @@ const toDateValue = (ms?: number) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
-async function api(path: string, init: RequestInit = {}): Promise<{ status: number; data: Record<string, any> }> {
-  try {
-    const res = await fetch(`/api/admin/${path}`, init);
-    return { status: res.status, data: await res.json() };
-  } catch {
-    return { status: 0, data: { ok: false, code: 'network' } };
-  }
-}
 
 function Login({ onDone }: { onDone: () => void }) {
   const [sent, setSent] = useState(false);
@@ -154,65 +148,8 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
   const [url, setUrl] = useState(editing?.url ?? '');
   const [date, setDate] = useState(toDateValue(editing?.createdAt));
   const [imageBlob, setImageBlob] = useState<Blob | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(editing?.image ?? null);
-  const [crop, setCrop] = useState<Blob | null>(null);
-  const [dragOver, setDragOver] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const picker = useRef<HTMLInputElement>(null);
-
-  // Release the previews this form created; the server URL belongs to the post, not to us.
-  useEffect(() => () => {
-    if (imageUrl?.startsWith('blob:')) URL.revokeObjectURL(imageUrl);
-  }, [imageUrl]);
-
-  const accept = useCallback((file: Blob | null) => {
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      setError('File này không phải ảnh JPG, PNG hoặc WebP.');
-      return;
-    }
-    setError('');
-    setCrop(file);
-  }, []);
-
-  // Paste a photo/screenshot straight into the form (⌘V / Ctrl+V).
-  useEffect(() => {
-    if (crop) return undefined; // the cropper is open; don't swap the photo under it
-    const onPaste = (e: ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-      for (const item of Array.from(items)) {
-        if (!item.type.startsWith('image/')) continue;
-        const f = item.getAsFile();
-        if (f) {
-          e.preventDefault();
-          accept(f);
-          return;
-        }
-      }
-    };
-    document.addEventListener('paste', onPaste);
-    return () => document.removeEventListener('paste', onPaste);
-  }, [accept, crop]);
-
-  const applyCrop = (blob: Blob) => {
-    if (imageUrl?.startsWith('blob:')) URL.revokeObjectURL(imageUrl);
-    setImageBlob(blob);
-    setImageUrl(URL.createObjectURL(blob));
-    setCrop(null);
-  };
-
-  // Re-open the photo already in the form (new pick or the post's current image) in the cropper.
-  const reCrop = async () => {
-    setError('');
-    try {
-      const blob = imageBlob ?? (imageUrl ? await (await fetch(imageUrl)).blob() : null);
-      if (blob) setCrop(blob);
-    } catch {
-      setError('Không đọc được ảnh này. Hãy chọn ảnh khác.');
-    }
-  };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -237,49 +174,10 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
     setError(errorText(data.code));
   };
 
-  const shown = imageUrl;
   return (
     <form className="adm-card adm-form" onSubmit={(e) => void submit(e)}>
       <h2>{editing ? 'Sửa bài' : 'Thêm tài liệu mới'}</h2>
-      <button
-        type="button"
-        className={`adm-drop${shown ? ' has-image' : ''}${dragOver ? ' is-over' : ''}`}
-        onClick={() => picker.current?.click()}
-        onDragEnter={(e) => {
-          if (!Array.from(e.dataTransfer.types).includes('Files')) return;
-          e.preventDefault();
-          setDragOver(true);
-        }}
-        onDragOver={(e) => {
-          if (!Array.from(e.dataTransfer.types).includes('Files')) return;
-          e.preventDefault();
-          setDragOver(true);
-        }}
-        onDragLeave={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragOver(false);
-        }}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragOver(false);
-          accept(e.dataTransfer.files?.[0] ?? null);
-        }}
-        aria-label={shown ? 'Đổi ảnh: bấm để chọn, kéo hoặc dán ảnh' : 'Chọn ảnh: bấm để chọn, kéo hoặc dán ảnh'}
-      >
-        {shown ? <img src={shown} alt="" /> : <span>Bấm để chọn ảnh<br /><em>hoặc kéo ảnh vào đây, dán ⌘V</em></span>}
-      </button>
-      <input
-        ref={picker}
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(e) => { accept(e.target.files?.[0] ?? null); e.target.value = ''; }}
-      />
-      <p className="adm-hint">Bấm để chọn, kéo ảnh từ ngoài vào ô, hoặc dán ảnh (⌘V). Bạn sẽ cắt vuông 1:1 trước khi lưu — đúng như thẻ trên trang Cộng đồng.</p>
-      {shown && (
-        <div className="adm-row">
-          <button type="button" className="adm-btn adm-btn--small" onClick={() => void reCrop()}>Chỉnh lại / cắt ảnh</button>
-        </div>
-      )}
+      <CoverField initialUrl={editing?.image ?? null} onChange={setImageBlob} />
       <label className="adm-field">
         <span>Tiêu đề</span>
         <input required maxLength={120} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -303,7 +201,6 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
         </button>
         {editing && <button type="button" className="adm-btn adm-btn--ghost" disabled={busy} onClick={onCancel}>Huỷ</button>}
       </div>
-      {crop && <ImageCropper file={crop} onApply={applyCrop} onCancel={() => setCrop(null)} />}
     </form>
   );
 }
@@ -500,6 +397,8 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
           ))}
         </ul>
       </section>
+
+      <SkillsAdmin onSignedOut={onSignedOut} />
 
       <section className="adm-card adm-danger">
         <h2>Thiết bị đã đăng nhập</h2>

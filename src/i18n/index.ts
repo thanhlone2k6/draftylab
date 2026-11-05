@@ -124,7 +124,10 @@ export interface Content {
   };
   contact: typeof vi.contact;
   footer: { line: string };
-  community: { title: string; lead: string; note: string; empty: string; error: string; retry: string; posted: string; seeMore: string; showLess: string };
+  community: {
+    title: string; lead: string; note: string; empty: string; error: string; retry: string; posted: string;
+    seeMore: string; showLess: string; skillsTitle: string; skillsLead: string; skillsEmpty: string;
+  };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
     play: string; pause: string; mute: string; unmute: string; seek: string;
@@ -304,6 +307,9 @@ export function getContent(locale: Locale): Content {
       posted: t('community.posted'),
       seeMore: t('community.seeMore'),
       showLess: t('community.showLess'),
+      skillsTitle: t('community.skillsTitle'),
+      skillsLead: t('community.skillsLead'),
+      skillsEmpty: t('community.skillsEmpty'),
     },
     dialog: {
       close: t('dialog.close'),

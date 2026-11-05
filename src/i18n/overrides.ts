@@ -54,6 +54,28 @@ export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
     nl: 'Meer materialen bekijken',
   },
   'community.showLess': { vi: 'Thu gọn', en: 'Show less', fr: 'Réduire', de: 'Weniger anzeigen', nl: 'Minder tonen' },
+  // The "Skill AI x Claude" shelf above the posts. Skill content itself is never translated.
+  'community.skillsTitle': {
+    vi: 'Skill AI x Claude',
+    en: 'AI x Claude skills',
+    fr: 'Skills IA x Claude',
+    de: 'KI x Claude Skills',
+    nl: 'AI x Claude-skills',
+  },
+  'community.skillsLead': {
+    vi: 'Bộ skill mình đang dùng để dựng video, viết nội dung và làm việc với Claude. Bấm một dòng để mở repo gốc.',
+    en: 'The skills I use to edit video, write and work with Claude. Tap a row to open the original repo.',
+    fr: 'Les skills que j’utilise pour monter des vidéos, écrire et travailler avec Claude. Touchez une ligne pour ouvrir le dépôt.',
+    de: 'Die Skills, mit denen ich Videos schneide, schreibe und mit Claude arbeite. Zeile antippen, um das Repository zu öffnen.',
+    nl: 'De skills die ik gebruik om video te monteren, te schrijven en met Claude te werken. Tik op een rij om de repo te openen.',
+  },
+  'community.skillsEmpty': {
+    vi: 'Skill mới đang được cập nhật.',
+    en: 'New skills are on the way.',
+    fr: 'De nouveaux skills arrivent.',
+    de: 'Neue Skills sind in Vorbereitung.',
+    nl: 'Nieuwe skills komen eraan.',
+  },
   'qc.contactValueLabel': {
     en: 'Your contact details (email, phone, WhatsApp…)',
     fr: 'Vos coordonnées (e-mail, téléphone, WhatsApp…)',

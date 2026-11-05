@@ -3,6 +3,7 @@
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
 import CommunityGrid from '../interactive/CommunityGrid';
+import SkillList from '../interactive/SkillList';
 import { getContent } from '../../i18n';
 import type { Locale } from '../../i18n/config';
 
@@ -16,6 +17,11 @@ const c = getContent(locale).community;
     <h1 class="section-title">{c.title}</h1>
     <p class="section-lead">{c.lead}</p>
     {c.note && <p class="cmt__note">{c.note}</p>}
+    <section class="cmt-skills" aria-labelledby="cmt-skills-title">
+      <h2 id="cmt-skills-title" class="cmt-skills__title">{c.skillsTitle}</h2>
+      <p class="cmt-skills__lead">{c.skillsLead}</p>
+      <SkillList client:load copy={{ error: c.error, retry: c.retry, empty: c.skillsEmpty }} />
+    </section>
     <div class="cmt__grid">
       <CommunityGrid
         client:load
@@ -33,6 +39,30 @@ const c = getContent(locale).community;
   .cmt__grid { margin-top: clamp(24px, 4vw, 40px); }
   .cmt__state { display: grid; justify-items: start; gap: 16px; margin: 0; color: var(--c-fg-muted); }
   .cmt__state p { margin: 0; }
+
+  /* "Skill AI x Claude" shelf, above the resource cards. */
+  .cmt-skills { margin-top: clamp(26px, 4vw, 44px); }
+  .cmt-skills__title { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 650; letter-spacing: -0.02em; }
+  .cmt-skills__lead { margin: 6px 0 16px; max-width: 62ch; color: var(--c-fg-muted); font-size: 0.95rem; line-height: 1.55; }
+  /* Slightly larger cover on the shelf (the component default is 36px). */
+  .cmt-skills .animated-list__lead { width: 44px; height: 44px; border-radius: 12px; }
+  .cmt-skills .animated-list__title { font-size: 15px; }
+  .cmt-skills__skel {
+    display: grid;
+    gap: 8px;
+    width: min(100%, 572px);
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid var(--c-line);
+    border-radius: 26px;
+    background: var(--c-bg-card);
+  }
+  .cmt-skills__skel span { height: 56px; border-radius: 14px; background: var(--c-bg-raised); animation: cmt-pulse 1.4s ease-in-out infinite; }
+  @media (max-width: 640px) {
+    .cmt-skills__lead { font-size: 0.9rem; }
+    .cmt-skills__skel { border-radius: 20px; }
+    .cmt-skills__skel span { height: 52px; }
+  }
   .cmt__skeletons { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .cmt__skeleton:nth-child(4) { display: none; }
   .cmt__skeleton { aspect-ratio: 1 / 1; border-radius: 22px; background: var(--c-bg-card); animation: cmt-pulse 1.4s ease-in-out infinite; }
