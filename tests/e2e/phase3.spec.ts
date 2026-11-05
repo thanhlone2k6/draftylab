@@ -180,14 +180,14 @@ test('videos come from R2 through the Function: Range 206, immutable cache, ligh
   expect(pr.headers()['content-type']).toContain('image/webp');
 });
 
-test('security headers are served; CSP (report-only) names the real inline-script hashes', async ({ request, baseURL }) => {
+test('security headers are served; the enforced CSP names the real inline-script hashes', async ({ request, baseURL }) => {
   const res = await request.get(`${baseURL}/`);
   const h = res.headers();
   expect(h['x-content-type-options']).toBe('nosniff');
   expect(h['referrer-policy']).toBe('strict-origin-when-cross-origin');
   expect(h['permissions-policy']).toContain('camera=()');
   expect(h['x-frame-options']).toBe('DENY');
-  const csp = h['content-security-policy-report-only'];
+  const csp = h['content-security-policy'];
   expect(csp).toContain("object-src 'none'");
   const html = await res.text();
   const inline = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]).filter((t) => t.trim());
@@ -198,7 +198,7 @@ test('security headers are served; CSP (report-only) names the real inline-scrip
   expect((await request.get(`${baseURL}${asset}`)).headers()['cache-control']).toContain('immutable');
 });
 
-test('CSP report-only: a full tour (scroll, hover previews, lightbox, Social video, Quick Call, Lanyard/WebGL) causes no violations', async ({ page }) => {
+test('enforced CSP: a full tour (scroll, hover previews, lightbox, Social video, Quick Call, Lanyard/WebGL) causes no violations', async ({ page }) => {
   await page.addInitScript(() => {
     (window as unknown as { __csp: string[] }).__csp = [];
     document.addEventListener('securitypolicyviolation', (e) => (window as unknown as { __csp: string[] }).__csp.push(`${e.violatedDirective} ← ${e.blockedURI}`));

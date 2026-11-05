@@ -52,7 +52,7 @@ npx wrangler pages deploy dist --project-name draftylab-v2 --branch preview
 ```
 Kiểm tra (thay `$URL` bằng URL in ra):
 ```bash
-curl -sI $URL/ | grep -iE "content-security-policy-report-only|x-frame|permissions-policy"
+curl -sI $URL/ | grep -iE "content-security-policy|x-frame|permissions-policy"
 KEY=$(curl -s $URL/ | grep -o '/media/v2/gallery/gallery-v01-720\.[0-9a-f]*\.mp4' | head -1)
 curl -sI $URL$KEY                                  # 200, video/mp4, Accept-Ranges, immutable
 curl -s -o /dev/null -w "%{http_code}\n" -H "Range: bytes=0-1023" $URL$KEY   # 206
@@ -68,7 +68,7 @@ npx wrangler d1 execute DB --remote --command "SELECT id, created_at, name, meth
   `npx wrangler d1 execute DB --remote --command "DELETE FROM leads WHERE created_at < strftime('%s','now','-12 months')"`
 - Tắt form khẩn cấp: đặt `LEAD_ENABLED=false` (form báo "tạm ngưng", hiện email liên hệ).
 - Rollback: Dashboard → Deployments → deployment trước → Rollback. Object R2 có hash trong tên nên không bị ghi đè.
-- Chuyển CSP từ Report-Only sang enforce: đổi tên header trong `deploy/headers.template` thành `Content-Security-Policy` **sau** khi xem preview thật không còn báo cáo vi phạm.
+- CSP đang ở chế độ chặn thật (`Content-Security-Policy` trong `deploy/headers.template`). Thêm dịch vụ bên ngoài (script, iframe, ảnh, API từ tên miền khác) thì phải thêm tên miền đó vào danh sách trong `scripts/prepare-dist.mjs`, nếu không trình duyệt sẽ chặn. Các script inline được tính hash tự động lúc build.
 
 ## 8. Chưa làm (3D — chỉ khi bạn ra lệnh riêng)
 Gắn tên miền/DNS, bỏ `noindex`, canonical + ảnh OG + sitemap, thay asset V1 tạm bằng asset chính thức.

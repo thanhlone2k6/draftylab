@@ -1,6 +1,6 @@
 # Drafty Lab (DFL2) — hướng dẫn cho AI / lập trình viên
 
-Website https://draftylab.pages.dev. Astro 5 + React islands + Cloudflare Pages Functions.
+Website https://draftylab.pages.dev. Astro 7 + React islands + Cloudflare Pages Functions.
 Repo: https://github.com/thanhlone2k6/draftylab. Thư mục làm việc: `/Users/thanhng/Documents/DFL2/website`.
 
 ## Bắt đầu / kết thúc phiên
