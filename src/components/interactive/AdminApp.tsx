@@ -3,6 +3,8 @@
 // Vietnamese only, because only the owner uses it. Security lives on the server (functions/_lib/admin-auth.ts).
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { communityPath } from '../../i18n/config';
+import AdminLightbox from './AdminLightbox';
+import ImageCropper from './ImageCropper';
 
 interface Post {
   id: string;
@@ -47,25 +49,6 @@ async function api(path: string, init: RequestInit = {}): Promise<{ status: numb
   } catch {
     return { status: 0, data: { ok: false, code: 'network' } };
   }
-}
-
-/** Shrinks the photo on this device: uploads stay fast and the public page stays light. */
-async function prepareImage(file: File): Promise<Blob> {
-  const bitmap = await createImageBitmap(file);
-  const scale = Math.min(1, 1400 / bitmap.width);
-  const canvas = document.createElement('canvas');
-  canvas.width = Math.round(bitmap.width * scale);
-  canvas.height = Math.round(bitmap.height * scale);
-  const ctx = canvas.getContext('2d')!;
-  ctx.imageSmoothingQuality = 'high'; // the default "low" leaves large photos and text in images visibly soft
-  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-  bitmap.close();
-  const encode = (type: string, quality: number) => new Promise<Blob | null>((done) => canvas.toBlob(done, type, quality));
-  const webp = await encode('image/webp', 0.85);
-  if (webp?.type === 'image/webp') return webp; // Safari cannot encode WebP and hands back a PNG instead
-  const jpeg = await encode('image/jpeg', 0.88);
-  if (!jpeg) throw new Error('encode');
-  return jpeg;
 }
 
 function Login({ onDone }: { onDone: () => void }) {
@@ -170,57 +153,133 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
   const [description, setDescription] = useState(editing?.description ?? '');
   const [url, setUrl] = useState(editing?.url ?? '');
   const [date, setDate] = useState(toDateValue(editing?.createdAt));
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [imageBlob, setImageBlob] = useState<Blob | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(editing?.image ?? null);
+  const [crop, setCrop] = useState<Blob | null>(null);
+  const [dragOver, setDragOver] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const picker = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (!file) {
-      setPreview(null);
-      return undefined;
+  // Release the previews this form created; the server URL belongs to the post, not to us.
+  useEffect(() => () => {
+    if (imageUrl?.startsWith('blob:')) URL.revokeObjectURL(imageUrl);
+  }, [imageUrl]);
+
+  const accept = useCallback((file: Blob | null) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setError('File này không phải ảnh JPG, PNG hoặc WebP.');
+      return;
     }
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [file]);
+    setError('');
+    setCrop(file);
+  }, []);
+
+  // Paste a photo/screenshot straight into the form (⌘V / Ctrl+V).
+  useEffect(() => {
+    if (crop) return undefined; // the cropper is open; don't swap the photo under it
+    const onPaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const item of Array.from(items)) {
+        if (!item.type.startsWith('image/')) continue;
+        const f = item.getAsFile();
+        if (f) {
+          e.preventDefault();
+          accept(f);
+          return;
+        }
+      }
+    };
+    document.addEventListener('paste', onPaste);
+    return () => document.removeEventListener('paste', onPaste);
+  }, [accept, crop]);
+
+  const applyCrop = (blob: Blob) => {
+    if (imageUrl?.startsWith('blob:')) URL.revokeObjectURL(imageUrl);
+    setImageBlob(blob);
+    setImageUrl(URL.createObjectURL(blob));
+    setCrop(null);
+  };
+
+  // Re-open the photo already in the form (new pick or the post's current image) in the cropper.
+  const reCrop = async () => {
+    setError('');
+    try {
+      const blob = imageBlob ?? (imageUrl ? await (await fetch(imageUrl)).blob() : null);
+      if (blob) setCrop(blob);
+    } catch {
+      setError('Không đọc được ảnh này. Hãy chọn ảnh khác.');
+    }
+  };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!editing && !file) return setError(errorText('image'));
+    if (!editing && !imageBlob) return setError(errorText('image'));
     setBusy(true);
     const form = new FormData();
     form.set('title', title);
     form.set('description', description);
     form.set('url', url);
     // Noon local time on purpose: midnight in Vietnam can still be "yesterday" in another timezone.
-    const stamp = new Date(`${date}T12:00:00`).getTime();
+    // Editing without touching the date keeps the original timestamp; a new post dated today uses the
+    // real clock so two posts on the same day still have a stable newest-first order.
+    const stamp = editing
+      ? (date !== toDateValue(editing.createdAt) ? new Date(`${date}T12:00:00`).getTime() : NaN)
+      : (date === toDateValue() ? Date.now() : new Date(`${date}T12:00:00`).getTime());
     if (Number.isFinite(stamp)) form.set('createdAt', String(stamp));
-    if (file) {
-      try {
-        const blob = await prepareImage(file);
-        form.set('image', blob, 'image');
-      } catch {
-        setBusy(false);
-        return setError('Không đọc được ảnh này. Hãy chọn ảnh JPG hoặc PNG.');
-      }
-    }
+    if (imageBlob) form.set('image', imageBlob, 'image');
     const { status, data } = await api(editing ? `posts/${editing.id}` : 'posts', { method: 'POST', body: form });
     setBusy(false);
     if (status === 200 || status === 201) return onSaved(editing ? 'Đã lưu thay đổi.' : 'Đã đăng lên trang Cộng đồng.');
     setError(errorText(data.code));
   };
 
-  const shown = preview ?? editing?.image ?? null;
+  const shown = imageUrl;
   return (
     <form className="adm-card adm-form" onSubmit={(e) => void submit(e)}>
       <h2>{editing ? 'Sửa bài' : 'Thêm tài liệu mới'}</h2>
-      <button type="button" className={`adm-drop${shown ? ' has-image' : ''}`} onClick={() => picker.current?.click()}>
-        {shown ? <img src={shown} alt="" /> : <span>Bấm để chọn ảnh</span>}
+      <button
+        type="button"
+        className={`adm-drop${shown ? ' has-image' : ''}${dragOver ? ' is-over' : ''}`}
+        onClick={() => picker.current?.click()}
+        onDragEnter={(e) => {
+          if (!Array.from(e.dataTransfer.types).includes('Files')) return;
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragOver={(e) => {
+          if (!Array.from(e.dataTransfer.types).includes('Files')) return;
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragLeave={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragOver(false);
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          accept(e.dataTransfer.files?.[0] ?? null);
+        }}
+        aria-label={shown ? 'Đổi ảnh: bấm để chọn, kéo hoặc dán ảnh' : 'Chọn ảnh: bấm để chọn, kéo hoặc dán ảnh'}
+      >
+        {shown ? <img src={shown} alt="" /> : <span>Bấm để chọn ảnh<br /><em>hoặc kéo ảnh vào đây, dán ⌘V</em></span>}
       </button>
-      <input ref={picker} type="file" accept="image/*" hidden onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+      <input
+        ref={picker}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => { accept(e.target.files?.[0] ?? null); e.target.value = ''; }}
+      />
+      <p className="adm-hint">Bấm để chọn, kéo ảnh từ ngoài vào ô, hoặc dán ảnh (⌘V). Bạn sẽ cắt vuông 1:1 trước khi lưu — đúng như thẻ trên trang Cộng đồng.</p>
+      {shown && (
+        <div className="adm-row">
+          <button type="button" className="adm-btn adm-btn--small" onClick={() => void reCrop()}>Chỉnh lại / cắt ảnh</button>
+        </div>
+      )}
       <label className="adm-field">
         <span>Tiêu đề</span>
         <input required maxLength={120} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -244,6 +303,7 @@ function PostForm({ editing, onSaved, onCancel }: { editing: Post | null; onSave
         </button>
         {editing && <button type="button" className="adm-btn adm-btn--ghost" disabled={busy} onClick={onCancel}>Huỷ</button>}
       </div>
+      {crop && <ImageCropper file={crop} onApply={applyCrop} onCancel={() => setCrop(null)} />}
     </form>
   );
 }
@@ -361,11 +421,10 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
       </header>
 
       <PostForm
-        key={editing?.id ?? `new-${formKey}`}
-        editing={editing}
-        onCancel={() => setEditing(null)}
+        key={`new-${formKey}`}
+        editing={null}
+        onCancel={() => {}}
         onSaved={(message) => {
-          setEditing(null);
           setFormKey((k) => k + 1);
           setError('');
           setNotice(message);
@@ -373,6 +432,22 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
+
+      {editing && (
+        <AdminLightbox label="Sửa bài" onClose={() => setEditing(null)}>
+          <PostForm
+            key={editing.id}
+            editing={editing}
+            onCancel={() => setEditing(null)}
+            onSaved={(message) => {
+              setEditing(null);
+              setError('');
+              setNotice(message);
+              void load();
+            }}
+          />
+        </AdminLightbox>
+      )}
 
       <div aria-live="polite">
         {notice && <p className="adm-notice">{notice}</p>}
@@ -416,7 +491,7 @@ function Dashboard({ onSignedOut }: { onSignedOut: () => void }) {
                 <div className="adm-row">
                   <button type="button" className="adm-btn adm-btn--small adm-btn--move" onClick={() => moveBy(i, -1)} disabled={i === 0} aria-label={`Đưa “${p.title}” lên`}>↑</button>
                   <button type="button" className="adm-btn adm-btn--small adm-btn--move" onClick={() => moveBy(i, 1)} disabled={i === posts.length - 1} aria-label={`Đưa “${p.title}” xuống`}>↓</button>
-                  <button type="button" className="adm-btn adm-btn--small" onClick={() => { setEditing(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Sửa</button>
+                  <button type="button" className="adm-btn adm-btn--small" onClick={() => setEditing(p)}>Sửa</button>
                   <button type="button" className="adm-btn adm-btn--small" onClick={() => toggle(p)}>{p.status === 'hidden' ? 'Hiện lại' : 'Ẩn'}</button>
                   <button type="button" className="adm-btn adm-btn--small adm-btn--danger" onClick={() => remove(p)}>Xoá</button>
                 </div>

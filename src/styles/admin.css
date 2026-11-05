@@ -31,9 +31,13 @@
 .adm-field input:focus { outline: 2px solid var(--c-focus); outline-offset: 0; }
 .adm-code { text-align: center; letter-spacing: 0.4em; font-variant-numeric: tabular-nums; }
 
-.adm-drop { display: grid; place-items: center; width: 100%; aspect-ratio: 16 / 10; padding: 0; overflow: hidden; border: 1px dashed var(--c-line-strong); border-radius: var(--radius); background: var(--c-bg); color: var(--c-fg-muted); font: inherit; cursor: pointer; }
+.adm-drop { display: grid; place-items: center; width: 100%; max-width: 340px; margin-inline: auto; aspect-ratio: 1 / 1; padding: 0; overflow: hidden; border: 1px dashed var(--c-line-strong); border-radius: var(--radius); background: var(--c-bg); color: var(--c-fg-muted); font: inherit; cursor: pointer; transition: border-color var(--dur), background var(--dur), box-shadow var(--dur); }
 .adm-drop.has-image { border-style: solid; }
 .adm-drop img { width: 100%; height: 100%; object-fit: cover; }
+.adm-drop span { display: grid; gap: 6px; padding: 18px; text-align: center; }
+.adm-drop em { color: var(--c-fg-faint); font-style: normal; font-size: 0.85rem; }
+.adm-drop.is-over { border-color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg)); box-shadow: inset 0 0 0 1px var(--c-accent); }
+.adm-hint { margin: 0; color: var(--c-fg-faint); font-size: 0.82rem; line-height: 1.5; }
 
 .adm-error { margin: 0; color: var(--c-danger); font-size: 0.92rem; }
 .adm-notice { margin: 0; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--c-warn-bg); color: var(--c-focus); font-size: 0.92rem; }
@@ -43,7 +47,7 @@
 .adm-item.is-dragging { opacity: 0.45; cursor: grabbing; }
 .adm-item.is-over { border-color: var(--c-accent); box-shadow: inset 0 0 0 1px var(--c-accent); }
 .adm-item__handle { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--c-fg-faint); font-size: 17px; letter-spacing: -2px; pointer-events: none; }
-.adm-item > img { width: 112px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius-sm); -webkit-user-drag: none; user-select: none; }
+.adm-item > img { width: 112px; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); -webkit-user-drag: none; user-select: none; }
 .adm-btn--move { min-width: 44px; padding: 0; font-size: 1rem; }
 .adm-item__body { display: grid; gap: 6px; min-width: 0; }
 .adm-item__body strong { overflow-wrap: anywhere; font-weight: 600; }
@@ -60,3 +64,57 @@
 .adm-danger { border-color: color-mix(in srgb, var(--c-danger) 40%, transparent); }
 .adm-btn--alarm { justify-self: start; border-color: var(--c-danger); color: var(--c-danger); }
 @media (hover: hover) { .adm-btn--alarm:hover { background: color-mix(in srgb, var(--c-danger) 14%, transparent); } }
+
+/* Edit lightbox (and the crop step stacked above it). */
+.adm-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(12px, 4vw, 40px) 16px;
+  overflow-y: auto;
+  background: rgba(6, 6, 8, 0.74);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+}
+.adm-lightbox--crop { z-index: 100; }
+.adm-lightbox__panel { width: 100%; max-width: 560px; margin: auto; }
+.adm-lightbox__panel .adm-card { box-shadow: 0 34px 80px -32px rgba(0, 0, 0, 0.92), 0 0 0 1px var(--c-line); }
+
+/* 1:1 cropper: the frame is exactly what the community card shows. */
+.adm-crop { gap: 14px; }
+.adm-crop__frame {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--radius);
+  background: var(--c-bg);
+  cursor: grab;
+  touch-action: none;
+}
+.adm-crop__frame:active { cursor: grabbing; }
+.adm-crop__frame img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.adm-crop__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 33.334% 33.334%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+.adm-crop input[type='range'] { width: 100%; accent-color: var(--c-accent); }

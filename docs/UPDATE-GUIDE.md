@@ -22,7 +22,8 @@ git push -u origin thu-nghiem   # Cloudflare tạo bản xem thử riêng, khôn
 Bản thử có địa chỉ dạng `https://thu-nghiem.draftylab.pages.dev` (đã bật hostname Turnstile chỉ cho `draftylab.pages.dev`; muốn test form trên nhánh mới phải thêm hostname đó vào widget Turnstile). Hài lòng thì: `git checkout main && git merge thu-nghiem && git push`.
 
 ## Đăng tài liệu lên tab Cộng đồng
-Không cần sửa code hay deploy. Mở https://draftylab.pages.dev/admin → **Gửi mã về Gmail** → nhập mã → chọn ảnh, gõ tiêu đề, dán link, chọn **Ngày đăng** → **Đăng bài**. Trang Cộng đồng hiện 3 thẻ đầu (4 thẻ trên điện thoại); hàng thẻ phía dưới được làm mờ và nút **Xem thêm tài liệu** mở toàn bộ. Kéo thả thẻ trong danh sách admin (hoặc dùng nút ↑ ↓) để đổi thứ tự hiển thị — thứ tự này độc lập với ngày đăng.
+Không cần sửa code hay deploy. Mở https://draftylab.pages.dev/admin → **Gửi mã về Gmail** → nhập mã → chọn ảnh (bấm để chọn, **kéo ảnh từ Finder vào ô**, hoặc **dán ảnh ⌘V**) → kéo/zoom trong khung **cắt vuông 1:1** đúng như thẻ trên web → gõ tiêu đề, dán link, chọn **Ngày đăng** → **Đăng bài**. Trang Cộng đồng hiện 3 thẻ đầu (4 thẻ trên điện thoại); hàng thẻ phía dưới được làm mờ và nút **Xem thêm tài liệu** mở toàn bộ.
+Bấm **Sửa** trên một bài đã đăng để mở hộp thoại sửa (Escape để đóng); trong đó vẫn có đủ chọn/kéo/dán ảnh và **Chỉnh lại / cắt ảnh** cho ảnh hiện tại. Kéo thả thẻ trong danh sách (hoặc nút ↑ ↓) để đổi thứ tự hiển thị — thứ tự này độc lập với ngày đăng.
 Sai mã 5 lần: khoá 15 phút. Sai 20 lần trong 1 giờ trên mọi máy: khoá 1 giờ và có email cảnh báo. Thiết bị được ghi nhớ 90 ngày (12 giờ nếu bỏ chọn); mỗi lần đăng nhập có email báo. Mất máy: bấm **Đăng xuất tất cả thiết bị** cuối trang admin.
 
 ## Dữ liệu nằm ở đâu

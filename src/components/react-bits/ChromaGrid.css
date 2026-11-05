@@ -53,8 +53,11 @@
   transition: filter 0.25s ease;
 }
 
-.chroma-card:hover {
-  filter: var(--chroma-hover);
+/* Hover is a desktop-only affordance: on a phone the first tap must open the link, not "peek" */
+@media (hover: hover) and (pointer: fine) {
+  .chroma-card:hover {
+    filter: var(--chroma-hover);
+  }
 }
 
 a.chroma-card:active {
@@ -214,19 +217,21 @@ a.chroma-card:focus-visible {
   transition: opacity var(--chroma-fade) ease;
 }
 
-.chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-wash {
-  opacity: calc(var(--chroma-glow) * 0.45);
-  transition-duration: 0.3s;
-}
+@media (hover: hover) and (pointer: fine) {
+  .chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-wash {
+    opacity: calc(var(--chroma-glow) * 0.45);
+    transition-duration: 0.3s;
+  }
 
-.chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-color {
-  opacity: 1;
-  transition-duration: 0.3s;
-}
+  .chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-color {
+    opacity: 1;
+    transition-duration: 0.3s;
+  }
 
-.chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-card-glow {
-  opacity: var(--chroma-border);
-  transition-duration: 0.3s;
+  .chroma-grid[data-reveal='card'] .chroma-card:hover .chroma-card-glow {
+    opacity: var(--chroma-border);
+    transition-duration: 0.3s;
+  }
 }
 
 /* Local change: phones have no hover, so without this the images would stay grey forever. */
