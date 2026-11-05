@@ -27,21 +27,21 @@
     "deploy:preview": "npm run build:preview && wrangler pages deploy dist --project-name draftylab-v2 --branch preview --commit-dirty=true"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/react": "^7.1.2",
     "@fontsource-variable/geist": "^5.3.0",
     "@hugeicons/core-free-icons": "^4.3.5",
     "@hugeicons/react": "^1.1.10",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^5.18.2",
+    "@tailwindcss/vite": "^4.3.4",
+    "astro": "^7.4.5",
     "gsap": "^3.15.0",
     "motion": "^14.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.4",
     "three": "^0.186.1"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "@cloudflare/workers-types": "^5.20261016.1",
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.5",
@@ -51,6 +51,6 @@
     "sharp": "^0.35.5",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
-    "wrangler": "^4.151.1"
+    "wrangler": "^4.157.0"
   }
 }
