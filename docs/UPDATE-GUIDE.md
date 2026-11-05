@@ -41,8 +41,21 @@ Sai mã 5 lần: khoá 15 phút. Sai 20 lần trong 1 giờ trên mọi máy: kh
 
 Xem lead gần nhất:
 ```bash
-npx wrangler d1 execute draftylab-v2-leads --remote --command "SELECT created_at,name,method,status,notify FROM leads ORDER BY created_at DESC LIMIT 20"
+npx wrangler d1 execute draftylab-v2-leads --remote --command "SELECT created_at,name,method,status,notify,consent_version FROM leads ORDER BY created_at DESC LIMIT 20"
 ```
+
+## Đồng ý & thời hạn lưu lead (từ 06/11/2026)
+- Form Quick Call có ô đồng ý **không tích sẵn**; server chỉ nhận `consent: true` và lưu `consent_at`, `consent_version`, `consent_text` trong bảng `leads`.
+- **Trước khi deploy bản có migration `0006_lead_consent.sql`**, phải chạy migration lên production trước (nếu không, form sẽ lỗi khi ghi lead):
+```bash
+npx wrangler d1 migrations apply draftylab-v2-leads --remote
+```
+- Chính sách nói lead được giữ tối đa **12 tháng**. Chạy định kỳ (ví dụ mỗi tháng) sau khi đã sao lưu nếu cần:
+```bash
+npx wrangler d1 execute draftylab-v2-leads --remote --command "DELETE FROM leads WHERE created_at < strftime('%s','now') - 31536000"
+```
+- Trang chính sách: `/privacy/` (VI) và `/<lang>/privacy/` (EN/FR/DE/NL); nội dung ở `src/data/privacy.ts`. Bản tiếng Việt là bản chính.
+
 
 ## Đổi / thêm video
 1. Thêm video nguồn vào thư mục media (xem `docs/asset-inventory.md`), chạy `npm run media:build`.

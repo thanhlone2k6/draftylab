@@ -6,6 +6,13 @@ import { LIMITS, validateLead } from '../../src/lib/lead-schema';
 
 export const RATE = { max: 5, windowSeconds: 600 } as const;
 
+// Consent evidence. Bump CONSENT_VERSION whenever the visible consent text in
+// src/i18n/overrides.ts (`qc.consentLabel`) changes, so old leads can be matched to the text
+// the visitor actually saw. The stored text is the canonical Vietnamese wording.
+export const CONSENT_VERSION = '2026-11-06';
+export const CONSENT_TEXT =
+  'Tôi đồng ý để Drafty Lab xử lý thông tin tôi vừa nhập để phản hồi yêu cầu này, theo Chính sách bảo vệ dữ liệu cá nhân.';
+
 export interface Deps {
   fetch: Fetch;
   now: () => number; // ms
@@ -95,9 +102,24 @@ export async function handleLead(request: Request, env: Env, deps: Deps): Promis
 
     const id = deps.randomId();
     await env.DB.prepare(
-      'INSERT INTO leads (id, request_id, created_at, industry, needs, team, budget, name, method, contact, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO leads (id, request_id, created_at, industry, needs, team, budget, name, method, contact, note, consent_at, consent_version, consent_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     )
-      .bind(id, lead.requestId, nowS, lead.industry, JSON.stringify(lead.needs), lead.team, lead.budget, lead.name, lead.method, lead.contact, lead.note)
+      .bind(
+        id,
+        lead.requestId,
+        nowS,
+        lead.industry,
+        JSON.stringify(lead.needs),
+        lead.team,
+        lead.budget,
+        lead.name,
+        lead.method,
+        lead.contact,
+        lead.note,
+        nowS,
+        CONSENT_VERSION,
+        CONSENT_TEXT,
+      )
       .run();
 
     const meta = { id, host: new URL(request.url).host, at: deps.now() };

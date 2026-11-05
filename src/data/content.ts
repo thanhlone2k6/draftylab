@@ -214,6 +214,10 @@ export const quickCall = {
   retry: 'Thử lại',
   successTitle: 'Đã nhận yêu cầu liên hệ',
   successBody: 'Drafty Lab sẽ liên hệ lại với bạn qua phương thức bạn đã chọn.',
+  // 2026-11-06: explicit consent — the visible text is `consentLabel + link(privacyLink) + "."`.
+  consentLabel: 'Tôi đồng ý để Drafty Lab xử lý thông tin tôi vừa nhập để phản hồi yêu cầu này, theo',
+  privacyLink: 'Chính sách bảo vệ dữ liệu cá nhân',
+  consentError: 'Vui lòng đồng ý với Chính sách bảo vệ dữ liệu cá nhân để gửi yêu cầu.',
 };
 
 export const contact = {

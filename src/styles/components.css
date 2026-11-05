@@ -171,6 +171,10 @@
 .qc-field input:focus-visible, .qc-field textarea:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 1px; }
 .qc-field input[aria-invalid='true'] { border-color: var(--c-danger); }
 .qc-err { color: var(--c-danger); font-size: 0.84rem; }
+.qc-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84rem; line-height: 1.5; color: var(--c-fg-muted); }
+.qc-consent input { width: 18px; height: 18px; flex: none; margin: 2px 0 0; accent-color: var(--c-accent); }
+.qc-consent label { cursor: pointer; }
+.qc-consent a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 3px; }
 .qc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .qc-result { padding: 12px 14px; border-radius: 12px; font-size: 0.92rem; line-height: 1.5; }
 .qc-result p { margin: 0 0 6px; }

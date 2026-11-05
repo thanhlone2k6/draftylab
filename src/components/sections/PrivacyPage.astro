@@ -1,0 +1,54 @@
+---
+// Public privacy policy. The text lives in `src/data/privacy.ts` (one document per locale); the
+// Vietnamese version is authoritative and the other four are translations.
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { PRIVACY } from '../../data/privacy';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const p = PRIVACY[locale];
+---
+<Header locale={locale} page="privacy" />
+<main id="main" class="prv">
+  <div class="container-x prv__inner">
+    <p class="kicker">{p.kicker}</p>
+    <h1 class="section-title">{p.title}</h1>
+    <p class="prv__updated">{p.updatedLabel}: {p.updated}</p>
+    <p class="section-lead">{p.intro}</p>
+    <p class="prv__auth">{p.authoritative}</p>
+
+    {p.sections.map((s) => (
+      <section class="prv__section">
+        <h2>{s.heading}</h2>
+        {s.body?.map((para) => <p>{para}</p>)}
+        {s.bullets && (
+          <ul>
+            {s.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        )}
+        {s.after?.map((para) => <p>{para}</p>)}
+      </section>
+    ))}
+
+    <section class="prv__section prv__contact">
+      <h2>{p.contactHeading}</h2>
+      <p>{p.contactBody}</p>
+      <p><a href={`mailto:${p.contactEmail}`}>{p.contactEmail}</a></p>
+    </section>
+  </div>
+</main>
+<Footer locale={locale} />
+<style>
+  .prv { min-height: 72dvh; padding-top: calc(var(--header-h) + clamp(24px, 5vw, 56px)); padding-bottom: var(--section-y); }
+  .prv__inner { max-width: 820px; }
+  .prv__updated { margin: 8px 0 0; color: var(--c-fg-faint); font-size: 0.9rem; }
+  .prv__auth { margin: 18px 0 0; padding: 12px 14px; border: 1px solid var(--c-line-strong); border-radius: 12px; color: var(--c-fg-muted); font-size: 0.9rem; line-height: 1.55; }
+  .prv__section { margin-top: clamp(24px, 4vw, 36px); }
+  .prv__section h2 { margin: 0 0 10px; font-size: 1.1rem; letter-spacing: -0.01em; }
+  .prv__section p, .prv__section li { margin: 0 0 8px; color: var(--c-fg-muted); line-height: 1.7; }
+  .prv__section ul { margin: 0 0 10px; padding-left: 1.2rem; display: grid; gap: 4px; }
+  .prv__section a { color: var(--c-accent); }
+  .prv__contact { padding-top: 18px; border-top: 1px solid var(--c-line); }
+</style>

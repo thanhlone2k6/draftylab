@@ -10,18 +10,26 @@ import bootstrap from '../scripts/dialog-bootstrap.js?raw';
 import volumeStore from '../scripts/volume-store.js?raw';
 import audioLevel from '../scripts/audio-level.js?raw';
 import { getContent } from '../i18n';
-import { LOCALE_META, LOCALES, communityPath, localePath, type Locale } from '../i18n/config';
+import { LOCALE_META, LOCALES, communityPath, localePath, privacyPath, type Locale } from '../i18n/config';
+import { PRIVACY } from '../data/privacy';
 
-interface Props { locale: Locale; page?: 'home' | 'community' }
+interface Props { locale: Locale; page?: 'home' | 'community' | 'privacy' }
 const { locale, page = 'home' } = Astro.props;
 const c = getContent(locale);
 const meta = LOCALE_META[locale];
 // Every locale gets its own canonical URL and the full hreflang set (x-default → Vietnamese).
 const ORIGIN = 'https://draftylab.pages.dev';
-const pathOf = (l: Locale) => (page === 'community' ? communityPath(l) : localePath(l));
+const pathOf = (l: Locale) =>
+  page === 'community' ? communityPath(l) : page === 'privacy' ? privacyPath(l) : localePath(l);
 const canonical = `${ORIGIN}${pathOf(locale)}`;
-const pageTitle = page === 'community' ? `${c.community.title} — ${c.site.name}` : c.site.title;
-const pageDescription = page === 'community' ? c.community.lead : c.site.description;
+const pageTitle =
+  page === 'community'
+    ? `${c.community.title} — ${c.site.name}`
+    : page === 'privacy'
+      ? `${PRIVACY[locale].title} — ${c.site.name}`
+      : c.site.title;
+const pageDescription =
+  page === 'community' ? c.community.lead : page === 'privacy' ? PRIVACY[locale].description : c.site.description;
 // Link-preview card (owner, 2026-10-21): Zalo/Facebook/Messenger showed only the domain + title because
 // the page had no og:image. `public/og/og-image.jpg` is a 1200x1200 JPEG made from the brand render
 // `logo/design-gen-176648f8293865.png` (that source lives outside the repo, so the file is committed).

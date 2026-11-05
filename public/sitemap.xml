@@ -90,4 +90,49 @@
     <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
   </url>
+  <url>
+    <loc>https://draftylab.pages.dev/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/privacy/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/privacy/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/fr/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/privacy/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/de/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/privacy/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/nl/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/privacy/"/>
+  </url>
 </urlset>

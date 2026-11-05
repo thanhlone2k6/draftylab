@@ -6,10 +6,10 @@
 // Picking a language navigates to that locale's route (`/` for Vietnamese, `/<code>/` for the rest), so
 // the switcher IS the i18n entry point — see src/i18n/*.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LOCALES, LOCALE_META, communityPath, localePath, type Locale } from '../../i18n/config';
+import { LOCALES, LOCALE_META, communityPath, localePath, privacyPath, type Locale } from '../../i18n/config';
 import { getContent } from '../../i18n';
 
-interface Props { locale: Locale; page?: 'home' | 'community' }
+interface Props { locale: Locale; page?: 'home' | 'community' | 'privacy' }
 
 export default function LangSwitcher({ locale, page = 'home' }: Props) {
   const c = getContent(locale);
@@ -100,7 +100,7 @@ export default function LangSwitcher({ locale, page = 'home' }: Props) {
                   role="option"
                   aria-selected={active}
                   aria-current={active ? 'true' : undefined}
-                  href={page === 'community' ? communityPath(code) : localePath(code)}
+                  href={page === 'community' ? communityPath(code) : page === 'privacy' ? privacyPath(code) : localePath(code)}
                   hrefLang={meta.htmlLang}
                   onClick={() => {
                     // 2026-10-21 (owner): keep the reader's place across the language switch — this is a

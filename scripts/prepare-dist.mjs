@@ -49,14 +49,16 @@ for await (const f of walk(DIST)) {
 }
 const csp = [
   "default-src 'self'",
-  // static.cloudflareinsights.com + cloudflareinsights.com: Cloudflare injects its Web Analytics beacon at deploy
-  // time (it is not in dist/), so without these two entries the owner's visitor stats silently stop.
-  `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com https://static.cloudflareinsights.com`,
+  // 2026-11-06: Cloudflare injects its Web Analytics beacon at deploy time, outside dist/. It ran before
+  // any consent, so the owner chose to disable it; the CSP no longer allow-lists
+  // static.cloudflareinsights.com / cloudflareinsights.com. If it is ever re-enabled, add a consent gate
+  // and those two domains back here.
+  `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self'",
-  "connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com",
+  "connect-src 'self' https://challenges.cloudflare.com",
   'frame-src https://challenges.cloudflare.com',
   "worker-src 'self' blob:",
   "object-src 'none'",

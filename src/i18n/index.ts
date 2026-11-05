@@ -119,6 +119,7 @@ export interface Content {
     };
     demoResult: string; errorResult: string; rateLimited: string; captchaFailed: string;
     invalidResult: string; disabledResult: string; successTitle: string; successBody: string;
+    consentLabel: string; consentError: string; privacyLink: string;
     stepAria: (number: number, title: string) => string;
     turnstileLang: string;
   };
@@ -292,6 +293,9 @@ export function getContent(locale: Locale): Content {
       disabledResult: t('qc.disabledResult'),
       successTitle: t('qc.successTitle'),
       successBody: t('qc.successBody'),
+      consentLabel: t('qc.consentLabel'),
+      consentError: t('qc.consentError'),
+      privacyLink: t('qc.privacyLink'),
       stepAria: (number, title) => fmt(t('qc.stepperStepAria'), { number, title }),
       turnstileLang: t('qc.turnstileLang'),
     },

@@ -94,4 +94,27 @@ export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
     de: 'Unter 200 € · 200–600 € · 600–1.200 € · Über 1.200 € · Noch offen',
     nl: 'Minder dan € 200 · € 200–600 · € 600–1.200 · Meer dan € 1.200 · Nog niet bepaald',
   },
+  // 2026-11-06: explicit consent for the Quick Call form (Luật 91/2025 Điều 9).
+  // The visible text is `consentLabel + link(privacyLink) + "."`.
+  'qc.consentLabel': {
+    vi: 'Tôi đồng ý để Drafty Lab xử lý thông tin tôi vừa nhập để phản hồi yêu cầu này, theo',
+    en: 'I agree that Drafty Lab may process the information I entered to respond to this request, in accordance with the',
+    fr: 'J’accepte que Drafty Lab traite les informations que je viens de saisir afin de répondre à cette demande, conformément à la',
+    de: 'Ich stimme zu, dass Drafty Lab die von mir eingegebenen Informationen zur Beantwortung dieser Anfrage verarbeitet, gemäß der',
+    nl: 'Ik ga ermee akkoord dat Drafty Lab de door mij ingevoerde gegevens verwerkt om op deze aanvraag te reageren, volgens het',
+  },
+  'qc.privacyLink': {
+    vi: 'Chính sách bảo vệ dữ liệu cá nhân',
+    en: 'Personal Data Protection Policy',
+    fr: 'Politique de protection des données personnelles',
+    de: 'Richtlinie zum Schutz personenbezogener Daten',
+    nl: 'Privacybeleid voor persoonsgegevens',
+  },
+  'qc.consentError': {
+    vi: 'Vui lòng đồng ý với Chính sách bảo vệ dữ liệu cá nhân để gửi yêu cầu.',
+    en: 'Please agree to the Personal Data Protection Policy to send your request.',
+    fr: 'Veuillez accepter la Politique de protection des données personnelles pour envoyer votre demande.',
+    de: 'Bitte stimmen Sie der Richtlinie zum Schutz personenbezogener Daten zu, um Ihre Anfrage zu senden.',
+    nl: 'Ga akkoord met het Privacybeleid voor persoonsgegevens om je aanvraag te versturen.',
+  },
 };

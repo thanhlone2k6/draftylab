@@ -6,7 +6,7 @@
 import { lazy, Suspense, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Stepper, { Step } from '../react-bits/Stepper';
 import { getContent } from '../../i18n';
-import type { Locale } from '../../i18n/config';
+import { privacyPath, type Locale } from '../../i18n/config';
 import { BUDGETS, INDUSTRIES, NEEDS, TEAMS } from '../../data/lead-options';
 import { LIMITS, clean, isValidContact } from '../../lib/lead-schema';
 import type { ContactMethod as Method } from '../../data/lead-options';
@@ -54,7 +54,8 @@ export default function QuickCallForm({ locale }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [captchaReset, setCaptchaReset] = useState(0);
   const [captchaDown, setCaptchaDown] = useState(false);
-  const [touched, setTouched] = useState({ name: false, value: false });
+  const [agreed, setAgreed] = useState(false);
+  const [touched, setTouched] = useState({ name: false, value: false, consent: false });
   const [status, setStatus] = useState<Status>('idle');
   const busy = useRef(false);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -77,8 +78,8 @@ export default function QuickCallForm({ locale }: Props) {
   const needsCaptcha = !!(ENDPOINT && SITE_KEY);
   const captchaOk = !needsCaptcha || !!token;
   const stepValid = useMemo(
-    () => ({ 1: !!industry, 2: needs.length > 0, 3: !!team, 4: nameOk && valueOk && captchaOk }) as Record<number, boolean>,
-    [industry, needs, team, nameOk, valueOk, captchaOk],
+    () => ({ 1: !!industry, 2: needs.length > 0, 3: !!team, 4: nameOk && valueOk && captchaOk && agreed }) as Record<number, boolean>,
+    [industry, needs, team, nameOk, valueOk, captchaOk, agreed],
   );
 
   /** Steps with a single question move on by themselves (owner). Capturing the step at select time keeps
@@ -92,7 +93,7 @@ export default function QuickCallForm({ locale }: Props) {
   const submit = async () => {
     if (busy.current) return; // no double submit
     if (!stepValid[4]) {
-      setTouched({ name: true, value: true });
+      setTouched({ name: true, value: true, consent: true });
       return;
     }
     if (website) return; // bot
@@ -110,9 +111,9 @@ export default function QuickCallForm({ locale }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           industry, needs, team, budget, name: clean(name), method, contact: clean(value), note: clean(note, true),
-          // the visible consent checkbox was removed at the owner's request (2026-10-18); the shared
-          // schema still requires consent:true, so the form keeps sending it.
-          consent: true, requestId: requestId.current, turnstileToken: token ?? undefined, website,
+          // Explicit consent (Luật 91/2025 Điều 9). The checkbox must be ticked; the server also
+          // rejects anything other than `true` and stores the consent version/time as evidence.
+          consent: agreed, requestId: requestId.current, turnstileToken: token ?? undefined, website,
         }),
         signal: ctrl.signal,
       });
@@ -175,7 +176,7 @@ export default function QuickCallForm({ locale }: Props) {
           onClick: (e) => {
             if (step === 4 && !stepValid[4]) {
               e.preventDefault();
-              setTouched({ name: true, value: true });
+              setTouched({ name: true, value: true, consent: true });
             }
           },
         }}
@@ -281,6 +282,31 @@ export default function QuickCallForm({ locale }: Props) {
               <label htmlFor={`${uid}-note`}>{q.steps.contact.note}</label>
               <textarea id={`${uid}-note`} rows={2} value={note} onChange={(e) => setNote(e.target.value)} maxLength={LIMITS.noteMax} />
             </div>
+
+            <div className="qc-consent">
+              <input
+                id={`${uid}-consent`}
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                onBlur={() => setTouched((t) => ({ ...t, consent: true }))}
+                aria-required="true"
+                aria-invalid={touched.consent && !agreed}
+                aria-describedby={touched.consent && !agreed ? `${uid}-consent-err` : undefined}
+              />
+              <label htmlFor={`${uid}-consent`}>
+                {q.consentLabel}{' '}
+                <a href={privacyPath(locale)} target="_blank" rel="noopener noreferrer">
+                  {q.privacyLink}
+                </a>
+                .
+              </label>
+            </div>
+            {touched.consent && !agreed && (
+              <span id={`${uid}-consent-err`} className="qc-err">
+                {q.consentError}
+              </span>
+            )}
 
             {needsCaptcha && !captchaDown && (
               <Suspense fallback={null}>

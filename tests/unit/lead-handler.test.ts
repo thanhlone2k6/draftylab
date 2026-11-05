@@ -52,6 +52,9 @@ test('success stores a canonical lead and answers without personal data', async 
   assert.equal(row.name, 'Lan Anh');
   assert.equal(row.status, 'new');
   assert.equal(row.notify, 'skipped'); // LEAD_NOTIFY unset → stored only
+  assert.equal(row.consent_version, '2026-11-06');
+  assert.equal(row.consent_at, row.created_at);
+  assert.match(String(row.consent_text), /Chính sách bảo vệ dữ liệu cá nhân/);
   assert.equal(res.headers.get('Cache-Control'), 'no-store');
 });
 

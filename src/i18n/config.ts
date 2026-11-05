@@ -38,6 +38,9 @@ export const localePath = (locale: Locale) => (locale === DEFAULT_LOCALE ? '/' :
 /** The Community tab of a locale. */
 export const communityPath = (locale: Locale) => (locale === DEFAULT_LOCALE ? '/cong-dong/' : `/${locale}/community/`);
 
+/** The privacy policy of a locale. */
+export const privacyPath = (locale: Locale) => (locale === DEFAULT_LOCALE ? '/privacy/' : `/${locale}/privacy/`);
+
 export const isLocale = (v: unknown): v is Locale => typeof v === 'string' && (LOCALES as readonly string[]).includes(v);
 
 /** The non-default locales, for getStaticPaths and the switcher. */

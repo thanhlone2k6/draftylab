@@ -11,7 +11,7 @@ import { dfl } from '../../lib/dialog';
 import { getContent } from '../../i18n';
 import { communityPath, localePath, type Locale } from '../../i18n/config';
 
-interface Props { locale: Locale; page?: 'home' | 'community' }
+interface Props { locale: Locale; page?: 'home' | 'community' | 'privacy' }
 
 export default function HeaderNav({ locale, page = 'home' }: Props) {
   const c = getContent(locale);
@@ -21,7 +21,7 @@ export default function HeaderNav({ locale, page = 'home' }: Props) {
   const LINKS = nav.links.map((l) => (!onHome && l.href.startsWith('#') ? { ...l, href: `${localePath(locale)}${l.href}` } : l));
   // Starts empty (no section is in view at the top of the page), so the pill does not flash on "Work"
   // before the first scroll-spy pass.
-  const [activeHref, setActiveHref] = useState(onHome ? '' : communityPath(locale));
+  const [activeHref, setActiveHref] = useState(onHome ? '' : page === 'community' ? communityPath(locale) : '');
   const raf = useRef(0);
 
   useEffect(() => {
