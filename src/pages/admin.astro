@@ -1,0 +1,22 @@
+---
+// Owner-only page: not linked from the site and never indexed. The page itself holds no data; everything sits
+// behind /api/admin, which checks the session on every request.
+import '@fontsource-variable/geist';
+import '../styles/globals.css';
+import '../styles/admin.css';
+import AdminApp from '../components/interactive/AdminApp';
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Quản trị — Drafty Lab</title>
+    <link rel="icon" type="image/png" href="/media/v1-temp/logo-mark.png" />
+  </head>
+  <body>
+    <AdminApp client:only="react" />
+  </body>
+</html>

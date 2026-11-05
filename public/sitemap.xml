@@ -45,4 +45,49 @@
     <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/"/>
   </url>
+  <url>
+    <loc>https://draftylab.pages.dev/cong-dong/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/cong-dong/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/community/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/community/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/community/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/en/community/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/cong-dong/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/community/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/community/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/community/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/fr/community/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/cong-dong/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/community/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/community/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/community/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/de/community/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/cong-dong/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/community/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/community/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/community/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
+  </url>
+  <url>
+    <loc>https://draftylab.pages.dev/nl/community/</loc>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://draftylab.pages.dev/cong-dong/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://draftylab.pages.dev/en/community/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://draftylab.pages.dev/fr/community/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://draftylab.pages.dev/de/community/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://draftylab.pages.dev/nl/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://draftylab.pages.dev/cong-dong/"/>
+  </url>
 </urlset>

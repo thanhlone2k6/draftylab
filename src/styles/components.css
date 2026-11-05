@@ -53,6 +53,8 @@
 .hnav { position: fixed; z-index: 100; top: 24px; left: 0; right: 0; display: flex; justify-content: center; padding-inline: 24px; pointer-events: none; }
 .hnav > * { pointer-events: auto; }
 @media (max-width: 899px) { .hnav { top: 16px; padding-inline: 16px; } }
+/* Keeps the pill clear of the language switcher: it folds into the menu before the two can touch. Below 560px it is folded anyway. */
+@media (min-width: 560px) { .hnav { padding-inline: 96px; } }
 
 /* ---------- Language switcher (header, top-right) ---------- */
 /* Same glass surface as the nav pill (PillNav's measured values: rgba(38,35,46,.66) + blur(20px) saturate(1.6)),

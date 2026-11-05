@@ -18,4 +18,6 @@ export interface Env {
   LEAD_FROM_EMAIL?: string;
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
+  /** "true" switches on /api/admin (production and local only; never on preview, which shares the real database) */
+  ADMIN_ENABLED?: string;
 }

@@ -10,15 +10,18 @@ import bootstrap from '../scripts/dialog-bootstrap.js?raw';
 import volumeStore from '../scripts/volume-store.js?raw';
 import audioLevel from '../scripts/audio-level.js?raw';
 import { getContent } from '../i18n';
-import { LOCALE_META, LOCALES, localePath, type Locale } from '../i18n/config';
+import { LOCALE_META, LOCALES, communityPath, localePath, type Locale } from '../i18n/config';
 
-interface Props { locale: Locale }
-const { locale } = Astro.props;
+interface Props { locale: Locale; page?: 'home' | 'community' }
+const { locale, page = 'home' } = Astro.props;
 const c = getContent(locale);
 const meta = LOCALE_META[locale];
 // Every locale gets its own canonical URL and the full hreflang set (x-default → Vietnamese).
 const ORIGIN = 'https://draftylab.pages.dev';
-const canonical = `${ORIGIN}${localePath(locale)}`;
+const pathOf = (l: Locale) => (page === 'community' ? communityPath(l) : localePath(l));
+const canonical = `${ORIGIN}${pathOf(locale)}`;
+const pageTitle = page === 'community' ? `${c.community.title} — ${c.site.name}` : c.site.title;
+const pageDescription = page === 'community' ? c.community.lead : c.site.description;
 // Link-preview card (owner, 2026-10-21): Zalo/Facebook/Messenger showed only the domain + title because
 // the page had no og:image. `public/og/og-image.jpg` is a 1200x1200 JPEG made from the brand render
 // `logo/design-gen-176648f8293865.png` (that source lives outside the repo, so the file is committed).
@@ -29,15 +32,15 @@ const OG_IMAGE = `${ORIGIN}/og/og-image.jpg`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{c.site.title}</title>
-    <meta name="description" content={c.site.description} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonical} />
     {LOCALES.map((l) => (
-      <link rel="alternate" hreflang={LOCALE_META[l].htmlLang} href={`${ORIGIN}${localePath(l)}`} />
+      <link rel="alternate" hreflang={LOCALE_META[l].htmlLang} href={`${ORIGIN}${pathOf(l)}`} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={`${ORIGIN}${localePath('vi')}`} />
+    <link rel="alternate" hreflang="x-default" href={`${ORIGIN}${pathOf('vi')}`} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={meta.ogLocale} />
@@ -45,8 +48,8 @@ const OG_IMAGE = `${ORIGIN}/og/og-image.jpg`;
       <meta property="og:locale:alternate" content={LOCALE_META[l].ogLocale} />
     ))}
     <meta property="og:site_name" content={c.site.name} />
-    <meta property="og:title" content={c.site.title} />
-    <meta property="og:description" content={c.site.description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content={OG_IMAGE} />
     <meta property="og:image:secure_url" content={OG_IMAGE} />
     <meta property="og:image:type" content="image/jpeg" />
@@ -55,8 +58,8 @@ const OG_IMAGE = `${ORIGIN}/og/og-image.jpg`;
     <meta property="og:image:alt" content={c.site.title} />
     <!-- Twitter/X uses `twitter:*`; without a card it falls back to a small thumbnail. -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={c.site.title} />
-    <meta name="twitter:description" content={c.site.description} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={OG_IMAGE} />
     <meta name="twitter:image:alt" content={c.site.title} />
     <link rel="icon" type="image/png" href="/media/v1-temp/logo-mark.png" />

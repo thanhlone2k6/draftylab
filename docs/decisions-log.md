@@ -41,3 +41,8 @@ Notes
 - Bugs found only on the real deployment and fixed: hover-preview clips 404 behind the `/media/v2` Function (now falls through to static); missing files returned the home page with 200 (added `404.html`).
 - Turnstile and lead notifications still pending the owner (site key / secrets / destination).
 - 17/10: lead notification chosen = email to thanhnguyenphotowork@gmail.com via Resend (backend only), subject `[DFL2] New Lead – <name>`, D1 kept as backup. Added an optional budget question (draft buckets) because the email must include a budget; the step count stays 4. The Turnstile screenshot exposed the secret key to the assistant — it was NOT used; rotating it is recommended (`lead-email-setup.md`).
+
+## Community tab (05/11/2026)
+
+- Owner: tab "Cộng đồng" shows only the 3 newest posts on phone and desktop; labels are translated into all five languages, post content is not; options A (own admin on D1 + R2) chosen.
+- Owner asked for Gmail login if not too complex. Chosen: a one-time 6-digit code emailed to the owner's Gmail through the existing Resend setup, instead of a fixed PIN or a "Sign in with Google" button (which needs a Google Cloud project). The PIN sent in chat is not used anywhere.

@@ -35,6 +35,9 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
 /** Vietnamese lives at the root; every other language gets its own folder. */
 export const localePath = (locale: Locale) => (locale === DEFAULT_LOCALE ? '/' : `/${locale}/`);
 
+/** The Community tab of a locale. */
+export const communityPath = (locale: Locale) => (locale === DEFAULT_LOCALE ? '/cong-dong/' : `/${locale}/community/`);
+
 export const isLocale = (v: unknown): v is Locale => typeof v === 'string' && (LOCALES as readonly string[]).includes(v);
 
 /** The non-default locales, for getStaticPaths and the switcher. */

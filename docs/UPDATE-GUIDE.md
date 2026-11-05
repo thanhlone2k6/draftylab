@@ -21,12 +21,17 @@ git push -u origin thu-nghiem   # Cloudflare tạo bản xem thử riêng, khôn
 ```
 Bản thử có địa chỉ dạng `https://thu-nghiem.draftylab.pages.dev` (đã bật hostname Turnstile chỉ cho `draftylab.pages.dev`; muốn test form trên nhánh mới phải thêm hostname đó vào widget Turnstile). Hài lòng thì: `git checkout main && git merge thu-nghiem && git push`.
 
+## Đăng tài liệu lên tab Cộng đồng
+Không cần sửa code hay deploy. Mở https://draftylab.pages.dev/admin → **Gửi mã về Gmail** → nhập mã → chọn ảnh, gõ tiêu đề, dán link → **Đăng bài**. Trang chỉ hiện 3 bài mới nhất; bài cũ vẫn được giữ trong admin.
+Sai mã 5 lần: khoá 15 phút. Sai 20 lần trong 1 giờ trên mọi máy: khoá 1 giờ và có email cảnh báo. Thiết bị được ghi nhớ 90 ngày (12 giờ nếu bỏ chọn); mỗi lần đăng nhập có email báo. Mất máy: bấm **Đăng xuất tất cả thiết bị** cuối trang admin.
+
 ## Dữ liệu nằm ở đâu
 | Thứ | Ở đâu | Ghi chú |
 |---|---|---|
 | Mã nguồn, nội dung chữ | GitHub `main` (`src/data/content.ts`) | sửa chữ ở đây |
 | Video đầy đủ 720p (26 file) | Cloudflare R2 bucket `draft2` | KHÔNG nằm trong Git; upload bằng `npm run media:upload` |
 | Video hover nhỏ (6 file), ảnh | Trong Git (`public/media/v2`) | tự động theo mỗi lần deploy |
+| Bài Cộng đồng | D1 `draftylab-v2-leads` bảng `community_posts`; ảnh ở R2 `draft2/community/` | quản lý tại `/admin` |
 | Lead từ form | Cloudflare D1 `draftylab-v2-leads`, bảng `leads` | giữ 12 tháng; cũng gửi email về thanhnguyenphotowork@gmail.com |
 | Secrets (`TURNSTILE_SECRET`, `RESEND_API_KEY`, `RATE_SALT`) | Cloudflare Pages `draftylab` (mã hoá) | không bao giờ commit vào Git |
 

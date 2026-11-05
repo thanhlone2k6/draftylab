@@ -15,6 +15,7 @@ import {
   DEFAULT_LOCALE,
   OTHER_LOCALES,
   localePath,
+  communityPath,
   isLocale,
   type Locale,
   type LocaleMeta,
@@ -123,6 +124,7 @@ export interface Content {
   };
   contact: typeof vi.contact;
   footer: { line: string };
+  community: { title: string; lead: string; note: string; empty: string; error: string; retry: string };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
     play: string; pause: string; mute: string; unmute: string; seek: string;
@@ -157,6 +159,7 @@ export function getContent(locale: Locale): Content {
         { label: t('nav.services'), href: vi.nav.links[1].href },
         { label: t('nav.results'), href: vi.nav.links[2].href },
         { label: t('nav.about'), href: vi.nav.links[3].href },
+        { label: t('nav.community'), href: communityPath(locale) },
       ],
       cta: t('nav.cta'),
       ariaLabel: t('nav.ariaLabel'),
@@ -291,6 +294,14 @@ export function getContent(locale: Locale): Content {
     },
     contact: vi.contact, // email + social urls — never translated
     footer: { line: t('footer.line') },
+    community: {
+      title: t('nav.community'),
+      lead: t('community.lead'),
+      note: t('community.note'),
+      empty: t('community.empty'),
+      error: t('community.error'),
+      retry: t('community.retry'),
+    },
     dialog: {
       close: t('dialog.close'),
       loading: t('dialog.loading'),

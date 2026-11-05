@@ -9,20 +9,23 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import PillNav from '../react-bits/PillNav';
 import { dfl } from '../../lib/dialog';
 import { getContent } from '../../i18n';
-import type { Locale } from '../../i18n/config';
+import { communityPath, localePath, type Locale } from '../../i18n/config';
 
-interface Props { locale: Locale }
+interface Props { locale: Locale; page?: 'home' | 'community' }
 
-export default function HeaderNav({ locale }: Props) {
+export default function HeaderNav({ locale, page = 'home' }: Props) {
   const c = getContent(locale);
   const nav = c.nav;
-  const LINKS = nav.links;
+  // Away from the landing page, the section links have to go back to it first.
+  const onHome = page === 'home';
+  const LINKS = nav.links.map((l) => (!onHome && l.href.startsWith('#') ? { ...l, href: `${localePath(locale)}${l.href}` } : l));
   // Starts empty (no section is in view at the top of the page), so the pill does not flash on "Work"
   // before the first scroll-spy pass.
-  const [activeHref, setActiveHref] = useState('');
+  const [activeHref, setActiveHref] = useState(onHome ? '' : communityPath(locale));
   const raf = useRef(0);
 
   useEffect(() => {
+    if (!onHome) return undefined; // no sections to spy on: the tab itself stays highlighted
     const sections = Array.from(document.querySelectorAll<HTMLElement>('main > section[id]'));
     const linked = new Set(LINKS.map((l) => l.href));
     const spy = () => {
@@ -57,7 +60,7 @@ export default function HeaderNav({ locale }: Props) {
       <PillNav
         logo="/media/brand/logo.png"
         logoAlt={nav.logoAria}
-        logoHref="#top"
+        logoHref={onHome ? '#top' : localePath(locale)}
         items={[...LINKS, { label: nav.cta, ariaLabel: nav.cta }]}
         activeHref={activeHref}
         layout="split"

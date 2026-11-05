@@ -13,6 +13,37 @@
 import type { Locale } from './config';
 
 export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
+  // 2026-11-05 (owner): the Community tab. Its labels are translated here; the posts themselves never are.
+  'nav.community': { vi: 'Cộng đồng', en: 'Community', fr: 'Communauté', de: 'Community', nl: 'Community' },
+  'community.lead': {
+    vi: 'Những tài liệu mới nhất dành cho cộng đồng.',
+    en: 'The latest resources for the community.',
+    fr: 'Les dernières ressources pour la communauté.',
+    de: 'Die neuesten Materialien für die Community.',
+    nl: 'De nieuwste materialen voor de community.',
+  },
+  'community.note': {
+    vi: '',
+    en: 'Resources are published in their original language.',
+    fr: 'Les ressources sont publiées dans leur langue d’origine.',
+    de: 'Die Materialien erscheinen in ihrer Originalsprache.',
+    nl: 'De materialen verschijnen in hun oorspronkelijke taal.',
+  },
+  'community.empty': {
+    vi: 'Tài liệu mới đang được chuẩn bị. Bạn quay lại sau nhé.',
+    en: 'New resources are on the way. Please check back soon.',
+    fr: 'De nouvelles ressources arrivent. Revenez bientôt.',
+    de: 'Neue Materialien sind in Vorbereitung. Schauen Sie bald wieder vorbei.',
+    nl: 'Er komen nieuwe materialen aan. Kom binnenkort terug.',
+  },
+  'community.error': {
+    vi: 'Không tải được tài liệu.',
+    en: 'Couldn’t load the resources.',
+    fr: 'Impossible de charger les ressources.',
+    de: 'Die Materialien konnten nicht geladen werden.',
+    nl: 'De materialen konden niet worden geladen.',
+  },
+  'community.retry': { vi: 'Thử lại', en: 'Try again', fr: 'Réessayer', de: 'Erneut versuchen', nl: 'Opnieuw proberen' },
   'qc.contactValueLabel': {
     en: 'Your contact details (email, phone, WhatsApp…)',
     fr: 'Vos coordonnées (e-mail, téléphone, WhatsApp…)',
