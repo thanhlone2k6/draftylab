@@ -13,12 +13,19 @@ export interface ChromaItem {
   accent?: string;
   url?: string;
   alt?: string;
+  /** Short date shown in a white-rimmed badge on the image, e.g. "05/11/2026". */
+  date?: string;
+  /** ISO value for <time datetime> (the raw date, not the display string). */
+  dateTime?: string;
+  /** Accessible prefix that names the date ("Đăng ngày"). */
+  dateLabel?: string;
 }
 
 interface Props {
   items: ChromaItem[];
   columns?: number;
-  minCardWidth?: number;
+  /** Columns forced below 640px, where the natural layout would otherwise get too tight. */
+  mobileColumns?: number;
   gap?: number;
   radius?: number;
   softness?: number;
@@ -89,7 +96,7 @@ const falloffStops = (softness: number) => {
 export const ChromaGrid = ({
   items,
   columns = 3,
-  minCardWidth = 180,
+  mobileColumns,
   gap = 12,
   radius = 260,
   softness = 0.6,
@@ -202,7 +209,7 @@ export const ChromaGrid = ({
   const rootStyle = {
     ...(THEMES[theme] ?? THEMES.dark),
     '--chroma-cols': Math.max(1, Math.round(columns)),
-    '--chroma-min': `${Math.max(80, minCardWidth)}px`,
+    '--chroma-cols-mobile': Math.max(1, Math.round(mobileColumns ?? columns)),
     '--chroma-gap': `${Math.max(0, gap)}px`,
     '--chroma-r': `${Math.max(20, radius)}px`,
     '--chroma-stops': falloffStops(clamp(softness, 0, 1)),
@@ -232,6 +239,12 @@ export const ChromaGrid = ({
               <div className="chroma-media" data-chroma-area="">
                 <img className="chroma-mono" src={item.image} alt={item.alt ?? item.title ?? ''} loading="lazy" />
                 <img className="chroma-color" src={item.image} alt="" aria-hidden="true" loading="lazy" />
+                {item.date && (
+                  <time className="chroma-date" dateTime={item.dateTime ?? item.date}>
+                    {item.dateLabel && <span className="sr-only">{item.dateLabel} </span>}
+                    {item.date}
+                  </time>
+                )}
                 <span className="chroma-media-rim" aria-hidden="true" />
               </div>
               {showInfo && (item.title || item.subtitle) && (

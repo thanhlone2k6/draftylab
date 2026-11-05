@@ -162,8 +162,10 @@ test('the public list has only the 3 newest published posts', async () => {
     assert.equal((await s.post(cookie, title)).status, 201);
     s.advance(1);
   }
-  let body = (await (await handlePublicList(s.env)).json()) as { items: Array<{ id: string; title: string; image: string }> };
+  let body = (await (await handlePublicList(s.env)).json()) as { items: Array<{ id: string; title: string; image: string; createdAt: number }> };
   assert.deepEqual(body.items.map((i) => i.title), ['bốn', 'ba', 'hai']);
+  // The card's date badge needs the posting time; it must reach the browser with the list.
+  assert.ok(body.items.every((i) => Number.isFinite(i.createdAt)), 'every item carries createdAt');
 
   const hide = await s.call(`posts/${body.items[0].id}`, { method: 'POST', cookie, body: s.form({ status: 'hidden' }, null) });
   assert.equal(hide.status, 200);

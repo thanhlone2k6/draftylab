@@ -44,6 +44,8 @@ export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
     nl: 'De materialen konden niet worden geladen.',
   },
   'community.retry': { vi: 'Thử lại', en: 'Try again', fr: 'Réessayer', de: 'Erneut versuchen', nl: 'Opnieuw proberen' },
+  // Accessible prefix of the date badge on each card ("Đăng ngày 05/11/2026").
+  'community.posted': { vi: 'Đăng ngày', en: 'Posted', fr: 'Publié le', de: 'Veröffentlicht am', nl: 'Geplaatst op' },
   'qc.contactValueLabel': {
     en: 'Your contact details (email, phone, WhatsApp…)',
     fr: 'Vos coordonnées (e-mail, téléphone, WhatsApp…)',

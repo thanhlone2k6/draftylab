@@ -17,20 +17,29 @@ const c = getContent(locale).community;
     <p class="section-lead">{c.lead}</p>
     {c.note && <p class="cmt__note">{c.note}</p>}
     <div class="cmt__grid">
-      <CommunityGrid client:load copy={{ empty: c.empty, error: c.error, retry: c.retry }} />
+      <CommunityGrid
+        client:load
+        locale={locale}
+        copy={{ empty: c.empty, error: c.error, retry: c.retry, posted: c.posted }}
+      />
     </div>
   </div>
 </main>
 <Footer locale={locale} />
 <style is:global>
   .cmt { min-height: 72dvh; padding-top: calc(var(--header-h) + clamp(24px, 5vw, 56px)); padding-bottom: var(--section-y); }
-  .cmt__inner { max-width: 1160px; }
+  .cmt__inner { max-width: 1000px; }
   .cmt__note { margin: 8px 0 0; color: var(--c-fg-faint); font-size: 0.9rem; }
   .cmt__grid { margin-top: clamp(24px, 4vw, 40px); }
   .cmt__state { display: grid; justify-items: start; gap: 16px; margin: 0; color: var(--c-fg-muted); }
   .cmt__state p { margin: 0; }
   .cmt__skeletons { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
-  .cmt__skeleton { aspect-ratio: 4 / 3; border-radius: 22px; background: var(--c-bg-card); animation: cmt-pulse 1.4s ease-in-out infinite; }
+  .cmt__skeleton { aspect-ratio: 1 / 1; border-radius: 22px; background: var(--c-bg-card); animation: cmt-pulse 1.4s ease-in-out infinite; }
   @keyframes cmt-pulse { 50% { opacity: 0.55; } }
+  /* The grid itself goes two-up below 640px (ChromaGrid.css); keep the loading placeholders in step. */
+  @media (max-width: 640px) {
+    .cmt__skeletons { gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cmt__skeleton { border-radius: 16px; }
+  }
   @media (prefers-reduced-motion: reduce) { .cmt__skeleton { animation: none; } }
 </style>

@@ -30,16 +30,9 @@
 .chroma-grid-inner {
   display: grid;
   gap: var(--chroma-gap);
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(
-      min(
-        100%,
-        max(var(--chroma-min), calc((100% - (var(--chroma-cols) - 1) * var(--chroma-gap)) / var(--chroma-cols)))
-      ),
-      1fr
-    )
-  );
+  /* Local change: the Community tab always shows its newest posts side by side (3 up, 2 up on
+     phones). auto-fill + a minimum width would drop the last card to its own row at some widths. */
+  grid-template-columns: repeat(var(--chroma-cols), minmax(0, 1fr));
 }
 
 .chroma-card {
@@ -133,6 +126,35 @@ a.chroma-card:focus-visible {
   pointer-events: none;
 }
 
+/* Local addition (owner, 2026-11-05): posting-date badge with a raised white rim. */
+.chroma-date {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: rgba(14, 12, 18, 0.55);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 14px rgba(255, 255, 255, 0.3),
+    0 6px 16px -6px rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .chroma-info {
   position: relative;
   z-index: 1;
@@ -216,5 +238,45 @@ a.chroma-card:focus-visible {
 @media (hover: none) {
   .chroma-mono {
     filter: none;
+  }
+}
+
+/* Local addition (owner, 2026-11-05): on phones the cards shrink to two per row to save space. */
+@media (max-width: 640px) {
+  .chroma-grid-inner {
+    grid-template-columns: repeat(var(--chroma-cols-mobile, 2), minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .chroma-card {
+    gap: 8px;
+    padding: 6px;
+    border-radius: 16px;
+  }
+
+  .chroma-media {
+    border-radius: 10px;
+  }
+
+  .chroma-info {
+    gap: 3px;
+    padding: 2px 4px 4px;
+  }
+
+  .chroma-title {
+    font-size: 13px;
+  }
+
+  .chroma-subtitle {
+    font-size: 11.5px;
+    line-height: 1.3;
+  }
+
+  .chroma-date {
+    top: 7px;
+    left: 7px;
+    padding: 3px 7px;
+    font-size: 9.5px;
+    letter-spacing: 0.01em;
   }
 }

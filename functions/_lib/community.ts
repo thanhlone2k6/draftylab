@@ -48,11 +48,18 @@ export function sniffImage(b: Uint8Array): 'jpg' | 'png' | 'webp' | null {
 
 export async function handlePublicList(env: Env): Promise<Response> {
   const { results } = await env.DB.prepare(
-    "SELECT id, title, description, url, image_key FROM community_posts WHERE status = 'published' ORDER BY created_at DESC LIMIT ?",
+    "SELECT id, title, description, url, image_key, created_at FROM community_posts WHERE status = 'published' ORDER BY created_at DESC LIMIT ?",
   )
     .bind(PUBLIC_LIMIT)
-    .all<Pick<PostRow, 'id' | 'title' | 'description' | 'url' | 'image_key'>>();
-  const items = results.map((r) => ({ id: r.id, title: r.title, description: r.description, url: r.url, image: imageUrl(r.image_key) }));
+    .all<Pick<PostRow, 'id' | 'title' | 'description' | 'url' | 'image_key' | 'created_at'>>();
+  const items = results.map((r) => ({
+    id: r.id,
+    title: r.title,
+    description: r.description,
+    url: r.url,
+    image: imageUrl(r.image_key),
+    createdAt: r.created_at, // the card shows the posting date (owner, 2026-11-05)
+  }));
   return json(200, { ok: true, items }, { 'Cache-Control': 'public, max-age=15' });
 }
 

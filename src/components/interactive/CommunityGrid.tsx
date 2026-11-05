@@ -10,15 +10,27 @@ interface Post {
   description: string;
   url: string;
   image: string;
+  createdAt?: number;
 }
 
 interface Props {
-  copy: { empty: string; error: string; retry: string };
+  locale: string;
+  copy: { empty: string; error: string; retry: string; posted: string };
 }
 
 const ACCENT = '#c59c4a'; // --c-accent
 
-export default function CommunityGrid({ copy }: Props) {
+const formatters = new Map<string, Intl.DateTimeFormat>();
+const dateFormatter = (locale: string) => {
+  let f = formatters.get(locale);
+  if (!f) {
+    f = new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+    formatters.set(locale, f);
+  }
+  return f;
+};
+
+export default function CommunityGrid({ locale, copy }: Props) {
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [items, setItems] = useState<ChromaItem[]>([]);
 
@@ -28,12 +40,29 @@ export default function CommunityGrid({ copy }: Props) {
       const res = await fetch('/api/community');
       if (!res.ok) throw new Error(String(res.status));
       const data = (await res.json()) as { items: Post[] };
-      setItems(data.items.map((p) => ({ image: p.image, title: p.title, subtitle: p.description, url: p.url, accent: ACCENT })));
+      const fmt = dateFormatter(locale);
+      setItems(
+        data.items.map((p) => {
+          const posted = typeof p.createdAt === 'number' ? new Date(p.createdAt) : null;
+          const valid = posted !== null && !Number.isNaN(posted.getTime());
+          return {
+            image: p.image,
+            title: p.title,
+            subtitle: p.description,
+            url: p.url,
+            alt: p.title,
+            accent: ACCENT,
+            date: valid ? fmt.format(posted) : undefined,
+            dateTime: valid ? posted.toISOString() : undefined,
+            dateLabel: valid ? copy.posted : undefined,
+          };
+        }),
+      );
       setState('ready');
     } catch {
       setState('error');
     }
-  }, []);
+  }, [locale, copy.posted]);
 
   useEffect(() => {
     void load();
@@ -57,5 +86,14 @@ export default function CommunityGrid({ copy }: Props) {
     );
   }
   if (!items.length) return <p className="cmt__state">{copy.empty}</p>;
-  return <ChromaGrid items={items} columns={3} minCardWidth={210} gap={16} reveal="card" aspectRatio="16 / 10" />;
+  return (
+    <ChromaGrid
+      items={items}
+      columns={3}
+      mobileColumns={2}
+      gap={16}
+      reveal="card"
+      aspectRatio="1 / 1"
+    />
+  );
 }

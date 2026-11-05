@@ -124,7 +124,7 @@ export interface Content {
   };
   contact: typeof vi.contact;
   footer: { line: string };
-  community: { title: string; lead: string; note: string; empty: string; error: string; retry: string };
+  community: { title: string; lead: string; note: string; empty: string; error: string; retry: string; posted: string };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
     play: string; pause: string; mute: string; unmute: string; seek: string;
@@ -301,6 +301,7 @@ export function getContent(locale: Locale): Content {
       empty: t('community.empty'),
       error: t('community.error'),
       retry: t('community.retry'),
+      posted: t('community.posted'),
     },
     dialog: {
       close: t('dialog.close'),
