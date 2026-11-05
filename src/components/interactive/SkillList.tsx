@@ -82,7 +82,7 @@ export default function SkillList({ copy }: Props) {
       stagger={0.06}
       theme="dark"
       accentColor={ACCENT}
-      width={620}
+      width={1000}
       maxHeight={330}
       radius={14}
       gap={8}
