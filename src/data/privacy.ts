@@ -53,6 +53,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         body: [
           'Khi bạn gửi form “Quick Call in 10 Min”, bạn có thể cung cấp: họ tên, cách liên hệ (số điện thoại, email, Instagram hoặc thông tin khác), lĩnh vực kinh doanh, nhu cầu, hiện trạng triển khai nội dung, ngân sách dự kiến (không bắt buộc) và ghi chú (không bắt buộc).',
           'Một số dữ liệu kỹ thuật được tạo tự động để bảo vệ website: địa chỉ IP được băm một chiều (không lưu IP gốc), mã xác minh Turnstile và nhật ký máy chủ của Cloudflare.',
+          'Website dùng PostHog (đặt tại Hoa Kỳ) để đếm lượt xem trang và lượt xem trang Cộng đồng. PostHog được cấu hình không ghi địa chỉ IP, không autocapture, không ghi phiên; một mã ẩn danh được lưu trong localStorage để phân biệt lượt truy cập.',
           'Chúng tôi không chủ động thu thập dữ liệu cá nhân nhạy cảm. Vui lòng không nhập thông tin về sức khỏe, tài chính, tôn giáo, quan điểm chính trị hoặc các dữ liệu nhạy cảm khác vào ô ghi chú.',
         ],
       },
@@ -64,6 +65,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Quản lý, theo dõi và sắp xếp các yêu cầu tư vấn.',
           'Ngăn chặn spam, lạm dụng form và bảo vệ website.',
           'Tổng hợp, cải thiện chất lượng dịch vụ ở dạng không nhận diện cá nhân.',
+          'Đo lường lượt truy cập website và trang Cộng đồng để hiểu mức độ sử dụng.',
         ],
         after: [
           'Chúng tôi không bán dữ liệu cá nhân và không dùng thông tin bạn gửi để chạy quảng cáo nhắm mục tiêu.',
@@ -80,20 +82,20 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Thời hạn lưu',
         body: [
           'Thông tin liên hệ và nội dung yêu cầu được lưu tối đa 12 tháng kể từ ngày bạn gửi yêu cầu, sau đó sẽ được xóa hoặc ẩn danh, trừ khi pháp luật yêu cầu lưu lâu hơn hoặc bạn đồng ý gia hạn.',
-          'Dữ liệu chống spam (băm IP) được lưu ngắn hạn theo cửa sổ chống spam của website. Nhật ký kỹ thuật của Cloudflare được lưu theo chính sách của Cloudflare.',
+          'Dữ liệu chống spam (băm IP) được lưu ngắn hạn theo cửa sổ chống spam của website. Nhật ký kỹ thuật của Cloudflare được lưu theo chính sách của Cloudflare. Dữ liệu thống kê của PostHog được lưu theo chính sách lưu trữ của PostHog Cloud (Hoa Kỳ).',
         ],
       },
       {
         heading: '6. Chia sẻ dữ liệu',
         body: [
-          'Chúng tôi chỉ chia sẻ dữ liệu với các nhà cung cấp cần thiết để vận hành website và gửi email: Cloudflare (lưu trữ, cơ sở dữ liệu, Turnstile, nhật ký), Resend (gửi email thông báo) và Google (hộp thư Gmail nhận thông báo).',
+          'Chúng tôi chỉ chia sẻ dữ liệu với các nhà cung cấp cần thiết để vận hành website và gửi email: Cloudflare (lưu trữ, cơ sở dữ liệu, Turnstile, nhật ký), Resend (gửi email thông báo), Google (hộp thư Gmail nhận thông báo) và PostHog (thống kê truy cập, Hoa Kỳ).',
           'Các nhà cung cấp này xử lý dữ liệu theo hợp đồng và chính sách của họ; chúng tôi không bán hoặc cho thuê dữ liệu cá nhân.',
         ],
       },
       {
         heading: '7. Chuyển dữ liệu ra nước ngoài',
         body: [
-          'Một số nhà cung cấp trên có thể lưu trữ hoặc xử lý dữ liệu ngoài Việt Nam. Khi bạn gửi form, bạn đồng ý với việc chuyển dữ liệu ra nước ngoài như mô tả trong chính sách này.',
+          'Một số nhà cung cấp trên (Cloudflare, Resend, Google, PostHog) có thể lưu trữ hoặc xử lý dữ liệu ngoài Việt Nam. Dữ liệu từ form được chuyển khi bạn đồng ý gửi form; dữ liệu thống kê truy cập được xử lý bởi PostHog tại Hoa Kỳ như mô tả trong chính sách này.',
           'Chúng tôi áp dụng các biện pháp bảo vệ phù hợp và chỉ chuyển dữ liệu khi cần thiết để cung cấp dịch vụ.',
         ],
       },
@@ -130,7 +132,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
       {
         heading: '12. Cookie và công cụ phân tích',
         body: [
-          'Website không dùng cookie quảng cáo và không dùng công cụ phân tích hành vi để nhắm mục tiêu quảng cáo. Cookie kỹ thuật chỉ được dùng khi cần thiết, ví dụ cookie phiên đăng nhập của trang quản trị.',
+          'Website dùng PostHog để đếm lượt truy cập (không ghi IP, không autocapture, không ghi phiên; mã ẩn danh trong localStorage). Website không dùng cookie quảng cáo và không dùng dữ liệu này để nhắm mục tiêu quảng cáo. Cookie kỹ thuật chỉ được dùng khi cần thiết, ví dụ cookie phiên đăng nhập của trang quản trị.',
           'Cloudflare có thể ghi nhật ký kỹ thuật để vận hành, bảo mật và chống lạm dụng.',
         ],
       },
@@ -176,6 +178,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         body: [
           'When you send the “Quick Call in 10 Min” form, you may provide: your name, contact details (phone, email, Instagram or another method), industry, needs, current content setup, estimated budget (optional) and notes (optional).',
           'Some technical data is generated automatically to protect the website: a one-way hashed IP address (the raw IP is not stored), a Turnstile verification token and Cloudflare server logs.',
+          'The website uses PostHog (hosted in the United States) to count page views and Community page views. PostHog is configured not to record IP addresses, not to autocapture and not to record sessions; an anonymous ID is stored in localStorage to distinguish visits.',
           'We do not intentionally collect sensitive personal data. Please do not enter health, financial, religious, political or other sensitive information in the notes field.',
         ],
       },
@@ -187,6 +190,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'To manage, track and organise consultation requests.',
           'To prevent spam, form abuse and protect the website.',
           'To improve the service in an aggregated, non-identifiable form.',
+          'To measure visits to the website and the Community page.',
         ],
         after: ['We do not sell personal data and do not use your information for targeted advertising.'],
       },
@@ -201,20 +205,20 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Retention',
         body: [
           'Contact details and request content are kept for up to 12 months from the date you submitted the request, after which they are deleted or anonymised, unless the law requires a longer period or you agree to an extension.',
-          'Anti-spam data (hashed IP) is kept for the short anti-spam window of the website. Cloudflare technical logs are kept according to Cloudflare’s policy.',
+          'Anti-spam data (hashed IP) is kept for the short anti-spam window of the website. Cloudflare technical logs are kept according to Cloudflare’s policy. PostHog analytics data is kept according to PostHog Cloud’s retention policy (United States).',
         ],
       },
       {
         heading: '6. Sharing',
         body: [
-          'We share data only with the providers needed to run the website and send email: Cloudflare (hosting, database, Turnstile, logs), Resend (notification email delivery) and Google (the Gmail inbox that receives notifications).',
+          'We share data only with the providers needed to run the website, send email and measure visits: Cloudflare (hosting, database, Turnstile, logs), Resend (notification email delivery), Google (the Gmail inbox that receives notifications) and PostHog (traffic analytics, United States).',
           'These providers process data under their contracts and policies; we do not sell or rent personal data.',
         ],
       },
       {
         heading: '7. International transfers',
         body: [
-          'Some of these providers may store or process data outside Vietnam. By submitting the form, you agree to the transfer of data abroad as described in this policy.',
+          'Some of these providers (Cloudflare, Resend, Google, PostHog) may store or process data outside Vietnam. Form data is transferred when you agree to submit the form; traffic analytics is processed by PostHog in the United States as described in this policy.',
           'We apply appropriate safeguards and transfer data only when necessary to provide the service.',
         ],
       },
@@ -251,7 +255,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
       {
         heading: '12. Cookies and analytics',
         body: [
-          'The website does not use advertising cookies or behavioural analytics for ad targeting. Technical cookies are used only when necessary, such as the admin session cookie.',
+          'The website uses PostHog to count visits (no IP, no autocapture, no session recording; anonymous ID in localStorage). It does not use advertising cookies or use this data for ad targeting. Technical cookies are used only when necessary, such as the admin session cookie.',
           'Cloudflare may keep technical logs for operation, security and abuse prevention.',
         ],
       },
@@ -297,6 +301,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         body: [
           'Lorsque vous envoyez le formulaire « Quick Call in 10 Min », vous pouvez fournir : votre nom, vos coordonnées (téléphone, e-mail, Instagram ou autre), votre secteur d’activité, vos besoins, votre organisation actuelle, votre budget prévisionnel (facultatif) et vos notes (facultatif).',
           'Certaines données techniques sont générées automatiquement pour protéger le site : une adresse IP hachée à sens unique (l’adresse IP brute n’est pas conservée), un jeton de vérification Turnstile et les journaux du serveur Cloudflare.',
+          'Le site utilise PostHog (hébergé aux États-Unis) pour compter les pages vues et les vues de la page Communauté. PostHog est configuré pour ne pas enregistrer d’adresse IP, ne pas faire d’autocapture et ne pas enregistrer de session ; un identifiant anonyme est stocké dans le localStorage pour distinguer les visites.',
           'Nous ne collectons pas intentionnellement de données personnelles sensibles. Veuillez ne pas saisir d’informations de santé, financières, religieuses, politiques ou autres informations sensibles dans le champ de notes.',
         ],
       },
@@ -308,6 +313,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Gérer, suivre et organiser les demandes de consultation.',
           'Prévenir le spam, l’usage abusif du formulaire et protéger le site.',
           'Améliorer le service sous une forme agrégée et non identifiable.',
+          'Mesurer les visites du site et de la page Communauté.',
         ],
         after: [
           'Nous ne vendons pas de données personnelles et n’utilisons pas vos informations pour de la publicité ciblée.',
@@ -324,20 +330,20 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Durée de conservation',
         body: [
           'Les coordonnées et le contenu de la demande sont conservés pendant 12 mois maximum à compter de la date d’envoi de la demande, puis supprimés ou anonymisés, sauf obligation légale de conservation plus longue ou accord d’extension de votre part.',
-          'Les données anti-spam (IP hachée) sont conservées pendant la courte fenêtre anti-spam du site. Les journaux techniques de Cloudflare sont conservés selon la politique de Cloudflare.',
+          'Les données anti-spam (IP hachée) sont conservées pendant la courte fenêtre anti-spam du site. Les journaux techniques de Cloudflare sont conservés selon la politique de Cloudflare. Les données analytiques de PostHog sont conservées selon la politique de conservation de PostHog Cloud (États-Unis).',
         ],
       },
       {
         heading: '6. Partage',
         body: [
-          'Nous partageons les données uniquement avec les prestataires nécessaires au fonctionnement du site et à l’envoi des e-mails : Cloudflare (hébergement, base de données, Turnstile, journaux), Resend (envoi des e-mails de notification) et Google (la boîte Gmail qui reçoit les notifications).',
+          'Nous partageons les données uniquement avec les prestataires nécessaires au fonctionnement du site, à l’envoi des e-mails et à la mesure des visites : Cloudflare (hébergement, base de données, Turnstile, journaux), Resend (envoi des e-mails de notification), Google (la boîte Gmail qui reçoit les notifications) et PostHog (mesure d’audience, États-Unis).',
           'Ces prestataires traitent les données conformément à leurs contrats et politiques ; nous ne vendons ni ne louons de données personnelles.',
         ],
       },
       {
         heading: '7. Transferts internationaux',
         body: [
-          'Certains de ces prestataires peuvent stocker ou traiter des données en dehors du Vietnam. En envoyant le formulaire, vous acceptez le transfert de données à l’étranger tel que décrit dans la présente politique.',
+          'Certains de ces prestataires (Cloudflare, Resend, Google, PostHog) peuvent stocker ou traiter des données en dehors du Vietnam. Les données du formulaire sont transférées lorsque vous acceptez de l’envoyer ; les données de mesure d’audience sont traitées par PostHog aux États-Unis comme décrit dans la présente politique.',
           'Nous appliquons des garanties appropriées et ne transférons les données que lorsque cela est nécessaire à la fourniture du service.',
         ],
       },
@@ -374,7 +380,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
       {
         heading: '12. Cookies et mesure d’audience',
         body: [
-          'Le site n’utilise pas de cookies publicitaires ni d’analyse comportementale à des fins de ciblage publicitaire. Des cookies techniques sont utilisés uniquement lorsque nécessaire, par exemple le cookie de session de l’administration.',
+          'Le site utilise PostHog pour compter les visites (sans IP, sans autocapture, sans enregistrement de session ; identifiant anonyme dans le localStorage). Il n’utilise pas de cookies publicitaires et n’exploite pas ces données pour du ciblage publicitaire. Des cookies techniques sont utilisés uniquement lorsque nécessaire, par exemple le cookie de session de l’administration.',
           'Cloudflare peut conserver des journaux techniques pour l’exploitation, la sécurité et la prévention des abus.',
         ],
       },
@@ -420,6 +426,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         body: [
           'Wenn Sie das Formular „Quick Call in 10 Min“ senden, können Sie Folgendes angeben: Name, Kontaktdaten (Telefon, E-Mail, Instagram oder sonstige Angaben), Branche, Bedarf, aktuelle Content-Organisation, geplantes Budget (optional) und Anmerkungen (optional).',
           'Einige technische Daten werden automatisch zum Schutz der Website erzeugt: eine einseitig gehashte IP-Adresse (die Roh-IP wird nicht gespeichert), ein Turnstile-Verifizierungstoken und Serverprotokolle von Cloudflare.',
+          'Die Website verwendet PostHog (gehostet in den Vereinigten Staaten), um Seitenaufrufe und Aufrufe der Community-Seite zu zählen. PostHog ist so konfiguriert, dass keine IP-Adressen, kein Autocapture und keine Sitzungen aufgezeichnet werden; eine anonyme ID wird im localStorage gespeichert, um Besuche zu unterscheiden.',
           'Wir erheben nicht absichtlich sensible personenbezogene Daten. Bitte geben Sie im Anmerkungsfeld keine Gesundheits-, Finanz-, Religions-, Politik- oder sonstigen sensiblen Daten ein.',
         ],
       },
@@ -431,6 +438,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Verwaltung, Nachverfolgung und Organisation von Beratungsanfragen.',
           'Verhinderung von Spam und Formularmissbrauch sowie Schutz der Website.',
           'Verbesserung des Services in aggregierter, nicht identifizierbarer Form.',
+          'Messung der Besuche auf der Website und der Community-Seite.',
         ],
         after: [
           'Wir verkaufen keine personenbezogenen Daten und verwenden Ihre Informationen nicht für zielgerichtete Werbung.',
@@ -447,20 +455,20 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Speicherdauer',
         body: [
           'Kontaktdaten und Anfrageinhalte werden bis zu 12 Monate ab dem Datum der Anfrage gespeichert und danach gelöscht oder anonymisiert, sofern keine längere gesetzliche Aufbewahrungspflicht besteht oder Sie einer Verlängerung zustimmen.',
-          'Anti-Spam-Daten (gehashte IP) werden für das kurze Anti-Spam-Zeitfenster der Website gespeichert. Technische Protokolle von Cloudflare werden nach der Richtlinie von Cloudflare gespeichert.',
+          'Anti-Spam-Daten (gehashte IP) werden für das kurze Anti-Spam-Zeitfenster der Website gespeichert. Technische Protokolle von Cloudflare werden nach der Richtlinie von Cloudflare gespeichert. PostHog-Analysedaten werden nach der Aufbewahrungsrichtlinie von PostHog Cloud (Vereinigte Staaten) gespeichert.',
         ],
       },
       {
         heading: '6. Weitergabe',
         body: [
-          'Wir geben Daten nur an die Anbieter weiter, die für den Betrieb der Website und den E-Mail-Versand erforderlich sind: Cloudflare (Hosting, Datenbank, Turnstile, Protokolle), Resend (Versand von Benachrichtigungs-E-Mails) und Google (das Gmail-Postfach, das Benachrichtigungen erhält).',
+          'Wir geben Daten nur an die Anbieter weiter, die für den Betrieb der Website, den E-Mail-Versand und die Besuchsmessung erforderlich sind: Cloudflare (Hosting, Datenbank, Turnstile, Protokolle), Resend (Versand von Benachrichtigungs-E-Mails), Google (das Gmail-Postfach, das Benachrichtigungen erhält) und PostHog (Besuchsanalyse, Vereinigte Staaten).',
           'Diese Anbieter verarbeiten Daten nach ihren Verträgen und Richtlinien; wir verkaufen oder vermieten keine personenbezogenen Daten.',
         ],
       },
       {
         heading: '7. Internationale Übermittlungen',
         body: [
-          'Einige dieser Anbieter können Daten außerhalb Vietnams speichern oder verarbeiten. Mit dem Absenden des Formulars stimmen Sie der Übermittlung von Daten ins Ausland wie in dieser Richtlinie beschrieben zu.',
+          'Einige dieser Anbieter (Cloudflare, Resend, Google, PostHog) können Daten außerhalb Vietnams speichern oder verarbeiten. Formulardaten werden übermittelt, wenn Sie dem Absenden zustimmen; Besuchsanalysedaten werden von PostHog in den Vereinigten Staaten wie in dieser Richtlinie beschrieben verarbeitet.',
           'Wir wenden geeignete Schutzmaßnahmen an und übermitteln Daten nur, wenn dies für die Erbringung des Services erforderlich ist.',
         ],
       },
@@ -497,7 +505,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
       {
         heading: '12. Cookies und Analyse',
         body: [
-          'Die Website verwendet keine Werbe-Cookies und keine Verhaltensanalyse für Werbe-Targeting. Technische Cookies werden nur verwendet, wenn dies erforderlich ist, etwa das Sitzungs-Cookie der Administration.',
+          'Die Website verwendet PostHog, um Besuche zu zählen (keine IP, kein Autocapture, keine Sitzungsaufzeichnung; anonyme ID im localStorage). Sie verwendet keine Werbe-Cookies und nutzt diese Daten nicht für Werbe-Targeting. Technische Cookies werden nur verwendet, wenn dies erforderlich ist, etwa das Sitzungs-Cookie der Administration.',
           'Cloudflare kann technische Protokolle für Betrieb, Sicherheit und Missbrauchsprävention speichern.',
         ],
       },
@@ -543,6 +551,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         body: [
           'Wanneer u het formulier „Quick Call in 10 Min“ verstuurt, kunt u het volgende opgeven: naam, contactgegevens (telefoon, e-mail, Instagram of een andere methode), branche, behoeften, huidige contentorganisatie, geschat budget (optioneel) en opmerkingen (optioneel).',
           'Sommige technische gegevens worden automatisch aangemaakt om de website te beschermen: een eenrichtings-gehasht IP-adres (het ruwe IP wordt niet opgeslagen), een Turnstile-verificatietoken en serverlogboeken van Cloudflare.',
+          'De website gebruikt PostHog (gehost in de Verenigde Staten) om paginaweergaven en weergaven van de Community-pagina te tellen. PostHog is zo ingesteld dat er geen IP-adressen, geen autocapture en geen sessies worden vastgelegd; een anonieme ID wordt in localStorage opgeslagen om bezoeken te onderscheiden.',
           'Wij verzamelen niet bewust bijzondere persoonsgegevens. Voer geen gezondheids-, financiële, religieuze, politieke of andere gevoelige gegevens in het opmerkingenveld in.',
         ],
       },
@@ -554,6 +563,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Het beheren, volgen en ordenen van consultaanvragen.',
           'Het voorkomen van spam en misbruik van het formulier en het beschermen van de website.',
           'Het verbeteren van de dienst in geaggregeerde, niet-identificeerbare vorm.',
+          'Het meten van bezoeken aan de website en de Community-pagina.',
         ],
         after: [
           'Wij verkopen geen persoonsgegevens en gebruiken uw gegevens niet voor gerichte advertenties.',
@@ -570,20 +580,20 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Bewaartermijn',
         body: [
           'Contactgegevens en de inhoud van de aanvraag worden maximaal 12 maanden vanaf de datum waarop u de aanvraag hebt verstuurd bewaard en daarna verwijderd of geanonimiseerd, tenzij de wet een langere termijn vereist of u instemt met verlenging.',
-          'Antispamgegevens (gehasht IP) worden bewaard voor het korte antispamvenster van de website. Technische logboeken van Cloudflare worden volgens het beleid van Cloudflare bewaard.',
+          'Antispamgegevens (gehasht IP) worden bewaard voor het korte antispamvenster van de website. Technische logboeken van Cloudflare worden volgens het beleid van Cloudflare bewaard. PostHog-analysedata worden bewaard volgens het bewaarbeleid van PostHog Cloud (Verenigde Staten).',
         ],
       },
       {
         heading: '6. Delen',
         body: [
-          'Wij delen gegevens alleen met de leveranciers die nodig zijn om de website te laten werken en e-mail te versturen: Cloudflare (hosting, database, Turnstile, logboeken), Resend (verzending van notificatie-e-mails) en Google (de Gmail-inbox die notificaties ontvangt).',
+          'Wij delen gegevens alleen met de leveranciers die nodig zijn om de website te laten werken, e-mail te versturen en bezoeken te meten: Cloudflare (hosting, database, Turnstile, logboeken), Resend (verzending van notificatie-e-mails), Google (de Gmail-inbox die notificaties ontvangt) en PostHog (bezoekanalyse, Verenigde Staten).',
           'Deze leveranciers verwerken gegevens volgens hun contracten en beleid; wij verkopen of verhuren geen persoonsgegevens.',
         ],
       },
       {
         heading: '7. Internationale doorgifte',
         body: [
-          'Sommige van deze leveranciers kunnen gegevens buiten Vietnam opslaan of verwerken. Door het formulier te versturen, stemt u in met de doorgifte van gegevens naar het buitenland zoals in dit beleid beschreven.',
+          'Sommige van deze leveranciers (Cloudflare, Resend, Google, PostHog) kunnen gegevens buiten Vietnam opslaan of verwerken. Formuliergegevens worden doorgegeven wanneer u instemt met het versturen; bezoekanalysedata worden door PostHog in de Verenigde Staten verwerkt zoals in dit beleid beschreven.',
           'Wij passen passende waarborgen toe en geven gegevens alleen door wanneer dat nodig is om de dienst te leveren.',
         ],
       },
@@ -620,7 +630,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
       {
         heading: '12. Cookies en analyse',
         body: [
-          'De website gebruikt geen advertentiecookies en geen gedragsanalyse voor advertentietargeting. Technische cookies worden alleen gebruikt wanneer dat nodig is, bijvoorbeeld de sessiecookie van de beheeromgeving.',
+          'De website gebruikt PostHog om bezoeken te tellen (geen IP, geen autocapture, geen sessie-opname; anonieme ID in localStorage). De website gebruikt geen advertentiecookies en gebruikt deze data niet voor advertentietargeting. Technische cookies worden alleen gebruikt wanneer dat nodig is, bijvoorbeeld de sessiecookie van de beheeromgeving.',
           'Cloudflare kan technische logboeken bewaren voor werking, beveiliging en misbruikpreventie.',
         ],
       },

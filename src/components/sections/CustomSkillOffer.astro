@@ -1,0 +1,103 @@
+---
+// Paid offer on the Community page: a custom skill + content edit, 500k on request.
+// The card is the React Bits PixelCard; the copy lives in src/data/custom-skill.ts.
+import CustomSkillCard from '../interactive/CustomSkillCard';
+import { CUSTOM_SKILL } from '../../data/custom-skill';
+import type { Locale } from '../../i18n/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = CUSTOM_SKILL[locale];
+---
+<section class="cso" aria-labelledby="cso-title">
+  <div class="container-x cso__inner">
+    <div class="cso__copy">
+      <p class="kicker">{c.kicker}</p>
+      <h2 id="cso-title" class="section-title">{c.title}</h2>
+      <p class="section-lead">{c.lead}</p>
+      <p class="cso__note">{c.note}</p>
+    </div>
+    <CustomSkillCard client:visible copy={c} />
+  </div>
+</section>
+
+<style is:global>
+  .cso { padding-block: clamp(42px, 7vw, 84px) 0; }
+  .cso__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+  }
+  .cso__copy { max-width: 46ch; }
+  .cso__copy .section-lead { margin-top: 12px; }
+  .cso__note { margin: 14px 0 0; color: var(--c-fg-faint); font-size: 0.9rem; line-height: 1.5; }
+  .cso__pixel { display: flex; justify-content: center; }
+  /* Higher specificity than the component's own .pixel-card rule. */
+  .cso__pixel .pixel-card { width: 100%; height: 460px; }
+
+  .cso-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+  .cso-card__top { display: flex; align-items: center; gap: 10px; }
+  .cso-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 12px;
+    border: 1px solid rgba(250, 250, 250, 0.12);
+    background: rgba(250, 250, 250, 0.07);
+    color: var(--c-fg);
+  }
+  .cso-card__icon svg { width: 20px; height: 20px; }
+  .cso-card__name { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; }
+  .cso-card__badge {
+    margin-left: auto;
+    padding: 4px 9px;
+    border: 1px solid rgba(197, 156, 74, 0.4);
+    border-radius: 999px;
+    color: var(--c-accent);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .cso-card__price { display: flex; align-items: baseline; gap: 8px; margin-top: 24px; }
+  .cso-card__price strong { font-size: clamp(2.4rem, 5vw, 3.1rem); line-height: 1; letter-spacing: -0.045em; }
+  .cso-card__price span { color: var(--c-fg-muted); font-size: 0.8rem; }
+  .cso-card__sub { margin: 8px 0 0; color: var(--c-fg-muted); font-size: 0.95rem; line-height: 1.5; }
+  .cso-card__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 10px; }
+  .cso-card__list li { display: flex; align-items: flex-start; gap: 10px; color: var(--c-fg-muted); font-size: 0.9rem; line-height: 1.45; }
+  .cso-card__list svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--c-accent); }
+  .cso-card__cta {
+    margin-top: auto;
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--c-fg);
+    color: var(--c-bg);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: transform 200ms ease, background 200ms ease;
+  }
+  .cso-card__cta:hover { transform: translateY(-1px); background: #fff; }
+  .cso-card__cta:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+
+  @media (max-width: 760px) {
+    .cso { padding-block: clamp(34px, 8vw, 56px) 0; }
+    .cso__inner { grid-template-columns: 1fr; }
+    .cso__copy { max-width: none; }
+    .cso__pixel .pixel-card { height: 440px; }
+  }
+</style>

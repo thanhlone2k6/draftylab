@@ -1,0 +1,53 @@
+---
+// PostHog pageview analytics. The project key is public (client-side) and comes from the build env.
+// Owner chose direct tracking without a banner (2026-11-06). Data is minimised: no IP, no autocapture,
+// no session recording, no surveys; localStorage is used for the anonymous distinct id.
+const key = import.meta.env.PUBLIC_POSTHOG_KEY;
+---
+{key && (
+  <script is:inline define:vars={{ key }}>
+    (() => {
+      if (!key || window.__dflPostHog) return;
+      if (location.pathname.startsWith('/admin')) return;
+      if (navigator.doNotTrack === '1') return;
+      window.__dflPostHog = true;
+
+      const HOST = 'https://us.i.posthog.com';
+      const ASSETS = 'https://us-assets.i.posthog.com';
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `${ASSETS}/static/array.js`;
+      script.onload = () => {
+        const ph = window.posthog;
+        if (!ph || !ph.init) return;
+        ph.init(key, {
+          api_host: HOST,
+          ui_host: 'https://us.posthog.com',
+          person_profiles: 'identified_only',
+          autocapture: false,
+          capture_pageview: true,
+          capture_pageleave: true,
+          disable_session_recording: true,
+          disable_surveys: true,
+          persistence: 'localStorage',
+          ip: false,
+          loaded: (instance) => {
+            const path = location.pathname;
+            if (path === '/cong-dong/' || /^\/(en|fr|de|nl)\/community\/$/.test(path)) {
+              instance.capture('community_view', { path, locale: document.documentElement.lang });
+            }
+          },
+        });
+      };
+      document.head.appendChild(script);
+
+      document.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target.closest('[data-cso-cta]') : null;
+        if (target && window.posthog && window.posthog.capture) {
+          window.posthog.capture('custom_skill_cta_click', { path: location.pathname });
+        }
+      });
+    })();
+  </script>
+)}

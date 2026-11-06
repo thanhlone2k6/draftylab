@@ -6,6 +6,7 @@ import DialogShell from '../components/media/DialogShell.astro';
 import MediaDialogHost from '../components/media/MediaDialogHost';
 import VolumeOverlay from '../components/media/VolumeOverlay';
 import PageRays from '../components/interactive/PageRays';
+import PostHog from '../components/analytics/PostHog.astro';
 import bootstrap from '../scripts/dialog-bootstrap.js?raw';
 import volumeStore from '../scripts/volume-store.js?raw';
 import audioLevel from '../scripts/audio-level.js?raw';
@@ -143,6 +144,7 @@ const OG_IMAGE = `${ORIGIN}/og/og-image.jpg`;
         } catch { /* no sessionStorage (private mode) — nothing to restore */ }
       })();
     </script>
+    <PostHog />
   </body>
 </html>
 <style is:global>

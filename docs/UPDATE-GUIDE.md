@@ -56,6 +56,13 @@ npx wrangler d1 execute draftylab-v2-leads --remote --command "DELETE FROM leads
 ```
 - Trang chính sách: `/privacy/` (VI) và `/<lang>/privacy/` (EN/FR/DE/NL); nội dung ở `src/data/privacy.ts`. Bản tiếng Việt là bản chính.
 
+## PostHog (thống kê truy cập)
+- Key nằm trong `package.json` (`build:cf` / `build:preview`), host US `https://us.i.posthog.com`; loader lấy từ `https://us-assets.i.posthog.com`.
+- Đang đo: `$pageview` toàn site, event `community_view` cho `/cong-dong/` + `/<lang>/community/`, và `custom_skill_cta_click` cho nút “Đặt yêu cầu” của thẻ Custom Skill.
+- Cấu hình: không ghi IP, không autocapture, không session recording, không surveys; `persistence: 'localStorage'`.
+- **Không có banner đồng ý** (owner chọn phương án C ngày 06/11/2026). Chính sách đã nêu PostHog; nếu sau này muốn chắc hơn về pháp lý, thêm banner và chỉ init PostHog sau khi đồng ý trong `src/components/analytics/PostHog.astro`.
+
+
 
 ## Đổi / thêm video
 1. Thêm video nguồn vào thư mục media (xem `docs/asset-inventory.md`), chạy `npm run media:build`.

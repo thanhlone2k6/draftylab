@@ -53,12 +53,13 @@ const csp = [
   // any consent, so the owner chose to disable it; the CSP no longer allow-lists
   // static.cloudflareinsights.com / cloudflareinsights.com. If it is ever re-enabled, add a consent gate
   // and those two domains back here.
-  `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com`,
+  // PostHog (US): the loader comes from us-assets.i.posthog.com and events go to us.i.posthog.com.
+  `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com https://us-assets.i.posthog.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self'",
-  "connect-src 'self' https://challenges.cloudflare.com",
+  "connect-src 'self' https://challenges.cloudflare.com https://us.i.posthog.com",
   'frame-src https://challenges.cloudflare.com',
   "worker-src 'self' blob:",
   "object-src 'none'",
