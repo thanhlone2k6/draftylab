@@ -81,4 +81,4 @@ npx wrangler d1 execute draftylab-v2-leads --remote --command "DELETE FROM leads
 
 ## Thẻ "Tham gia cộng đồng ngay" ở trang chủ
 Nằm ngay dưới khối Quick Call. Cả thẻ là một link mở `/cong-dong/` (hoặc `/<lang>/community/`).
-Ảnh nền đám đông là tuỳ chọn: lưu file vào `website/public/media/community/join-crowd.jpg` rồi build/deploy lại; nếu chưa có file, thẻ dùng nền gradient như hiện tại.
+Ảnh nằm bên phải trên máy tính; trên điện thoại ảnh phủ toàn thẻ ở 60% opacity để chữ vẫn đọc được. Thay ảnh: thay file `website/public/media/community/join-community.jpg` rồi build/deploy lại.

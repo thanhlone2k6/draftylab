@@ -1,6 +1,6 @@
 ---
 // Landing page, under Quick Call: the "join the community" card (React Bits GlareHover).
-// The crowd photo is optional: drop it at public/media/community/join-crowd.jpg and rebuild.
+// Photo on the right on desktop; full-bleed at 60% opacity behind the copy on phones.
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import GlareHover from '../react-bits/GlareHover';
@@ -11,7 +11,7 @@ import type { Locale } from '../../i18n/config';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const c = getContent(locale).community;
-const photo = fileURLToPath(new URL('../../../public/media/community/join-crowd.jpg', import.meta.url));
+const photo = fileURLToPath(new URL('../../../public/media/community/join-community.jpg', import.meta.url));
 const hasPhoto = existsSync(photo);
 ---
 <section class="cjoin" aria-labelledby="cjoin-title">
@@ -36,7 +36,11 @@ const hasPhoto = existsSync(photo);
       client:visible
     >
       <a class={`cjoin__card${hasPhoto ? ' has-photo' : ''}`} href={communityPath(locale)}>
-        {hasPhoto && <img class="cjoin__photo" src="/media/community/join-crowd.jpg" alt="" loading="lazy" />}
+        {hasPhoto && (
+          <span class="cjoin__media" aria-hidden="true">
+            <img class="cjoin__photo" src="/media/community/join-community.jpg" alt="" loading="lazy" />
+          </span>
+        )}
         <span class="cjoin__scrim" aria-hidden="true"></span>
         <span class="cjoin__content">
           <span class="cjoin__eyebrow">{c.joinEyebrow}</span>
@@ -71,31 +75,38 @@ const hasPhoto = existsSync(photo);
     color: #fff;
     text-decoration: none;
     background:
-      radial-gradient(120% 150% at 82% 8%, rgba(197, 156, 74, 0.42), transparent 56%),
-      radial-gradient(90% 130% at 8% 100%, rgba(104, 79, 180, 0.32), transparent 60%),
-      linear-gradient(120deg, #17151c 0%, #0d0d10 62%);
+      radial-gradient(90% 140% at 8% 100%, rgba(197, 156, 74, 0.22), transparent 58%),
+      linear-gradient(112deg, #171519 0%, #0d0d10 58%);
+  }
+  .cjoin__media {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 46%;
+    overflow: hidden;
   }
   .cjoin__photo {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 40%;
+    object-position: center 58%;
   }
-  .cjoin__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 62%); }
-  .cjoin__card.has-photo .cjoin__scrim {
+  /* Blend the photo's left edge into the card instead of a hard seam. */
+  .cjoin__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
     background:
-      linear-gradient(90deg, rgba(6, 6, 8, 0.84) 0%, rgba(6, 6, 8, 0.55) 44%, rgba(6, 6, 8, 0.1) 100%),
-      linear-gradient(0deg, rgba(6, 6, 8, 0.74) 0%, transparent 48%);
+      linear-gradient(90deg, #0f0e12 0%, rgba(15, 14, 18, 0.72) 14%, rgba(15, 14, 18, 0) 46%),
+      linear-gradient(0deg, rgba(10, 10, 12, 0.35) 0%, transparent 42%);
   }
+  .cjoin__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8, 8, 10, 0.3), transparent 58%); }
   .cjoin__content {
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    max-width: 780px;
+    max-width: 58%;
   }
   .cjoin__eyebrow {
     font-size: 0.76rem;
@@ -112,7 +123,7 @@ const hasPhoto = existsSync(photo);
     text-wrap: balance;
   }
   .cjoin__lead {
-    max-width: 48ch;
+    max-width: 44ch;
     color: rgba(255, 255, 255, 0.74);
     font-size: clamp(0.95rem, 1.4vw, 1.08rem);
     line-height: 1.5;
@@ -141,9 +152,17 @@ const hasPhoto = existsSync(photo);
     .cjoin__card:hover .cjoin__cta svg { transform: translateX(3px); }
   }
   .cjoin__card:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 4px; }
-  @media (max-width: 640px) {
-    .cjoin__card { min-height: 320px; }
-    .cjoin__content { gap: 10px; }
+
+  /* Phones: the photo goes behind the whole card at 60% so the copy stays readable. */
+  @media (max-width: 760px) {
+    .cjoin__card { min-height: 340px; }
+    .cjoin__media { inset: 0; width: 100%; }
+    .cjoin__photo { opacity: 0.6; }
+    .cjoin__media::after {
+      background: linear-gradient(180deg, rgba(10, 10, 12, 0.25) 0%, rgba(10, 10, 12, 0.55) 100%);
+    }
+    .cjoin__scrim { background: linear-gradient(90deg, rgba(8, 8, 10, 0.5) 0%, rgba(8, 8, 10, 0.12) 100%); }
+    .cjoin__content { max-width: 100%; gap: 10px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .cjoin__cta, .cjoin__cta svg { transition: none; }
