@@ -128,6 +128,7 @@ export interface Content {
   community: {
     title: string; lead: string; note: string; empty: string; error: string; retry: string; posted: string;
     seeMore: string; showLess: string; skillsTitle: string; skillsLead: string; skillsEmpty: string;
+    joinEyebrow: string; joinTitle: string; joinLead: string; joinCta: string;
   };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
@@ -314,6 +315,10 @@ export function getContent(locale: Locale): Content {
       skillsTitle: t('community.skillsTitle'),
       skillsLead: t('community.skillsLead'),
       skillsEmpty: t('community.skillsEmpty'),
+      joinEyebrow: t('community.joinEyebrow'),
+      joinTitle: t('community.joinTitle'),
+      joinLead: t('community.joinLead'),
+      joinCta: t('community.joinCta'),
     },
     dialog: {
       close: t('dialog.close'),

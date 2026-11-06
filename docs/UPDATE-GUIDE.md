@@ -78,3 +78,7 @@ npx wrangler d1 execute draftylab-v2-leads --remote --command "DELETE FROM leads
 ## Quay lại bản V1 khi có sự cố
 1. Nhanh nhất: Cloudflare → `draftylab` → Deployments → bản `d9cbf25a…` (commit `6b0e34f`) → Rollback to this deployment.
 2. Khôi phục mã nguồn: xem `docs/v1-rollback.md`.
+
+## Thẻ "Tham gia cộng đồng ngay" ở trang chủ
+Nằm ngay dưới khối Quick Call. Cả thẻ là một link mở `/cong-dong/` (hoặc `/<lang>/community/`).
+Ảnh nền đám đông là tuỳ chọn: lưu file vào `website/public/media/community/join-crowd.jpg` rồi build/deploy lại; nếu chưa có file, thẻ dùng nền gradient như hiện tại.

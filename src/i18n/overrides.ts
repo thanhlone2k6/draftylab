@@ -76,6 +76,35 @@ export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
     de: 'Neue Skills sind in Vorbereitung.',
     nl: 'Nieuwe skills komen eraan.',
   },
+  // The "join the community" card under Quick Call on the landing page.
+  'community.joinEyebrow': {
+    vi: 'Cộng đồng Drafty Lab',
+    en: 'The Drafty Lab community',
+    fr: 'La communauté Drafty Lab',
+    de: 'Die Drafty-Lab-Community',
+    nl: 'De Drafty Lab-community',
+  },
+  'community.joinTitle': {
+    vi: 'Tham gia cộng đồng ngay',
+    en: 'Join the community',
+    fr: 'Rejoignez la communauté',
+    de: 'Jetzt der Community beitreten',
+    nl: 'Word lid van de community',
+  },
+  'community.joinLead': {
+    vi: 'Tài liệu, skill AI x Claude và những gì mình đang làm — cập nhật mỗi ngày.',
+    en: 'Resources, AI x Claude skills and what I’m working on — updated daily.',
+    fr: 'Ressources, skills IA x Claude et mes projets en cours — mis à jour chaque jour.',
+    de: 'Materialien, KI-x-Claude-Skills und woran ich arbeite — täglich aktualisiert.',
+    nl: 'Materialen, AI x Claude-skills en waar ik aan werk — dagelijks bijgewerkt.',
+  },
+  'community.joinCta': {
+    vi: 'Vào Cộng đồng',
+    en: 'Open the community',
+    fr: 'Ouvrir la communauté',
+    de: 'Zur Community',
+    nl: 'Naar de community',
+  },
   'qc.contactValueLabel': {
     en: 'Your contact details (email, phone, WhatsApp…)',
     fr: 'Vos coordonnées (e-mail, téléphone, WhatsApp…)',

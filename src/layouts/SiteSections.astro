@@ -12,6 +12,7 @@ import CaseStudies from '../components/sections/CaseStudies.astro';
 import HowIWork from '../components/sections/HowIWork.astro';
 import AboutFounder from '../components/sections/AboutFounder.astro';
 import QuickCallCTA from '../components/sections/QuickCallCTA.astro';
+import CommunityJoin from '../components/sections/CommunityJoin.astro';
 import type { Locale } from '../i18n/config';
 
 interface Props { locale: Locale }
@@ -28,5 +29,6 @@ const { locale } = Astro.props;
   <HowIWork locale={locale} />
   <AboutFounder locale={locale} />
   <QuickCallCTA locale={locale} />
+  <CommunityJoin locale={locale} />
 </main>
 <Footer locale={locale} />
