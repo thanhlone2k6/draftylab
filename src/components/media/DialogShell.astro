@@ -2,13 +2,14 @@
 // Static dialog shell shared by video, image and Quick Call. Behaviour: src/scripts/dialog-bootstrap.js.
 // React (MediaDialogHost) portals its UI into the slots below — it never creates a second dialog.
 import { getContent } from '../../i18n';
+import { CUSTOM_SKILL } from '../../data/custom-skill';
 import type { Locale } from '../../i18n/config';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const c = getContent(locale);
 ---
-<div id="dfl-dialog" class="dlg" hidden data-quickcall-title={c.quickCall.title}>
+<div id="dfl-dialog" class="dlg" hidden data-quickcall-title={c.quickCall.title} data-custom-skill-title={CUSTOM_SKILL[locale].form.title}>
   <div class="dlg__backdrop" data-dfl-close></div>
   <div class="dlg__panel" role="dialog" aria-modal="true" aria-labelledby="dfl-dialog-title" tabindex="-1">
     <div class="dlg__bar">
@@ -78,7 +79,7 @@ const c = getContent(locale);
 
   /* Quick Call variant */
   .dlg__form { display: none; }
-  .dlg[data-variant='quickcall'] .dlg__form { display: block; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 90px); overflow: auto; overscroll-behavior: contain; }
+  .dlg:is([data-variant='quickcall'], [data-variant='custom-skill']) .dlg__form { display: block; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 90px); overflow: auto; overscroll-behavior: contain; }
   .dlg__loading { margin: 0; padding: 32px; text-align: center; color: var(--c-fg-muted); border-radius: var(--radius-lg); background: var(--c-bg-raised); opacity: 0; animation: dlg-fade 200ms 250ms forwards; }
   /* Once React owns the shell, the loading placeholder disappears without a flash. */
   .dlg[data-host] .dlg__loading { display: none; }
@@ -90,9 +91,9 @@ const c = getContent(locale);
 
   @media (max-width: 640px) {
     .dlg { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
-    .dlg[data-variant='quickcall'] { place-items: stretch; padding: 0; }
-    .dlg[data-variant='quickcall'] .dlg__panel { width: 100vw; height: 100dvh; padding: 10px 12px max(12px, env(safe-area-inset-bottom)); background: var(--c-bg); box-sizing: border-box; }
-    .dlg[data-variant='quickcall'] .dlg__form { width: 100%; max-height: none; flex: 1; }
+    .dlg:is([data-variant='quickcall'], [data-variant='custom-skill']) { place-items: stretch; padding: 0; }
+    .dlg:is([data-variant='quickcall'], [data-variant='custom-skill']) .dlg__panel { width: 100vw; height: 100dvh; padding: 10px 12px max(12px, env(safe-area-inset-bottom)); background: var(--c-bg); box-sizing: border-box; }
+    .dlg:is([data-variant='quickcall'], [data-variant='custom-skill']) .dlg__form { width: 100%; max-height: none; flex: 1; }
     .dlg__frame { width: min(calc(100vw - 16px), calc((100dvh - 170px) * var(--dlg-ar))); }
   }
   @media (prefers-reduced-motion: reduce) {

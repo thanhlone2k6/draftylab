@@ -4,6 +4,7 @@ import { isPlayable } from './media';
 
 export type DialogRequest =
   | { kind: 'quickcall' }
+  | { kind: 'custom-skill' }
   | { kind: 'video' | 'image'; id: string; group: string; title: string; poster: string; aspect: number; src: string; pending: boolean };
 
 export interface DialogHost {

@@ -64,7 +64,7 @@ export default function CustomSkillCard({ copy }: Props) {
             ))}
           </ul>
 
-          <button type="button" className="cso-card__cta" data-dfl-open="quickcall" data-cso-cta>
+          <button type="button" className="cso-card__cta" data-dfl-open="custom-skill" data-cso-cta>
             {copy.cta}
           </button>
         </div>

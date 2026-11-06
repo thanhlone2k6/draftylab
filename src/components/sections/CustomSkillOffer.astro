@@ -22,7 +22,7 @@ const c = CUSTOM_SKILL[locale];
 </section>
 
 <style is:global>
-  .cso { padding-block: clamp(42px, 7vw, 84px) 0; }
+  .cso { padding-block: clamp(42px, 7vw, 84px); }
   .cso__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
@@ -95,7 +95,7 @@ const c = CUSTOM_SKILL[locale];
   .cso-card__cta:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
 
   @media (max-width: 760px) {
-    .cso { padding-block: clamp(34px, 8vw, 56px) 0; }
+    .cso { padding-block: clamp(34px, 8vw, 56px); }
     .cso__inner { grid-template-columns: 1fr; }
     .cso__copy { max-width: none; }
     .cso__pixel .pixel-card { height: 440px; }

@@ -27,10 +27,28 @@ export function formatVN(ms: number): string {
   return `${p(d.getUTCDate())}/${p(d.getUTCMonth() + 1)}/${d.getUTCFullYear()} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} (GMT+7)`;
 }
 
-export const leadSubject = (name: string) => `[DFL2] New Lead – ${oneLine(name, 80)}`;
+export const leadSubject = (name: string, source?: LeadInput['source']) =>
+  source === 'custom-skill'
+    ? `[DFL2] Custom Skill request – ${oneLine(name, 80)}`
+    : `[DFL2] New Lead – ${oneLine(name, 80)}`;
 
 /** Plain-text email body with EVERYTHING the visitor entered. */
 export function leadText(lead: LeadInput, meta: LeadMeta): string {
+  if (lead.source === 'custom-skill') {
+    return [
+      'Có yêu cầu Custom Skill 500k mới từ website Drafty Lab (DFL2).',
+      '',
+      `Tên: ${oneLine(lead.name, 80)}`,
+      `Liên hệ qua ${METHOD_LABEL[lead.method]}: ${oneLine(lead.contact, 120)}`,
+      'Gói: Custom Skill Edit x Content — 500k VND / yêu cầu',
+      `Ghi chú: ${lead.note ? '\n' + lead.note : '(không có)'}`,
+      '',
+      `Thời gian gửi: ${formatVN(meta.at)}`,
+      `Mã lead: ${meta.id}`,
+      `Nguồn: ${oneLine(meta.host, 100)}`,
+      'Lead cũng được lưu trong Cloudflare D1 (bảng leads) để dự phòng.',
+    ].join('\n');
+  }
   return [
     'Có yêu cầu Quick Call in 10 Min mới từ website Drafty Lab (DFL2).',
     '',
@@ -61,7 +79,7 @@ export async function notifyLead(env: Env, lead: LeadInput, meta: LeadMeta, doFe
         body: JSON.stringify({
           from: env.LEAD_FROM_EMAIL,
           to: [env.LEAD_TO_EMAIL],
-          subject: leadSubject(lead.name),
+          subject: leadSubject(lead.name, lead.source),
           text: leadText(lead, meta),
           // Replying to the notification writes straight to the customer when they left an email address.
           ...(lead.method === 'email' ? { reply_to: lead.contact } : {}),
@@ -76,7 +94,7 @@ export async function notifyLead(env: Env, lead: LeadInput, meta: LeadMeta, doFe
       const res = await doFetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: `${leadSubject(lead.name)}\n\n${leadText(lead, meta)}`, disable_web_page_preview: true }),
+        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: `${leadSubject(lead.name, lead.source)}\n\n${leadText(lead, meta)}`, disable_web_page_preview: true }),
       });
       return res.ok ? { status: 'sent', ref: 'telegram' } : { status: 'failed', ref: `err:${res.status}` };
     }

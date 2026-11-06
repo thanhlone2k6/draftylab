@@ -9,7 +9,9 @@ import ImageLightbox from './ImageLightbox';
 import type { Locale } from '../../i18n/config';
 
 const loadQuickCall = () => import('../interactive/QuickCallForm');
+const loadCustomSkill = () => import('../interactive/CustomSkillContactForm');
 const QuickCallForm = lazy(loadQuickCall);
+const CustomSkillContactForm = lazy(loadCustomSkill);
 
 interface Props { locale: Locale }
 
@@ -44,6 +46,16 @@ export default function MediaDialogHost({ locale }: Props) {
       ? createPortal(
           <Suspense fallback={null}>
             <QuickCallForm locale={locale} />
+          </Suspense>,
+          slots.form,
+        )
+      : null;
+  }
+  if (req.kind === 'custom-skill') {
+    return slots.form
+      ? createPortal(
+          <Suspense fallback={null}>
+            <CustomSkillContactForm locale={locale} />
           </Suspense>,
           slots.form,
         )

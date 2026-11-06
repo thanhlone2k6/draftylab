@@ -102,7 +102,7 @@ export async function handleLead(request: Request, env: Env, deps: Deps): Promis
 
     const id = deps.randomId();
     await env.DB.prepare(
-      'INSERT INTO leads (id, request_id, created_at, industry, needs, team, budget, name, method, contact, note, consent_at, consent_version, consent_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO leads (id, request_id, created_at, industry, needs, team, budget, name, method, contact, note, source, consent_at, consent_version, consent_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     )
       .bind(
         id,
@@ -116,6 +116,7 @@ export async function handleLead(request: Request, env: Env, deps: Deps): Promis
         lead.method,
         lead.contact,
         lead.note,
+        lead.source,
         nowS,
         CONSENT_VERSION,
         CONSENT_TEXT,

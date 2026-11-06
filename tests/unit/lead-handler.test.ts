@@ -51,6 +51,7 @@ test('success stores a canonical lead and answers without personal data', async 
   assert.equal(row.contact, '0901234567');
   assert.equal(row.name, 'Lan Anh');
   assert.equal(row.status, 'new');
+  assert.equal(row.source, 'quick-call');
   assert.equal(row.notify, 'skipped'); // LEAD_NOTIFY unset → stored only
   assert.equal(row.consent_version, '2026-11-06');
   assert.equal(row.consent_at, row.created_at);
@@ -166,6 +167,19 @@ test('Resend email: subject format, ALL answers in the body, reply-to, idempoten
   assert.equal(row.notify, 'sent');
   assert.equal(row.notify_ref, 're_abc123');
   assert.equal(row.budget, '5 – 15 triệu');
+});
+
+test('custom skill request: source, subject and body', async () => {
+  const env = { LEAD_NOTIFY: 'resend', RESEND_API_KEY: 'rk', LEAD_TO_EMAIL: 'owner@example.com', LEAD_FROM_EMAIL: 'Drafty Lab <onboarding@resend.dev>' };
+  const s = setup(env, (async () => new Response(JSON.stringify({ id: 're_cs' }), { status: 200 })) as typeof fetch);
+  const res = await s.run(req(payload({ source: 'custom-skill', industry: 'Khác', needs: ['Branding / AI Creative'], team: 'Tự làm', budget: '', note: 'cần skill edit' })));
+  assert.equal(res.status, 200);
+  const sent = JSON.parse(String(s.calls[0].init?.body));
+  assert.match(sent.subject, /Custom Skill request/);
+  assert.ok(sent.text.includes('Gói: Custom Skill Edit x Content'));
+  assert.ok(!sent.text.includes('Lĩnh vực kinh doanh'));
+  const row = rows(s.raw)[0];
+  assert.equal(row.source, 'custom-skill');
 });
 
 test('email body when optional answers are empty; no reply_to for non-email contacts', async () => {

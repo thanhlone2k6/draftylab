@@ -23,7 +23,6 @@ const c = getContent(locale).community;
       <p class="cmt-skills__lead">{c.skillsLead}</p>
       <SkillList client:load copy={{ error: c.error, retry: c.retry, empty: c.skillsEmpty }} />
     </section>
-    <CustomSkillOffer locale={locale} />
     <div class="cmt__grid">
       <CommunityGrid
         client:load
@@ -31,6 +30,7 @@ const c = getContent(locale).community;
         copy={{ empty: c.empty, error: c.error, retry: c.retry, posted: c.posted, seeMore: c.seeMore, showLess: c.showLess }}
       />
     </div>
+    <CustomSkillOffer locale={locale} />
   </div>
 </main>
 <Footer locale={locale} />

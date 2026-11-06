@@ -175,6 +175,34 @@
 .qc-consent input { width: 18px; height: 18px; flex: none; margin: 2px 0 0; accent-color: var(--c-accent); }
 .qc-consent label { cursor: pointer; }
 .qc-consent a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 3px; }
+.csf__submit {
+  min-height: 50px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--c-fg);
+  color: var(--c-bg);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.csf__submit:hover:not(:disabled) { transform: translateY(-1px); }
+.csf__submit:disabled { opacity: 0.55; cursor: wait; }
+.csf__submit:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+.csf__retry {
+  margin-top: 4px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-fg);
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.csf__retry:disabled { opacity: 0.5; cursor: not-allowed; }
 .qc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .qc-result { padding: 12px 14px; border-radius: 12px; font-size: 0.92rem; line-height: 1.5; }
 .qc-result p { margin: 0 0 6px; }

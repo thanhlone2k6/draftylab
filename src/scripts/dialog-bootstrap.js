@@ -45,6 +45,7 @@
   const readReq = (el) => {
     const ds = el.dataset;
     if (ds.dflOpen === 'quickcall') return { kind: 'quickcall' };
+    if (ds.dflOpen === 'custom-skill') return { kind: 'custom-skill' };
     return {
       kind: ds.dflOpen,
       id: ds.mediaId || '',
@@ -137,6 +138,11 @@
       image.removeAttribute('src');
       shell.removeAttribute('data-pending');
       titleEl.textContent = shell.dataset.quickcallTitle || 'Quick Call';
+    } else if (req.kind === 'custom-skill') {
+      stopVideo();
+      image.removeAttribute('src');
+      shell.removeAttribute('data-pending');
+      titleEl.textContent = shell.dataset.customSkillTitle || 'Custom Skill';
     } else {
       loadMedia(req);
     }

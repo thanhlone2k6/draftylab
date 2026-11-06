@@ -2,6 +2,19 @@
 // The Vietnamese copy is the source; the other four are translations for the language switcher.
 import type { Locale } from '../i18n/config';
 
+export interface CustomSkillForm {
+  title: string;
+  lead: string;
+  name: string;
+  contact: string;
+  note: string;
+  submit: string;
+  sending: string;
+  successTitle: string;
+  successBody: string;
+  error: string;
+}
+
 export interface CustomSkillDoc {
   kicker: string;
   title: string;
@@ -14,6 +27,7 @@ export interface CustomSkillDoc {
   subtitle: string;
   bullets: string[];
   cta: string;
+  form: CustomSkillForm;
 }
 
 export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
@@ -33,6 +47,18 @@ export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
       'Bàn giao file + hướng dẫn dùng',
     ],
     cta: 'Đặt yêu cầu',
+    form: {
+      title: 'Đặt yêu cầu Custom Skill',
+      lead: 'Để lại thông tin, mình sẽ liên hệ lại về skill và nội dung bạn cần.',
+      name: 'Tên của bạn',
+      contact: 'Zalo / số điện thoại hoặc email',
+      note: 'Bạn cần skill/content gì? (không bắt buộc)',
+      submit: 'Gửi yêu cầu',
+      sending: 'Đang gửi…',
+      successTitle: 'Đã nhận yêu cầu',
+      successBody: 'Mình sẽ liên hệ lại với bạn sớm.',
+      error: 'Không gửi được yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp.',
+    },
   },
   en: {
     kicker: 'Service',
@@ -50,6 +76,18 @@ export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
       'Files + usage guide',
     ],
     cta: 'Request this',
+    form: {
+      title: 'Request a Custom Skill',
+      lead: 'Leave your details and I’ll get back to you about the skill and content you need.',
+      name: 'Your name',
+      contact: 'Zalo / phone or email',
+      note: 'What skill/content do you need? (optional)',
+      submit: 'Send request',
+      sending: 'Sending…',
+      successTitle: 'Request received',
+      successBody: 'I’ll get back to you soon.',
+      error: 'Could not send the request. Please try again or contact me directly.',
+    },
   },
   fr: {
     kicker: 'Service',
@@ -67,6 +105,18 @@ export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
       'Fichiers + guide d’utilisation',
     ],
     cta: 'Demander',
+    form: {
+      title: 'Demander un Custom Skill',
+      lead: 'Laissez vos coordonnées, je reviendrai vers vous au sujet du skill et du contenu dont vous avez besoin.',
+      name: 'Votre nom',
+      contact: 'Zalo / téléphone ou e-mail',
+      note: 'De quel skill/contenu avez-vous besoin ? (facultatif)',
+      submit: 'Envoyer la demande',
+      sending: 'Envoi…',
+      successTitle: 'Demande reçue',
+      successBody: 'Je vous recontacte bientôt.',
+      error: 'Impossible d’envoyer la demande. Réessayez ou contactez-moi directement.',
+    },
   },
   de: {
     kicker: 'Leistung',
@@ -84,6 +134,18 @@ export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
       'Dateien + Anleitung',
     ],
     cta: 'Anfragen',
+    form: {
+      title: 'Custom Skill anfragen',
+      lead: 'Hinterlassen Sie Ihre Kontaktdaten; ich melde mich zu dem Skill und den Inhalten, die Sie brauchen.',
+      name: 'Ihr Name',
+      contact: 'Zalo / Telefon oder E-Mail',
+      note: 'Welchen Skill/Content brauchen Sie? (optional)',
+      submit: 'Anfrage senden',
+      sending: 'Wird gesendet…',
+      successTitle: 'Anfrage erhalten',
+      successBody: 'Ich melde mich bald bei Ihnen.',
+      error: 'Die Anfrage konnte nicht gesendet werden. Bitte erneut versuchen oder direkt kontaktieren.',
+    },
   },
   nl: {
     kicker: 'Dienst',
@@ -101,5 +163,17 @@ export const CUSTOM_SKILL: Record<Locale, CustomSkillDoc> = {
       'Bestanden + handleiding',
     ],
     cta: 'Aanvragen',
+    form: {
+      title: 'Custom Skill aanvragen',
+      lead: 'Laat je gegevens achter; ik neem contact op over de skill en content die je nodig hebt.',
+      name: 'Je naam',
+      contact: 'Zalo / telefoon of e-mail',
+      note: 'Welke skill/content heb je nodig? (optioneel)',
+      submit: 'Aanvraag versturen',
+      sending: 'Versturen…',
+      successTitle: 'Aanvraag ontvangen',
+      successBody: 'Ik neem snel contact met je op.',
+      error: 'De aanvraag kon niet worden verstuurd. Probeer opnieuw of neem direct contact op.',
+    },
   },
 };

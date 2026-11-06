@@ -5,6 +5,7 @@ import { BUDGETS, CONTACT_METHODS, INDUSTRIES, NEEDS, TEAMS, type ContactMethod 
 export const LIMITS = { nameMin: 2, nameMax: 80, noteMax: 500, contactMax: 120, payloadBytes: 4096 } as const;
 
 export interface LeadInput {
+  source: 'quick-call' | 'custom-skill';
   industry: string;
   needs: string[];
   team: string;
@@ -94,6 +95,8 @@ export function validateLead(raw: unknown): LeadResult {
   const requestId = typeof r.requestId === 'string' ? r.requestId : '';
   if (!UUID_V4.test(requestId)) errors.requestId = 'invalid';
 
+  const source = r.source === 'custom-skill' ? 'custom-skill' : 'quick-call';
+
   if (Object.keys(errors).length) return { ok: false, errors };
-  return { ok: true, value: { industry, needs, team, budget, name, method: method as ContactMethod, contact, note, consent: true, requestId: requestId.toLowerCase() } };
+  return { ok: true, value: { source, industry, needs, team, budget, name, method: method as ContactMethod, contact, note, consent: true, requestId: requestId.toLowerCase() } };
 }
