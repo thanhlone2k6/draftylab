@@ -93,6 +93,14 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
     }
   };
 
+  // Turnstile fills the hidden `cf-turnstile-response` input even when its callback is delayed;
+  // reading it is a safety net for `appearance="interaction-only"`.
+  const readWidgetToken = (): string | null => {
+    if (typeof document === 'undefined') return null;
+    const field = document.querySelector<HTMLInputElement>('.wl__captcha input[name="cf-turnstile-response"]');
+    return field?.value?.trim() || null;
+  };
+
   const submit = async (raw: string) => {
     if (busy.current || full) return;
     const value = normalizeEmail(raw);
@@ -101,7 +109,9 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
       setError(copy.invalid);
       return;
     }
-    if (SITE_KEY && !token && !captchaDown) {
+    const effectiveToken = token || readWidgetToken();
+    if (effectiveToken && !token) setToken(effectiveToken);
+    if (SITE_KEY && !effectiveToken && !captchaDown) {
       setStatus('captcha');
       setError(copy.captcha);
       return;
@@ -120,7 +130,7 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
           consent: true,
           locale,
           website: '',
-          turnstileToken: captchaDown ? undefined : token ?? undefined,
+          turnstileToken: captchaDown ? undefined : effectiveToken ?? undefined,
         }),
         signal: ctrl.signal,
       });
@@ -256,7 +266,7 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
                       siteKey={SITE_KEY}
                       resetKey={captchaReset}
                       language={locale}
-                      appearance="always"
+                      appearance="interaction-only"
                       size="flexible"
                       onToken={setToken}
                       onUnavailable={() => setCaptchaDown(true)}
