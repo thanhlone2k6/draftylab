@@ -92,7 +92,7 @@ test('duplicate email does not create a second row or a notification', async () 
   const body = await b.json();
   assert.equal(body.duplicate, true);
   assert.equal(rows(raw).length, 1);
-  assert.equal(calls.length, 1); // only the first signup notified
+  assert.equal(calls.length, 2); // first signup: visitor confirmation + owner notification; the repeat adds none
 });
 
 test('invalid email / missing consent → 400 naming fields only', async () => {
@@ -195,10 +195,23 @@ test('a new signup emails the owner with the address and a direct reply-to', asy
   }) as typeof fetch;
   const { run, raw } = setup({ LEAD_NOTIFY: 'resend', RESEND_API_KEY: 'k', LEAD_TO_EMAIL: 'owner@example.com', LEAD_FROM_EMAIL: 'Drafty <on@resend.dev>' }, fake);
 
-  assert.equal((await run(req(payload({ email: 'new.person@example.com', locale: 'en' })))).status, 200);
-  assert.equal(calls.length, 1);
+  const res = await run(req(payload({ email: 'new.person@example.com', locale: 'en' })));
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).emailSent, true);
+  assert.equal(calls.length, 2);
   assert.match(calls[0].url, /api\.resend\.com/);
-  const sent = JSON.parse(String(calls[0].init?.body));
+  assert.match(calls[1].url, /api\.resend\.com/);
+
+  // 1) the visitor's own confirmation mail (locale-aware)
+  const welcome = JSON.parse(String(calls[0].init?.body));
+  assert.deepEqual(welcome.to, ['new.person@example.com']);
+  assert.equal(welcome.reply_to, 'owner@example.com');
+  assert.match(welcome.subject, /waitlist/i);
+  assert.match(welcome.text, /new\.person@example\.com/);
+  assert.match(welcome.text, /49\/100/);
+
+  // 2) the owner's notification, reply-to = the new address
+  const sent = JSON.parse(String(calls[1].init?.body));
   assert.deepEqual(sent.to, ['owner@example.com']);
   assert.equal(sent.reply_to, 'new.person@example.com');
   assert.match(sent.subject, /Waitlist signup #49/);
@@ -208,4 +221,11 @@ test('a new signup emails the owner with the address and a direct reply-to', asy
   const [row] = rows(raw);
   assert.equal(row.notify, 'sent');
   assert.equal(row.notify_ref, 're_123');
+});
+
+test('without Resend the success answer says no email went out (popup must not claim otherwise)', async () => {
+  const { run } = setup();
+  const res = await run(req(payload({ email: 'quiet@example.com' })));
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).emailSent, false);
 });

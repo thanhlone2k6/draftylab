@@ -13,6 +13,8 @@ const TurnstileBox = lazy(() => import('./TurnstileBox'));
 
 type Copy = Content['waitlist'];
 type Status = 'idle' | 'submitting' | 'success' | 'duplicate' | 'invalid' | 'rate' | 'full' | 'captcha' | 'error';
+/** 2026-11-08 (owner): two steps — the visitor confirms the address before anything is sent. */
+type Popup = 'none' | 'confirm' | 'success';
 
 interface Props {
   locale: Locale;
@@ -33,9 +35,14 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [captchaReset, setCaptchaReset] = useState(0);
   const [captchaDown, setCaptchaDown] = useState(false);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [popup, setPopup] = useState<Popup>('none');
+  /** The normalised address waiting for the visitor's OK in the confirm popup. */
+  const [pending, setPending] = useState('');
+  /** The address the confirmation email was sent to (shown in the success popup). */
+  const [sentTo, setSentTo] = useState('');
   const busy = useRef(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const sendRef = useRef<HTMLButtonElement>(null);
 
   // At ≤380px the envelope chip + long labels squeeze the placeholder off the curve; drop the chip
   // and use one size smaller so the example address stays readable on a 320px phone.
@@ -64,21 +71,22 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
     };
   }, []);
 
-  // Success popup: lock the page, close on Escape/backdrop, and put focus on the close button.
+  // Popups (confirm + success): lock the page, close on Escape/backdrop, focus the relevant button.
   useEffect(() => {
-    if (!popupOpen) return;
+    if (popup === 'none') return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setPopupOpen(false);
+      if (event.key === 'Escape') setPopup('none');
     };
     document.addEventListener('keydown', onKey);
-    closeRef.current?.focus();
+    if (popup === 'confirm') sendRef.current?.focus();
+    else closeRef.current?.focus();
     return () => {
       document.body.style.overflow = previous;
       document.removeEventListener('keydown', onKey);
     };
-  }, [popupOpen]);
+  }, [popup]);
 
   const full = count >= WAITLIST_GOAL;
   const remaining = Math.max(0, WAITLIST_GOAL - count);
@@ -101,7 +109,8 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
     return field?.value?.trim() || null;
   };
 
-  const submit = async (raw: string) => {
+  // Step 1 — the button / Enter only validates, then asks the visitor to re-read the address.
+  const submit = (raw: string) => {
     if (busy.current || full) return;
     const value = normalizeEmail(raw);
     if (!isValidEmail(value)) {
@@ -116,6 +125,18 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
       setError(copy.captcha);
       return;
     }
+    setPending(value);
+    setStatus('idle');
+    setError(null);
+    setPopup('confirm');
+  };
+
+  // Step 2 — the visitor pressed "Gửi" in the confirm popup.
+  const send = async (value: string) => {
+    if (busy.current || full) return;
+    const effectiveToken = token || readWidgetToken();
+    if (effectiveToken && !token) setToken(effectiveToken);
+    setPopup('none');
     busy.current = true;
     setStatus('submitting');
     setError(null);
@@ -143,9 +164,10 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
           setEmail('');
         } else {
           setPosition(typeof data.position === 'number' ? data.position : next);
+          setSentTo(data.emailSent === false ? '' : value);
           setStatus('success');
           setEmail('');
-          setPopupOpen(true);
+          setPopup('success');
         }
         return;
       }
@@ -285,28 +307,63 @@ export default function Waitlist({ locale, copy, privacyHref }: Props) {
         </div>
       </div>
 
-      {popupOpen &&
+      {popup !== 'none' &&
         typeof document !== 'undefined' &&
         createPortal(
           <div
             className="wl-modal"
             role="presentation"
             onClick={(event) => {
-              if (event.target === event.currentTarget) setPopupOpen(false);
+              if (event.target === event.currentTarget) setPopup('none');
             }}
           >
-            <div className="wl-modal__panel" role="dialog" aria-modal="true" aria-labelledby="wl-success-title">
-              <span className="wl-modal__icon" aria-hidden="true">
-                ✓
-              </span>
-              <h2 className="wl-modal__title" id="wl-success-title">
-                {copy.successTitle}
-              </h2>
-              <p className="wl-modal__body">{interpolate(copy.successBody, { position: position ?? count })}</p>
-              <p className="wl-modal__meta">{full ? copy.full : interpolate(copy.successRemaining, { count: remaining })}</p>
-              <button ref={closeRef} type="button" className="wl-modal__close" onClick={() => setPopupOpen(false)}>
-                {copy.close}
-              </button>
+            <div className="wl-modal__panel" role="dialog" aria-modal="true" aria-labelledby="wl-modal-title">
+              {popup === 'confirm' ? (
+                <>
+                  <p className="wl-modal__eyebrow">{copy.emailLabel}</p>
+                  <h2 className="wl-modal__title" id="wl-modal-title">
+                    {copy.confirmTitle}
+                  </h2>
+                  <p className="wl-modal__email">{pending}</p>
+                  <p className="wl-modal__body">{copy.confirmBody}</p>
+                  <div className="wl-modal__actions">
+                    <button
+                      type="button"
+                      className="wl-modal__ghost"
+                      onClick={() => {
+                        setPopup('none');
+                        setStatus('idle');
+                        // Back to the field so the visitor can fix a typo straight away.
+                        requestAnimationFrame(() => document.querySelector<HTMLInputElement>('.wl__input input')?.focus());
+                      }}
+                    >
+                      {copy.confirmEdit}
+                    </button>
+                    <button ref={sendRef} type="button" className="wl-modal__send" onClick={() => send(pending)}>
+                      {copy.confirmSend}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="wl-modal__icon" aria-hidden="true">
+                    ✓
+                  </span>
+                  <h2 className="wl-modal__title" id="wl-modal-title">
+                    {copy.successTitle}
+                  </h2>
+                  <p className="wl-modal__body">
+                    {interpolate(sentTo ? copy.successBody : copy.successBodyPending, {
+                      position: position ?? count,
+                      email: sentTo,
+                    })}
+                  </p>
+                  <p className="wl-modal__meta">{full ? copy.full : interpolate(copy.successRemaining, { count: remaining })}</p>
+                  <button ref={closeRef} type="button" className="wl-modal__close" onClick={() => setPopup('none')}>
+                    {copy.close}
+                  </button>
+                </>
+              )}
             </div>
           </div>,
           document.body,

@@ -3,7 +3,8 @@
 //  • Facebook + Instagram: the owner's own files (2nd pass, "dùng lại 3 cái này, để nguyên viền của nó") —
 //    shapes come from the assets (FB circle, IG rounded square), nothing is clipped or rounded by CSS.
 //  • TikTok (3rd pass, owner: "tiktok để lại cái cũ đi cái này xấu quá"): back to the drawn mark — black
-//    disc + the note with the cyan/red offset. The owner's AVIF version made the glyph too small at 44px.export type BrandKey = 'facebook' | 'instagram' | 'tiktok';
+//    disc + the note with the cyan/red offset. The owner's AVIF version made the glyph too small at 44px.
+export type BrandKey = 'facebook' | 'instagram' | 'tiktok';
 
 interface Props { name: BrandKey }
 const { name } = Astro.props;

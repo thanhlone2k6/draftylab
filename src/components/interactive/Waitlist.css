@@ -283,6 +283,77 @@
   line-height: 1.1;
 }
 
+/* Confirm step: the address stands alone so it can be read once more at a glance. */
+.wl-modal__eyebrow {
+  margin: 0 0 6px;
+  color: #8fb6d9;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.wl-modal__email {
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(108, 184, 240, 0.32);
+  border-radius: 16px;
+  background: rgba(108, 184, 240, 0.09);
+  color: #eaf4ff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.wl-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.wl-modal__send,
+.wl-modal__ghost {
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background var(--dur), border-color var(--dur), color var(--dur);
+}
+
+.wl-modal__send {
+  border: 1px solid rgba(108, 184, 240, 0.35);
+  background: #6cb8f0;
+  color: #08111f;
+}
+
+.wl-modal__ghost {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  color: var(--c-fg);
+}
+
+@media (hover: hover) {
+  .wl-modal__send:hover {
+    background: #8ac9f6;
+  }
+
+  .wl-modal__ghost:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.wl-modal__send:focus-visible,
+.wl-modal__ghost:focus-visible {
+  outline: 2px solid #6cb8f0;
+  outline-offset: 3px;
+}
+
 .wl-modal__body {
   margin: 10px 0 0;
   color: var(--c-fg-muted);

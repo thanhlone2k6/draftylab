@@ -133,9 +133,10 @@ export interface Content {
   waitlist: {
     eyebrow: string; title: string; lead: string; placeholder: string; emailLabel: string; cta: string;
     countLabel: string; remaining: string; full: string; success: string; duplicate: string;
-    successTitle: string; successBody: string; successRemaining: string; close: string; captcha: string;
+    successTitle: string; successBody: string; successBodyPending: string; successRemaining: string; close: string; captcha: string;
     sending: string; invalid: string; rate: string; error: string; consent: string; privacyLink: string;
     homeLabel: string; homeRemaining: string;
+    confirmTitle: string; confirmBody: string; confirmSend: string; confirmEdit: string;
   };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
@@ -341,6 +342,7 @@ export function getContent(locale: Locale): Content {
       duplicate: t('waitlist.duplicate'),
       successTitle: t('waitlist.successTitle'),
       successBody: t('waitlist.successBody'),
+      successBodyPending: t('waitlist.successBodyPending'),
       successRemaining: t('waitlist.successRemaining'),
       close: t('waitlist.close'),
       captcha: t('waitlist.captcha'),
@@ -352,6 +354,10 @@ export function getContent(locale: Locale): Content {
       privacyLink: t('qc.privacyLink'),
       homeLabel: t('waitlist.homeLabel'),
       homeRemaining: t('waitlist.homeRemaining'),
+      confirmTitle: t('waitlist.confirmTitle'),
+      confirmBody: t('waitlist.confirmBody'),
+      confirmSend: t('waitlist.confirmSend'),
+      confirmEdit: t('waitlist.confirmEdit'),
     },
     dialog: {
       close: t('dialog.close'),

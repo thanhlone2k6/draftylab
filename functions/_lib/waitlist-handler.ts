@@ -3,7 +3,7 @@
 // Pure function of (request, env, deps) so it can be unit-tested in Node with a fake D1.
 import type { Env } from './env';
 import { json, sha256Hex } from './admin-auth';
-import { notifyWaitlistSignup } from './notify';
+import { notifyWaitlistSignup, notifyWaitlistWelcome } from './notify';
 import {
   WAITLIST_CAPACITY,
   WAITLIST_CONSENT_TEXT,
@@ -152,13 +152,16 @@ export async function handleWaitlistPost(request: Request, env: Env, deps: Deps)
       host: new URL(request.url).host,
       at: deps.now(),
     };
+    // The visitor's own confirmation mail is awaited so the success popup can say truthfully whether
+    // it went out (`emailSent`); the owner notification stays in the background.
+    const emailSent = await notifyWaitlistWelcome(env, meta, deps.fetch);
     deps.waitUntil(
       notifyWaitlistSignup(env, meta, deps.fetch).then((r) =>
         env.DB.prepare('UPDATE waitlist SET notify = ?, notify_ref = ? WHERE id = ?').bind(r.status, r.ref, id).run(),
       ),
     );
 
-    return json(200, { ok: true, count, goal: WAITLIST_GOAL, position: count, duplicate: false });
+    return json(200, { ok: true, count, goal: WAITLIST_GOAL, position: count, duplicate: false, emailSent });
   } catch (e) {
     // Only an error class is logged — never the email.
     console.error('waitlist_error', e instanceof Error ? e.name : 'unknown');

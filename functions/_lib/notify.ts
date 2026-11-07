@@ -97,6 +97,103 @@ export function waitlistText(meta: WaitlistMeta): string {
   ].join('\n');
 }
 
+/** Confirmation mail to the visitor (owner, 2026-11-08 — the popup says "check your email", so one is sent). */
+const WAITLIST_WELCOME: Record<string, { subject: string; lines: (m: WaitlistMeta) => string[] }> = {
+  vi: {
+    subject: 'Bạn đã vào danh sách chờ Drafty Lab',
+    lines: (m) => [
+      'Chào bạn,',
+      '',
+      `Mình đã nhận email ${m.email} và bạn đang ở vị trí ${m.position}/${m.goal} trong danh sách chờ cộng đồng Drafty Lab.`,
+      'Khi đủ 100 người, mình mở nhóm chung để mọi người chia sẻ tài nguyên, skill và góp ý chéo cho nhau — mình sẽ gửi thư mời cho bạn.',
+      '',
+      'Nếu bạn không đăng ký, bạn bỏ qua email này là được.',
+      '',
+      '— Thành · Drafty Lab',
+    ],
+  },
+  en: {
+    subject: 'You’re on the Drafty Lab waitlist',
+    lines: (m) => [
+      'Hi,',
+      '',
+      `We got ${m.email} — you are number ${m.position}/${m.goal} on the Drafty Lab community waitlist.`,
+      'When we reach 100 people, I open a shared group where everyone swaps resources, skills and feedback. I’ll send you the invite.',
+      '',
+      'If you did not sign up, just ignore this email.',
+      '',
+      '— Thanh · Drafty Lab',
+    ],
+  },
+  fr: {
+    subject: 'Vous êtes sur la liste d’attente Drafty Lab',
+    lines: (m) => [
+      'Bonjour,',
+      '',
+      `Nous avons bien reçu ${m.email} — vous êtes la personne n° ${m.position}/${m.goal} sur la liste d’attente de la communauté Drafty Lab.`,
+      'À 100 personnes, j’ouvre un groupe commun pour partager ressources, skills et retours. Je vous enverrai l’invitation.',
+      '',
+      'Si vous n’avez rien demandé, ignorez simplement cet e-mail.',
+      '',
+      '— Thanh · Drafty Lab',
+    ],
+  },
+  de: {
+    subject: 'Sie stehen auf der Drafty-Lab-Warteliste',
+    lines: (m) => [
+      'Hallo,',
+      '',
+      `Wir haben ${m.email} erhalten — Sie sind Nummer ${m.position}/${m.goal} auf der Warteliste der Drafty-Lab-Community.`,
+      'Bei 100 Personen öffne ich eine gemeinsame Gruppe für Materialien, Skills und Feedback. Die Einladung kommt per E-Mail.',
+      '',
+      'Wenn Sie sich nicht angemeldet haben, ignorieren Sie diese E-Mail einfach.',
+      '',
+      '— Thanh · Drafty Lab',
+    ],
+  },
+  nl: {
+    subject: 'Je staat op de wachtlijst van Drafty Lab',
+    lines: (m) => [
+      'Hoi,',
+      '',
+      `We hebben ${m.email} ontvangen — je bent nummer ${m.position}/${m.goal} op de wachtlijst van de Drafty Lab-community.`,
+      'Bij 100 mensen open ik een gedeelde groep waar iedereen resources, skills en feedback deelt. De uitnodiging volgt per e-mail.',
+      '',
+      'Heb je je niet aangemeld? Dan kun je deze e-mail negeren.',
+      '',
+      '— Thanh · Drafty Lab',
+    ],
+  },
+};
+
+/**
+ * Sends the visitor their own "you're on the list" mail. Returns whether it actually went out, so the
+ * success popup never claims an email that Resend did not accept. Never throws, never logs the address.
+ */
+export async function notifyWaitlistWelcome(env: Env, meta: WaitlistMeta, doFetch: Fetch): Promise<boolean> {
+  if ((env.LEAD_NOTIFY || 'none').toLowerCase() !== 'resend') return false;
+  if (!env.RESEND_API_KEY || !env.LEAD_FROM_EMAIL) return false;
+  const copy = WAITLIST_WELCOME[meta.locale] || WAITLIST_WELCOME.vi;
+  try {
+    const res = await doFetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `dfl2-welcome-${meta.id}` },
+      body: JSON.stringify({
+        from: env.LEAD_FROM_EMAIL,
+        to: [meta.email],
+        subject: copy.subject,
+        text: copy.lines(meta).join('\n'),
+        ...(env.LEAD_TO_EMAIL ? { reply_to: env.LEAD_TO_EMAIL } : {}),
+      }),
+      // The signup response waits for this mail, so never let a stalled provider hang the request.
+      signal: AbortSignal.timeout(8000),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 /** Notifies the owner on every new waitlist signup so they can send the welcome mail themselves. */
 export async function notifyWaitlistSignup(env: Env, meta: WaitlistMeta, doFetch: Fetch): Promise<NotifyResult> {
   const mode = (env.LEAD_NOTIFY || 'none').toLowerCase();

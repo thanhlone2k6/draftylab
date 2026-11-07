@@ -220,18 +220,57 @@ export const OVERRIDES: Record<string, Partial<Record<Locale, string>>> = {
     nl: 'Dit e-mailadres staat al op de wachtlijst.',
   },
   'waitlist.successTitle': {
-    vi: 'Đã ghi danh!',
-    en: 'You’re in!',
-    fr: 'C’est noté !',
-    de: 'Sie sind dabei!',
-    nl: 'Je doet mee!',
+    vi: 'Đã gửi!',
+    en: 'Sent!',
+    fr: 'Envoyé !',
+    de: 'Gesendet!',
+    nl: 'Verzonden!',
   },
   'waitlist.successBody': {
-    vi: 'Bạn là người thứ {position} trong danh sách chờ. Mình sẽ gửi email cho bạn ngay khi nhóm cộng đồng mở.',
-    en: 'You’re number {position} on the waitlist. I’ll email you as soon as the community group opens.',
-    fr: 'Vous êtes la personne n° {position} sur la liste d’attente. Je vous enverrai un e-mail dès que le groupe communautaire ouvrira.',
-    de: 'Sie sind Nummer {position} auf der Warteliste. Ich schreibe Ihnen, sobald die Community-Gruppe öffnet.',
-    nl: 'Je bent nummer {position} op de wachtlijst. Ik mail je zodra de communitygroep opent.',
+    vi: 'Bạn là người thứ {position} trong danh sách chờ. Thư xác nhận đã gửi tới {email} — nhớ kiểm tra hộp thư (cả mục Spam) nhé.',
+    en: 'You’re number {position} on the waitlist. A confirmation email is on its way to {email} — check your inbox (and Spam).',
+    fr: 'Vous êtes la personne n° {position} sur la liste d’attente. Un e-mail de confirmation vient d’être envoyé à {email} — pensez à vérifier votre boîte (et les spams).',
+    de: 'Sie sind Nummer {position} auf der Warteliste. Eine Bestätigungs-E-Mail ist unterwegs an {email} — schauen Sie auch im Spam-Ordner nach.',
+    nl: 'Je bent nummer {position} op de wachtlijst. Er is een bevestigingsmail onderweg naar {email} — check ook je spam.',
+  },
+  // Fallback when the confirmation email could not go out (e.g. local dev without Resend): the popup
+  // must not claim an email was sent.
+  'waitlist.successBodyPending': {
+    vi: 'Bạn là người thứ {position} trong danh sách chờ. Mình sẽ báo bạn ngay khi nhóm cộng đồng mở.',
+    en: 'You’re number {position} on the waitlist. I’ll let you know as soon as the community group opens.',
+    fr: 'Vous êtes la personne n° {position} sur la liste d’attente. Je vous préviens dès que le groupe communautaire ouvrira.',
+    de: 'Sie sind Nummer {position} auf der Warteliste. Ich melde mich, sobald die Community-Gruppe öffnet.',
+    nl: 'Je bent nummer {position} op de wachtlijst. Ik laat het weten zodra de communitygroep opent.',
+  },
+  // 2026-11-08 (owner): the signup is two steps now — the visitor sees the address again and only sends
+  // after confirming, then the popup says the email went out.
+  'waitlist.confirmTitle': {
+    vi: 'Đây có đúng là email của bạn?',
+    en: 'Is this your email?',
+    fr: 'Est-ce bien votre e-mail ?',
+    de: 'Ist das Ihre E-Mail-Adresse?',
+    nl: 'Is dit je e-mailadres?',
+  },
+  'waitlist.confirmBody': {
+    vi: 'Bạn xem lại một lần cho chắc, rồi bấm Gửi nhé.',
+    en: 'Take one last look, then hit Send.',
+    fr: 'Vérifiez une dernière fois, puis appuyez sur Envoyer.',
+    de: 'Bitte einmal prüfen, dann auf Senden tippen.',
+    nl: 'Controleer het nog één keer en tik dan op Versturen.',
+  },
+  'waitlist.confirmSend': {
+    vi: 'Gửi',
+    en: 'Send',
+    fr: 'Envoyer',
+    de: 'Senden',
+    nl: 'Versturen',
+  },
+  'waitlist.confirmEdit': {
+    vi: 'Sửa lại',
+    en: 'Edit',
+    fr: 'Modifier',
+    de: 'Ändern',
+    nl: 'Wijzigen',
   },
   'waitlist.successRemaining': {
     vi: 'Còn {count} người nữa là mở nhóm.',
