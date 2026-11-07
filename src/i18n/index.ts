@@ -133,6 +133,7 @@ export interface Content {
   waitlist: {
     eyebrow: string; title: string; lead: string; placeholder: string; emailLabel: string; cta: string;
     countLabel: string; remaining: string; full: string; success: string; duplicate: string;
+    successTitle: string; successBody: string; successRemaining: string; close: string; captcha: string;
     sending: string; invalid: string; rate: string; error: string; consent: string; privacyLink: string;
     homeLabel: string; homeRemaining: string;
   };
@@ -338,6 +339,11 @@ export function getContent(locale: Locale): Content {
       full: t('waitlist.full'),
       success: t('waitlist.success'),
       duplicate: t('waitlist.duplicate'),
+      successTitle: t('waitlist.successTitle'),
+      successBody: t('waitlist.successBody'),
+      successRemaining: t('waitlist.successRemaining'),
+      close: t('waitlist.close'),
+      captcha: t('waitlist.captcha'),
       sending: t('waitlist.sending'),
       invalid: t('waitlist.invalid'),
       rate: t('waitlist.rate'),

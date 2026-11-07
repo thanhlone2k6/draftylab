@@ -90,9 +90,8 @@ export async function handleWaitlistPost(request: Request, env: Env, deps: Deps)
   const w = parsed.value;
 
   const ip = request.headers.get('CF-Connecting-IP');
-  // Turnstile is optional for the waitlist: the widget is not rendered, so a missing token must not
-  // block signups. If a token is supplied, verify it.
-  if (env.TURNSTILE_SECRET && typeof body.turnstileToken === 'string' && body.turnstileToken !== '') {
+  // Required when the secret is configured (production). Local/preview without a secret stay usable.
+  if (env.TURNSTILE_SECRET) {
     if (!(await verifyTurnstile(env, body.turnstileToken, ip, deps.fetch))) return json(403, { ok: false, code: 'captcha' });
   }
 

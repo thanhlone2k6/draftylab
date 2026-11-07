@@ -147,7 +147,7 @@
 }
 
 .wl__consent a:focus-visible {
-  outline: 2px solid var(--c-focus);
+  outline: 2px solid #6cb8f0;
   outline-offset: 2px;
 }
 
@@ -225,8 +225,137 @@
   }
 }
 
+.wl__captcha {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 4px;
+}
+
+.wl__captcha .qc-turnstile {
+  width: 100%;
+}
+
+/* Success popup (portaled to body). */
+.wl-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: rgba(4, 7, 12, 0.74);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: wl-modal-fade 180ms var(--ease-out);
+}
+
+.wl-modal__panel {
+  width: min(100%, 420px);
+  padding: 28px;
+  border: 1px solid rgba(108, 184, 240, 0.3);
+  border-radius: 24px;
+  background: linear-gradient(160deg, #101a2b 0%, #0b0f16 100%);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9);
+  color: var(--c-fg);
+  text-align: left;
+  animation: wl-modal-in 220ms var(--ease-out);
+}
+
+.wl-modal__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: #6cb8f0;
+  color: #08111f;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.wl-modal__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.wl-modal__body {
+  margin: 10px 0 0;
+  color: var(--c-fg-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.wl-modal__meta {
+  margin: 12px 0 0;
+  color: #8fb6d9;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.wl-modal__close {
+  min-height: 46px;
+  margin-top: 22px;
+  padding: 0 24px;
+  border: 1px solid rgba(108, 184, 240, 0.35);
+  border-radius: 999px;
+  background: #6cb8f0;
+  color: #08111f;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background var(--dur), transform var(--dur);
+}
+
+.wl-modal__close:hover {
+  background: #8ac9f6;
+}
+
+.wl-modal__close:focus-visible {
+  outline: 2px solid #6cb8f0;
+  outline-offset: 3px;
+}
+
+@keyframes wl-modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes wl-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+@media (max-width: 520px) {
+  .wl-modal__panel {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .wl-modal__title {
+    font-size: 1.4rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wl__bar-fill {
+    transition: none;
+  }
+
+  .wl-modal,
+  .wl-modal__panel {
+    animation: none;
+  }
+
+  .wl-modal__close {
     transition: none;
   }
 }

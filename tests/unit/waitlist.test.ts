@@ -117,6 +117,19 @@ test('method / content type / origin / size / json guards', async () => {
   assert.equal(rows(raw).length, 0);
 });
 
+test('Turnstile is required when the secret is set and verified server-side', async () => {
+  const fake = (async (url: RequestInfo | URL) => {
+    if (String(url).includes('siteverify')) {
+      return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+    return new Response('{}', { status: 200 });
+  }) as typeof fetch;
+  const { run } = setup({ TURNSTILE_SECRET: 'secret' }, fake);
+
+  assert.equal((await run(req(payload()))).status, 403);
+  assert.equal((await run(req(payload({ turnstileToken: 'valid-token-123' })))).status, 200);
+});
+
 test('WAITLIST_ENABLED=false is an independent kill switch; LEAD_ENABLED does not affect it', async () => {
   const off = setup({ WAITLIST_ENABLED: 'false' });
   assert.equal((await off.run(req(payload()))).status, 503);

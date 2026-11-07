@@ -20,7 +20,7 @@
     "check:functions": "tsc --noEmit -p functions",
     "dev:functions": "wrangler pages dev dist --port 8788",
     "media:upload": "node scripts/upload-media.mjs",
-    "build:lead": "PUBLIC_LEAD_ENDPOINT=/api/lead astro build --outDir dist-lead && DIST_DIR=dist-lead R2_OUT_DIR=dist-lead-r2 node scripts/prepare-dist.mjs",
+    "build:lead": "PUBLIC_LEAD_ENDPOINT=/api/lead PUBLIC_TURNSTILE_SITEKEY=0x4AAAAAAFZKwOwfz57y22Nr astro build --outDir dist-lead && DIST_DIR=dist-lead R2_OUT_DIR=dist-lead-r2 node scripts/prepare-dist.mjs",
     "lead:local-r2": "node scripts/upload-media.mjs --dir dist-lead-r2 --execute --local",
     "build:cf": "PUBLIC_LEAD_ENDPOINT=/api/lead PUBLIC_TURNSTILE_SITEKEY=0x4AAAAAAFZKwOwfz57y22Nr PUBLIC_POSTHOG_KEY=phc_nCwi6YBVsNN5SS6Ne3meWbuptocNH4fPH7F8fXewdVk6 npm run build:deploy",
     "build:preview": "PUBLIC_LEAD_ENDPOINT=/api/lead PUBLIC_TURNSTILE_SITEKEY=0x4AAAAAAFZKwOwfz57y22Nr PUBLIC_POSTHOG_KEY=phc_nCwi6YBVsNN5SS6Ne3meWbuptocNH4fPH7F8fXewdVk6 npm run build:deploy",

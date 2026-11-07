@@ -36,11 +36,15 @@ interface Props {
   resetKey: number;
   /** Turnstile's own widget language, from the locale registry */
   language: string;
+  /** `interaction-only` keeps the widget invisible until a challenge needs input */
+  appearance?: 'always' | 'execute' | 'interaction-only';
+  /** `flexible` makes the widget fit narrow cards */
+  size?: 'normal' | 'compact' | 'flexible';
   onToken: (token: string | null) => void;
   onUnavailable: () => void;
 }
 
-export default function TurnstileBox({ siteKey, resetKey, language, onToken, onUnavailable }: Props) {
+export default function TurnstileBox({ siteKey, resetKey, language, appearance, size, onToken, onUnavailable }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const widget = useRef<string | null>(null);
   const cb = useRef({ onToken, onUnavailable });
@@ -55,6 +59,8 @@ export default function TurnstileBox({ siteKey, resetKey, language, onToken, onU
           sitekey: siteKey,
           theme: 'dark',
           language,
+          ...(appearance ? { appearance } : {}),
+          ...(size ? { size } : {}),
           callback: (t: string) => cb.current.onToken(t),
           'expired-callback': () => cb.current.onToken(null),
           'error-callback': () => cb.current.onToken(null),
@@ -66,7 +72,7 @@ export default function TurnstileBox({ siteKey, resetKey, language, onToken, onU
       if (widget.current && window.turnstile) window.turnstile.remove(widget.current);
       widget.current = null;
     };
-  }, [siteKey]);
+  }, [siteKey, language, appearance, size]);
 
   useEffect(() => {
     if (resetKey > 0 && widget.current && window.turnstile) {
