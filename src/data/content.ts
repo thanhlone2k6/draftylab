@@ -226,6 +226,8 @@ export const contact = {
   // 2026-10-19 (owner): the founder's personal IG handle replaces the old drafty.lab placeholder.
   instagram: 'https://www.instagram.com/thanh.poto.des/',
   facebook: 'https://fb.com/realthanhng',
+  // 2026-11-07 (owner): the Drafty Lab TikTok — footer row + the Community page icon row.
+  tiktok: 'https://www.tiktok.com/@thanh.draftylab',
   // 2026-10-21 (owner): Zalo shown in the footer — plain text (NO link), just the number + the Zalo icon.
   zalo: '0343813454',
 };
