@@ -3,8 +3,10 @@
 export interface Env {
   DB: D1Database;
   MEDIA_BUCKET: R2Bucket;
-  /** "false" switches the form off (UI falls back to direct contact) */
+  /** "false" switches the Quick Call form off (UI falls back to direct contact) */
   LEAD_ENABLED?: string;
+  /** "false" switches the community waitlist off independently of the Quick Call form */
+  WAITLIST_ENABLED?: string;
   /** comma-separated extra origins allowed to POST (the request's own origin is always allowed) */
   ALLOWED_ORIGINS?: string;
   /** Turnstile secret; when set a valid token is REQUIRED */

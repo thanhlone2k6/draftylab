@@ -67,6 +67,73 @@ export function leadText(lead: LeadInput, meta: LeadMeta): string {
   ].join('\n');
 }
 
+export interface WaitlistMeta {
+  id: string;
+  email: string;
+  /** number shown to the visitor (48 head start included) */
+  position: number;
+  goal: number;
+  locale: string;
+  host: string;
+  /** ms since epoch */
+  at: number;
+}
+
+export const waitlistSubject = (position: number) => `[DFL2] Waitlist signup #${position}`;
+
+export function waitlistText(meta: WaitlistMeta): string {
+  return [
+    'Có người mới đăng ký danh sách chờ cộng đồng Drafty Lab.',
+    '',
+    `Email: ${oneLine(meta.email, 254)}`,
+    `Vị trí hiển thị: ${meta.position}/${meta.goal}`,
+    `Ngôn ngữ: ${meta.locale}`,
+    `Thời gian: ${formatVN(meta.at)}`,
+    `Nguồn: ${oneLine(meta.host, 100)}`,
+    `Mã: ${meta.id}`,
+    '',
+    'Trả lời email này để gửi thư cho người đăng ký.',
+    'Email cũng được lưu trong Cloudflare D1 (bảng waitlist).',
+  ].join('\n');
+}
+
+/** Notifies the owner on every new waitlist signup so they can send the welcome mail themselves. */
+export async function notifyWaitlistSignup(env: Env, meta: WaitlistMeta, doFetch: Fetch): Promise<NotifyResult> {
+  const mode = (env.LEAD_NOTIFY || 'none').toLowerCase();
+  try {
+    if (mode === 'resend') {
+      if (!env.RESEND_API_KEY || !env.LEAD_TO_EMAIL || !env.LEAD_FROM_EMAIL) return { status: 'skipped', ref: 'not-configured' };
+      const res = await doFetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `dfl2-waitlist-${meta.id}` },
+        body: JSON.stringify({
+          from: env.LEAD_FROM_EMAIL,
+          to: [env.LEAD_TO_EMAIL],
+          subject: waitlistSubject(meta.position),
+          text: waitlistText(meta),
+          // Reply goes straight to the person who just joined.
+          reply_to: meta.email,
+        }),
+      });
+      if (!res.ok) return { status: 'failed', ref: `err:${res.status}` };
+      const data = (await res.json().catch(() => ({}))) as { id?: string };
+      return { status: 'sent', ref: typeof data.id === 'string' ? data.id.slice(0, 64) : 'sent' };
+    }
+    if (mode === 'telegram') {
+      if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return { status: 'skipped', ref: 'not-configured' };
+      const res = await doFetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text: `${waitlistSubject(meta.position)}\n\n${waitlistText(meta)}`, disable_web_page_preview: true }),
+      });
+      return res.ok ? { status: 'sent', ref: 'telegram' } : { status: 'failed', ref: `err:${res.status}` };
+    }
+    return { status: 'skipped', ref: 'none' };
+  } catch {
+    return { status: 'failed', ref: 'err:network' };
+  }
+}
+
 /** Never throws, never logs the lead content. */
 export async function notifyLead(env: Env, lead: LeadInput, meta: LeadMeta, doFetch: Fetch): Promise<NotifyResult> {
   const mode = (env.LEAD_NOTIFY || 'none').toLowerCase();

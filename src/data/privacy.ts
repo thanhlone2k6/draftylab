@@ -34,7 +34,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
     description: 'Cách Drafty Lab thu thập, sử dụng, lưu trữ và bảo vệ dữ liệu cá nhân của bạn.',
     kicker: 'Pháp lý',
     updatedLabel: 'Cập nhật lần cuối',
-    updated: '06/11/2026',
+    updated: '07/11/2026',
     intro:
       'Chính sách này giải thích Drafty Lab thu thập những thông tin gì khi bạn gửi yêu cầu qua website, dùng thông tin đó để làm gì, lưu trong bao lâu và bạn có những quyền gì.',
     authoritative:
@@ -52,6 +52,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '2. Dữ liệu chúng tôi thu thập',
         body: [
           'Khi bạn gửi form “Quick Call in 10 Min”, bạn có thể cung cấp: họ tên, cách liên hệ (số điện thoại, email, Instagram hoặc thông tin khác), lĩnh vực kinh doanh, nhu cầu, hiện trạng triển khai nội dung, ngân sách dự kiến (không bắt buộc) và ghi chú (không bắt buộc).',
+          'Khi bạn đăng ký danh sách chờ cộng đồng, chúng tôi lưu địa chỉ email, thời điểm đăng ký, ngôn ngữ của trang và bằng chứng đồng ý.',
           'Một số dữ liệu kỹ thuật được tạo tự động để bảo vệ website: địa chỉ IP được băm một chiều (không lưu IP gốc), mã xác minh Turnstile và nhật ký máy chủ của Cloudflare.',
           'Website dùng PostHog (đặt tại Hoa Kỳ) để đếm lượt xem trang và lượt xem trang Cộng đồng. PostHog được cấu hình không ghi địa chỉ IP, không autocapture, không ghi phiên; một mã ẩn danh được lưu trong localStorage để phân biệt lượt truy cập.',
           'Chúng tôi không chủ động thu thập dữ liệu cá nhân nhạy cảm. Vui lòng không nhập thông tin về sức khỏe, tài chính, tôn giáo, quan điểm chính trị hoặc các dữ liệu nhạy cảm khác vào ô ghi chú.',
@@ -66,6 +67,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Ngăn chặn spam, lạm dụng form và bảo vệ website.',
           'Tổng hợp, cải thiện chất lượng dịch vụ ở dạng không nhận diện cá nhân.',
           'Đo lường lượt truy cập website và trang Cộng đồng để hiểu mức độ sử dụng.',
+          'Thông báo cho bạn khi nhóm cộng đồng mở (chỉ với email bạn để lại trong danh sách chờ).',
         ],
         after: [
           'Chúng tôi không bán dữ liệu cá nhân và không dùng thông tin bạn gửi để chạy quảng cáo nhắm mục tiêu.',
@@ -75,6 +77,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '4. Cơ sở pháp lý',
         body: [
           'Chúng tôi xử lý thông tin bạn gửi dựa trên sự đồng ý của bạn khi bạn tích ô đồng ý và bấm gửi form. Việc xử lý cũng cần thiết để phản hồi yêu cầu mà bạn chủ động gửi cho chúng tôi.',
+          'Với danh sách chờ cộng đồng, sự đồng ý được thể hiện khi bạn bấm nút Đăng ký sau khi đọc dòng thông báo.',
           'Chính sách này được xây dựng theo Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15 và Nghị định 356/2025/NĐ-CP. Khi pháp luật thay đổi, chúng tôi sẽ cập nhật chính sách.',
         ],
       },
@@ -82,6 +85,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Thời hạn lưu',
         body: [
           'Thông tin liên hệ và nội dung yêu cầu được lưu tối đa 12 tháng kể từ ngày bạn gửi yêu cầu, sau đó sẽ được xóa hoặc ẩn danh, trừ khi pháp luật yêu cầu lưu lâu hơn hoặc bạn đồng ý gia hạn.',
+          'Email trong danh sách chờ cộng đồng được lưu đến khi bạn yêu cầu xoá hoặc tối đa 12 tháng sau khi nhóm mở.',
           'Dữ liệu chống spam (băm IP) được lưu ngắn hạn theo cửa sổ chống spam của website. Nhật ký kỹ thuật của Cloudflare được lưu theo chính sách của Cloudflare. Dữ liệu thống kê của PostHog được lưu theo chính sách lưu trữ của PostHog Cloud (Hoa Kỳ).',
         ],
       },
@@ -159,7 +163,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
     description: 'How Drafty Lab collects, uses, stores and protects your personal data.',
     kicker: 'Legal',
     updatedLabel: 'Last updated',
-    updated: '6 November 2026',
+    updated: '7 November 2026',
     intro:
       'This policy explains what information Drafty Lab collects when you send a request through the website, what we use it for, how long we keep it and what rights you have.',
     authoritative:
@@ -177,6 +181,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '2. Data we collect',
         body: [
           'When you send the “Quick Call in 10 Min” form, you may provide: your name, contact details (phone, email, Instagram or another method), industry, needs, current content setup, estimated budget (optional) and notes (optional).',
+          'When you join the community waitlist, we store your email address, the time you signed up, the page language and evidence of your consent.',
           'Some technical data is generated automatically to protect the website: a one-way hashed IP address (the raw IP is not stored), a Turnstile verification token and Cloudflare server logs.',
           'The website uses PostHog (hosted in the United States) to count page views and Community page views. PostHog is configured not to record IP addresses, not to autocapture and not to record sessions; an anonymous ID is stored in localStorage to distinguish visits.',
           'We do not intentionally collect sensitive personal data. Please do not enter health, financial, religious, political or other sensitive information in the notes field.',
@@ -191,6 +196,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'To prevent spam, form abuse and protect the website.',
           'To improve the service in an aggregated, non-identifiable form.',
           'To measure visits to the website and the Community page.',
+          'To let you know when the community group opens (only for the email you leave on the waitlist).',
         ],
         after: ['We do not sell personal data and do not use your information for targeted advertising.'],
       },
@@ -198,6 +204,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '4. Legal basis',
         body: [
           'We process the information you submit on the basis of your consent when you tick the consent box and send the form. Processing is also necessary to respond to the request you have sent us.',
+          'For the community waitlist, consent is given when you press the Join button after reading the notice.',
           'This policy is prepared under the Law on Personal Data Protection No. 91/2025/QH15 and Decree 356/2025/NĐ-CP. We will update it when the law changes.',
         ],
       },
@@ -205,6 +212,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Retention',
         body: [
           'Contact details and request content are kept for up to 12 months from the date you submitted the request, after which they are deleted or anonymised, unless the law requires a longer period or you agree to an extension.',
+          'Waitlist emails are kept until you ask us to delete them or for up to 12 months after the group opens.',
           'Anti-spam data (hashed IP) is kept for the short anti-spam window of the website. Cloudflare technical logs are kept according to Cloudflare’s policy. PostHog analytics data is kept according to PostHog Cloud’s retention policy (United States).',
         ],
       },
@@ -282,7 +290,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
     description: 'Comment Drafty Lab collecte, utilise, conserve et protège vos données personnelles.',
     kicker: 'Mentions légales',
     updatedLabel: 'Dernière mise à jour',
-    updated: '6 novembre 2026',
+    updated: '7 novembre 2026',
     intro:
       'La présente politique explique quelles informations Drafty Lab collecte lorsque vous envoyez une demande via le site, ce que nous en faisons, combien de temps nous les conservons et quels sont vos droits.',
     authoritative:
@@ -300,6 +308,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '2. Données collectées',
         body: [
           'Lorsque vous envoyez le formulaire « Quick Call in 10 Min », vous pouvez fournir : votre nom, vos coordonnées (téléphone, e-mail, Instagram ou autre), votre secteur d’activité, vos besoins, votre organisation actuelle, votre budget prévisionnel (facultatif) et vos notes (facultatif).',
+          'Lorsque vous rejoignez la liste d’attente de la communauté, nous conservons votre adresse e-mail, la date d’inscription, la langue de la page et la preuve de votre consentement.',
           'Certaines données techniques sont générées automatiquement pour protéger le site : une adresse IP hachée à sens unique (l’adresse IP brute n’est pas conservée), un jeton de vérification Turnstile et les journaux du serveur Cloudflare.',
           'Le site utilise PostHog (hébergé aux États-Unis) pour compter les pages vues et les vues de la page Communauté. PostHog est configuré pour ne pas enregistrer d’adresse IP, ne pas faire d’autocapture et ne pas enregistrer de session ; un identifiant anonyme est stocké dans le localStorage pour distinguer les visites.',
           'Nous ne collectons pas intentionnellement de données personnelles sensibles. Veuillez ne pas saisir d’informations de santé, financières, religieuses, politiques ou autres informations sensibles dans le champ de notes.',
@@ -314,6 +323,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Prévenir le spam, l’usage abusif du formulaire et protéger le site.',
           'Améliorer le service sous une forme agrégée et non identifiable.',
           'Mesurer les visites du site et de la page Communauté.',
+          'Vous prévenir de l’ouverture du groupe communautaire (uniquement pour l’e-mail laissé sur la liste d’attente).',
         ],
         after: [
           'Nous ne vendons pas de données personnelles et n’utilisons pas vos informations pour de la publicité ciblée.',
@@ -323,6 +333,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '4. Base légale',
         body: [
           'Nous traitons les informations que vous envoyez sur la base de votre consentement lorsque vous cochez la case et envoyez le formulaire. Le traitement est également nécessaire pour répondre à la demande que vous nous avez adressée.',
+          'Pour la liste d’attente de la communauté, le consentement est donné lorsque vous cliquez sur le bouton S’inscrire après avoir lu la mention.',
           'La présente politique est établie conformément à la loi vietnamienne sur la protection des données personnelles n° 91/2025/QH15 et au décret 356/2025/NĐ-CP. Nous la mettrons à jour en cas d’évolution du droit.',
         ],
       },
@@ -330,6 +341,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Durée de conservation',
         body: [
           'Les coordonnées et le contenu de la demande sont conservés pendant 12 mois maximum à compter de la date d’envoi de la demande, puis supprimés ou anonymisés, sauf obligation légale de conservation plus longue ou accord d’extension de votre part.',
+          'Les e-mails de la liste d’attente sont conservés jusqu’à votre demande de suppression ou pendant 12 mois maximum après l’ouverture du groupe.',
           'Les données anti-spam (IP hachée) sont conservées pendant la courte fenêtre anti-spam du site. Les journaux techniques de Cloudflare sont conservés selon la politique de Cloudflare. Les données analytiques de PostHog sont conservées selon la politique de conservation de PostHog Cloud (États-Unis).',
         ],
       },
@@ -407,7 +419,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
     description: 'Wie Drafty Lab Ihre personenbezogenen Daten erhebt, verwendet, speichert und schützt.',
     kicker: 'Rechtliches',
     updatedLabel: 'Zuletzt aktualisiert',
-    updated: '6. November 2026',
+    updated: '7. November 2026',
     intro:
       'Diese Richtlinie erklärt, welche Informationen Drafty Lab erhebt, wenn Sie über die Website eine Anfrage senden, wofür wir sie verwenden, wie lange wir sie speichern und welche Rechte Sie haben.',
     authoritative:
@@ -425,6 +437,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '2. Welche Daten wir erheben',
         body: [
           'Wenn Sie das Formular „Quick Call in 10 Min“ senden, können Sie Folgendes angeben: Name, Kontaktdaten (Telefon, E-Mail, Instagram oder sonstige Angaben), Branche, Bedarf, aktuelle Content-Organisation, geplantes Budget (optional) und Anmerkungen (optional).',
+          'Wenn Sie auf die Warteliste der Community kommen, speichern wir Ihre E-Mail-Adresse, den Zeitpunkt der Anmeldung, die Sprache der Seite und den Nachweis Ihrer Einwilligung.',
           'Einige technische Daten werden automatisch zum Schutz der Website erzeugt: eine einseitig gehashte IP-Adresse (die Roh-IP wird nicht gespeichert), ein Turnstile-Verifizierungstoken und Serverprotokolle von Cloudflare.',
           'Die Website verwendet PostHog (gehostet in den Vereinigten Staaten), um Seitenaufrufe und Aufrufe der Community-Seite zu zählen. PostHog ist so konfiguriert, dass keine IP-Adressen, kein Autocapture und keine Sitzungen aufgezeichnet werden; eine anonyme ID wird im localStorage gespeichert, um Besuche zu unterscheiden.',
           'Wir erheben nicht absichtlich sensible personenbezogene Daten. Bitte geben Sie im Anmerkungsfeld keine Gesundheits-, Finanz-, Religions-, Politik- oder sonstigen sensiblen Daten ein.',
@@ -439,6 +452,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Verhinderung von Spam und Formularmissbrauch sowie Schutz der Website.',
           'Verbesserung des Services in aggregierter, nicht identifizierbarer Form.',
           'Messung der Besuche auf der Website und der Community-Seite.',
+          'Benachrichtigung, wenn die Community-Gruppe öffnet (nur für die auf der Warteliste hinterlassene E-Mail).',
         ],
         after: [
           'Wir verkaufen keine personenbezogenen Daten und verwenden Ihre Informationen nicht für zielgerichtete Werbung.',
@@ -448,6 +462,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '4. Rechtsgrundlage',
         body: [
           'Wir verarbeiten die von Ihnen übermittelten Informationen auf Grundlage Ihrer Einwilligung, wenn Sie das Kästchen aktivieren und das Formular absenden. Die Verarbeitung ist außerdem erforderlich, um die von Ihnen gestellte Anfrage zu beantworten.',
+          'Für die Community-Warteliste erfolgt die Einwilligung, wenn Sie nach dem Lesen des Hinweises auf Eintragen klicken.',
           'Diese Richtlinie beruht auf dem vietnamesischen Gesetz zum Schutz personenbezogener Daten Nr. 91/2025/QH15 und dem Dekret 356/2025/NĐ-CP. Bei Gesetzesänderungen werden wir sie aktualisieren.',
         ],
       },
@@ -455,6 +470,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Speicherdauer',
         body: [
           'Kontaktdaten und Anfrageinhalte werden bis zu 12 Monate ab dem Datum der Anfrage gespeichert und danach gelöscht oder anonymisiert, sofern keine längere gesetzliche Aufbewahrungspflicht besteht oder Sie einer Verlängerung zustimmen.',
+          'E-Mail-Adressen auf der Warteliste werden bis zu Ihrer Löschaufforderung oder höchstens 12 Monate nach Öffnung der Gruppe gespeichert.',
           'Anti-Spam-Daten (gehashte IP) werden für das kurze Anti-Spam-Zeitfenster der Website gespeichert. Technische Protokolle von Cloudflare werden nach der Richtlinie von Cloudflare gespeichert. PostHog-Analysedaten werden nach der Aufbewahrungsrichtlinie von PostHog Cloud (Vereinigte Staaten) gespeichert.',
         ],
       },
@@ -532,7 +548,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
     description: 'Hoe Drafty Lab uw persoonsgegevens verzamelt, gebruikt, bewaart en beschermt.',
     kicker: 'Juridisch',
     updatedLabel: 'Laatst bijgewerkt',
-    updated: '6 november 2026',
+    updated: '7 november 2026',
     intro:
       'Dit beleid legt uit welke gegevens Drafty Lab verzamelt wanneer u via de website een aanvraag stuurt, waarvoor wij ze gebruiken, hoe lang wij ze bewaren en welke rechten u hebt.',
     authoritative:
@@ -550,6 +566,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '2. Welke gegevens wij verzamelen',
         body: [
           'Wanneer u het formulier „Quick Call in 10 Min“ verstuurt, kunt u het volgende opgeven: naam, contactgegevens (telefoon, e-mail, Instagram of een andere methode), branche, behoeften, huidige contentorganisatie, geschat budget (optioneel) en opmerkingen (optioneel).',
+          'Wanneer u zich aanmeldt voor de wachtlijst van de community, bewaren we uw e-mailadres, het tijdstip van aanmelden, de taal van de pagina en het bewijs van uw toestemming.',
           'Sommige technische gegevens worden automatisch aangemaakt om de website te beschermen: een eenrichtings-gehasht IP-adres (het ruwe IP wordt niet opgeslagen), een Turnstile-verificatietoken en serverlogboeken van Cloudflare.',
           'De website gebruikt PostHog (gehost in de Verenigde Staten) om paginaweergaven en weergaven van de Community-pagina te tellen. PostHog is zo ingesteld dat er geen IP-adressen, geen autocapture en geen sessies worden vastgelegd; een anonieme ID wordt in localStorage opgeslagen om bezoeken te onderscheiden.',
           'Wij verzamelen niet bewust bijzondere persoonsgegevens. Voer geen gezondheids-, financiële, religieuze, politieke of andere gevoelige gegevens in het opmerkingenveld in.',
@@ -564,6 +581,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
           'Het voorkomen van spam en misbruik van het formulier en het beschermen van de website.',
           'Het verbeteren van de dienst in geaggregeerde, niet-identificeerbare vorm.',
           'Het meten van bezoeken aan de website en de Community-pagina.',
+          'U laten weten wanneer de communitygroep opent (alleen voor het e-mailadres dat u op de wachtlijst achterlaat).',
         ],
         after: [
           'Wij verkopen geen persoonsgegevens en gebruiken uw gegevens niet voor gerichte advertenties.',
@@ -573,6 +591,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '4. Rechtsgrondslag',
         body: [
           'Wij verwerken de door u verstrekte gegevens op basis van uw toestemming wanneer u het vakje aanvinkt en het formulier verstuurt. De verwerking is ook nodig om de aanvraag die u ons stuurt te beantwoorden.',
+          'Voor de wachtlijst van de community geeft u toestemming door op Aanmelden te klikken nadat u de melding hebt gelezen.',
           'Dit beleid is opgesteld op basis van de Vietnamese wet bescherming persoonsgegevens nr. 91/2025/QH15 en decreet 356/2025/NĐ-CP. Bij wetswijzigingen zullen wij het beleid bijwerken.',
         ],
       },
@@ -580,6 +599,7 @@ export const PRIVACY: Record<Locale, PrivacyDoc> = {
         heading: '5. Bewaartermijn',
         body: [
           'Contactgegevens en de inhoud van de aanvraag worden maximaal 12 maanden vanaf de datum waarop u de aanvraag hebt verstuurd bewaard en daarna verwijderd of geanonimiseerd, tenzij de wet een langere termijn vereist of u instemt met verlenging.',
+          'E-mailadressen op de wachtlijst worden bewaard tot u om verwijdering vraagt of maximaal 12 maanden na opening van de groep.',
           'Antispamgegevens (gehasht IP) worden bewaard voor het korte antispamvenster van de website. Technische logboeken van Cloudflare worden volgens het beleid van Cloudflare bewaard. PostHog-analysedata worden bewaard volgens het bewaarbeleid van PostHog Cloud (Verenigde Staten).',
         ],
       },

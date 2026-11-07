@@ -130,6 +130,12 @@ export interface Content {
     seeMore: string; showLess: string; skillsTitle: string; skillsLead: string; skillsEmpty: string;
     joinEyebrow: string; joinTitle: string; joinLead: string; joinCta: string;
   };
+  waitlist: {
+    eyebrow: string; title: string; lead: string; placeholder: string; emailLabel: string; cta: string;
+    countLabel: string; remaining: string; full: string; success: string; duplicate: string;
+    sending: string; invalid: string; rate: string; error: string; consent: string; privacyLink: string;
+    homeLabel: string; homeRemaining: string;
+  };
   dialog: {
     close: string; loading: string; buffering: string; failed: string;
     play: string; pause: string; mute: string; unmute: string; seek: string;
@@ -319,6 +325,27 @@ export function getContent(locale: Locale): Content {
       joinTitle: t('community.joinTitle'),
       joinLead: t('community.joinLead'),
       joinCta: t('community.joinCta'),
+    },
+    waitlist: {
+      eyebrow: t('waitlist.eyebrow'),
+      title: t('waitlist.title'),
+      lead: t('waitlist.lead'),
+      placeholder: t('waitlist.placeholder'),
+      emailLabel: t('waitlist.emailLabel'),
+      cta: t('waitlist.cta'),
+      countLabel: t('waitlist.countLabel'),
+      remaining: t('waitlist.remaining'),
+      full: t('waitlist.full'),
+      success: t('waitlist.success'),
+      duplicate: t('waitlist.duplicate'),
+      sending: t('waitlist.sending'),
+      invalid: t('waitlist.invalid'),
+      rate: t('waitlist.rate'),
+      error: t('waitlist.error'),
+      consent: t('waitlist.consent'),
+      privacyLink: t('qc.privacyLink'),
+      homeLabel: t('waitlist.homeLabel'),
+      homeRemaining: t('waitlist.homeRemaining'),
     },
     dialog: {
       close: t('dialog.close'),

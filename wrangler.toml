@@ -20,6 +20,7 @@ bucket_name = "draft2" # the V2 bucket created by the owner (never the V1 bucket
 # Secrets (TURNSTILE_SECRET, RATE_SALT, RESEND_API_KEY, TELEGRAM_BOT_TOKEN) are set with `wrangler pages secret put`.
 [vars]
 LEAD_ENABLED = "true"
+WAITLIST_ENABLED = "true" # independent kill switch for /api/waitlist
 ADMIN_ENABLED = "true"   # /admin login + post editing; "false" on preview because it shares the real D1/R2
 LEAD_NOTIFY = "resend"   # "resend" | "telegram" | "none" — leads are ALWAYS stored in D1 as well
 LEAD_TO_EMAIL = "thanhnguyenphotowork@gmail.com"
@@ -41,6 +42,7 @@ bucket_name = "draft2"
 [env.preview.vars]
 ADMIN_ENABLED = "false"
 LEAD_ENABLED = "true"
+WAITLIST_ENABLED = "true"
 LEAD_NOTIFY = "none"
 LEAD_TO_EMAIL = "thanhnguyenphotowork@gmail.com"
 LEAD_FROM_EMAIL = "Drafty Lab Leads <onboarding@resend.dev>"

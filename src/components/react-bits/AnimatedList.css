@@ -42,7 +42,8 @@
   padding: 6px;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  /* Local change (2026-11-07): let the page keep scrolling at the shelf's edges instead of trapping the wheel. */
+  overscroll-behavior: auto;
   border-radius: calc(var(--al-radius) + 6px);
   outline: none;
   scrollbar-width: thin;

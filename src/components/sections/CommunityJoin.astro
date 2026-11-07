@@ -4,13 +4,15 @@
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import GlareHover from '../react-bits/GlareHover';
+import WaitlistProgress from '../interactive/WaitlistProgress';
 import { getContent } from '../../i18n';
 import { communityPath } from '../../i18n/config';
 import type { Locale } from '../../i18n/config';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const c = getContent(locale).community;
+const content = getContent(locale);
+const c = content.community;
 const photo = fileURLToPath(new URL('../../../public/media/community/join-community.jpg', import.meta.url));
 const hasPhoto = existsSync(photo);
 ---
@@ -46,6 +48,12 @@ const hasPhoto = existsSync(photo);
           <span class="cjoin__eyebrow">{c.joinEyebrow}</span>
           <span class="cjoin__title" id="cjoin-title">{c.joinTitle}</span>
           <span class="cjoin__lead">{c.joinLead}</span>
+          <WaitlistProgress
+            className="cjoin__waitlist"
+            label={content.waitlist.homeLabel}
+            remaining={content.waitlist.homeRemaining}
+            client:visible
+          />
           <span class="cjoin__cta">
             {c.joinCta}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -75,8 +83,8 @@ const hasPhoto = existsSync(photo);
     color: #fff;
     text-decoration: none;
     background:
-      radial-gradient(90% 140% at 8% 100%, rgba(197, 156, 74, 0.22), transparent 58%),
-      linear-gradient(112deg, #171519 0%, #0d0d10 58%);
+      radial-gradient(90% 140% at 8% 100%, rgba(31, 111, 235, 0.24), transparent 58%),
+      linear-gradient(112deg, #111827 0%, #0b0f16 58%);
   }
   .cjoin__media {
     position: absolute;
@@ -128,6 +136,7 @@ const hasPhoto = existsSync(photo);
     font-size: clamp(0.95rem, 1.4vw, 1.08rem);
     line-height: 1.5;
   }
+  .cjoin__waitlist { margin-top: 4px; margin-bottom: 2px; }
   .cjoin__cta {
     margin-top: 8px;
     align-self: flex-start;

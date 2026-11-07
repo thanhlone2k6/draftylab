@@ -1,0 +1,232 @@
+.wl {
+  padding-top: clamp(20px, 3vw, 34px);
+}
+
+.wl__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(24px, 3.6vw, 44px);
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 28px;
+  background:
+    radial-gradient(70% 120% at 0% 100%, rgba(31, 111, 235, 0.2), transparent 55%),
+    linear-gradient(118deg, #101724 0%, #0b0f16 62%);
+}
+
+.wl__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.025) 100%);
+}
+
+.wl__copy,
+.wl__action {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.wl__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wl__eyebrow {
+  margin: 0;
+  color: #6cb8f0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.wl__title {
+  margin: 0;
+  color: var(--c-fg);
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.wl__lead {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--c-fg-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.wl__meter {
+  margin-top: 12px;
+  max-width: 420px;
+}
+
+.wl__meter-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.wl__count {
+  color: var(--c-fg);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.9rem;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.wl__count span {
+  color: var(--c-fg-faint);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.wl__remaining {
+  color: var(--c-fg-faint);
+  font-size: 0.82rem;
+}
+
+.wl__bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.wl__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #1e7fcb, #6cb8f0);
+  transition: width 0.6s var(--ease-out);
+}
+
+.wl__action {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+/* The CurvedInput SVG needs ~87px (64 bar + 9 bend + padding); keep the grid from jumping.
+   The component is capped at 520px inline and at 100% by its own CSS on narrow screens. */
+.wl__input {
+  width: 100%;
+  max-width: 520px;
+  min-height: 88px;
+}
+
+.wl__consent {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--c-fg-faint);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.wl__consent a {
+  color: var(--c-fg-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.wl__consent a:hover {
+  color: #6cb8f0;
+}
+
+.wl__consent a:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+.wl__status {
+  min-height: 20px;
+}
+
+.wl__msg {
+  margin: 0;
+  color: var(--c-fg-muted);
+  font-size: 0.84rem;
+}
+
+.wl__msg--error {
+  color: var(--c-danger);
+}
+
+.wl__msg--muted {
+  color: var(--c-fg-faint);
+}
+
+.wl__done {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid rgba(108, 184, 240, 0.3);
+  border-radius: 18px;
+  background: rgba(31, 111, 235, 0.1);
+}
+
+.wl__check {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #6cb8f0;
+  color: #08111f;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.wl__done p {
+  margin: 0;
+  color: var(--c-fg);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 860px) {
+  .wl__card {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .wl__action {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 520px) {
+  .wl__card {
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .wl__count {
+    font-size: 1.6rem;
+  }
+
+  .wl__input {
+    min-height: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl__bar-fill {
+    transition: none;
+  }
+}

@@ -12,8 +12,8 @@ export function makeD1(): { db: D1Database; raw: DatabaseSync } {
     bind: (...a: unknown[]) => stmt(sql, a),
     first: async <T = Row>() => (raw.prepare(sql).get(...(args as never[])) as T | undefined) ?? null,
     run: async () => {
-      raw.prepare(sql).run(...(args as never[]));
-      return { success: true, meta: {} };
+      const info = raw.prepare(sql).run(...(args as never[]));
+      return { success: true, meta: { changes: Number(info.changes) } };
     },
     all: async () => ({ results: raw.prepare(sql).all(...(args as never[])) as Row[] }),
     __run: () => raw.prepare(sql).run(...(args as never[])),

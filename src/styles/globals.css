@@ -25,7 +25,7 @@
     min-height: 100dvh;
     overflow-x: clip;
   }
-  ::selection { background: var(--c-accent); color: var(--c-accent-ink); }
+  ::selection { background: var(--c-fg); color: var(--c-bg); }
   :focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; border-radius: 6px; }
   section[id] { scroll-margin-top: calc(var(--header-h) + 8px); }
   img, video { max-width: 100%; }
